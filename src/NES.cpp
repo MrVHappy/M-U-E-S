@@ -111,7 +111,7 @@ class NES{
             // fetch the address using absolute
             uint16_t base_address = absolute();
             // add index x
-            uint16_t final_address = base_address + this->y;
+            uint16_t final_address = base_address + this->x;
             // check if x crossed into the next page
             page_crossed =((base_address & 0xFF00) != (final_address & 0xFF00));
             return final_address;
@@ -171,5 +171,29 @@ class NES{
             // get the final address and return
             uint16_t final_address = high_byte | low_byte;
             return final_address;
+        }
+        uint16_t indirect_y(){
+            // fetch the zero page address byte
+            uint8_t zero_page_address = fetch_byte();
+            // fetch the low byte via zero_page_address
+            uint16_t low_byte = read(zero_page_address);
+            // update zero page address
+            if( (zero_page_address & 0xFF) == 0xFF){
+                // set to 0x00
+                zero_page_address = 0x00;
+            }
+            else{
+                // increment the zero_page_address
+                zero_page_address++;
+            }
+            // fetch the high byte via the updated zero page address
+            uint16_t high_byte = read(zero_page_address) << 8;
+            // combine high and low bytes together
+            uint16_t base_byte = (high_byte | low_byte);
+            // then add index y
+            uint16_t final_byte = base_byte + this->y;
+            // second cycle required if the final byte wrapped
+            page_crossed = (base_byte & 0xFF00) != (final_byte & 0xFF00);
+            return final_byte;
         }
 };
