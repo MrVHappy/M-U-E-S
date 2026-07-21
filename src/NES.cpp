@@ -11,10 +11,11 @@
 #include <cstdlib>
 #include <map>
 #include "register_bit.hpp"
+#include "Instruction.hpp"
 
 // References:
 // https://en.cppreference.com/cpp/utility/bitset
-
+// https://www.nesdev.org/obelisk-6502-guide/reference.html
 
 class NES{
     private:
@@ -45,7 +46,83 @@ class NES{
         // flags
         bool page_crossed;
 
+        // an array of instructions
+        std::array<Instruction, 256> instruction_set;
+
+
+        // holds the address resolved by the most recent addressing mode function
+        uint16_t resolved_address;
+
     public:
+        NES(){
+            // instruction locations:
+            // LDA:
+            instruction_set[0xA9] = { &NES::LDA, &NES::immediate, 2 };
+            instruction_set[0xA5] = { &NES::LDA, &NES::zero_page, 3 };
+            instruction_set[0xB5] = { &NES::LDA, &NES::zero_page_x, 4 };
+            instruction_set[0xAD] = { &NES::LDA, &NES::absolute, 4 };
+            instruction_set[0xBD] = { &NES::LDA, &NES::absolute_x, 4 };
+            instruction_set[0xB9] = { &NES::LDA, &NES::absolute_y, 4 };
+            instruction_set[0xA1] = { &NES::LDA, &NES::indirect_x, 6 };
+            instruction_set[0xB1] = { &NES::LDA, &NES::indirect_y, 5 };
+
+            // LDX:
+            instruction_set[0xA2] = {&NES::LDX, &NES::immediate, 2};
+            instruction_set[0xA6] = {&NES::LDX, &NES::zero_page, 3};
+            instruction_set[0xB6] = {&NES::LDX, &NES::zero_page_y, 4};
+            instruction_set[0xAE] = {&NES::LDX, &NES::absolute, 4};
+            instruction_set[0xBE] = {&NES::LDX, &NES::absolute_y, 4};
+
+            // LDY:
+            instruction_set[0xA0] = {&NES::LDY, &NES::immediate, 2};
+            instruction_set[0xA4] = {&NES::LDY, &NES::zero_page, 3};
+            instruction_set[0xB4] = {&NES::LDY, &NES::zero_page_x, 4};
+            instruction_set[0xAC] = {&NES::LDY, &NES::absolute, 4};
+            instruction_set[0xBC] = {&NES::LDY, &NES::absolute_x, 4};
+
+            // STA:
+            instruction_set[0x85] = {&NES::STA, &NES::zero_page, 3};
+            instruction_set[0x95] = {&NES::STA, &NES::zero_page_x, 4};
+            instruction_set[0x8D] = {&NES::STA, &NES::absolute, 4};
+            instruction_set[0x9D] = {&NES::STA, &NES::absolute_x, 4};
+            instruction_set[0x99] = {&NES::STA, &NES::absolute_y, 5};
+            instruction_set[0x81] = {&NES::STA, &NES::indirect_x, 6};
+            instruction_set[0x91] = {&NES::STA, &NES::indirect_y, 6};
+
+            // STX:
+            instruction_set[0x86] = {&NES::STX, &NES::zero_page, 3};
+            instruction_set[0x96] = {&NES::STX, &NES::zero_page_y, 4};
+            instruction_set[0x8E] = {&NES::STX, &NES::absolute, 4};
+
+            // STY:
+            instruction_set[0x84] = {&NES::STY, &NES::zero_page, 3};
+            instruction_set[0x94] = {&NES::STY, &NES::zero_page_x, 4};
+            instruction_set[0x8C] = {&NES::STY, &NES::absolute, 4};
+
+            // TAX:
+            instruction_set[0xAA] = {&NES::TAX, &NES::implied, 2};
+
+            // TAY:
+            instruction_set[0xA8] = {&NES::TAY, &NES::implied, 2};
+
+            // TXA:
+            instruction_set[0x8A] = {&NES::TXA, &NES::implied, 2};
+
+            // TYA:
+            instruction_set[0x98] = {&NES::TYA, &NES::implied, 2};
+
+            // TSX:
+            instruction_set[0xBA] = {&NES::TSX, &NES::implied, 2};
+
+            // TXS:
+            instruction_set[0x9A] = {&NES::TXS, &NES::implied, 2};
+
+            // CLC
+            instruction_set[0x18] = {&NES::CLC, &NES::implied, 2};
+
+            // CLD
+            instruction_set[0xD8] = {&NES::CLD, &NES::implied, 2};
+        }
         // read to system RAM
         uint8_t read(uint16_t address){
             // check if the address value is between 0x0000-0x1FFF
@@ -73,8 +150,12 @@ class NES{
         }
 
         // NES addressing modes:
-        uint8_t immediate(){
-            return fetch_byte();
+        uint16_t immediate(){
+            // get the address from pc
+            uint16_t current_pc = this->pc;
+            // increment pc
+            this->pc++;
+            return current_pc;
         }
         uint16_t zero_page(){
             return fetch_byte();
@@ -196,4 +277,116 @@ class NES{
             page_crossed = (base_byte & 0xFF00) != (final_byte & 0xFF00);
             return final_byte;
         }
+        uint16_t implied(){
+            // no operand to resolve - value returned is unused
+            return 0;
+        }
+
+        // execute instruction:
+        void execute(){
+            // get the opcode from memory
+            uint8_t opcode = fetch_byte();
+            // obtain the instruction set
+            Instruction new_instruction = this->instruction_set[opcode];
+            // call the addressing mode function and collect the address
+            this->resolved_address = (this->*new_instruction.addressing_mode)();
+            // call the instruction
+            (this->*new_instruction.operation)();
+            // handel cycle (temp)
+        }
+
+        // set flag functions:
+        void set_Z_and_N_flags(uint8_t value){
+            // check if the address value is 0
+            if(value == 0)
+            // set the "Z" flag to true
+                status_flag[bit_index(register_bit::Z)] = true;
+            else
+                // set the "Z" flag to false
+                status_flag[bit_index(register_bit::Z)] = false;
+            // value & 0x80
+            if(value & 0x80)
+                // set the "N" flag to true
+                status_flag[bit_index(register_bit::N)] = true;
+            else
+                // set the "N" flag to false
+                status_flag[bit_index(register_bit::N)] = false;
+        }
+
+        // NES Instruction set:
+        // LDA
+        void LDA(){
+            // get the value by reading the address
+            uint8_t address_val = read(this->resolved_address);
+            // store in the accumilator
+            this->acc = address_val;
+            set_Z_and_N_flags(address_val);
+
+        }
+        void LDX(){
+            // get the value by reading the address
+            uint8_t address_val = read(this->resolved_address);
+            // store in the index x
+            this->x = address_val;
+            set_Z_and_N_flags(address_val);
+        }
+        void LDY(){
+            // get the value by reading the address
+            uint8_t address_val = read(this->resolved_address);
+            // store in index y
+            this->y = address_val;
+            // check if the address value is 0
+            set_Z_and_N_flags(address_val);
+        }
+        void STA(){
+            // write the value stored in ACC in the resolved address
+            write(this->resolved_address, this->acc);
+        }
+        void STX(){
+            // write the value stored in index x in the resolved address
+            write(this->resolved_address, this->x);
+        }
+        void STY(){
+            // write the value stored in index y in the resolved address
+            write(this->resolved_address, this->y);
+        }
+        void TAX(){
+            // copy contents from acc to index x
+            this->x = this->acc;
+            set_Z_and_N_flags(this->x);
+        }
+        void TAY(){
+            // copy contents from acc to index y
+            this->y = this->acc;
+            set_Z_and_N_flags(this->y);
+        }
+        void TXA(){
+            // copy contents from index x to acc
+            this->acc = this->x;
+            set_Z_and_N_flags(this->acc);
+        }
+        void TYA(){
+            // copy contents from index y to acc
+            this->acc = this->y;
+            set_Z_and_N_flags(this->acc);
+        }
+        void TSX(){
+            // copy contents from stack pointer to index x
+            this->x = this->stack_ptr;
+            set_Z_and_N_flags(this->x);
+        }
+        void TXS(){
+            // copy contents from index x to stack pointer
+            this->stack_ptr = this->x;
+        }
+        
+        void CLC(){
+            // set the carry flag to false
+            status_flag[bit_index(register_bit::C)] = false;
+        }
+        void CLD(){
+            // sett decimal flag to false
+            status_flag[bit_index(register_bit::D)] = false;
+        }
+        
 };
