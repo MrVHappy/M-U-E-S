@@ -183,6 +183,50 @@ class NES{
             instruction_set[0x59] = {&NES::EOR, &NES::absolute_y,4};
             instruction_set[0x41] = {&NES::EOR, &NES::indirect_x,6};
             instruction_set[0x51] = {&NES::EOR, &NES::indirect_y,5};
+
+            // CMP:
+            instruction_set[0xC9] = {&NES::CMP, &NES::immediate,2};
+            instruction_set[0xC5] = {&NES::CMP, &NES::zero_page,3};
+            instruction_set[0xD5] = {&NES::CMP, &NES::zero_page_x,4};
+            instruction_set[0xCD] = {&NES::CMP, &NES::absolute,4};
+            instruction_set[0xDD] = {&NES::CMP, &NES::absolute_x,4};
+            instruction_set[0xD9] = {&NES::CMP, &NES::absolute_y,4};
+            instruction_set[0xC1] = {&NES::CMP, &NES::indirect_x,6};
+            instruction_set[0xD1] = {&NES::CMP, &NES::indirect_y,5};
+
+            // CPX:
+            instruction_set[0xE0] = {&NES::CPX, &NES::immediate,2};
+            instruction_set[0xE4] = {&NES::CPX, &NES::zero_page,3};
+            instruction_set[0xEC] = {&NES::CPX, &NES::absolute,4};
+            
+            // CPY:
+            instruction_set[0xC0] = {&NES::CPY, &NES::immediate,2};
+            instruction_set[0xC4] = {&NES::CPY, &NES::zero_page,3};
+            instruction_set[0xCC] = {&NES::CPY, &NES::absolute,4};
+
+            // BEQ:
+            instruction_set[0xF0] = {&NES::BEQ, &NES::relative,2};
+
+            // BNE:
+            instruction_set[0xD0] = {&NES::BNE, &NES::relative,2};
+
+            // BCC:
+            instruction_set[0x90] = {&NES::BCC, &NES::relative,2};
+
+            // BCS:
+            instruction_set[0xB0] = {&NES::BCS, &NES::relative,2};
+
+            // BMI:
+            instruction_set[0x30] = {&NES::BMI, &NES::relative,2};
+
+            // BPL:
+            instruction_set[0x10] = {&NES::BPL, &NES::relative,2};
+
+            // BVC:
+            instruction_set[0x50] = {&NES::BVC, &NES::relative,2};
+
+            // BVS:
+            instruction_set[0x70] = {&NES::BVS, &NES::relative,2};
         }
         // read to system RAM
         uint8_t read(uint16_t address){
@@ -374,6 +418,32 @@ class NES{
                 status_flag[bit_index(register_bit::N)] = false;
         }
 
+        void set_N_flag(uint8_t value){
+            if(value & 0x80)
+                // set the "N" flag to true
+                status_flag[bit_index(register_bit::N)] = true;
+            else
+                // set the "N" flag to false
+                status_flag[bit_index(register_bit::N)] = false;
+        }
+        void compare(uint8_t val1, uint8_t val2){
+            if(val1 == val2){
+                // set the C and Z flag to true
+                status_flag[bit_index(register_bit::C)] = true;
+                status_flag[bit_index(register_bit::Z)] = true;
+            }
+            else if (val1 > val2){
+                // set the C flag to true and Z flag to false
+                status_flag[bit_index(register_bit::C)] = true;
+                status_flag[bit_index(register_bit::Z)] = false;
+            }
+            else{
+                // set the C and Z flag to false
+                status_flag[bit_index(register_bit::C)] = false;
+                status_flag[bit_index(register_bit::Z)] = false;
+            }
+        }
+
         // NES Instruction set:
         void LDA(){
             // get the value by reading the address
@@ -539,5 +609,88 @@ class NES{
             // perform acc XOR address val
             this->acc = this->acc ^ address_val;
             set_Z_and_N_flags(acc); 
+        }
+
+        void CMP(){
+            // get the value from the resolved address
+            uint8_t address_val = read(this->resolved_address);
+            compare(this->acc, address_val);
+            // calculate the result by subtracting acc with address val
+            uint8_t result = this->acc - address_val;
+            set_N_flag(result);
+        }
+
+        void CPX(){
+            // get the value from the resolved address
+            uint8_t address_val = read(this->resolved_address);
+            compare(this->x, address_val);
+            // calculate the result by subtracting index x with address val
+            uint8_t result = this->x - address_val;
+            set_N_flag(result);
+        }
+
+        void CPY(){
+            // get the value from the resolved address
+            uint8_t address_val = read(this->resolved_address);
+            compare(this->y, address_val);
+            // calculate the result by subtracting index y with address val
+            uint8_t result = this->y - address_val;
+            set_N_flag(result);
+        }
+
+        void BEQ(){
+            // check if the flag Z is true
+            if(status_flag[bit_index(register_bit::Z)])
+                // update the pc
+                this->pc += read(this->resolved_address);
+        }
+
+        void BNE(){
+            // check if the flag Z is false
+            if(!status_flag[bit_index(register_bit::Z)])
+                // update the pc
+                this->pc += read(this->resolved_address);
+        }
+
+        void BCC(){
+            // check if the flag C is false
+            if(!status_flag[bit_index(register_bit::C)])
+                // update the pc
+                this->pc += read(this->resolved_address);
+        }
+
+        void BCS(){
+            // check if the flag C is true
+            if(status_flag[bit_index(register_bit::C)])
+                // update the pc
+                this->pc += read(this->resolved_address);
+        }
+
+        void BMI(){
+            // check if the flag N is true
+            if(status_flag[bit_index(register_bit::N)])
+                // update the pc
+                this->pc += read(this->resolved_address);
+        }
+
+        void BPL(){
+            // check if the flag N is false
+            if(!status_flag[bit_index(register_bit::N)])
+                // update the pc
+                this->pc += read(this->resolved_address);
+        }
+
+        void BVC(){
+            // check if the flag N is false
+            if(!status_flag[bit_index(register_bit::V)])
+                // update the pc
+                this->pc += read(this->resolved_address);
+        }
+
+        void BVS(){
+            // check if the flag N is true
+            if(status_flag[bit_index(register_bit::V)])
+                // update the pc
+                this->pc += read(this->resolved_address);
         }
 };
