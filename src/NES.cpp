@@ -227,6 +227,26 @@ class NES{
 
             // BVS:
             instruction_set[0x70] = {&NES::BVS, &NES::relative,2};
+
+            // ADC:
+            instruction_set[0x69] = {&NES::ADC, &NES::immediate,2};
+            instruction_set[0x65] = {&NES::ADC, &NES::zero_page,3};
+            instruction_set[0x75] = {&NES::ADC, &NES::zero_page_x,4};
+            instruction_set[0x6D] = {&NES::ADC, &NES::absolute,4};
+            instruction_set[0x7D] = {&NES::ADC, &NES::absolute_x,4};
+            instruction_set[0x79] = {&NES::ADC, &NES::absolute_y,4};
+            instruction_set[0x61] = {&NES::ADC, &NES::indirect_x,6};
+            instruction_set[0x71] = {&NES::ADC, &NES::indirect_y,5};
+
+            // SBC:
+            instruction_set[0xE9] = {&NES::SBC, &NES::immediate,2};
+            instruction_set[0xE5] = {&NES::SBC, &NES::zero_page,3};
+            instruction_set[0xF5] = {&NES::SBC, &NES::zero_page_x,4};
+            instruction_set[0xED] = {&NES::SBC, &NES::absolute,4};
+            instruction_set[0xFD] = {&NES::SBC, &NES::absolute_x,4};
+            instruction_set[0xF9] = {&NES::SBC, &NES::absolute_y,4};
+            instruction_set[0xE1] = {&NES::SBC, &NES::indirect_x,6};
+            instruction_set[0xF1] = {&NES::SBC, &NES::indirect_y,5};
         }
         // read to system RAM
         uint8_t read(uint16_t address){
@@ -314,9 +334,9 @@ class NES{
         uint16_t relative(){
             // fetch the byte and convert to a signed byte
             int8_t signed_byte = static_cast<int8_t>(fetch_byte());
-            // update the pc by adding the signed byte
-            this->pc += signed_byte;
-            return this->pc;
+            // store the sum of pc and signed byte
+            uint16_t target_address = this->pc + signed_byte;
+            return target_address;
         }
         uint16_t indirect(){
             // get the absolute address 
@@ -642,55 +662,80 @@ class NES{
             // check if the flag Z is true
             if(status_flag[bit_index(register_bit::Z)])
                 // update the pc
-                this->pc += read(this->resolved_address);
+                this->pc = this->resolved_address;
         }
 
         void BNE(){
             // check if the flag Z is false
             if(!status_flag[bit_index(register_bit::Z)])
                 // update the pc
-                this->pc += read(this->resolved_address);
+                this->pc = this->resolved_address;
         }
 
         void BCC(){
             // check if the flag C is false
             if(!status_flag[bit_index(register_bit::C)])
                 // update the pc
-                this->pc += read(this->resolved_address);
+                this->pc = this->resolved_address;
         }
 
         void BCS(){
             // check if the flag C is true
             if(status_flag[bit_index(register_bit::C)])
                 // update the pc
-                this->pc += read(this->resolved_address);
+                this->pc = this->resolved_address;
         }
 
         void BMI(){
             // check if the flag N is true
             if(status_flag[bit_index(register_bit::N)])
                 // update the pc
-                this->pc += read(this->resolved_address);
+                this->pc = this->resolved_address;
         }
 
         void BPL(){
             // check if the flag N is false
             if(!status_flag[bit_index(register_bit::N)])
                 // update the pc
-                this->pc += read(this->resolved_address);
+                this->pc = this->resolved_address;
         }
 
         void BVC(){
             // check if the flag N is false
             if(!status_flag[bit_index(register_bit::V)])
                 // update the pc
-                this->pc += read(this->resolved_address);
+                this->pc = this->resolved_address;
         }
 
         void BVS(){
             // check if the flag N is true
             if(status_flag[bit_index(register_bit::V)])
                 // update the pc
-                this->pc += read(this->resolved_address);
+                this->pc = this->resolved_address;
+        }
+
+        void ADC(){
+            // get the value from the resolved address
+            uint8_t address_val = read(this->resolved_address);
+            // convert carry flag to uint8_t
+            uint8_t carry = static_cast<uint8_t>(this->status_flag[bit_index(register_bit::C)]);
+            // calculate sum
+            uint16_t sum = address_val + this->acc + carry;
+            // check if sum exceeds 255
+            if(sum > 255){
+                // set carry to true
+                this->status_flag[bit_index(register_bit::C)] = true;
+            }
+            else{
+                // set carry to false
+                this->status_flag[bit_index(register_bit::C)] = false;
+            }
+            // store sum in the acc
+            this->acc = static_cast<uint8_t>(sum);
+            
+        }
+
+        void SBC(){
+
         }
 };
