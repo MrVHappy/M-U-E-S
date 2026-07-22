@@ -16,6 +16,7 @@
 // References:
 // https://en.cppreference.com/cpp/utility/bitset
 // https://www.nesdev.org/obelisk-6502-guide/reference.html
+// https://en.cppreference.com/cpp/utility/bitset/bitset
 
 class NES{
     private:
@@ -35,6 +36,9 @@ class NES{
 
         // stack pointer
         uint8_t stack_ptr;
+
+        // offset for stack_ptr
+        const uint16_t OFFSET = 0x100;
 
         // status flag register
         std::bitset<8> status_flag;
@@ -117,11 +121,68 @@ class NES{
             // TXS:
             instruction_set[0x9A] = {&NES::TXS, &NES::implied, 2};
 
-            // CLC
+            // CLC:
             instruction_set[0x18] = {&NES::CLC, &NES::implied, 2};
 
-            // CLD
+            // CLD:
             instruction_set[0xD8] = {&NES::CLD, &NES::implied, 2};
+            
+            // CLV:
+            instruction_set[0xB8] = {&NES::CLV, &NES::implied, 2};
+            
+            // CLI:
+            instruction_set[0x58] = {&NES::CLI, &NES::implied, 2};
+            
+            // SEC:
+            instruction_set[0x38] = {&NES::SEC, &NES::implied, 2};
+
+            // SED:
+            instruction_set[0xF8] = {&NES::SED, &NES::implied, 2};
+            
+            // SEI:
+            instruction_set[0x78] = {&NES::SEI, &NES::implied, 2};
+
+            // PHA:
+            instruction_set[0x48] = {&NES::PHA, &NES::implied, 3};
+
+            // PLA:
+            instruction_set[0x68] = {&NES::PLA, &NES::implied, 4};
+
+            // PHP:
+            instruction_set[0x08] = {&NES::PHP, &NES::implied, 3};
+
+            // PLP:
+            instruction_set[0x28] = {&NES::PLP, &NES::implied, 4};
+
+            // AND:
+            instruction_set[0x29] = {&NES::AND, &NES::immediate,2};
+            instruction_set[0x25] = {&NES::AND, &NES::zero_page,3};
+            instruction_set[0x35] = {&NES::AND, &NES::zero_page_x,4};
+            instruction_set[0x2D] = {&NES::AND, &NES::absolute,4};
+            instruction_set[0x3D] = {&NES::AND, &NES::absolute_x,4};
+            instruction_set[0x39] = {&NES::AND, &NES::absolute_y,4};
+            instruction_set[0x21] = {&NES::AND, &NES::indirect_x,6};
+            instruction_set[0x31] = {&NES::AND, &NES::indirect_y,5};
+
+            // ORA:
+            instruction_set[0x09] = {&NES::ORA, &NES::immediate,2};
+            instruction_set[0x05] = {&NES::ORA, &NES::zero_page,3};
+            instruction_set[0x15] = {&NES::ORA, &NES::zero_page_x,4};
+            instruction_set[0x0D] = {&NES::ORA, &NES::absolute,4};
+            instruction_set[0x1D] = {&NES::ORA, &NES::absolute_x,4};
+            instruction_set[0x19] = {&NES::ORA, &NES::absolute_y,4};
+            instruction_set[0x01] = {&NES::ORA, &NES::indirect_x,6};
+            instruction_set[0x11] = {&NES::ORA, &NES::indirect_y,5};
+            
+            // EOR:
+            instruction_set[0x49] = {&NES::EOR, &NES::immediate,2};
+            instruction_set[0x45] = {&NES::EOR, &NES::zero_page,3};
+            instruction_set[0x55] = {&NES::EOR, &NES::zero_page_x,4};
+            instruction_set[0x4D] = {&NES::EOR, &NES::absolute,4};
+            instruction_set[0x5D] = {&NES::EOR, &NES::absolute_x,4};
+            instruction_set[0x59] = {&NES::EOR, &NES::absolute_y,4};
+            instruction_set[0x41] = {&NES::EOR, &NES::indirect_x,6};
+            instruction_set[0x51] = {&NES::EOR, &NES::indirect_y,5};
         }
         // read to system RAM
         uint8_t read(uint16_t address){
@@ -314,7 +375,6 @@ class NES{
         }
 
         // NES Instruction set:
-        // LDA
         void LDA(){
             // get the value by reading the address
             uint8_t address_val = read(this->resolved_address);
@@ -384,9 +444,100 @@ class NES{
             // set the carry flag to false
             status_flag[bit_index(register_bit::C)] = false;
         }
+        
         void CLD(){
-            // sett decimal flag to false
+            // set decimal flag to false
             status_flag[bit_index(register_bit::D)] = false;
         }
         
+        void CLV(){
+            // set the overflow flag to false
+            status_flag[bit_index(register_bit::V)] = false;
+        }
+
+        void CLI(){
+            // set the inturrupt disable flag to false
+            status_flag[bit_index(register_bit::I)] = false;
+        }
+
+        void SEC(){
+            // set the carry flag to true
+            status_flag[bit_index(register_bit::C)] = true;
+        }
+        
+        void SED(){
+            // set decimal flag to true
+            status_flag[bit_index(register_bit::D)] = true;
+        }
+        
+        void SEI(){
+            // set the inturrupt disable flag to true
+            status_flag[bit_index(register_bit::I)] = true;
+        }
+
+        void PHA(){
+            // get the address from the stack
+            uint16_t stack_address = this->OFFSET + this->stack_ptr;
+            // push value of the acc onto the stack
+            write(stack_address,this->acc);
+            // update the stack pointer
+            this->stack_ptr--;
+
+        }
+
+        void PLA(){
+            // update the stack pointer
+            this->stack_ptr++;
+            // get the address from the stack
+            uint16_t stack_address = this->OFFSET + this->stack_ptr;
+            // pull the value from the stack to the acc
+            this->acc = read(stack_address);
+            set_Z_and_N_flags(this->acc);
+        }
+
+        void PHP(){
+            // get the address from the stack
+            uint16_t stack_address = this->OFFSET + this->stack_ptr;
+            // convert status flag as a uint_8_t
+            uint8_t status_info = static_cast<uint8_t>(this->status_flag.to_ulong());
+            // force flag B and flag DASH to true
+            status_info = status_info | 0b00110000;
+            // write status info to stack
+            write(stack_address,status_info);
+            // update stack ptr
+            this->stack_ptr--;
+        }
+
+        void PLP(){
+            // update the stack pointer
+            this->stack_ptr++;
+            // get the address from the stack
+            uint16_t stack_address = this->OFFSET + this->stack_ptr;
+            // copy the status info to the status flag
+            this->status_flag = (read(stack_address));
+        }
+
+        void AND(){
+            // get the value from the resolved address
+            uint8_t address_val = read(this->resolved_address);
+            // perform acc AND address val
+            this->acc = this->acc & address_val;
+            set_Z_and_N_flags(acc);  
+        }
+
+        void ORA(){
+            // get the value from the resolved address
+            uint8_t address_val = read(this->resolved_address);
+            // perform acc OR address val
+            this->acc = this->acc | address_val;
+            set_Z_and_N_flags(acc); 
+        }
+
+        void EOR(){
+            // get the value from the resolved address
+            uint8_t address_val = read(this->resolved_address);
+            // perform acc XOR address val
+            this->acc = this->acc ^ address_val;
+            set_Z_and_N_flags(acc); 
+        }
 };
