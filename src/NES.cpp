@@ -302,6 +302,16 @@ class NES{
             instruction_set[0x76] = {&NES::ROR, &NES::zero_page_x,6};
             instruction_set[0x6E] = {&NES::ROR, &NES::absolute,6};
             instruction_set[0x7E] = {&NES::ROR, &NES::absolute_x,7};
+
+            // JMP:
+            instruction_set[0x4C] = {&NES::JMP, &NES::absolute,3};
+            instruction_set[0x6C] = {&NES::JMP, &NES::indirect,5};
+
+            // JSR:
+            instruction_set[0x20] = {&NES::JSR, &NES::absolute, 6};
+
+            // RTS:
+            instruction_set[0x60] = {&NES::RTS, &NES::implied, 6};
         }
         // read to system RAM
         uint8_t read(uint16_t address){
@@ -925,8 +935,8 @@ class NES{
             if(this->acc_used){
                 // capture shifted bit
                 uint8_t old_bit_7 = this->acc & 0x80;
-                // left shift acc by 1 and then OR 0x01
-                this->acc = (this->acc << 1) | 0x01;
+                // left shift acc by 1 and then OR old_bit
+                this->acc = (this->acc << 1) | carry;
                 // set the carry index
                 this->status_flag[bit_index(register_bit::C)] = old_bit_7;
                 // set acc_used to false
@@ -939,7 +949,7 @@ class NES{
                 // capture shifted bit
                 uint8_t old_bit_7 = address_val & 0x80;
                 // set the carry index
-                this->status_flag[bit_index(register_bit::C)] = old_bit_7;
+                this->status_flag[bit_index(register_bit::C)] = carry;
                 // left shift address val and then OR 0x01
                 address_val = (address_val << 1) | 0x01;
                 write(this->resolved_address,address_val);
@@ -955,7 +965,7 @@ class NES{
                 // set the carry index
                 this->status_flag[bit_index(register_bit::C)] = old_bit_7;
                 // right shift acc by 1
-                this->acc = (this->acc << 1) | 0x80;
+                this->acc = (this->acc >> 1) | 0x80;
                 // set acc_used to false
                 this->acc_used = false;
                 set_Z_and_N_flags(this->acc);
@@ -972,5 +982,51 @@ class NES{
                 write(this->resolved_address,address_val);
                 set_Z_and_N_flags(address_val);
             }
+        }
+
+        void JMP(){
+            // set PC to resolved address
+            this->pc = this->resolved_address;
+        }
+
+        void JSR(){
+            // get the address from the stack
+            uint16_t stack_address = this->OFFSET + this->stack_ptr;
+            // calculate PC + 2
+            uint16_t return_target = this->pc + 2;
+            // get the high byte from the PC + 2
+            uint8_t high_byte = static_cast<uint8_t>(return_target >> 4);
+            // get the low byte from the PC + 2
+            uint8_t low_byte = static_cast<uint8_t>(return_target);
+            // push high byte into the stack
+            write(stack_address,high_byte);
+            // update the stack pointer
+            this->stack_ptr--;
+            // get the address from the stack
+            stack_address = this->OFFSET + this->stack_ptr;
+            // push low byte into the stack
+            write(stack_address,low_byte);
+            // update the stack pointer
+            this->stack_ptr--;
+            // update the PC
+            this->pc = resolved_address;
+        }
+
+        void RTS(){
+            // get the address from the stack
+            uint16_t stack_address = this->OFFSET + this->stack_ptr;
+            // extract the low byte from the stack
+            uint8_t low_byte = read(stack_address);
+            // update the stack pointer
+            stack_ptr++;
+            // get the address from the stack
+            stack_address = this->OFFSET + this->stack_ptr;
+            // extract the high byte from the stack
+            uint8_t high_byte = read(stack_address);
+            // get the return address
+            uint16_t return_address = (high_byte << 8) | low_byte;
+            // update the PC
+            this->pc = return_address + 1;
+            
         }
 };
