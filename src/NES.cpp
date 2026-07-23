@@ -25,6 +25,9 @@ class NES{
         // accumilator
         uint8_t acc;
 
+        // a flag that determines whether the acc should be used
+        bool acc_used;
+
         // index register used for addressing and loops
         uint8_t x;
 
@@ -247,6 +250,58 @@ class NES{
             instruction_set[0xF9] = {&NES::SBC, &NES::absolute_y,4};
             instruction_set[0xE1] = {&NES::SBC, &NES::indirect_x,6};
             instruction_set[0xF1] = {&NES::SBC, &NES::indirect_y,5};
+
+            // INC:
+            instruction_set[0xE6] = {&NES::INC, &NES::zero_page,5};
+            instruction_set[0xF6] = {&NES::INC, &NES::zero_page_x, 6};
+            instruction_set[0xEE] = {&NES::INC, &NES::absolute, 6};
+            instruction_set[0xFE] = {&NES::INC, &NES::absolute_x, 7};
+
+            // DEC:
+            instruction_set[0xC6] = {&NES::DEC, &NES::zero_page,5};
+            instruction_set[0xD6] = {&NES::DEC, &NES::zero_page_x, 6};
+            instruction_set[0xCE] = {&NES::DEC, &NES::absolute, 6};
+            instruction_set[0xDE] = {&NES::DEC, &NES::absolute_x, 7};
+
+            // INX:
+            instruction_set[0xE8] = {&NES::INX, &NES::implied,2};
+
+            // INY:
+            instruction_set[0xC8] = {&NES::INY, &NES::implied,2};
+
+            // DEX:
+            instruction_set[0xCA] = {&NES::DEX, &NES::implied,2};
+
+            // DEY:
+            instruction_set[0x88] = {&NES::DEY, &NES::implied,2};
+
+            // ASL:
+            instruction_set[0x0A] = {&NES::ASL, &NES::accumilator,2};
+            instruction_set[0x06] = {&NES::ASL, &NES::zero_page,5};
+            instruction_set[0x16] = {&NES::ASL, &NES::zero_page_x,6};
+            instruction_set[0x0E] = {&NES::ASL, &NES::absolute,6};
+            instruction_set[0x1E] = {&NES::ASL, &NES::absolute_x,7};
+
+            // LSR:
+            instruction_set[0x4A] = {&NES::LSR, &NES::accumilator,2};
+            instruction_set[0x46] = {&NES::LSR, &NES::zero_page,5};
+            instruction_set[0x56] = {&NES::LSR, &NES::zero_page_x,6};
+            instruction_set[0x4E] = {&NES::LSR, &NES::absolute,6};
+            instruction_set[0x5E] = {&NES::LSR, &NES::absolute_x,7};
+
+            // ROL:
+            instruction_set[0x2A] = {&NES::ROL, &NES::accumilator,2};
+            instruction_set[0x26] = {&NES::ROL, &NES::zero_page,5};
+            instruction_set[0x36] = {&NES::ROL, &NES::zero_page_x,6};
+            instruction_set[0x2E] = {&NES::ROL, &NES::absolute,6};
+            instruction_set[0x3E] = {&NES::ROL, &NES::absolute_x,7};
+
+            // ROR:
+            instruction_set[0x6A] = {&NES::ROR, &NES::accumilator,2};
+            instruction_set[0x66] = {&NES::ROR, &NES::zero_page,5};
+            instruction_set[0x76] = {&NES::ROR, &NES::zero_page_x,6};
+            instruction_set[0x6E] = {&NES::ROR, &NES::absolute,6};
+            instruction_set[0x7E] = {&NES::ROR, &NES::absolute_x,7};
         }
         // read to system RAM
         uint8_t read(uint16_t address){
@@ -403,7 +458,14 @@ class NES{
             return final_byte;
         }
         uint16_t implied(){
-            // no operand to resolve - value returned is unused
+            // no operand to be used
+            return 0;
+        }
+
+        uint16_t accumilator(){
+            // set acc_used to true
+            this->acc_used = true;
+            // no operand to be used
             return 0;
         }
 
@@ -446,6 +508,8 @@ class NES{
                 // set the "N" flag to false
                 status_flag[bit_index(register_bit::N)] = false;
         }
+
+
         void compare(uint8_t val1, uint8_t val2){
             if(val1 == val2){
                 // set the C and Z flag to true
@@ -730,12 +794,183 @@ class NES{
                 // set carry to false
                 this->status_flag[bit_index(register_bit::C)] = false;
             }
-            // store sum in the acc
-            this->acc = static_cast<uint8_t>(sum);
+            // cast sum as uint8_t
+            uint8_t result = static_cast<uint8_t>(sum);
+            // get the result of overflow
+            this->status_flag[bit_index(register_bit::V)] = (this->acc ^ result) & (address_val ^ result) & 0x80;
+            // store result in acc
+            this->acc = result;
+            set_Z_and_N_flags(this->acc);
             
         }
 
         void SBC(){
+            // get the value from the resolved address
+            uint8_t address_val = read(this->resolved_address);
+            // convert carry flag to uint8_t
+            uint8_t carry = static_cast<uint8_t>(this->status_flag[bit_index(register_bit::C)]);
+            // calculate sum
+            uint16_t sum = this->acc + (~address_val & 0xFF) + carry;
+            // check if sum exceeds 255
+            if(sum > 255){
+                // set carry to true
+                this->status_flag[bit_index(register_bit::C)] = true;
+            }
+            else{
+                // set carry to false
+                this->status_flag[bit_index(register_bit::C)] = false;
+            }
+            // cast sum as uint8_t
+            uint8_t result = static_cast<uint8_t>(sum);
+            // get the result of overflow
+            this->status_flag[bit_index(register_bit::V)] = (this->acc ^ result) & (address_val ^ result) & 0x80;
+            // store result in acc
+            this->acc = result;
+            set_Z_and_N_flags(this->acc);
+        }
 
+        void INC(){
+            // extract the value from the resolved address
+            uint8_t address_val = read(this->resolved_address);
+            // incrament this by one
+            address_val++;
+            // write the new value in the same address
+            write(this->resolved_address, address_val);
+            set_Z_and_N_flags(address_val);
+        }
+
+        void DEC(){
+            // extract the value from the resolved address
+            uint8_t address_val = read(this->resolved_address);
+            // decrament this by one
+            address_val--;
+            // write the new value in the same address
+            write(this->resolved_address, address_val);
+            set_Z_and_N_flags(address_val);
+        }
+
+        void INX(){
+            // increment index x by one
+            this->x++;
+            set_Z_and_N_flags(this->x);
+        }
+
+        void INY(){
+            // increment index y by one
+            this->y++;
+            set_Z_and_N_flags(this->y);
+        }
+
+        void DEX(){
+            // decrement index x by one
+            this->x--;
+            set_Z_and_N_flags(this->x);
+        }
+
+        void DEY(){
+            // decrement index y by one
+            this->y--;
+            set_Z_and_N_flags(this->y);
+        }
+
+        void ASL(){
+            // check if to use the acc or not
+            if(this->acc_used){
+                // left shift acc by 1
+                this->acc = this->acc << 1;
+                // set the carry index
+                this->status_flag[bit_index(register_bit::C)] = this->acc & 0x80;
+                // set acc_used to false
+                this->acc_used = false;
+                set_Z_and_N_flags(this->acc);
+            }
+            else{
+                // obtain the address value using the resolved address
+                uint8_t address_val = read(resolved_address);
+                // set the carry index
+                this->status_flag[bit_index(register_bit::C)] = address_val & 0x80;
+                // left shift address val
+                address_val = address_val << 1;
+                write(this->resolved_address,address_val);
+                set_Z_and_N_flags(address_val);
+            }
+        }
+
+        void LSR(){
+            // check if to use the acc or not
+            if(this->acc_used){
+                // set the carry index
+                this->status_flag[bit_index(register_bit::C)] = this->acc & 0x01;
+                // right shift acc by 1
+                this->acc = this->acc >> 1;
+                // set acc_used to false
+                this->acc_used = false;
+                set_Z_and_N_flags(this->acc);
+            }
+            else{
+                // obtain the address value using the resolved address
+                uint8_t address_val = read(resolved_address);
+                // set the carry index
+                this->status_flag[bit_index(register_bit::C)] = address_val & 0x01;
+                // right shift address val
+                address_val = address_val >> 1;
+                write(this->resolved_address,address_val);
+                set_Z_and_N_flags(address_val);
+            }
+        }
+
+        void ROL(){
+            uint8_t carry = static_cast<uint8_t>(this->status_flag[bit_index(register_bit::C)]);
+            // check if to use the acc or not
+            if(this->acc_used){
+                // capture shifted bit
+                uint8_t old_bit_7 = this->acc & 0x80;
+                // left shift acc by 1 and then OR 0x01
+                this->acc = (this->acc << 1) | 0x01;
+                // set the carry index
+                this->status_flag[bit_index(register_bit::C)] = old_bit_7;
+                // set acc_used to false
+                this->acc_used = false;
+                set_Z_and_N_flags(this->acc);
+            }
+            else{
+                // obtain the address value using the resolved address
+                uint8_t address_val = read(resolved_address);
+                // capture shifted bit
+                uint8_t old_bit_7 = address_val & 0x80;
+                // set the carry index
+                this->status_flag[bit_index(register_bit::C)] = old_bit_7;
+                // left shift address val and then OR 0x01
+                address_val = (address_val << 1) | 0x01;
+                write(this->resolved_address,address_val);
+                set_Z_and_N_flags(address_val);
+            }
+        }
+
+        void ROR(){
+            // check if to use the acc or not
+            if(this->acc_used){
+                // capture shifted bit
+                uint8_t old_bit_7 = this->acc & 0x01;
+                // set the carry index
+                this->status_flag[bit_index(register_bit::C)] = old_bit_7;
+                // right shift acc by 1
+                this->acc = (this->acc << 1) | 0x80;
+                // set acc_used to false
+                this->acc_used = false;
+                set_Z_and_N_flags(this->acc);
+            }
+            else{
+                // obtain the address value using the resolved address
+                uint8_t address_val = read(resolved_address);
+                // capture shifted bit
+                uint8_t old_bit_7 = address_val & 0x80;
+                // set the carry index
+                this->status_flag[bit_index(register_bit::C)] = old_bit_7;
+                // right shift address val
+                address_val = (address_val << 1) | 0x80;;
+                write(this->resolved_address,address_val);
+                set_Z_and_N_flags(address_val);
+            }
         }
 };
