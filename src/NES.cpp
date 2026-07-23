@@ -312,6 +312,13 @@ class NES{
 
             // RTS:
             instruction_set[0x60] = {&NES::RTS, &NES::implied, 6};
+
+            // NOP:
+            instruction_set[0xEA] = {&NES::NOP, &NES::implied, 2};
+
+            // BIT:
+            instruction_set[0x24] = {NES::BIT, &NES::zero_page, 3};
+            instruction_set[0x2C] = {NES::BIT, &NES::absolute, 4};
         }
         // read to system RAM
         uint8_t read(uint16_t address){
@@ -958,14 +965,15 @@ class NES{
         }
 
         void ROR(){
+            uint8_t carry = static_cast<uint8_t>(this->status_flag[bit_index(register_bit::C)]);
             // check if to use the acc or not
             if(this->acc_used){
                 // capture shifted bit
-                uint8_t old_bit_7 = this->acc & 0x01;
+                uint8_t old_bit_0 = this->acc & 0x01;
                 // set the carry index
-                this->status_flag[bit_index(register_bit::C)] = old_bit_7;
+                this->status_flag[bit_index(register_bit::C)] = old_bit_0;
                 // right shift acc by 1
-                this->acc = (this->acc >> 1) | 0x80;
+                this->acc = (this->acc >> 1) | carry;
                 // set acc_used to false
                 this->acc_used = false;
                 set_Z_and_N_flags(this->acc);
@@ -974,11 +982,11 @@ class NES{
                 // obtain the address value using the resolved address
                 uint8_t address_val = read(resolved_address);
                 // capture shifted bit
-                uint8_t old_bit_7 = address_val & 0x80;
+                uint8_t old_bit_0 = address_val & 0x01;
                 // set the carry index
-                this->status_flag[bit_index(register_bit::C)] = old_bit_7;
+                this->status_flag[bit_index(register_bit::C)] = old_bit_0;
                 // right shift address val
-                address_val = (address_val << 1) | 0x80;;
+                address_val = (address_val >> 1) | (carry << 7);
                 write(this->resolved_address,address_val);
                 set_Z_and_N_flags(address_val);
             }
@@ -995,7 +1003,7 @@ class NES{
             // calculate PC + 2
             uint16_t return_target = this->pc + 2;
             // get the high byte from the PC + 2
-            uint8_t high_byte = static_cast<uint8_t>(return_target >> 4);
+            uint8_t high_byte = static_cast<uint8_t>(return_target >> 8);
             // get the low byte from the PC + 2
             uint8_t low_byte = static_cast<uint8_t>(return_target);
             // push high byte into the stack
@@ -1027,6 +1035,61 @@ class NES{
             uint16_t return_address = (high_byte << 8) | low_byte;
             // update the PC
             this->pc = return_address + 1;
-            
+        }
+
+        void NOP(){
+            // No operation
+            return;
+        }
+
+        void BIT(){
+            // get the address val from resolved address
+            uint8_t address_val = read(this->resolved_address);
+            // perform acc AND address_val
+            uint8_t result = this->acc & address_val;
+            if(result == 0)
+                // set the "Z" flag to true
+                status_flag[bit_index(register_bit::Z)] = true;
+            else
+                // set the "Z" flag to false
+                status_flag[bit_index(register_bit::Z)] = false;         
+            set_N_flag(address_val);
+            // set the V flag from bit 6 of address val
+            this->status_flag[bit_index(register_bit::V)] = (address_val & 0x40) != 0;
+        }
+
+        void BRK(){
+            // get the address from the stack
+            uint16_t stack_address = this->OFFSET + this->stack_ptr;
+            // calculate PC + 2
+            uint16_t return_target = this->pc + 2;
+            // get the high byte from the PC + 2
+            uint8_t high_byte = static_cast<uint8_t>(return_target >> 8);
+            // get the low byte from the PC + 2
+            uint8_t low_byte = static_cast<uint8_t>(return_target);
+            // push high byte into the stack
+            write(stack_address,high_byte);
+            // update the stack pointer
+            this->stack_ptr--;
+            // get the address from the stack
+            stack_address = this->OFFSET + this->stack_ptr;
+            // push low byte into the stack
+            write(stack_address,low_byte);
+            // update the stack pointer
+            this->stack_ptr--;
+            // convert status flag as a uint_8_t
+            uint8_t status_info = static_cast<uint8_t>(this->status_flag.to_ulong());
+            // force flag B and flag DASH to true
+            status_info = status_info | 0b00110000;
+            // get the address from the stack
+            stack_address = this->OFFSET + this->stack_ptr;
+            // push status info into the stack
+            write(stack_address,status_info);
+            // update the stack pointer
+            this->stack_ptr--;
+        }
+
+        void RTI(){
+
         }
 };
