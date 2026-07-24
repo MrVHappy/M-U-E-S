@@ -363,6 +363,15 @@ class NES{
                     // if incorrect invalid ROM
                     return false;
                 }
+                // set start position after reading the header
+                uint8_t start_pos = 16;
+                // detecting if the ROM contains a trainer
+                if((header[6] & 0x04) != 0){
+                    // trainer is present
+                    start_pos = 512;
+                }
+                // update start position
+                file.seekg(start_pos,std::ios::beg);
                 // extract the bank count
                 uint8_t prg_bank_no = header[4];
                 // calculate the size of the ROM
@@ -380,6 +389,7 @@ class NES{
                 if (prg_bank_no == 2){
                     std::copy(prg_data.begin(), prg_data.end(), this->prg_rom.begin());
                 }
+                
                 return true;
             }
             else{
