@@ -890,7 +890,7 @@ class NES{
             // cast sum as uint8_t
             uint8_t result = static_cast<uint8_t>(sum);
             // get the result of overflow
-            this->status_flag[bit_index(register_bit::V)] = ((this->acc ^ result) & (address_val ^ result)) & 0x80 != 0;
+            this->status_flag[bit_index(register_bit::V)] = ((this->acc ^ result) & (address_val ^ result) & 0x80) != 0;
             // store result in acc
             this->acc = result;
             set_Z_and_N_flags(this->acc);
@@ -916,7 +916,7 @@ class NES{
             // cast sum as uint8_t
             uint8_t result = static_cast<uint8_t>(sum);
             // get the result of overflow
-            this->status_flag[bit_index(register_bit::V)] = ((this->acc ^ result) & (address_val ^ result)) & 0x80 != 0;
+            this->status_flag[bit_index(register_bit::V)] = ((this->acc ^ result) & (address_val ^ result) & 0x80) != 0;
             // store result in acc
             this->acc = result;
             set_Z_and_N_flags(this->acc);
@@ -1017,7 +1017,7 @@ class NES{
             // check if to use the acc or not
             if(this->acc_used){
                 // capture shifted bit
-                uint8_t old_bit_7 = (this->acc & 0x80) != 0;
+                uint8_t old_bit_7 = (this->acc & 0x80);
                 // left shift acc by 1 and then OR old_bit
                 this->acc = (this->acc << 1) | carry;
                 // set the carry index
@@ -1030,7 +1030,7 @@ class NES{
                 // obtain the address value using the resolved address
                 uint8_t address_val = read(resolved_address);
                 // capture shifted bit
-                uint8_t old_bit_7 = (address_val & 0x80) != 0;
+                uint8_t old_bit_7 = (address_val & 0x80);
                 // set the carry index
                 this->status_flag[bit_index(register_bit::C)] = old_bit_7;
                 // left shift address val and then OR 0x01
