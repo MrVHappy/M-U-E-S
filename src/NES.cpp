@@ -67,6 +67,18 @@ class NES{
 
     public:
         NES(){
+            // initialising varaiables 
+            this->acc = 0;
+            this->x = 0;
+            this->y = 0;
+            this->pc = 0xC000;
+            this->stack_ptr = 0xFF;
+            this->status_flag = 0b00000000;
+            this->page_crossed = false;
+            this->acc_used = false;
+            this->page_crossed = false;
+            this->resolved_address = false;
+
             // instruction locations:
             // LDA:
             instruction_set[0xA9] = { &NES::LDA, &NES::immediate, 2 };
@@ -393,7 +405,7 @@ class NES{
                 // ROM data
                 return this->prg_rom[address -0x8000];
             }
-
+            return 0;
         }   
         // write data to system RAM
         void write(uint16_t address, uint8_t value){
@@ -878,7 +890,7 @@ class NES{
             // cast sum as uint8_t
             uint8_t result = static_cast<uint8_t>(sum);
             // get the result of overflow
-            this->status_flag[bit_index(register_bit::V)] = (this->acc ^ result) & (address_val ^ result) & 0x80;
+            this->status_flag[bit_index(register_bit::V)] = ((this->acc ^ result) & (address_val ^ result)) & 0x80;
             // store result in acc
             this->acc = result;
             set_Z_and_N_flags(this->acc);
