@@ -317,8 +317,14 @@ class NES{
             instruction_set[0xEA] = {&NES::NOP, &NES::implied, 2};
 
             // BIT:
-            instruction_set[0x24] = {NES::BIT, &NES::zero_page, 3};
-            instruction_set[0x2C] = {NES::BIT, &NES::absolute, 4};
+            instruction_set[0x24] = {&NES::BIT, &NES::zero_page, 3};
+            instruction_set[0x2C] = {&NES::BIT, &NES::absolute, 4};
+
+            // BRK:
+            instruction_set[0x00] = {&NES::BRK, &NES::implied, 7};
+
+            // RTI:
+            instruction_set[0x40] = {&NES::RTI, &NES::implied, 6};
         }
         // read to system RAM
         uint8_t read(uint16_t address){
@@ -956,9 +962,9 @@ class NES{
                 // capture shifted bit
                 uint8_t old_bit_7 = address_val & 0x80;
                 // set the carry index
-                this->status_flag[bit_index(register_bit::C)] = carry;
+                this->status_flag[bit_index(register_bit::C)] = old_bit_7;
                 // left shift address val and then OR 0x01
-                address_val = (address_val << 1) | 0x01;
+                address_val = (address_val << 1) | carry;
                 write(this->resolved_address,address_val);
                 set_Z_and_N_flags(address_val);
             }
@@ -1000,11 +1006,11 @@ class NES{
         void JSR(){
             // get the address from the stack
             uint16_t stack_address = this->OFFSET + this->stack_ptr;
-            // calculate PC + 2
-            uint16_t return_target = this->pc + 2;
-            // get the high byte from the PC + 2
+            // calculate PC - 1
+            uint16_t return_target = this->pc - 1;
+            // get the high byte from the PC - 1
             uint8_t high_byte = static_cast<uint8_t>(return_target >> 8);
-            // get the low byte from the PC + 2
+            // get the low byte from the PC - 1
             uint8_t low_byte = static_cast<uint8_t>(return_target);
             // push high byte into the stack
             write(stack_address,high_byte);
@@ -1061,11 +1067,11 @@ class NES{
         void BRK(){
             // get the address from the stack
             uint16_t stack_address = this->OFFSET + this->stack_ptr;
-            // calculate PC + 2
-            uint16_t return_target = this->pc + 2;
-            // get the high byte from the PC + 2
+            // calculate PC + 1
+            uint16_t return_target = this->pc + 1;
+            // get the high byte from the PC + 1
             uint8_t high_byte = static_cast<uint8_t>(return_target >> 8);
-            // get the low byte from the PC + 2
+            // get the low byte from the PC + 1
             uint8_t low_byte = static_cast<uint8_t>(return_target);
             // push high byte into the stack
             write(stack_address,high_byte);
@@ -1090,6 +1096,27 @@ class NES{
         }
 
         void RTI(){
-
+            // update the stack pointer
+            this->stack_ptr++;
+            // get the address from the stack
+            uint16_t stack_address = this->OFFSET + this->stack_ptr;
+            // extract the status info from the stack
+            this->status_flag = read(stack_address);
+            // update the stack pointer
+            this->stack_ptr++;
+            // get the address from the stack
+            stack_address = this->OFFSET + this->stack_ptr;
+            // extract the low byte from the stack
+            uint8_t low_byte = read(stack_address);
+            // update the stack pointer
+            this->stack_ptr++;
+            // get the address from the stack
+            stack_address = this->OFFSET + this->stack_ptr;
+            // extract the high byte from the stack
+            uint8_t high_byte = read(stack_address);
+            // combine the two bytes
+            uint16_t return_address = (high_byte << 8) | low_byte;
+            // store return_address to PC
+            this->pc = return_address;
         }
 };
