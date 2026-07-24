@@ -10,6 +10,7 @@
 #include <vector>
 #include <cstdlib>
 #include <map>
+#include <algorithm>
 #include "register_bit.hpp"
 #include "Instruction.hpp"
 
@@ -17,6 +18,7 @@
 // https://en.cppreference.com/cpp/utility/bitset
 // https://www.nesdev.org/obelisk-6502-guide/reference.html
 // https://en.cppreference.com/cpp/utility/bitset/bitset
+// https://en.cppreference.com/cpp/algorithm/copy
 
 class NES{
     private:
@@ -49,6 +51,9 @@ class NES{
         // Memory:
         // internal CPU RAM 2KiB
         std::array<uint8_t, 2048> sys_ram;
+
+        // program ROM 32KiB
+        std::array<uint8_t, 32768> prg_rom;
 
         // flags
         bool page_crossed;
@@ -326,16 +331,69 @@ class NES{
             // RTI:
             instruction_set[0x40] = {&NES::RTI, &NES::implied, 6};
         }
+
+        // load ROM
+        bool load_ROM(const char* path){
+            // read the file and format it to binary at the end position
+            std::ifstream file(path,std::ios::binary | std::ios::ate);
+            // check if the file exsists
+            if(file.is_open()){
+                // get the file size of the ROM
+                std::streamsize file_size = file.tellg();
+                // set ROM to start position
+                file.seekg(0,std::ios::beg);
+                // create a header to validate the ROM
+                std::array<uint8_t,16> header;
+                // ectract the first 16 bytes of the file to header
+                file.read(reinterpret_cast<char*>(header.data()),16);
+                // validating the first 4 bytes:
+                if((header[0] != 'N') || (header[1] != 'E') || (header[2] != 'S') || (header[3] != 0x1A) ){
+                    // if incorrect invalid ROM
+                    return false;
+                }
+                // extract the bank count
+                uint8_t prg_bank_no = header[4];
+                // calculate the size of the ROM
+                size_t prg_size = prg_bank_no * 16384;
+                // get the entire file
+                std::vector<uint8_t> prg_data(prg_size);
+                file.read(reinterpret_cast<char*>(prg_data.data()),prg_size);
+                // check if there is only 1 bank
+                if(prg_bank_no == 1){
+                    // copy the ROM info twice
+                    std::copy(prg_data.begin(), prg_data.end(), this->prg_rom.begin());
+                    std::copy(prg_data.begin(), prg_data.end(), this->prg_rom.begin() + 16384);
+                }
+                // check if there are 2 banks
+                if (prg_bank_no == 2){
+                    std::copy(prg_data.begin(), prg_data.end(), this->prg_rom.begin());
+                }
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
         // read to system RAM
         uint8_t read(uint16_t address){
             // check if the address value is between 0x0000-0x1FFF
             if (address < 0x2000){
+                // CPU data
                 return this->sys_ram[address & 0x07FF];
             }
-            else{
-                // Temp:
+            // check if the address is between 0x2000-0x7FFF
+            if((address >= 0x2000) && (address <= 0x7FFF)){
+                // PPU and APU data
+                // temp
                 return 0;
             }
+            // check if the address is >= 0x8000
+            if (address >= 0x8000){
+                // ROM data
+                return this->prg_rom[address -0x8000];
+            }
+
         }   
         // write data to system RAM
         void write(uint16_t address, uint8_t value){
