@@ -82,6 +82,10 @@ class NES{
             this->resolved_address = 0;
 
             // instruction locations:
+            // stores every instruction at NOP at start
+            for(int i = 0; i < 256; i++){
+                instruction_set[i] = {&NES::NOP, &NES::implied, 2};
+            }
             // LDA:
             instruction_set[0xA9] = { &NES::LDA, &NES::immediate, 2 };
             instruction_set[0xA5] = { &NES::LDA, &NES::zero_page, 3 };
@@ -1149,6 +1153,7 @@ class NES{
 
         void NOP(){
             // No operation
+            this->pc+= 2;
             return;
         }
 
@@ -1197,6 +1202,18 @@ class NES{
             write(stack_address,status_info);
             // update the stack pointer
             this->stack_ptr--;
+
+            // get the low byte from address 0xFFFE
+            low_byte = read(0xFFFE);
+            // get the high byte from address 0xFFFF
+            high_byte = read(0xFFFF);
+            // combine the 2 bytes together
+            uint16_t final_address = (high_byte << 8) | low_byte;
+            // and assign it to the pc
+            this->pc = final_address;
+            // set inturrupt disable to true:
+            this->status_flag[bit_index(register_bit::I)] = true;
+
         }
 
         void RTI(){

@@ -1,5 +1,46 @@
 #include "NES.cpp"
 #include <iomanip>
+
+// array for testing:
+// Create this in your NES class header or as a module-level constant
+const char* opcode_names[256] = {
+    "BRK",    "ORA",    "NOP",    "NOP",    "NOP",    "ORA",    "ASL",    "NOP",    // 0x00-0x07
+    "PHP",    "ORA",    "ASL",    "NOP",    "NOP",    "ORA",    "ASL",    "NOP",    // 0x08-0x0F
+    "BPL",    "ORA",    "NOP",    "NOP",    "NOP",    "ORA",    "ASL",    "NOP",    // 0x10-0x17
+    "CLC",    "ORA",    "NOP",    "NOP",    "NOP",    "ORA",    "ASL",    "NOP",    // 0x18-0x1F
+    "JSR",    "AND",    "NOP",    "NOP",    "BIT",    "AND",    "ROL",    "NOP",    // 0x20-0x27
+    "PLP",    "AND",    "ROL",    "NOP",    "BIT",    "AND",    "ROL",    "NOP",    // 0x28-0x2F
+    "BMI",    "AND",    "NOP",    "NOP",    "NOP",    "AND",    "ROL",    "NOP",    // 0x30-0x37
+    "SEC",    "AND",    "NOP",    "NOP",    "NOP",    "AND",    "ROL",    "NOP",    // 0x38-0x3F
+    "RTI",    "EOR",    "NOP",    "NOP",    "NOP",    "EOR",    "LSR",    "NOP",    // 0x40-0x47
+    "PHA",    "EOR",    "LSR",    "NOP",    "JMP",    "EOR",    "LSR",    "NOP",    // 0x48-0x4F
+    "BVC",    "EOR",    "NOP",    "NOP",    "NOP",    "EOR",    "LSR",    "NOP",    // 0x50-0x57
+    "CLI",    "EOR",    "NOP",    "NOP",    "NOP",    "EOR",    "LSR",    "NOP",    // 0x58-0x5F
+    "RTS",    "ADC",    "NOP",    "NOP",    "NOP",    "ADC",    "ROR",    "NOP",    // 0x60-0x67
+    "PLA",    "ADC",    "ROR",    "NOP",    "JMP",    "ADC",    "ROR",    "NOP",    // 0x68-0x6F
+    "BVS",    "ADC",    "NOP",    "NOP",    "NOP",    "ADC",    "ROR",    "NOP",    // 0x70-0x77
+    "SEI",    "ADC",    "NOP",    "NOP",    "NOP",    "ADC",    "ROR",    "NOP",    // 0x78-0x7F
+    "NOP",    "STA",    "NOP",    "NOP",    "STY",    "STA",    "STX",    "NOP",    // 0x80-0x87
+    "DEY",    "NOP",    "TXA",    "NOP",    "STY",    "STA",    "STX",    "NOP",    // 0x88-0x8F
+    "BCC",    "STA",    "NOP",    "NOP",    "STY",    "STA",    "STX",    "NOP",    // 0x90-0x97
+    "TYA",    "STA",    "TXS",    "NOP",    "NOP",    "STA",    "NOP",    "NOP",    // 0x98-0x9F
+    "LDY",    "LDA",    "LDX",    "NOP",    "LDY",    "LDA",    "LDX",    "NOP",    // 0xA0-0xA7
+    "TAY",    "LDA",    "TAX",    "NOP",    "LDY",    "LDA",    "LDX",    "NOP",    // 0xA8-0xAF
+    "BCS",    "LDA",    "NOP",    "NOP",    "LDY",    "LDA",    "LDX",    "NOP",    // 0xB0-0xB7
+    "CLV",    "LDA",    "TSX",    "NOP",    "LDY",    "LDA",    "LDX",    "NOP",    // 0xB8-0xBF
+    "CPY",    "CMP",    "NOP",    "NOP",    "CPY",    "CMP",    "DEC",    "NOP",    // 0xC0-0xC7
+    "INY",    "CMP",    "DEX",    "NOP",    "CPY",    "CMP",    "DEC",    "NOP",    // 0xC8-0xCF
+    "BNE",    "CMP",    "NOP",    "NOP",    "NOP",    "CMP",    "DEC",    "NOP",    // 0xD0-0xD7
+    "CLD",    "CMP",    "NOP",    "NOP",    "NOP",    "CMP",    "DEC",    "NOP",    // 0xD8-0xDF
+    "CPX",    "SBC",    "NOP",    "NOP",    "CPX",    "SBC",    "INC",    "NOP",    // 0xE0-0xE7
+    "INX",    "SBC",    "NOP",    "NOP",    "CPX",    "SBC",    "INC",    "NOP",    // 0xE8-0xEF
+    "BEQ",    "SBC",    "NOP",    "NOP",    "NOP",    "SBC",    "INC",    "NOP",    // 0xF0-0xF7
+    "SED",    "SBC",    "NOP",    "NOP",    "NOP",    "SBC",    "INC",    "NOP"     // 0xF8-0xFF
+};
+
+
+
+
 int main(int argc, char*argv[]){
     NES nes = NES();
     // check if the user has send the ROM as an arg
@@ -36,7 +77,7 @@ int main(int argc, char*argv[]){
 
 
     for (int i = 0; i < 152; i++){
-        std::clog << "instruction " << i << ":" << std::endl;
+        std::cout << "instruction " << i << ": "  << opcode_names[i] << std::endl;
         std::clog << std::hex << std::setfill('0');
 
         std::clog << "Before execution" << std::endl;
