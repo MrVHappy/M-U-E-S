@@ -14,6 +14,8 @@
 #include "register_bit.hpp"
 #include "Instruction.hpp"
 
+
+
 // References:
 // https://en.cppreference.com/cpp/utility/bitset
 // https://www.nesdev.org/obelisk-6502-guide/reference.html
@@ -342,6 +344,26 @@ class NES{
 
             // RTI:
             instruction_set[0x40] = {&NES::RTI, &NES::implied, 6};
+        }
+
+        // getters:
+        uint8_t get_acc(){
+            return this->acc;
+        }
+        uint8_t get_x(){
+            return this->x;
+        }
+        uint8_t get_y(){
+            return this->y;
+        }
+        uint16_t get_pc(){
+            return this->pc;
+        }
+        uint8_t get_stack_ptr(){
+            return this->stack_ptr;
+        }
+        std::bitset<8> get_status_flag(){
+            return this->status_flag;
         }
 
         // load ROM
