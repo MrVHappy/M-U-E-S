@@ -365,7 +365,9 @@ class NES{
         std::bitset<8> get_status_flag(){
             return this->status_flag;
         }
-
+        std::array<uint8_t, 32768> get_prg_rom(){
+            return this->prg_rom;
+        }
         // load ROM
         bool load_ROM(const char* path){
             // read the file and format it to binary at the end position
