@@ -77,7 +77,8 @@ int main(int argc, char*argv[]){
 
 
     for (int i = 0; i < 152; i++){
-        std::cout << "instruction " << i << ": "  << opcode_names[i] << std::endl;
+        uint8_t current_opcode = nes.get_prg_rom()[nes.get_pc() - 0x8000]; // or a peek() method if you add one
+        std::cout << "instruction " << i << ": " << opcode_names[current_opcode] << std::endl;
         std::clog << std::hex << std::setfill('0');
 
         std::clog << "Before execution" << std::endl;

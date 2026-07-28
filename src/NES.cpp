@@ -1135,12 +1135,14 @@ class NES{
         }
 
         void RTS(){
+            // update the stack pointer
+            this->stack_ptr++;
             // get the address from the stack
             uint16_t stack_address = this->OFFSET + this->stack_ptr;
             // extract the low byte from the stack
             uint8_t low_byte = read(stack_address);
             // update the stack pointer
-            stack_ptr++;
+            this->stack_ptr++;
             // get the address from the stack
             stack_address = this->OFFSET + this->stack_ptr;
             // extract the high byte from the stack
@@ -1153,7 +1155,7 @@ class NES{
 
         void NOP(){
             // No operation
-            this->pc+= 2;
+            // this->pc+= 2;
             return;
         }
 
