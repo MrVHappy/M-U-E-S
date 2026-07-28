@@ -74,8 +74,8 @@ class NES{
             this->x = 0;
             this->y = 0;
             this->pc = 0xC000;
-            this->stack_ptr = 0xFF;
-            this->status_flag = 0b00000000;
+            this->stack_ptr = 0xFD;
+            this->status_flag = 0x24;
             this->page_crossed = false;
             this->acc_used = false;
             this->page_crossed = false;
