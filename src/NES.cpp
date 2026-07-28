@@ -602,6 +602,8 @@ class NES{
 
         // execute instruction:
         void execute(){
+            // set acc_used to true
+            this->acc_used = false;
             // get the opcode from memory
             uint8_t opcode = fetch_byte();
             // obtain the instruction set
@@ -802,7 +804,7 @@ class NES{
             this->status_flag = (read(stack_address));
             // force flag DASH to true
             uint8_t status_info = static_cast<uint8_t>(this->status_flag.to_ulong());
-            this->status_flag = status_info | 0b00100000;
+            this->status_flag =  (status_info | 0b00100000) & ~0b00010000;
         }
 
         void AND(){
@@ -1258,6 +1260,7 @@ class NES{
             this->pc = return_address;
             // force flag DASH to true and force flag B to false
             uint8_t status_info = static_cast<uint8_t>(this->status_flag.to_ulong());
-            this->status_flag = (status_info | 0b00100000) & ~0b00010000;            
+            this->status_flag = (status_info | 0b00100000) & ~0b00010000;
+            
         }
 };
