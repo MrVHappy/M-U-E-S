@@ -800,6 +800,9 @@ class NES{
             uint16_t stack_address = this->OFFSET + this->stack_ptr;
             // copy the status info to the status flag
             this->status_flag = (read(stack_address));
+            // force flag DASH to true
+            uint8_t status_info = static_cast<uint8_t>(this->status_flag.to_ulong());
+            this->status_flag = status_info | 0b00100000;
         }
 
         void AND(){
@@ -1025,6 +1028,9 @@ class NES{
                 write(this->resolved_address,address_val);
                 set_Z_and_N_flags(address_val);
             }
+            // force flag DASH to true
+            uint8_t status_info = static_cast<uint8_t>(this->status_flag.to_ulong());
+            this->status_flag = status_info | 0b00100000;
         }
 
         void LSR(){
@@ -1048,6 +1054,9 @@ class NES{
                 write(this->resolved_address,address_val);
                 set_Z_and_N_flags(address_val);
             }
+            // force flag DASH to true
+            uint8_t status_info = static_cast<uint8_t>(this->status_flag.to_ulong());
+            this->status_flag = status_info | 0b00100000;
         }
 
         void ROL(){
@@ -1076,6 +1085,9 @@ class NES{
                 write(this->resolved_address,address_val);
                 set_Z_and_N_flags(address_val);
             }
+            // force flag DASH to true
+            uint8_t status_info = static_cast<uint8_t>(this->status_flag.to_ulong());
+            this->status_flag = status_info | 0b00100000;
         }
 
         void ROR(){
@@ -1104,6 +1116,9 @@ class NES{
                 write(this->resolved_address,address_val);
                 set_Z_and_N_flags(address_val);
             }
+            // force flag DASH to true
+            uint8_t status_info = static_cast<uint8_t>(this->status_flag.to_ulong());
+            this->status_flag = status_info | 0b00100000;
         }
 
         void JMP(){
@@ -1241,5 +1256,8 @@ class NES{
             uint16_t return_address = (high_byte << 8) | low_byte;
             // store return_address to PC
             this->pc = return_address;
+            // force flag DASH to true and force flag B to false
+            uint8_t status_info = static_cast<uint8_t>(this->status_flag.to_ulong());
+            this->status_flag = (status_info | 0b00100000) & ~0b00010000;            
         }
 };

@@ -49,13 +49,13 @@ int main(int argc, char*argv[]){
     //         std::cerr << "ERROR:\t Failed to load ROM" << std::endl;
     //         // return 1;
     //     }
-    //     std::clog << std::hex << std::setfill('0');
-    //     std::clog << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << std::endl;
+    //     std::cout << std::hex << std::setfill('0');
+    //     std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << std::endl;
     // }
     // else if(nes.load_ROM("TEST\\nestest.nes")){
     //     std::cout << "loading Test ROM" << std::endl;
-    //     std::clog << std::hex << std::setfill('0');
-    //     std::clog << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << std::endl;
+    //     std::cout << std::hex << std::setfill('0');
+    //     std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << std::endl;
     // }
     if(!nes.load_ROM("C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\TEST\\nestest.nes")){
         std::cerr << "ERROR:\t Failed to load test ROM" << std::endl;
@@ -66,8 +66,8 @@ int main(int argc, char*argv[]){
     //         return 1;
     // }
 
-    std::clog << std::hex << std::setfill('0');
-    std::clog << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << std::endl;
+    std::cout << std::hex << std::setfill('0');
+    std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << std::endl;
 
     std::cout << "instructions" << std::endl;
     for (int i = 16384; i < 16394; i++){
@@ -76,13 +76,13 @@ int main(int argc, char*argv[]){
     }
 
 
-    for (int i = 0; i < 152; i++){
+    for (int i = 0; i < 1000; i++){
         uint8_t current_opcode = nes.get_prg_rom()[nes.get_pc() - 0x8000]; // or a peek() method if you add one
         std::cout << "instruction " << i << ": " << opcode_names[current_opcode] << std::endl;
-        std::clog << std::hex << std::setfill('0');
+        std::cout << std::hex << std::setfill('0');
 
-        std::clog << "Before execution" << std::endl;
-        std::clog << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << std::endl
+        std::cout << "Before execution" << std::endl;
+        std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << std::endl
         << "acc:" << std::setw(2) << static_cast<int>(nes.get_acc()) << std::endl
         << "x:" << std::setw(2) << static_cast<int>(nes.get_x()) << std::endl
         << "y:" << std::setw(2) << static_cast<int>(nes.get_y()) << std::endl
@@ -91,8 +91,8 @@ int main(int argc, char*argv[]){
 
         nes.execute();
 
-        std::clog << "After execution" << std::endl;
-        std::clog << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << std::endl
+        std::cout << "After execution" << std::endl;
+        std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << std::endl
         << "acc:" << std::setw(2) << static_cast<int>(nes.get_acc()) << std::endl
         << "x:" << std::setw(2) << static_cast<int>(nes.get_x()) << std::endl
         << "y:" << std::setw(2) << static_cast<int>(nes.get_y()) << std::endl
