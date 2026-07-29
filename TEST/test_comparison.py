@@ -18,7 +18,10 @@ example = results_content[0]
 
 test_pass = True
 fail_index = 0
+# stores instructions that failed
 fail_list = []
+# stored instructions that lead to a failed instruction
+prev_list = []
 # loop through the the entire results file
 for i in range(0,1000):
     # set the line to be extracted
@@ -43,10 +46,24 @@ for i in range(0,1000):
 
     # check if they match
     if (res_opcode != fin_opcode) and (res_pc != fin_pc) and (res_acc != fin_acc) and (res_x != fin_x) and (res_y != fin_y) and (res_status != fin_status) and (res_stptr != fin_stptr):
+        # display disparrety
+        print("disparrety")
         print(results_content[i].upper())
         print(final_content[i].upper())
+        print("prior instruction")
+        # check if the instruction has been added to the fail list
         if(linear(fail_list, res_opcode)) == False:
             fail_list.append(res_opcode)
+        # update the res opcode to check the prior instruction
+        result_line = results_content[i-1]
+        res_opcode = result_line[0:4].upper()
+        # used for diagnostics
+        print(results_content[i -1].upper())
+        print(final_content[i -1].upper())
+        print("next")
+        # check if the instruction has been added to the prev list
+        if(linear(prev_list, res_opcode)) == False:
+            prev_list.append(res_opcode)
         test_pass = False
         fail_index += 1
 
@@ -54,7 +71,11 @@ if test_pass == True:
     print("Pass")
 else:
     print("Fail")
+    print("Failed instructions")
     for i in fail_list:
+        print(i)
+    print("instructions prior to failure")
+    for i in prev_list:
         print(i)
 print("closing files")
 results.close()
