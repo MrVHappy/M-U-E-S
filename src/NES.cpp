@@ -1012,10 +1012,10 @@ class NES{
         void ASL(){
             // check if to use the acc or not
             if(this->acc_used){
-                // left shift acc by 1
-                this->acc = this->acc << 1;
                 // set the carry index
                 this->status_flag[bit_index(register_bit::C)] = (this->acc & 0x80) != 0;
+                // left shift acc by 1
+                this->acc = this->acc << 1;
                 // set acc_used to false
                 this->acc_used = false;
                 set_Z_and_N_flags(this->acc);

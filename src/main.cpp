@@ -82,22 +82,22 @@ int main(int argc, char*argv[]){
         std::cout << std::hex << std::setfill('0');
 
         std::cout << "Before execution" << std::endl;
-        std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << std::endl
-        << "acc:" << std::setw(2) << static_cast<int>(nes.get_acc()) << std::endl
-        << "x:" << std::setw(2) << static_cast<int>(nes.get_x()) << std::endl
-        << "y:" << std::setw(2) << static_cast<int>(nes.get_y()) << std::endl
-        << "status_flag:" << std::setw(2) << static_cast<int>(nes.get_status_flag().to_ulong()) << std::endl
-        << "stack_ptr:" << std::setw(2) << static_cast<int>(nes.get_stack_ptr()) << std::endl;
+        std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << " "
+        << "acc:" << std::setw(2) << static_cast<int>(nes.get_acc()) << " "
+        << "x:" << std::setw(2) << static_cast<int>(nes.get_x()) << " "
+        << "y:" << std::setw(2) << static_cast<int>(nes.get_y()) << " "
+        << "status_flag:" << std::setw(2) << static_cast<int>(nes.get_status_flag().to_ulong()) << " "
+        << "stack_ptr:" << std::setw(2) << static_cast<int>(nes.get_stack_ptr()) << " ";
 
         nes.execute();
 
         std::cout << "After execution" << std::endl;
-        std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << std::endl
-        << "acc:" << std::setw(2) << static_cast<int>(nes.get_acc()) << std::endl
-        << "x:" << std::setw(2) << static_cast<int>(nes.get_x()) << std::endl
-        << "y:" << std::setw(2) << static_cast<int>(nes.get_y()) << std::endl
-        << "status_flag:" << std::setw(2) << static_cast<int>(nes.get_status_flag().to_ulong()) << std::endl
-        << "stack_ptr:" << std::setw(2) << static_cast<int>(nes.get_stack_ptr()) << std::endl;
+        std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << " "
+        << "acc:" << std::setw(2) << static_cast<int>(nes.get_acc()) << " "
+        << "x:" << std::setw(2) << static_cast<int>(nes.get_x()) << " "
+        << "y:" << std::setw(2) << static_cast<int>(nes.get_y()) << " "
+        << "status_flag:" << std::setw(2) << static_cast<int>(nes.get_status_flag().to_ulong()) << " "
+        << "stack_ptr:" << std::setw(2) << static_cast<int>(nes.get_stack_ptr()) << " ";
     }
 
     return 0;
