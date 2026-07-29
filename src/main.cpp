@@ -66,38 +66,38 @@ int main(int argc, char*argv[]){
     //         return 1;
     // }
 
-    std::cout << std::hex << std::setfill('0');
-    std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << std::endl;
+    // std::cout << std::hex << std::setfill('0');
+    // std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << std::endl;
 
-    std::cout << "instructions" << std::endl;
-    for (int i = 16384; i < 16394; i++){
-        std::cout << std::hex << std::setfill('0');
-        std::cout << "Byte:" << std::setw(2) << static_cast<int>(nes.get_prg_rom()[i]) << std::endl;
-    }
+    // std::cout << "instructions" << std::endl;
+    // for (int i = 16384; i < 16394; i++){
+    //     std::cout << std::hex << std::setfill('0');
+    //     std::cout << "Byte:" << std::setw(2) << static_cast<int>(nes.get_prg_rom()[i]) << std::endl;
+    // }
 
 
-    for (int i = 0; i < 1000; i++){
+    for (int i = 0; i < 2000; i++){
         uint8_t current_opcode = nes.get_prg_rom()[nes.get_pc() - 0x8000]; // or a peek() method if you add one
-        std::cout << "instruction " << i << ": " << opcode_names[current_opcode] << std::endl;
+        std::cout << "instruction " << i << ": " << opcode_names[current_opcode] << " ";
         std::cout << std::hex << std::setfill('0');
 
-        std::cout << "Before execution" << std::endl;
+        // std::cout << "Before execution" << std::endl;
         std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << " "
         << "acc:" << std::setw(2) << static_cast<int>(nes.get_acc()) << " "
         << "x:" << std::setw(2) << static_cast<int>(nes.get_x()) << " "
         << "y:" << std::setw(2) << static_cast<int>(nes.get_y()) << " "
         << "status_flag:" << std::setw(2) << static_cast<int>(nes.get_status_flag().to_ulong()) << " "
-        << "stack_ptr:" << std::setw(2) << static_cast<int>(nes.get_stack_ptr()) << " ";
+        << "stack_ptr:" << std::setw(2) << static_cast<int>(nes.get_stack_ptr()) << std::endl;
 
         nes.execute();
 
-        std::cout << "After execution" << std::endl;
-        std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << " "
-        << "acc:" << std::setw(2) << static_cast<int>(nes.get_acc()) << " "
-        << "x:" << std::setw(2) << static_cast<int>(nes.get_x()) << " "
-        << "y:" << std::setw(2) << static_cast<int>(nes.get_y()) << " "
-        << "status_flag:" << std::setw(2) << static_cast<int>(nes.get_status_flag().to_ulong()) << " "
-        << "stack_ptr:" << std::setw(2) << static_cast<int>(nes.get_stack_ptr()) << " ";
+        // std::cout << "After execution" << std::endl;
+        // std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << " "
+        // << "acc:" << std::setw(2) << static_cast<int>(nes.get_acc()) << " "
+        // << "x:" << std::setw(2) << static_cast<int>(nes.get_x()) << " "
+        // << "y:" << std::setw(2) << static_cast<int>(nes.get_y()) << " "
+        // << "status_flag:" << std::setw(2) << static_cast<int>(nes.get_status_flag().to_ulong()) << " "
+        // << "stack_ptr:" << std::setw(2) << static_cast<int>(nes.get_stack_ptr()) << " ";
     }
 
     return 0;
