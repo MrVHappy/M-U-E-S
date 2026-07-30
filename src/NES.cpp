@@ -392,7 +392,7 @@ class NES{
                     return false;
                 }
                 // set start position after reading the header
-                uint8_t start_pos = 16;
+                int start_pos = 16;
                 // detecting if the ROM contains a trainer
                 if((header[6] & 0x04) != 0){
                     // trainer is present
@@ -959,7 +959,7 @@ class NES{
             // cast sum as uint8_t
             uint8_t result = static_cast<uint8_t>(sum);
             // get the result of overflow
-            this->status_flag[bit_index(register_bit::V)] = ((this->acc ^ result) & (address_val ^ result) & 0x80) != 0;
+            this->status_flag[bit_index(register_bit::V)] = ((this->acc ^ result) & (~address_val ^ result) & 0x80) != 0;
             // store result in acc
             this->acc = result;
             set_Z_and_N_flags(this->acc);
