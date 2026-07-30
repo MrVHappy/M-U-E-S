@@ -1101,7 +1101,7 @@ class NES{
                 // set the carry index
                 this->status_flag[bit_index(register_bit::C)] = old_bit_0;
                 // right shift acc by 1
-                this->acc = (this->acc >> 1) | carry;
+                this->acc = (this->acc >> 1) | (carry << 7);
                 // set acc_used to false
                 this->acc_used = false;
                 set_Z_and_N_flags(this->acc);
