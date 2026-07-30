@@ -338,6 +338,33 @@ class NES{
 
             // NOP:
             instruction_set[0xEA] = {&NES::NOP, &NES::implied, 2};
+            instruction_set[0x04] = {&NES::NOP, &NES::zero_page, 3};
+            instruction_set[0x0C] = {&NES::NOP, &NES::absolute, 4};
+            instruction_set[0x14] = {&NES::NOP, &NES::zero_page_x, 4};
+            instruction_set[0x1A] = {&NES::NOP, &NES::implied, 2};
+            instruction_set[0x1C] = {&NES::NOP, &NES::absolute_x, 4};
+            instruction_set[0x34] = {&NES::NOP, &NES::zero_page_x, 4};
+            instruction_set[0x3A] = {&NES::NOP, &NES::implied, 2};
+            instruction_set[0x3C] = {&NES::NOP, &NES::absolute_x, 4};
+            instruction_set[0x44] = {&NES::NOP, &NES::zero_page, 3};
+            instruction_set[0x54] = {&NES::NOP, &NES::zero_page_x, 4};
+            instruction_set[0x5A] = {&NES::NOP, &NES::implied, 2};
+            instruction_set[0x64] = {&NES::NOP, &NES::zero_page, 3};
+            instruction_set[0x74] = {&NES::NOP, &NES::zero_page_x, 4};
+            instruction_set[0x7A] = {&NES::NOP, &NES::implied, 2};
+            instruction_set[0x80] = {&NES::NOP, &NES::immediate, 2};
+            instruction_set[0xD4] = {&NES::NOP, &NES::zero_page_x, 4};
+            instruction_set[0xF4] = {&NES::NOP, &NES::zero_page_x, 4};
+            instruction_set[0xDA] = {&NES::NOP, &NES::implied, 2};
+            instruction_set[0xFA] = {&NES::NOP, &NES::implied, 2};
+            instruction_set[0x5C] = {&NES::NOP, &NES::absolute_x, 4};
+            instruction_set[0x7C] = {&NES::NOP, &NES::absolute_x, 4};
+            instruction_set[0xDC] = {&NES::NOP, &NES::absolute_x, 4};
+            instruction_set[0xFC] = {&NES::NOP, &NES::absolute_x, 4};
+            instruction_set[0x82] = {&NES::NOP, &NES::immediate, 2};
+            instruction_set[0x89] = {&NES::NOP, &NES::immediate, 2};
+            instruction_set[0xC2] = {&NES::NOP, &NES::immediate, 2};
+            instruction_set[0xE2] = {&NES::NOP, &NES::immediate, 2};
 
             // BIT:
             instruction_set[0x24] = {&NES::BIT, &NES::zero_page, 3};
@@ -348,6 +375,22 @@ class NES{
 
             // RTI:
             instruction_set[0x40] = {&NES::RTI, &NES::implied, 6};
+
+            // SAX:
+            instruction_set[0x87] = {&NES::SAX, &NES::zero_page, 3};
+            instruction_set[0x97] = {&NES::SAX, &NES::zero_page_y, 4};
+            instruction_set[0x8F] = {&NES::SAX, &NES::absolute, 4};
+            instruction_set[0x83] = {&NES::SAX, &NES::indirect_x, 6};
+
+            // SLO:
+            instruction_set[0x03] = {&NES::SLO, &NES::indirect_x, 8};
+            instruction_set[0x07] = {&NES::SLO, &NES::zero_page, 5};
+            instruction_set[0x0F] = {&NES::SLO, &NES::absolute, 6};
+            instruction_set[0x13] = {&NES::SLO, &NES::indirect_y, 8};
+            instruction_set[0x17] = {&NES::SLO, &NES::zero_page_x, 6};
+            instruction_set[0x1B] = {&NES::SLO, &NES::absolute_y, 7};
+            instruction_set[0x1F] = {&NES::SLO, &NES::absolute_x, 7};
+
         }
 
         // getters:
@@ -1262,5 +1305,47 @@ class NES{
             uint8_t status_info = static_cast<uint8_t>(this->status_flag.to_ulong());
             this->status_flag = (status_info | 0b00100000) & ~0b00010000;
             
+        }
+
+        // Illegal opcodes:
+        
+        void LAX(){
+
+        }
+        void SAX(){
+            // perform bitwise AND on acc and index x
+            uint8_t result = this->acc & this->x;
+            // store result in memory
+            write(this->resolved_address,result);
+        }
+        void DCP(){
+
+        }
+        void ISB(){
+
+        }
+        void SLO(){
+            // obtain the address value using the resolved address
+                uint8_t address_val = read(resolved_address);
+                // set the carry index
+                this->status_flag[bit_index(register_bit::C)] = (address_val & 0x80) != 0;
+                // left shift address val
+                address_val = address_val << 1;
+                // write shifted value in resolved address
+                write(resolved_address,address_val);
+                // perform biwise or on acc and address val
+                uint8_t result = this->acc | address_val;
+                // store result to acc
+                this->acc = result;
+                set_Z_and_N_flags(this->acc);
+        }
+        void RLA(){
+
+        }
+        void SRE(){
+
+        }
+        void RRA(){
+
         }
 };
