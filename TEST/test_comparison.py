@@ -24,7 +24,7 @@ fail_list = []
 # stored instructions that lead to a failed instruction
 prev_list = []
 # loop through the the entire results file
-for i in range(0,2000):
+for i in range(0,len(results_content)):
     # set the line to be extracted
     result_line = results_content[i]
     final_line = final_content[i]
@@ -122,7 +122,7 @@ else:
 print(first_mismatch)
 print(prev_mismatch)
 print("first error:",first_error)
-print(fail_index, "/2000" )
+print(fail_index, "/", len(results_content) )
 print("closing files")
 results.close()
 final.close()

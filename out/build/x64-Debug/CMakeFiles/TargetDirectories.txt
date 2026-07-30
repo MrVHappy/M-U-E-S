@@ -1,0 +1,3 @@
+C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/out/build/x64-Debug/CMakeFiles/nes_emulator.dir
+C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
