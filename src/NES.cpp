@@ -13,63 +13,17 @@
 #include <algorithm>
 #include "register_bit.hpp"
 #include "Instruction.hpp"
-
-
+#include "NES.hpp"
 
 // References:
 // https://en.cppreference.com/cpp/utility/bitset
-// https://www.nesdev.org/obelisk-6502-guide/reference.html
+// https://www.NESdev.org/obelisk-6502-guide/reference.html
 // https://en.cppreference.com/cpp/utility/bitset/bitset
 // https://en.cppreference.com/cpp/algorithm/copy
 // https://www.masswerk.at/6502/6502_instruction_set.html#LAX
 
-class NES{
-    private:
 
-        // Registers:
-        // accumilator
-        uint8_t acc;
-
-        // a flag that determines whether the acc should be used
-        bool acc_used;
-
-        // index register used for addressing and loops
-        uint8_t x;
-
-        // second index register similar to x
-        uint8_t y;
-
-        // Program Counter
-        uint16_t pc;
-
-        // stack pointer
-        uint8_t stack_ptr;
-
-        // offset for stack_ptr
-        const uint16_t OFFSET = 0x100;
-
-        // status flag register
-        std::bitset<8> status_flag;
-
-        // Memory:
-        // internal CPU RAM 2KiB
-        std::array<uint8_t, 2048> sys_ram;
-
-        // program ROM 32KiB
-        std::array<uint8_t, 32768> prg_rom;
-
-        // flags
-        bool page_crossed;
-
-        // an array of instructions
-        std::array<Instruction, 256> instruction_set;
-
-
-        // holds the address resolved by the most recent addressing mode function
-        uint16_t resolved_address;
-
-    public:
-        NES(){
+        NES::NES(){
             // initialising varaiables 
             this->acc = 0;
             this->x = 0;
@@ -450,29 +404,29 @@ class NES{
         }
 
         // getters:
-        uint8_t get_acc(){
+        uint8_t NES::get_acc(){
             return this->acc;
         }
-        uint8_t get_x(){
+        uint8_t NES::get_x(){
             return this->x;
         }
-        uint8_t get_y(){
+        uint8_t NES::get_y(){
             return this->y;
         }
-        uint16_t get_pc(){
+        uint16_t NES::get_pc(){
             return this->pc;
         }
-        uint8_t get_stack_ptr(){
+        uint8_t NES::get_stack_ptr(){
             return this->stack_ptr;
         }
-        std::bitset<8> get_status_flag(){
+        std::bitset<8> NES::get_status_flag(){
             return this->status_flag;
         }
-        std::array<uint8_t, 32768> get_prg_rom(){
-            return this->prg_rom;
+        std::array<uint8_t, 32768> NES::get_prg_rom(){
+            return this->bus->get_prg_rom();
         }
         // load ROM
-        bool load_ROM(const char* path){
+        bool NES::load_ROM(const char* path){
             // read the file and format it to binary at the end position
             std::ifstream file(path,std::ios::binary | std::ios::ate);
             // check if the file exsists
@@ -507,15 +461,7 @@ class NES{
                 std::vector<uint8_t> prg_data(prg_size);
                 file.read(reinterpret_cast<char*>(prg_data.data()),prg_size);
                 // check if there is only 1 bank
-                if(prg_bank_no == 1){
-                    // copy the ROM info twice
-                    std::copy(prg_data.begin(), prg_data.end(), this->prg_rom.begin());
-                    std::copy(prg_data.begin(), prg_data.end(), this->prg_rom.begin() + 16384);
-                }
-                // check if there are 2 banks
-                if (prg_bank_no == 2){
-                    std::copy(prg_data.begin(), prg_data.end(), this->prg_rom.begin());
-                }
+                this->bus->copy_to_rom(prg_data,prg_bank_no);
                 
                 return true;
             }
@@ -524,34 +470,9 @@ class NES{
             }
         }
 
-        // read to system RAM
-        uint8_t read(uint16_t address){
-            // check if the address value is between 0x0000-0x1FFF
-            if (address < 0x2000){
-                // CPU data
-                return this->sys_ram[address & 0x07FF];
-            }
-            // check if the address is between 0x2000-0x7FFF
-            if((address >= 0x2000) && (address <= 0x7FFF)){
-                // PPU and APU data
-                // temp
-                return 0;
-            }
-            // check if the address is >= 0x8000
-            if (address >= 0x8000){
-                // ROM data
-                return this->prg_rom[address -0x8000];
-            }
-            return 0;
-        }   
-        // write data to system RAM
-        void write(uint16_t address, uint8_t value){
-            if(address < 0x2000){
-                this->sys_ram[address & 0x07FF] = value;
-            }
-        } 
 
-        uint8_t fetch_byte(){
+
+        uint8_t NES::fetch_byte(){
             // store the current pc value in memory
             uint8_t pc_byte = read(this->pc);
             // increment pc
@@ -560,17 +481,17 @@ class NES{
         }
 
         // NES addressing modes:
-        uint16_t immediate(){
+        uint16_t NES::immediate(){
             // get the address from pc
             uint16_t current_pc = this->pc;
             // increment pc
             this->pc++;
             return current_pc;
         }
-        uint16_t zero_page(){
+        uint16_t NES::zero_page(){
             return fetch_byte();
         }
-        uint16_t absolute(){
+        uint16_t NES::absolute(){
             // fetch the low byte
             uint16_t low_byte = fetch_byte();
             // fetch the high byte and left shift by 8
@@ -580,7 +501,7 @@ class NES{
             // return the address
             return address;
         }
-        uint16_t zero_page_x(){
+        uint16_t NES::zero_page_x(){
             // fetch the the byte
             uint8_t wrapped_byte = fetch_byte();
             // add index x 
@@ -589,7 +510,7 @@ class NES{
             uint16_t wrapped_address = static_cast<uint16_t>(wrapped_byte);
             return wrapped_address;
         }
-        uint16_t zero_page_y(){
+        uint16_t NES::zero_page_y(){
             // fetch the the byte
             uint8_t wrapped_byte = fetch_byte();
             // add index y 
@@ -598,7 +519,7 @@ class NES{
             uint16_t wrapped_address = static_cast<uint16_t>(wrapped_byte);
             return wrapped_address;
         }
-        uint16_t absolute_x(){
+        uint16_t NES::absolute_x(){
             // fetch the address using absolute
             uint16_t base_address = absolute();
             // add index x
@@ -607,7 +528,7 @@ class NES{
             page_crossed =((base_address & 0xFF00) != (final_address & 0xFF00));
             return final_address;
         }
-        uint16_t absolute_y(){
+        uint16_t NES::absolute_y(){
             // fetch the address using absolute
             uint16_t base_address = absolute();
             // add index y
@@ -616,14 +537,14 @@ class NES{
             page_crossed =((base_address & 0xFF00) != (final_address & 0xFF00));
             return final_address;
         }
-        uint16_t relative(){
+        uint16_t NES::relative(){
             // fetch the byte and convert to a signed byte
             int8_t signed_byte = static_cast<int8_t>(fetch_byte());
             // store the sum of pc and signed byte
             uint16_t target_address = this->pc + signed_byte;
             return target_address;
         }
-        uint16_t indirect(){
+        uint16_t NES::indirect(){
             // get the absolute address 
             uint16_t ptr_address = absolute();
             // get low byte
@@ -644,7 +565,7 @@ class NES{
             uint16_t final_address = high_byte + low_byte;
             return final_address;
         }
-        uint16_t indirect_x(){
+        uint16_t NES::indirect_x(){
             // fetch the wrapped_address
             uint16_t wrapped_address = zero_page_x();
             // get the low byte via the wrapped address
@@ -663,7 +584,7 @@ class NES{
             uint16_t final_address = high_byte | low_byte;
             return final_address;
         }
-        uint16_t indirect_y(){
+        uint16_t NES::indirect_y(){
             // fetch the zero page address byte
             uint8_t zero_page_address = fetch_byte();
             // fetch the low byte via zero_page_address
@@ -687,12 +608,11 @@ class NES{
             page_crossed = (base_byte & 0xFF00) != (final_byte & 0xFF00);
             return final_byte;
         }
-        uint16_t implied(){
+        uint16_t NES::implied(){
             // no operand to be used
             return 0;
         }
-
-        uint16_t accumilator(){
+        uint16_t NES::accumilator(){
             // set acc_used to true
             this->acc_used = true;
             // no operand to be used
@@ -700,7 +620,7 @@ class NES{
         }
 
         // execute instruction:
-        void execute(){
+        void NES::NES::execute(){
             // set acc_used to true
             this->acc_used = false;
             // get the opcode from memory
@@ -715,7 +635,7 @@ class NES{
         }
 
         // set flag functions:
-        void set_Z_and_N_flags(uint8_t value){
+        void NES::NES::set_Z_and_N_flags(uint8_t value){
             // check if the address value is 0
             if(value == 0)
             // set the "Z" flag to true
@@ -732,7 +652,7 @@ class NES{
                 status_flag[bit_index(register_bit::N)] = false;
         }
 
-        void set_N_flag(uint8_t value){
+        void NES::NES::set_N_flag(uint8_t value){
             if(value & 0x80)
                 // set the "N" flag to true
                 status_flag[bit_index(register_bit::N)] = true;
@@ -742,7 +662,7 @@ class NES{
         }
 
 
-        void compare(uint8_t val1, uint8_t val2){
+        void NES::NES::compare(uint8_t val1, uint8_t val2){
             if(val1 == val2){
                 // set the C and Z flag to true
                 status_flag[bit_index(register_bit::C)] = true;
@@ -761,7 +681,7 @@ class NES{
         }
 
         // NES Instruction set:
-        void LDA(){
+        void NES::LDA(){
             // get the value by reading the address
             uint8_t address_val = read(this->resolved_address);
             // store in the accumilator
@@ -769,14 +689,14 @@ class NES{
             set_Z_and_N_flags(address_val);
 
         }
-        void LDX(){
+        void NES::LDX(){
             // get the value by reading the address
             uint8_t address_val = read(this->resolved_address);
             // store in the index x
             this->x = address_val;
             set_Z_and_N_flags(address_val);
         }
-        void LDY(){
+        void NES::LDY(){
             // get the value by reading the address
             uint8_t address_val = read(this->resolved_address);
             // store in index y
@@ -784,84 +704,76 @@ class NES{
             // check if the address value is 0
             set_Z_and_N_flags(address_val);
         }
-        void STA(){
+        void NES::STA(){
             // write the value stored in ACC in the resolved address
             write(this->resolved_address, this->acc);
         }
-        void STX(){
+        void NES::STX(){
             // write the value stored in index x in the resolved address
             write(this->resolved_address, this->x);
         }
-        void STY(){
+        void NES::STY(){
             // write the value stored in index y in the resolved address
             write(this->resolved_address, this->y);
         }
-        void TAX(){
+        void NES::TAX(){
             // copy contents from acc to index x
             this->x = this->acc;
             set_Z_and_N_flags(this->x);
         }
-        void TAY(){
+        void NES::TAY(){
             // copy contents from acc to index y
             this->y = this->acc;
             set_Z_and_N_flags(this->y);
         }
-        void TXA(){
+        void NES::TXA(){
             // copy contents from index x to acc
             this->acc = this->x;
             set_Z_and_N_flags(this->acc);
         }
-        void TYA(){
+        void NES::TYA(){
             // copy contents from index y to acc
             this->acc = this->y;
             set_Z_and_N_flags(this->acc);
         }
-        void TSX(){
+        void NES::TSX(){
             // copy contents from stack pointer to index x
             this->x = this->stack_ptr;
             set_Z_and_N_flags(this->x);
         }
-        void TXS(){
+        void NES::TXS(){
             // copy contents from index x to stack pointer
             this->stack_ptr = this->x;
         }
-        
-        void CLC(){
+        void NES::CLC(){
             // set the carry flag to false
             status_flag[bit_index(register_bit::C)] = false;
-        }
-        
-        void CLD(){
+        }      
+        void NES::CLD(){
             // set decimal flag to false
             status_flag[bit_index(register_bit::D)] = false;
-        }
-        
-        void CLV(){
+        } 
+        void NES::CLV(){
             // set the overflow flag to false
             status_flag[bit_index(register_bit::V)] = false;
         }
-
-        void CLI(){
+        void NES::CLI(){
             // set the inturrupt disable flag to false
             status_flag[bit_index(register_bit::I)] = false;
         }
-
-        void SEC(){
+        void NES::SEC(){
             // set the carry flag to true
             status_flag[bit_index(register_bit::C)] = true;
-        }
-        
-        void SED(){
+        } 
+        void NES::SED(){
             // set decimal flag to true
             status_flag[bit_index(register_bit::D)] = true;
-        }
-        
-        void SEI(){
+        }     
+        void NES::SEI(){
             // set the inturrupt disable flag to true
             status_flag[bit_index(register_bit::I)] = true;
         }
-
-        void PHA(){
+        void NES::PHA(){
             // get the address from the stack
             uint16_t stack_address = this->OFFSET + this->stack_ptr;
             // push value of the acc onto the stack
@@ -870,8 +782,7 @@ class NES{
             this->stack_ptr--;
 
         }
-
-        void PLA(){
+        void NES::PLA(){
             // update the stack pointer
             this->stack_ptr++;
             // get the address from the stack
@@ -880,8 +791,7 @@ class NES{
             this->acc = read(stack_address);
             set_Z_and_N_flags(this->acc);
         }
-
-        void PHP(){
+        void NES::PHP(){
             // get the address from the stack
             uint16_t stack_address = this->OFFSET + this->stack_ptr;
             // convert status flag as a uint_8_t
@@ -893,8 +803,7 @@ class NES{
             // update stack ptr
             this->stack_ptr--;
         }
-
-        void PLP(){
+        void NES::PLP(){
             // update the stack pointer
             this->stack_ptr++;
             // get the address from the stack
@@ -905,32 +814,28 @@ class NES{
             uint8_t status_info = static_cast<uint8_t>(this->status_flag.to_ulong());
             this->status_flag =  (status_info | 0b00100000) & ~0b00010000;
         }
-
-        void AND(){
+        void NES::AND(){
             // get the value from the resolved address
             uint8_t address_val = read(this->resolved_address);
             // perform acc AND address val
             this->acc = this->acc & address_val;
             set_Z_and_N_flags(acc);  
         }
-
-        void ORA(){
+        void NES::ORA(){
             // get the value from the resolved address
             uint8_t address_val = read(this->resolved_address);
             // perform acc OR address val
             this->acc = this->acc | address_val;
             set_Z_and_N_flags(acc); 
         }
-
-        void EOR(){
+        void NES::EOR(){
             // get the value from the resolved address
             uint8_t address_val = read(this->resolved_address);
             // perform acc XOR address val
             this->acc = this->acc ^ address_val;
             set_Z_and_N_flags(acc); 
         }
-
-        void CMP(){
+        void NES::CMP(){
             // get the value from the resolved address
             uint8_t address_val = read(this->resolved_address);
             compare(this->acc, address_val);
@@ -938,8 +843,7 @@ class NES{
             uint8_t result = this->acc - address_val;
             set_N_flag(result);
         }
-
-        void CPX(){
+        void NES::CPX(){
             // get the value from the resolved address
             uint8_t address_val = read(this->resolved_address);
             compare(this->x, address_val);
@@ -947,8 +851,7 @@ class NES{
             uint8_t result = this->x - address_val;
             set_N_flag(result);
         }
-
-        void CPY(){
+        void NES::CPY(){
             // get the value from the resolved address
             uint8_t address_val = read(this->resolved_address);
             compare(this->y, address_val);
@@ -956,64 +859,55 @@ class NES{
             uint8_t result = this->y - address_val;
             set_N_flag(result);
         }
-
-        void BEQ(){
+        void NES::BEQ(){
             // check if the flag Z is true
             if(status_flag[bit_index(register_bit::Z)])
                 // update the pc
                 this->pc = this->resolved_address;
         }
-
-        void BNE(){
+        void NES::BNE(){
             // check if the flag Z is false
             if(!status_flag[bit_index(register_bit::Z)])
                 // update the pc
                 this->pc = this->resolved_address;
         }
-
-        void BCC(){
+        void NES::BCC(){
             // check if the flag C is false
             if(!status_flag[bit_index(register_bit::C)])
                 // update the pc
                 this->pc = this->resolved_address;
         }
-
-        void BCS(){
+        void NES::BCS(){
             // check if the flag C is true
             if(status_flag[bit_index(register_bit::C)])
                 // update the pc
                 this->pc = this->resolved_address;
         }
-
-        void BMI(){
+        void NES::BMI(){
             // check if the flag N is true
             if(status_flag[bit_index(register_bit::N)])
                 // update the pc
                 this->pc = this->resolved_address;
         }
-
-        void BPL(){
+        void NES::BPL(){
             // check if the flag N is false
             if(!status_flag[bit_index(register_bit::N)])
                 // update the pc
                 this->pc = this->resolved_address;
         }
-
-        void BVC(){
+        void NES::BVC(){
             // check if the flag N is false
             if(!status_flag[bit_index(register_bit::V)])
                 // update the pc
                 this->pc = this->resolved_address;
         }
-
-        void BVS(){
+        void NES::BVS(){
             // check if the flag N is true
             if(status_flag[bit_index(register_bit::V)])
                 // update the pc
                 this->pc = this->resolved_address;
         }
-
-        void ADC(){
+        void NES::ADC(){
             // get the value from the resolved address
             uint8_t address_val = read(this->resolved_address);
             // convert carry flag to uint8_t
@@ -1038,8 +932,7 @@ class NES{
             set_Z_and_N_flags(this->acc);
             
         }
-
-        void SBC(){
+        void NES::SBC(){
             // get the value from the resolved address
             uint8_t address_val = read(this->resolved_address);
             // convert carry flag to uint8_t
@@ -1063,8 +956,7 @@ class NES{
             this->acc = result;
             set_Z_and_N_flags(this->acc);
         }
-
-        void INC(){
+        void NES::INC(){
             // extract the value from the resolved address
             uint8_t address_val = read(this->resolved_address);
             // incrament this by one
@@ -1073,8 +965,7 @@ class NES{
             write(this->resolved_address, address_val);
             set_Z_and_N_flags(address_val);
         }
-
-        void DEC(){
+        void NES::DEC(){
             // extract the value from the resolved address
             uint8_t address_val = read(this->resolved_address);
             // decrament this by one
@@ -1083,32 +974,27 @@ class NES{
             write(this->resolved_address, address_val);
             set_Z_and_N_flags(address_val);
         }
-
-        void INX(){
+        void NES::INX(){
             // increment index x by one
             this->x++;
             set_Z_and_N_flags(this->x);
         }
-
-        void INY(){
+        void NES::INY(){
             // increment index y by one
             this->y++;
             set_Z_and_N_flags(this->y);
         }
-
-        void DEX(){
+        void NES::DEX(){
             // decrement index x by one
             this->x--;
             set_Z_and_N_flags(this->x);
         }
-
-        void DEY(){
+        void NES::DEY(){
             // decrement index y by one
             this->y--;
             set_Z_and_N_flags(this->y);
         }
-
-        void ASL(){
+        void NES::ASL(){
             // check if to use the acc or not
             if(this->acc_used){
                 // set the carry index
@@ -1133,8 +1019,7 @@ class NES{
             uint8_t status_info = static_cast<uint8_t>(this->status_flag.to_ulong());
             this->status_flag = status_info | 0b00100000;
         }
-
-        void LSR(){
+        void NES::LSR(){
             // check if to use the acc or not
             if(this->acc_used){
                 // set the carry index
@@ -1159,8 +1044,7 @@ class NES{
             uint8_t status_info = static_cast<uint8_t>(this->status_flag.to_ulong());
             this->status_flag = status_info | 0b00100000;
         }
-
-        void ROL(){
+        void NES::ROL(){
             uint8_t carry = static_cast<uint8_t>(this->status_flag[bit_index(register_bit::C)]);
             // check if to use the acc or not
             if(this->acc_used){
@@ -1190,8 +1074,7 @@ class NES{
             uint8_t status_info = static_cast<uint8_t>(this->status_flag.to_ulong());
             this->status_flag = status_info | 0b00100000;
         }
-
-        void ROR(){
+        void NES::ROR(){
             uint8_t carry = static_cast<uint8_t>(this->status_flag[bit_index(register_bit::C)]);
             // check if to use the acc or not
             if(this->acc_used){
@@ -1221,13 +1104,11 @@ class NES{
             uint8_t status_info = static_cast<uint8_t>(this->status_flag.to_ulong());
             this->status_flag = status_info | 0b00100000;
         }
-
-        void JMP(){
+        void NES::JMP(){
             // set PC to resolved address
             this->pc = this->resolved_address;
         }
-
-        void JSR(){
+        void NES::JSR(){
             // get the address from the stack
             uint16_t stack_address = this->OFFSET + this->stack_ptr;
             // calculate PC - 1
@@ -1249,8 +1130,7 @@ class NES{
             // update the PC
             this->pc = resolved_address;
         }
-
-        void RTS(){
+        void NES::RTS(){
             // update the stack pointer
             this->stack_ptr++;
             // get the address from the stack
@@ -1268,14 +1148,12 @@ class NES{
             // update the PC
             this->pc = return_address + 1;
         }
-
-        void NOP(){
+        void NES::NOP(){
             // No operation
             // this->pc+= 2;
             return;
         }
-
-        void BIT(){
+        void NES::BIT(){
             // get the address val from resolved address
             uint8_t address_val = read(this->resolved_address);
             // perform acc AND address_val
@@ -1290,8 +1168,7 @@ class NES{
             // set the V flag from bit 6 of address val
             this->status_flag[bit_index(register_bit::V)] = (address_val & 0x40) != 0;
         }
-
-        void BRK(){
+        void NES::BRK(){
             // get the address from the stack
             uint16_t stack_address = this->OFFSET + this->stack_ptr;
             // calculate PC + 1
@@ -1333,8 +1210,7 @@ class NES{
             this->status_flag[bit_index(register_bit::I)] = true;
 
         }
-
-        void RTI(){
+        void NES::RTI(){
             // update the stack pointer
             this->stack_ptr++;
             // get the address from the stack
@@ -1362,9 +1238,8 @@ class NES{
             this->status_flag = (status_info | 0b00100000) & ~0b00010000;
             
         }
-
         // Illegal opcodes:
-        void LAX(){
+        void NES::LAX(){
             // get the value by reading the address
             uint8_t address_val = read(this->resolved_address);
             // store in the accumilator
@@ -1373,13 +1248,13 @@ class NES{
             this->x = address_val;
             set_Z_and_N_flags(address_val);
         }
-        void SAX(){
+        void NES::SAX(){
             // perform bitwise AND on acc and index x
             uint8_t result = this->acc & this->x;
             // store result in memory
             write(this->resolved_address,result);
         }
-        void DCP(){
+        void NES::DCP(){
             // extract the value from the resolved address
             uint8_t address_val = read(this->resolved_address);
             // decrament this by one
@@ -1391,7 +1266,7 @@ class NES{
             uint8_t result = this->acc - address_val;
             set_N_flag(result);
         }
-        void ISB(){
+        void NES::ISB(){
             // extract the value from the resolved address
             uint8_t address_val = read(this->resolved_address);
             // incrament this by one
@@ -1419,7 +1294,7 @@ class NES{
             this->acc = result;
             set_Z_and_N_flags(this->acc);
         }
-        void SLO(){
+        void NES::SLO(){
             // obtain the address value using the resolved address
                 uint8_t address_val = read(resolved_address);
                 // set the carry index
@@ -1434,7 +1309,7 @@ class NES{
                 this->acc = result;
                 set_Z_and_N_flags(this->acc);
         }
-        void RLA(){
+        void NES::RLA(){
             uint8_t carry = static_cast<uint8_t>(this->status_flag[bit_index(register_bit::C)]);
             // obtain the address value using the resolved address
             uint8_t address_val = read(resolved_address);
@@ -1451,7 +1326,7 @@ class NES{
             this->acc = result;
             set_Z_and_N_flags(this->acc);
         }
-        void SRE(){
+        void NES::SRE(){
             // obtain the address value using the resolved address
             uint8_t address_val = read(resolved_address);
             // set the carry index
@@ -1465,7 +1340,7 @@ class NES{
             this->acc = result;
             set_Z_and_N_flags(this->acc);
         }
-        void RRA(){
+        void NES::RRA(){
             uint8_t carry = static_cast<uint8_t>(this->status_flag[bit_index(register_bit::C)]);
             // obtain the address value using the resolved address
             uint8_t address_val = read(resolved_address);
@@ -1497,4 +1372,3 @@ class NES{
             set_Z_and_N_flags(this->acc);
 
         }
-};

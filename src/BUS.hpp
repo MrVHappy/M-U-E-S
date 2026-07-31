@@ -1,0 +1,28 @@
+#ifndef BUS_H
+#define BUS_H
+#include <array>
+#include <cstdint>
+#include <vector>
+#include <bitset>
+class BUS{
+    private:
+        // Memory:
+        // internal CPU RAM 2KiB
+        std::array<uint8_t, 2048> sys_ram;
+
+        // program ROM 32KiB
+        std::array<uint8_t, 32768> prg_rom;
+
+    public:
+        // read to system RAM
+        uint8_t read(uint16_t address);
+        // write data to system RAM
+        void write(uint16_t address, uint8_t value);
+        // getters
+        std::array<uint8_t, 2048> get_sys_ram();
+        std::array<uint8_t, 32768> get_prg_rom();
+        // setters:
+        void BUS::set_prg_rom(std::array<uint8_t, 32768> rom);
+        void BUS::copy_to_rom(std::vector<uint8_t> prg_data, uint8_t prg_bank_no);
+};
+#endif
