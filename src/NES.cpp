@@ -21,6 +21,7 @@
 // https://www.nesdev.org/obelisk-6502-guide/reference.html
 // https://en.cppreference.com/cpp/utility/bitset/bitset
 // https://en.cppreference.com/cpp/algorithm/copy
+// https://www.masswerk.at/6502/6502_instruction_set.html#LAX
 
 class NES{
     private:
@@ -266,6 +267,7 @@ class NES{
 
             // SBC:
             instruction_set[0xE9] = {&NES::SBC, &NES::immediate,2};
+            instruction_set[0xEB] = {&NES::SBC, &NES::immediate,2};
             instruction_set[0xE5] = {&NES::SBC, &NES::zero_page,3};
             instruction_set[0xF5] = {&NES::SBC, &NES::zero_page_x,4};
             instruction_set[0xED] = {&NES::SBC, &NES::absolute,4};
@@ -426,6 +428,24 @@ class NES{
             instruction_set[0x77] = {&NES::RRA, &NES::zero_page_x,6};
             instruction_set[0x7B] = {&NES::RRA, &NES::absolute_y,7};
             instruction_set[0x7F] = {&NES::RRA, &NES::absolute_x,7};
+
+            // ISB:
+            instruction_set[0xE3] = {&NES::ISB, &NES::indirect_x,8};
+            instruction_set[0xE7] = {&NES::ISB, &NES::zero_page,5};
+            instruction_set[0xEF] = {&NES::ISB, &NES::absolute,6};
+            instruction_set[0xF3] = {&NES::ISB, &NES::indirect_y,8};
+            instruction_set[0xF7] = {&NES::ISB, &NES::zero_page_x,6};
+            instruction_set[0xFB] = {&NES::ISB, &NES::absolute_y,7};
+            instruction_set[0xFF] = {&NES::ISB, &NES::absolute_x,7};
+
+            // LAX:
+            instruction_set[0xA3] = {&NES::LAX, &NES::indirect_x,6};
+            instruction_set[0xA7] = {&NES::LAX, &NES::zero_page,3};
+            instruction_set[0xAB] = {&NES::LAX, &NES::immediate,2};
+            instruction_set[0xAF] = {&NES::LAX, &NES::absolute,4};
+            instruction_set[0xB3] = {&NES::LAX, &NES::indirect_y,5};
+            instruction_set[0xB7] = {&NES::LAX, &NES::zero_page_y,4};
+            instruction_set[0xBF] = {&NES::LAX, &NES::absolute_y,4};
 
         }
 
@@ -1344,9 +1364,14 @@ class NES{
         }
 
         // Illegal opcodes:
-        
         void LAX(){
-
+            // get the value by reading the address
+            uint8_t address_val = read(this->resolved_address);
+            // store in the accumilator
+            this->acc = address_val;
+            // store in index x
+            this->x = address_val;
+            set_Z_and_N_flags(address_val);
         }
         void SAX(){
             // perform bitwise AND on acc and index x
@@ -1367,7 +1392,32 @@ class NES{
             set_N_flag(result);
         }
         void ISB(){
-            
+            // extract the value from the resolved address
+            uint8_t address_val = read(this->resolved_address);
+            // incrament this by one
+            address_val++;
+            // write the new value in the same address
+            write(this->resolved_address, address_val);
+            // convert carry flag to uint8_t
+            uint8_t carry = static_cast<uint8_t>(this->status_flag[bit_index(register_bit::C)]);
+            // calculate sum
+            uint16_t sum = this->acc + (~address_val & 0xFF) + carry;
+            // check if sum exceeds 255
+            if(sum > 255){
+                // set carry to true
+                this->status_flag[bit_index(register_bit::C)] = true;
+            }
+            else{
+                // set carry to false
+                this->status_flag[bit_index(register_bit::C)] = false;
+            }
+            // cast sum as uint8_t
+            uint8_t result = static_cast<uint8_t>(sum);
+            // get the result of overflow
+            this->status_flag[bit_index(register_bit::V)] = ((this->acc ^ result) & (~address_val ^ result) & 0x80) != 0;
+            // store result in acc
+            this->acc = result;
+            set_Z_and_N_flags(this->acc);
         }
         void SLO(){
             // obtain the address value using the resolved address
@@ -1417,19 +1467,18 @@ class NES{
         }
         void RRA(){
             uint8_t carry = static_cast<uint8_t>(this->status_flag[bit_index(register_bit::C)]);
-            // store old carry
-            uint8_t old_carry = carry;
             // obtain the address value using the resolved address
             uint8_t address_val = read(resolved_address);
             // capture shifted bit
             uint8_t old_bit_0 = address_val & 0x01;
             // set the carry index
             this->status_flag[bit_index(register_bit::C)] = old_bit_0 != 0;
+            uint8_t new_carry = static_cast<uint8_t>(this->status_flag[bit_index(register_bit::C)]);
             // right shift address val
             address_val = (address_val >> 1) | (carry << 7);
             write(this->resolved_address,address_val);
             // calculate sum
-            uint16_t sum = address_val + this->acc + old_carry;
+            uint16_t sum = address_val + this->acc + new_carry;
             // check if sum exceeds 255
             if(sum > 255){
                 // set carry to true
