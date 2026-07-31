@@ -391,6 +391,42 @@ class NES{
             instruction_set[0x1B] = {&NES::SLO, &NES::absolute_y, 7};
             instruction_set[0x1F] = {&NES::SLO, &NES::absolute_x, 7};
 
+            // RLA:
+            instruction_set[0x23] = {&NES::RLA, &NES::indirect_x,8};
+            instruction_set[0x27] = {&NES::RLA, &NES::zero_page,5};
+            instruction_set[0x2F] = {&NES::RLA, &NES::absolute,6};
+            instruction_set[0x33] = {&NES::RLA, &NES::indirect_y,8};
+            instruction_set[0x37] = {&NES::RLA, &NES::zero_page_x,6};
+            instruction_set[0x3B] = {&NES::RLA, &NES::absolute_y,7};
+            instruction_set[0x3F] = {&NES::RLA, &NES::absolute_x,7};
+
+            // SRE:
+            instruction_set[0x43] = {&NES::SRE, &NES::indirect_x,8};
+            instruction_set[0x47] = {&NES::SRE, &NES::zero_page,5};
+            instruction_set[0x4F] = {&NES::SRE, &NES::absolute,6};
+            instruction_set[0x53] = {&NES::SRE, &NES::indirect_y,8};
+            instruction_set[0x57] = {&NES::SRE, &NES::zero_page_x,6};
+            instruction_set[0x5B] = {&NES::SRE, &NES::absolute_y,7};
+            instruction_set[0x5F] = {&NES::SRE, &NES::absolute_x,7};
+
+            // DCP:
+            instruction_set[0xC3] = {&NES::DCP, &NES::indirect_x,8};
+            instruction_set[0xC7] = {&NES::DCP, &NES::zero_page,5};
+            instruction_set[0xCF] = {&NES::DCP, &NES::absolute,6};
+            instruction_set[0xD3] = {&NES::DCP, &NES::indirect_y,8};
+            instruction_set[0xD7] = {&NES::DCP, &NES::zero_page_x,6};
+            instruction_set[0xDB] = {&NES::DCP, &NES::absolute_y,7};
+            instruction_set[0xDF] = {&NES::DCP, &NES::absolute_x,7};
+
+            // RRA:
+            instruction_set[0x63] = {&NES::RRA, &NES::indirect_x,8};
+            instruction_set[0x67] = {&NES::RRA, &NES::zero_page,5};
+            instruction_set[0x6F] = {&NES::RRA, &NES::absolute,6};
+            instruction_set[0x73] = {&NES::RRA, &NES::indirect_y,8};
+            instruction_set[0x77] = {&NES::RRA, &NES::zero_page_x,6};
+            instruction_set[0x7B] = {&NES::RRA, &NES::absolute_y,7};
+            instruction_set[0x7F] = {&NES::RRA, &NES::absolute_x,7};
+
         }
 
         // getters:
@@ -1319,10 +1355,19 @@ class NES{
             write(this->resolved_address,result);
         }
         void DCP(){
-
+            // extract the value from the resolved address
+            uint8_t address_val = read(this->resolved_address);
+            // decrament this by one
+            address_val--;
+            // write the new value in the same address
+            write(this->resolved_address, address_val);
+            compare(this->acc, address_val);
+            // calculate the result by subtracting acc with address val
+            uint8_t result = this->acc - address_val;
+            set_N_flag(result);
         }
         void ISB(){
-
+            
         }
         void SLO(){
             // obtain the address value using the resolved address
@@ -1340,12 +1385,67 @@ class NES{
                 set_Z_and_N_flags(this->acc);
         }
         void RLA(){
-
+            uint8_t carry = static_cast<uint8_t>(this->status_flag[bit_index(register_bit::C)]);
+            // obtain the address value using the resolved address
+            uint8_t address_val = read(resolved_address);
+            // capture shifted bit
+            uint8_t old_bit_7 = (address_val & 0x80);
+            // set the carry index
+            this->status_flag[bit_index(register_bit::C)] = old_bit_7 != 0;
+            // left shift address val and then OR 0x01
+            address_val = (address_val << 1) | carry;
+            write(this->resolved_address,address_val);
+            // perform a bitwise AND on address val and acc
+            uint8_t result = address_val & this->acc;
+            // store result in the acc
+            this->acc = result;
+            set_Z_and_N_flags(this->acc);
         }
         void SRE(){
-
+            // obtain the address value using the resolved address
+            uint8_t address_val = read(resolved_address);
+            // set the carry index
+            this->status_flag[bit_index(register_bit::C)] = (address_val & 0x01) != 0;
+            // right shift address val
+            address_val = address_val >> 1;
+            write(this->resolved_address,address_val);
+            // perform an XOR on the address val and the acc
+            uint8_t result = address_val ^ this->acc;
+            // store result in acc 
+            this->acc = result;
+            set_Z_and_N_flags(this->acc);
         }
         void RRA(){
+            uint8_t carry = static_cast<uint8_t>(this->status_flag[bit_index(register_bit::C)]);
+            // store old carry
+            uint8_t old_carry = carry;
+            // obtain the address value using the resolved address
+            uint8_t address_val = read(resolved_address);
+            // capture shifted bit
+            uint8_t old_bit_0 = address_val & 0x01;
+            // set the carry index
+            this->status_flag[bit_index(register_bit::C)] = old_bit_0 != 0;
+            // right shift address val
+            address_val = (address_val >> 1) | (carry << 7);
+            write(this->resolved_address,address_val);
+            // calculate sum
+            uint16_t sum = address_val + this->acc + old_carry;
+            // check if sum exceeds 255
+            if(sum > 255){
+                // set carry to true
+                this->status_flag[bit_index(register_bit::C)] = true;
+            }
+            else{
+                // set carry to false
+                this->status_flag[bit_index(register_bit::C)] = false;
+            }
+            // cast sum as uint8_t
+            uint8_t result = static_cast<uint8_t>(sum);
+            // get the result of overflow
+            this->status_flag[bit_index(register_bit::V)] = ((this->acc ^ result) & (address_val ^ result) & 0x80) != 0;
+            // store result in acc
+            this->acc = result;
+            set_Z_and_N_flags(this->acc);
 
         }
 };
