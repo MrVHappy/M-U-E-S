@@ -1,17 +1,20 @@
 #ifndef MAPPER_H
 #define MAPPER_H
 #include <vector>
+#include "Cartridge.hpp"
 class Mapper{
-    private:
-        // identifies the mapper that the cartridge uses
-        int mapper_ID;    
+    private:   
+        // contains information about the cartridge
+        Cartridge *cart_info;
     public:
+        // Constructor
+        Mapper(Cartridge *cartridge);
         // CPU access
-        uint8_t read_PRG(uint16_t address, int bank_num, std::vector<uint8_t> *PRG_data);
+        uint8_t read_PRG(uint16_t address);
 
         // PPU access
-        uint8_t read_CHR(uint16_t address, int bank_num, std::vector<uint8_t> *CHR_data);
-        void write_CHR(uint16_t address, int bank_num, std::vector<uint8_t> *CHR_data);
+        uint8_t read_CHR(uint16_t address);
+        void write_CHR(uint16_t address, uint8_t value);
 
 };
 #endif

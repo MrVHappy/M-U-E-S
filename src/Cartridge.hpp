@@ -4,6 +4,7 @@
 #include <string>
 #include <array>
 #include <vector>
+#include "Mapper.hpp"
 class Cartridge{
     private:
         // file location of the ROM
@@ -24,9 +25,16 @@ class Cartridge{
         std::vector<uint8_t> s_ram;
         // mirror affects the graphics rendering
         int mirror;
+        // link to cartridge mappers
+        Mapper *mapper_info;
 
     public:
         bool load_ROM(std::string path);
+        // getters:
+        std::vector<uint8_t>& get_CHR_data();
+        std::vector<uint8_t> get_PRG_data();
+        int get_PRG_bank();
+        int get_CHR_bank();
 
 
 };
