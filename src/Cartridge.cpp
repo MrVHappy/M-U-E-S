@@ -6,8 +6,6 @@ bool Cartridge::load_ROM(std::string path){
     std::ifstream file(path,std::ios::binary | std::ios::ate);
     // check if the file exsists
         if(file.is_open()){
-            // get the file size of the ROM
-            std::streamsize file_size = file.tellg();
             // set ROM to start position
             file.seekg(0,std::ios::beg);
             // ectract the first 16 bytes of the file to header
@@ -22,7 +20,7 @@ bool Cartridge::load_ROM(std::string path){
             // detecting if the ROM contains a trainer
             if((this->header[6] & 0x04) != 0){
                 // trainer is present
-                start_pos = 512;
+                start_pos += 512;
             }
             // update start position
             file.seekg(start_pos,std::ios::beg);
@@ -30,20 +28,27 @@ bool Cartridge::load_ROM(std::string path){
             PRG_banks_num = this->header[4];
             // calculate the size of the ROM
             size_t prg_size = PRG_banks_num * 16384;
+            // set the size of PRG data to prg size
+            this->PRG_data.resize(prg_size);
             // get the entire file
-            std::vector<uint8_t> prg_data(prg_size);
-            file.read(reinterpret_cast<char*>(prg_data.data()),prg_size);
-            // check if there is only 1 bank
-            if(PRG_banks_num == 1){
-                // copy the ROM info twice
-                std::copy(prg_data.begin(), prg_data.end(), this->PRG_data.begin());
-                std::copy(prg_data.begin(), prg_data.end(), this->PRG_data.begin() + 16384);
-                }
-            // check if there are 2 banks
-            if (PRG_banks_num == 2){
-                std::copy(prg_data.begin(), prg_data.end(), this->PRG_data.begin());
+            file.read(reinterpret_cast<char*>(this->PRG_data.data()),prg_size);
+            // get the number of CHR banks from header
+            this->CHR_banks_num = this->header[5];
+            // check if CHR is used as ROM
+            if(this->CHR_banks_num > 0){
+                // calculate the size of the CHR
+                size_t chr_size = this->CHR_banks_num * 8192;
+                // update the size of CHR data
+                this->CHR_data.resize(chr_size);
+                // get the entire file
+                file.read(reinterpret_cast<char*>(this->CHR_data.data()),chr_size);
             }
-                
+            else{
+                // use CHR as RAM and resize to 8KiB
+                this->CHR_data.resize(8192);
+            }
+            
+                           
             return true;
         }
         else{
