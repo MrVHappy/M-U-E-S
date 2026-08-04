@@ -75,3 +75,6 @@ int Cartridge::get_PRG_bank(){
 int Cartridge::get_CHR_bank(){
     return this->CHR_banks_num;
 }
+Mapper& Cartridge::get_mapper_info(){
+    return *this->mapper_info;
+}

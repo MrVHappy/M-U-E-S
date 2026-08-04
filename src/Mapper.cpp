@@ -20,6 +20,9 @@ uint8_t Mapper::read_PRG(uint16_t address){
         // adjust new address for 16KiB ROM
         new_address = address % prg_size;
     }
+    else{
+        return 0;
+    }
     
     // return the value stored in ROM
     return this->cart_info->get_PRG_data().data()[new_address];
