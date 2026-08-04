@@ -25,10 +25,27 @@
         }
         return 0;
     }   
-        // write data to system RAM
+        
     void BUS::write(uint16_t address, uint8_t value){
+        // write data to system RAM
         if(address < 0x2000){
             this->sys_ram[address & 0x07FF] = value;
+        }
+        // PPU functionality
+        else if((address >= 0x2000) && (address < 0x4000)){
+            // temp
+        }
+        // APU and Controller registers
+        else if((address >= 0x4000) && (address < 0x4018)){
+            // temp
+        }
+        // write to SRAM
+        else if((address >= 0x6000) && (address < 0x8000)){
+            // temp
+        }
+        // Cartridge mapper
+        else if((address >= 0x8000) && (address <= 0xFFFF)){
+            // temp
         }
     } 
 
