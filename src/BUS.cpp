@@ -53,3 +53,7 @@
         return this->sys_ram;
     }
 
+    void BUS::set_cartridge(Cartridge *rom){
+        this->rom = rom;
+    }
+

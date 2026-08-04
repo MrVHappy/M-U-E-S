@@ -29,10 +29,12 @@ class Cartridge{
         Mapper *mapper_info;
 
     public:
+        // Constructor
+        Cartridge();
         bool load_ROM(std::string path);
         // getters:
         std::vector<uint8_t>& get_CHR_data();
-        std::vector<uint8_t> get_PRG_data();
+        std::vector<uint8_t>& get_PRG_data();
         int get_PRG_bank();
         int get_CHR_bank();
         Mapper& get_mapper_info();

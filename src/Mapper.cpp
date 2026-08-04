@@ -1,4 +1,10 @@
 #include "Mapper.hpp"
+
+Mapper::Mapper(){
+    // point to NULL until set cart_info is called
+    this->cart_info = NULL;
+}
+
 Mapper::Mapper(Cartridge *cartridge){
     this->cart_info = cartridge;
 }
@@ -34,4 +40,8 @@ uint8_t Mapper::read_CHR(uint16_t address){
 
 void Mapper::write_CHR(uint16_t address, uint8_t value){
     this->cart_info->get_CHR_data().data()[address] = value;
+}
+
+void Mapper::set_cart_info(Cartridge *cartridge){
+    this->cart_info = cartridge;
 }

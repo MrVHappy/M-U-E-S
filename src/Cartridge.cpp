@@ -1,6 +1,10 @@
 #include "Cartridge.hpp"
 #include <fstream>
 
+Cartridge::Cartridge(){
+    this->mapper_info = new Mapper();
+}
+
 bool Cartridge::load_ROM(std::string path){
     // read the file and format it to binary at the end position
     std::ifstream file(path,std::ios::binary | std::ios::ate);
@@ -52,7 +56,8 @@ bool Cartridge::load_ROM(std::string path){
         uint8_t upper_mapper = (this->header[7] & 0b11110000) >> 4;
         upper_mapper = upper_mapper << 4;
         this->Mapper_ID = (lower_mapper | upper_mapper);
-        this->mapper_info = &Mapper(this);               
+        this->mapper_info->set_cart_info(this);
+        
         return true;
     }
     else{
@@ -64,7 +69,7 @@ std::vector<uint8_t>& Cartridge::get_CHR_data(){
     return this->CHR_data;
 }
 
-std::vector<uint8_t> Cartridge::get_PRG_data(){
+std::vector<uint8_t>& Cartridge::get_PRG_data(){
     return this->PRG_data;
 }
 
