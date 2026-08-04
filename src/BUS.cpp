@@ -57,3 +57,7 @@
         this->rom = rom;
     }
 
+    Cartridge BUS::get_rom(){
+        return *this->rom;
+    }
+

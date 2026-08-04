@@ -1,8 +1,9 @@
 #include "Cartridge.hpp"
 #include <fstream>
 
-Cartridge::Cartridge(){
+Cartridge::Cartridge(BUS *bus){
     this->mapper_info = new Mapper();
+    this->bus = bus;
 }
 
 bool Cartridge::load_ROM(std::string path){

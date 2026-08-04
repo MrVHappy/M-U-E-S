@@ -1,6 +1,6 @@
 #include <cstdint>   // fixed-width types: uint8_t, uint16_t, uint32_t
 #include <cstring>   // memset, memcpy
-#include <fstream>   // reading the ROM file
+#include <fstream>   // this->bus->reading the ROM file
 #include <array>     // std::array for fixed-size buffers (safer than raw C arrays)
 #include <iostream>  // debugging/console output
 #include <string>    // file paths
@@ -23,7 +23,7 @@
 // https://www.masswerk.at/6502/6502_instruction_set.html#LAX
 
 
-        NES::NES(){
+        NES::NES(BUS *bus){
             // initialising varaiables 
             this->acc = 0;
             this->x = 0;
@@ -35,7 +35,7 @@
             this->acc_used = false;
             this->page_crossed = false;
             this->resolved_address = 0;
-
+            this->bus = bus;
             // instruction locations:
             // stores every instruction at NOP at start
             for(int i = 0; i < 256; i++){
@@ -422,59 +422,30 @@
         std::bitset<8> NES::get_status_flag(){
             return this->status_flag;
         }
-        std::array<uint8_t, 32768> NES::get_prg_rom(){
-            return this->bus->get_prg_rom();
-        }
-        // load ROM
-        bool NES::load_ROM(const char* path){
-            // read the file and format it to binary at the end position
-            std::ifstream file(path,std::ios::binary | std::ios::ate);
-            // check if the file exsists
-            if(file.is_open()){
-                // get the file size of the ROM
-                std::streamsize file_size = file.tellg();
-                // set ROM to start position
-                file.seekg(0,std::ios::beg);
-                // create a header to validate the ROM
-                std::array<uint8_t,16> header;
-                // ectract the first 16 bytes of the file to header
-                file.read(reinterpret_cast<char*>(header.data()),16);
-                // validating the first 4 bytes:
-                if((header[0] != 'N') || (header[1] != 'E') || (header[2] != 'S') || (header[3] != 0x1A) ){
-                    // if incorrect invalid ROM
-                    return false;
-                }
-                // set start position after reading the header
-                int start_pos = 16;
-                // detecting if the ROM contains a trainer
-                if((header[6] & 0x04) != 0){
-                    // trainer is present
-                    start_pos = 512;
-                }
-                // update start position
-                file.seekg(start_pos,std::ios::beg);
-                // extract the bank count
-                uint8_t prg_bank_no = header[4];
-                // calculate the size of the ROM
-                size_t prg_size = prg_bank_no * 16384;
-                // get the entire file
-                std::vector<uint8_t> prg_data(prg_size);
-                file.read(reinterpret_cast<char*>(prg_data.data()),prg_size);
-                // check if there is only 1 bank
-                this->bus->copy_to_rom(prg_data,prg_bank_no);
-                
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
+        
+        void NES::reset(){
+            // set acc, x, y to 0
+            this->acc = 0;
+            this->x = 0;
+            this->y = 0;
+            // set stack pointer to 0xFD 
+            this->stack_ptr = 0xFD;
+            // set status flag to 0x24
+            this->status_flag = 0x24;
 
+            // load the PC from the reset vector
+            // get the low byte from 0xFFFC
+            uint8_t low_byte = this->bus->read(0xFFFC);
+            // get the high byte from 0xFFFD
+            uint8_t high_byte = this->bus->read(0xFFFD);
+            // combine the two bytes together and store in pc
+            this->pc = (high_byte << 8) | low_byte;
 
+        }
 
         uint8_t NES::fetch_byte(){
             // store the current pc value in memory
-            uint8_t pc_byte = read(this->pc);
+            uint8_t pc_byte = this->bus->read(this->pc);
             // increment pc
             this->pc++;
             return pc_byte;
@@ -548,7 +519,7 @@
             // get the absolute address 
             uint16_t ptr_address = absolute();
             // get low byte
-            uint16_t low_byte = read(ptr_address);
+            uint16_t low_byte = this->bus->read(ptr_address);
             if( (ptr_address & 0xFF) == 0xFF){
                 // wraps within the same page 
                 ptr_address = ptr_address & 0xFF00;
@@ -558,7 +529,7 @@
                 ptr_address++;
             }
             // get high byte
-            uint16_t high_byte = read(ptr_address) ;
+            uint16_t high_byte = this->bus->read(ptr_address) ;
             // perform an left shift 8 times
             high_byte = high_byte << 8;
             // merge the bytes together
@@ -569,7 +540,7 @@
             // fetch the wrapped_address
             uint16_t wrapped_address = zero_page_x();
             // get the low byte via the wrapped address
-            uint16_t low_byte = read(wrapped_address);
+            uint16_t low_byte = this->bus->read(wrapped_address);
             if( (wrapped_address & 0xFF) == 0xFF){
                 // set to 0x00
                 wrapped_address = 0x00;
@@ -579,7 +550,7 @@
                 wrapped_address++;
             }
             // get the high byte
-            uint16_t high_byte = read(wrapped_address) << 8;
+            uint16_t high_byte = this->bus->read(wrapped_address) << 8;
             // get the final address and return
             uint16_t final_address = high_byte | low_byte;
             return final_address;
@@ -588,7 +559,7 @@
             // fetch the zero page address byte
             uint8_t zero_page_address = fetch_byte();
             // fetch the low byte via zero_page_address
-            uint16_t low_byte = read(zero_page_address);
+            uint16_t low_byte = this->bus->read(zero_page_address);
             // update zero page address
             if( (zero_page_address & 0xFF) == 0xFF){
                 // set to 0x00
@@ -599,7 +570,7 @@
                 zero_page_address++;
             }
             // fetch the high byte via the updated zero page address
-            uint16_t high_byte = read(zero_page_address) << 8;
+            uint16_t high_byte = this->bus->read(zero_page_address) << 8;
             // combine high and low bytes together
             uint16_t base_byte = (high_byte | low_byte);
             // then add index y
@@ -682,39 +653,39 @@
 
         // NES Instruction set:
         void NES::LDA(){
-            // get the value by reading the address
-            uint8_t address_val = read(this->resolved_address);
+            // get the value by this->bus->reading the address
+            uint8_t address_val = this->bus->read(this->resolved_address);
             // store in the accumilator
             this->acc = address_val;
             set_Z_and_N_flags(address_val);
 
         }
         void NES::LDX(){
-            // get the value by reading the address
-            uint8_t address_val = read(this->resolved_address);
+            // get the value by this->bus->reading the address
+            uint8_t address_val = this->bus->read(this->resolved_address);
             // store in the index x
             this->x = address_val;
             set_Z_and_N_flags(address_val);
         }
         void NES::LDY(){
-            // get the value by reading the address
-            uint8_t address_val = read(this->resolved_address);
+            // get the value by this->bus->reading the address
+            uint8_t address_val = this->bus->read(this->resolved_address);
             // store in index y
             this->y = address_val;
             // check if the address value is 0
             set_Z_and_N_flags(address_val);
         }
         void NES::STA(){
-            // write the value stored in ACC in the resolved address
-            write(this->resolved_address, this->acc);
+            // this->bus->write the value stored in ACC in the resolved address
+            this->bus->write(this->resolved_address, this->acc);
         }
         void NES::STX(){
-            // write the value stored in index x in the resolved address
-            write(this->resolved_address, this->x);
+            // this->bus->write the value stored in index x in the resolved address
+            this->bus->write(this->resolved_address, this->x);
         }
         void NES::STY(){
-            // write the value stored in index y in the resolved address
-            write(this->resolved_address, this->y);
+            // this->bus->write the value stored in index y in the resolved address
+            this->bus->write(this->resolved_address, this->y);
         }
         void NES::TAX(){
             // copy contents from acc to index x
@@ -777,7 +748,7 @@
             // get the address from the stack
             uint16_t stack_address = this->OFFSET + this->stack_ptr;
             // push value of the acc onto the stack
-            write(stack_address,this->acc);
+            this->bus->write(stack_address,this->acc);
             // update the stack pointer
             this->stack_ptr--;
 
@@ -788,7 +759,7 @@
             // get the address from the stack
             uint16_t stack_address = this->OFFSET + this->stack_ptr;
             // pull the value from the stack to the acc
-            this->acc = read(stack_address);
+            this->acc = this->bus->read(stack_address);
             set_Z_and_N_flags(this->acc);
         }
         void NES::PHP(){
@@ -798,8 +769,8 @@
             uint8_t status_info = static_cast<uint8_t>(this->status_flag.to_ulong());
             // force flag B and flag DASH to true
             status_info = status_info | 0b00110000;
-            // write status info to stack
-            write(stack_address,status_info);
+            // this->bus->write status info to stack
+            this->bus->write(stack_address,status_info);
             // update stack ptr
             this->stack_ptr--;
         }
@@ -809,35 +780,35 @@
             // get the address from the stack
             uint16_t stack_address = this->OFFSET + this->stack_ptr;
             // copy the status info to the status flag
-            this->status_flag = (read(stack_address));
+            this->status_flag = (this->bus->read(stack_address));
             // force flag DASH to true
             uint8_t status_info = static_cast<uint8_t>(this->status_flag.to_ulong());
             this->status_flag =  (status_info | 0b00100000) & ~0b00010000;
         }
         void NES::AND(){
             // get the value from the resolved address
-            uint8_t address_val = read(this->resolved_address);
+            uint8_t address_val = this->bus->read(this->resolved_address);
             // perform acc AND address val
             this->acc = this->acc & address_val;
             set_Z_and_N_flags(acc);  
         }
         void NES::ORA(){
             // get the value from the resolved address
-            uint8_t address_val = read(this->resolved_address);
+            uint8_t address_val = this->bus->read(this->resolved_address);
             // perform acc OR address val
             this->acc = this->acc | address_val;
             set_Z_and_N_flags(acc); 
         }
         void NES::EOR(){
             // get the value from the resolved address
-            uint8_t address_val = read(this->resolved_address);
+            uint8_t address_val = this->bus->read(this->resolved_address);
             // perform acc XOR address val
             this->acc = this->acc ^ address_val;
             set_Z_and_N_flags(acc); 
         }
         void NES::CMP(){
             // get the value from the resolved address
-            uint8_t address_val = read(this->resolved_address);
+            uint8_t address_val = this->bus->read(this->resolved_address);
             compare(this->acc, address_val);
             // calculate the result by subtracting acc with address val
             uint8_t result = this->acc - address_val;
@@ -845,7 +816,7 @@
         }
         void NES::CPX(){
             // get the value from the resolved address
-            uint8_t address_val = read(this->resolved_address);
+            uint8_t address_val = this->bus->read(this->resolved_address);
             compare(this->x, address_val);
             // calculate the result by subtracting index x with address val
             uint8_t result = this->x - address_val;
@@ -853,7 +824,7 @@
         }
         void NES::CPY(){
             // get the value from the resolved address
-            uint8_t address_val = read(this->resolved_address);
+            uint8_t address_val = this->bus->read(this->resolved_address);
             compare(this->y, address_val);
             // calculate the result by subtracting index y with address val
             uint8_t result = this->y - address_val;
@@ -909,7 +880,7 @@
         }
         void NES::ADC(){
             // get the value from the resolved address
-            uint8_t address_val = read(this->resolved_address);
+            uint8_t address_val = this->bus->read(this->resolved_address);
             // convert carry flag to uint8_t
             uint8_t carry = static_cast<uint8_t>(this->status_flag[bit_index(register_bit::C)]);
             // calculate sum
@@ -934,7 +905,7 @@
         }
         void NES::SBC(){
             // get the value from the resolved address
-            uint8_t address_val = read(this->resolved_address);
+            uint8_t address_val = this->bus->read(this->resolved_address);
             // convert carry flag to uint8_t
             uint8_t carry = static_cast<uint8_t>(this->status_flag[bit_index(register_bit::C)]);
             // calculate sum
@@ -958,20 +929,20 @@
         }
         void NES::INC(){
             // extract the value from the resolved address
-            uint8_t address_val = read(this->resolved_address);
+            uint8_t address_val = this->bus->read(this->resolved_address);
             // incrament this by one
             address_val++;
-            // write the new value in the same address
-            write(this->resolved_address, address_val);
+            // this->bus->write the new value in the same address
+            this->bus->write(this->resolved_address, address_val);
             set_Z_and_N_flags(address_val);
         }
         void NES::DEC(){
             // extract the value from the resolved address
-            uint8_t address_val = read(this->resolved_address);
+            uint8_t address_val = this->bus->read(this->resolved_address);
             // decrament this by one
             address_val--;
-            // write the new value in the same address
-            write(this->resolved_address, address_val);
+            // this->bus->write the new value in the same address
+            this->bus->write(this->resolved_address, address_val);
             set_Z_and_N_flags(address_val);
         }
         void NES::INX(){
@@ -1007,12 +978,12 @@
             }
             else{
                 // obtain the address value using the resolved address
-                uint8_t address_val = read(resolved_address);
+                uint8_t address_val = this->bus->read(resolved_address);
                 // set the carry index
                 this->status_flag[bit_index(register_bit::C)] = (address_val & 0x80) != 0;
                 // left shift address val
                 address_val = address_val << 1;
-                write(this->resolved_address,address_val);
+                this->bus->write(this->resolved_address,address_val);
                 set_Z_and_N_flags(address_val);
             }
             // force flag DASH to true
@@ -1032,12 +1003,12 @@
             }
             else{
                 // obtain the address value using the resolved address
-                uint8_t address_val = read(resolved_address);
+                uint8_t address_val = this->bus->read(resolved_address);
                 // set the carry index
                 this->status_flag[bit_index(register_bit::C)] = (address_val & 0x01) != 0;
                 // right shift address val
                 address_val = address_val >> 1;
-                write(this->resolved_address,address_val);
+                this->bus->write(this->resolved_address,address_val);
                 set_Z_and_N_flags(address_val);
             }
             // force flag DASH to true
@@ -1060,14 +1031,14 @@
             }
             else{
                 // obtain the address value using the resolved address
-                uint8_t address_val = read(resolved_address);
+                uint8_t address_val = this->bus->read(resolved_address);
                 // capture shifted bit
                 uint8_t old_bit_7 = (address_val & 0x80);
                 // set the carry index
                 this->status_flag[bit_index(register_bit::C)] = old_bit_7;
                 // left shift address val and then OR 0x01
                 address_val = (address_val << 1) | carry;
-                write(this->resolved_address,address_val);
+                this->bus->write(this->resolved_address,address_val);
                 set_Z_and_N_flags(address_val);
             }
             // force flag DASH to true
@@ -1090,14 +1061,14 @@
             }
             else{
                 // obtain the address value using the resolved address
-                uint8_t address_val = read(resolved_address);
+                uint8_t address_val = this->bus->read(resolved_address);
                 // capture shifted bit
                 uint8_t old_bit_0 = address_val & 0x01;
                 // set the carry index
                 this->status_flag[bit_index(register_bit::C)] = old_bit_0;
                 // right shift address val
                 address_val = (address_val >> 1) | (carry << 7);
-                write(this->resolved_address,address_val);
+                this->bus->write(this->resolved_address,address_val);
                 set_Z_and_N_flags(address_val);
             }
             // force flag DASH to true
@@ -1118,13 +1089,13 @@
             // get the low byte from the PC - 1
             uint8_t low_byte = static_cast<uint8_t>(return_target);
             // push high byte into the stack
-            write(stack_address,high_byte);
+            this->bus->write(stack_address,high_byte);
             // update the stack pointer
             this->stack_ptr--;
             // get the address from the stack
             stack_address = this->OFFSET + this->stack_ptr;
             // push low byte into the stack
-            write(stack_address,low_byte);
+            this->bus->write(stack_address,low_byte);
             // update the stack pointer
             this->stack_ptr--;
             // update the PC
@@ -1136,13 +1107,13 @@
             // get the address from the stack
             uint16_t stack_address = this->OFFSET + this->stack_ptr;
             // extract the low byte from the stack
-            uint8_t low_byte = read(stack_address);
+            uint8_t low_byte = this->bus->read(stack_address);
             // update the stack pointer
             this->stack_ptr++;
             // get the address from the stack
             stack_address = this->OFFSET + this->stack_ptr;
             // extract the high byte from the stack
-            uint8_t high_byte = read(stack_address);
+            uint8_t high_byte = this->bus->read(stack_address);
             // get the return address
             uint16_t return_address = (high_byte << 8) | low_byte;
             // update the PC
@@ -1155,7 +1126,7 @@
         }
         void NES::BIT(){
             // get the address val from resolved address
-            uint8_t address_val = read(this->resolved_address);
+            uint8_t address_val = this->bus->read(this->resolved_address);
             // perform acc AND address_val
             uint8_t result = this->acc & address_val;
             if(result == 0)
@@ -1178,13 +1149,13 @@
             // get the low byte from the PC + 1
             uint8_t low_byte = static_cast<uint8_t>(return_target);
             // push high byte into the stack
-            write(stack_address,high_byte);
+            this->bus->write(stack_address,high_byte);
             // update the stack pointer
             this->stack_ptr--;
             // get the address from the stack
             stack_address = this->OFFSET + this->stack_ptr;
             // push low byte into the stack
-            write(stack_address,low_byte);
+            this->bus->write(stack_address,low_byte);
             // update the stack pointer
             this->stack_ptr--;
             // convert status flag as a uint_8_t
@@ -1194,14 +1165,14 @@
             // get the address from the stack
             stack_address = this->OFFSET + this->stack_ptr;
             // push status info into the stack
-            write(stack_address,status_info);
+            this->bus->write(stack_address,status_info);
             // update the stack pointer
             this->stack_ptr--;
 
             // get the low byte from address 0xFFFE
-            low_byte = read(0xFFFE);
+            low_byte = this->bus->read(0xFFFE);
             // get the high byte from address 0xFFFF
-            high_byte = read(0xFFFF);
+            high_byte = this->bus->read(0xFFFF);
             // combine the 2 bytes together
             uint16_t final_address = (high_byte << 8) | low_byte;
             // and assign it to the pc
@@ -1216,19 +1187,19 @@
             // get the address from the stack
             uint16_t stack_address = this->OFFSET + this->stack_ptr;
             // extract the status info from the stack
-            this->status_flag = read(stack_address);
+            this->status_flag = this->bus->read(stack_address);
             // update the stack pointer
             this->stack_ptr++;
             // get the address from the stack
             stack_address = this->OFFSET + this->stack_ptr;
             // extract the low byte from the stack
-            uint8_t low_byte = read(stack_address);
+            uint8_t low_byte = this->bus->read(stack_address);
             // update the stack pointer
             this->stack_ptr++;
             // get the address from the stack
             stack_address = this->OFFSET + this->stack_ptr;
             // extract the high byte from the stack
-            uint8_t high_byte = read(stack_address);
+            uint8_t high_byte = this->bus->read(stack_address);
             // combine the two bytes
             uint16_t return_address = (high_byte << 8) | low_byte;
             // store return_address to PC
@@ -1240,8 +1211,8 @@
         }
         // Illegal opcodes:
         void NES::LAX(){
-            // get the value by reading the address
-            uint8_t address_val = read(this->resolved_address);
+            // get the value by this->bus->reading the address
+            uint8_t address_val = this->bus->read(this->resolved_address);
             // store in the accumilator
             this->acc = address_val;
             // store in index x
@@ -1252,15 +1223,15 @@
             // perform bitwise AND on acc and index x
             uint8_t result = this->acc & this->x;
             // store result in memory
-            write(this->resolved_address,result);
+            this->bus->write(this->resolved_address,result);
         }
         void NES::DCP(){
             // extract the value from the resolved address
-            uint8_t address_val = read(this->resolved_address);
+            uint8_t address_val = this->bus->read(this->resolved_address);
             // decrament this by one
             address_val--;
-            // write the new value in the same address
-            write(this->resolved_address, address_val);
+            // this->bus->write the new value in the same address
+            this->bus->write(this->resolved_address, address_val);
             compare(this->acc, address_val);
             // calculate the result by subtracting acc with address val
             uint8_t result = this->acc - address_val;
@@ -1268,11 +1239,11 @@
         }
         void NES::ISB(){
             // extract the value from the resolved address
-            uint8_t address_val = read(this->resolved_address);
+            uint8_t address_val = this->bus->read(this->resolved_address);
             // incrament this by one
             address_val++;
-            // write the new value in the same address
-            write(this->resolved_address, address_val);
+            // this->bus->write the new value in the same address
+            this->bus->write(this->resolved_address, address_val);
             // convert carry flag to uint8_t
             uint8_t carry = static_cast<uint8_t>(this->status_flag[bit_index(register_bit::C)]);
             // calculate sum
@@ -1296,13 +1267,13 @@
         }
         void NES::SLO(){
             // obtain the address value using the resolved address
-                uint8_t address_val = read(resolved_address);
+                uint8_t address_val = this->bus->read(resolved_address);
                 // set the carry index
                 this->status_flag[bit_index(register_bit::C)] = (address_val & 0x80) != 0;
                 // left shift address val
                 address_val = address_val << 1;
-                // write shifted value in resolved address
-                write(resolved_address,address_val);
+                // this->bus->write shifted value in resolved address
+                this->bus->write(resolved_address,address_val);
                 // perform biwise or on acc and address val
                 uint8_t result = this->acc | address_val;
                 // store result to acc
@@ -1312,14 +1283,14 @@
         void NES::RLA(){
             uint8_t carry = static_cast<uint8_t>(this->status_flag[bit_index(register_bit::C)]);
             // obtain the address value using the resolved address
-            uint8_t address_val = read(resolved_address);
+            uint8_t address_val = this->bus->read(resolved_address);
             // capture shifted bit
             uint8_t old_bit_7 = (address_val & 0x80);
             // set the carry index
             this->status_flag[bit_index(register_bit::C)] = old_bit_7 != 0;
             // left shift address val and then OR 0x01
             address_val = (address_val << 1) | carry;
-            write(this->resolved_address,address_val);
+            this->bus->write(this->resolved_address,address_val);
             // perform a bitwise AND on address val and acc
             uint8_t result = address_val & this->acc;
             // store result in the acc
@@ -1328,12 +1299,12 @@
         }
         void NES::SRE(){
             // obtain the address value using the resolved address
-            uint8_t address_val = read(resolved_address);
+            uint8_t address_val = this->bus->read(resolved_address);
             // set the carry index
             this->status_flag[bit_index(register_bit::C)] = (address_val & 0x01) != 0;
             // right shift address val
             address_val = address_val >> 1;
-            write(this->resolved_address,address_val);
+            this->bus->write(this->resolved_address,address_val);
             // perform an XOR on the address val and the acc
             uint8_t result = address_val ^ this->acc;
             // store result in acc 
@@ -1343,7 +1314,7 @@
         void NES::RRA(){
             uint8_t carry = static_cast<uint8_t>(this->status_flag[bit_index(register_bit::C)]);
             // obtain the address value using the resolved address
-            uint8_t address_val = read(resolved_address);
+            uint8_t address_val = this->bus->read(resolved_address);
             // capture shifted bit
             uint8_t old_bit_0 = address_val & 0x01;
             // set the carry index
@@ -1351,7 +1322,7 @@
             uint8_t new_carry = static_cast<uint8_t>(this->status_flag[bit_index(register_bit::C)]);
             // right shift address val
             address_val = (address_val >> 1) | (carry << 7);
-            write(this->resolved_address,address_val);
+            this->bus->write(this->resolved_address,address_val);
             // calculate sum
             uint16_t sum = address_val + this->acc + new_carry;
             // check if sum exceeds 255

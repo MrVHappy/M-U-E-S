@@ -56,7 +56,7 @@ class NES{
         uint16_t resolved_address;
 
     public:
-        NES();
+        NES(BUS *bus);
 
         // getters:
         uint8_t get_acc();
@@ -65,14 +65,9 @@ class NES{
         uint16_t get_pc();
         uint8_t get_stack_ptr();
         std::bitset<8> get_status_flag();
-        std::array<uint8_t, 32768> get_prg_rom();
-        // load ROM
-        bool load_ROM(const char* path);
 
-        // read to system RAM
-        uint8_t read(uint16_t address);
-        // write data to system RAM
-        void write(uint16_t address, uint8_t value);
+        // reset function
+        void reset();
 
         uint8_t fetch_byte();
 

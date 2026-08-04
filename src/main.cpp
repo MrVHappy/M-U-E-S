@@ -1,6 +1,9 @@
-#include "NES.cpp"
+#include "NES.hpp"
+#include "Mapper.hpp"
+#include "BUS.hpp"
+#include "Cartridge.hpp"
 #include <iomanip>
-
+#define TEST_ROM = "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\TEST\\nestest.nes"
 // array for testing:
 // Create this in your NES class header or as a module-level constant
 const char* opcode_names[256] = {
@@ -49,43 +52,18 @@ const char* opcode_names[256] = {
 
 
 int main(int argc, char*argv[]){
-    NES nes = NES();
-    // check if the user has send the ROM as an arg
-    // if(argc >= 2){
-    //     if(!nes.load_ROM(argv[1])){
-    //         std::cerr << "ERROR:\t Failed to load ROM" << std::endl;
-    //         // return 1;
-    //     }
-    //     std::cout << std::hex << std::setfill('0');
-    //     std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << std::endl;
-    // }
-    // else if(nes.load_ROM("TEST\\nestest.nes")){
-    //     std::cout << "loading Test ROM" << std::endl;
-    //     std::cout << std::hex << std::setfill('0');
-    //     std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << std::endl;
-    // }
-    if(!nes.load_ROM("C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\TEST\\nestest.nes")){
-        std::cerr << "ERROR:\t Failed to load test ROM" << std::endl;
-            return 1;
+    BUS bus = BUS();
+    Cartridge rom = Cartridge(&bus);
+    if(!rom.load_ROM("C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\TEST\\nestest.nes")){
+        std::cout << "Error:\t failed to load ROM" << std::endl;
+        return 1;
     }
-    // else{
-    //     std::cerr << "ERROR:\t No ROM detected" << std::endl;
-    //         return 1;
-    // }
-
-    // std::cout << std::hex << std::setfill('0');
-    // std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << std::endl;
-
-    // std::cout << "instructions" << std::endl;
-    // for (int i = 16384; i < 16394; i++){
-    //     std::cout << std::hex << std::setfill('0');
-    //     std::cout << "Byte:" << std::setw(2) << static_cast<int>(nes.get_prg_rom()[i]) << std::endl;
-    // }
-
+    NES nes = NES(&bus);
+    nes.reset();
 
     for (int i = 0; i < 8991; i++){
         // uint8_t current_opcode = nes.get_prg_rom()[nes.get_pc() - 0x8000]; // or a peek() method if you add one
-        uint8_t current_opcode = nes.read(nes.get_pc());
+        uint8_t current_opcode = bus.read(nes.get_pc());
         std::cout << opcode_names[current_opcode] << " ";
         std::cout << std::hex << std::setfill('0');
 

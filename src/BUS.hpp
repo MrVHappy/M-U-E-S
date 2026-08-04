@@ -25,6 +25,7 @@ class BUS{
         void write(uint16_t address, uint8_t value);
         // getters
         std::array<uint8_t, 2048> get_sys_ram();
+        Cartridge get_rom();
         // setters
         void set_cartridge(Cartridge *rom);
 };

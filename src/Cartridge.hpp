@@ -5,6 +5,7 @@
 #include <array>
 #include <vector>
 #include "Mapper.hpp"
+#include "BUS.hpp"
 class Cartridge{
     private:
         // file location of the ROM
@@ -27,10 +28,11 @@ class Cartridge{
         int mirror;
         // link to cartridge mappers
         Mapper *mapper_info;
-
+        // link to BUS
+        BUS *bus;
     public:
         // Constructor
-        Cartridge();
+        Cartridge(BUS *bus);
         bool load_ROM(std::string path);
         // getters:
         std::vector<uint8_t>& get_CHR_data();
