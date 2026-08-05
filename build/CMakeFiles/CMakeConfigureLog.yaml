@@ -95,7 +95,7 @@ events:
       The output was:
       0
       MSBuild version 18.6.3+84d3e95b4 for .NET Framework
-      Build started 05/08/2026 10:25:48.
+      Build started 05/08/2026 11:00:33.
       
       Project "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\4.3.3\\CompilerIdC\\CompilerIdC.vcxproj" on node 1 (default targets).
       PrepareForBuild:
@@ -130,7 +130,7 @@ events:
           0 Warning(s)
           0 Error(s)
       
-      Time Elapsed 00:00:00.61
+      Time Elapsed 00:00:00.68
       
       
       Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
@@ -801,7 +801,7 @@ events:
       The output was:
       0
       MSBuild version 18.6.3+84d3e95b4 for .NET Framework
-      Build started 05/08/2026 10:25:49.
+      Build started 05/08/2026 11:00:34.
       
       Project "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\4.3.3\\CompilerIdCXX\\CompilerIdCXX.vcxproj" on node 1 (default targets).
       PrepareForBuild:
@@ -836,7 +836,7 @@ events:
           0 Warning(s)
           0 Error(s)
       
-      Time Elapsed 00:00:00.62
+      Time Elapsed 00:00:00.63
       
       
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
@@ -1068,8 +1068,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/build/CMakeFiles/CMakeScratch/TryCompile-vypo9r"
-      binary: "C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/build/CMakeFiles/CMakeScratch/TryCompile-vypo9r"
+      source: "C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/build/CMakeFiles/CMakeScratch/TryCompile-bw7voq"
+      binary: "C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/build/CMakeFiles/CMakeScratch/TryCompile-bw7voq"
     cmakeVariables:
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3"
@@ -1079,45 +1079,45 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/build/CMakeFiles/CMakeScratch/TryCompile-vypo9r'
+        Change Dir: 'C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/build/CMakeFiles/CMakeScratch/TryCompile-bw7voq'
         
-        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_1caa2.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_112d3.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
         MSBuild version 18.6.3+84d3e95b4 for .NET Framework
-        Build started 05/08/2026 10:25:49.
+        Build started 05/08/2026 11:00:36.
         
-        Project "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-vypo9r\\cmTC_1caa2.vcxproj" on node 1 (default targets).
+        Project "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-bw7voq\\cmTC_112d3.vcxproj" on node 1 (default targets).
         PrepareForBuild:
           Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
-          Creating directory "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-vypo9r\\Debug\\".
-          Creating directory "cmTC_1caa2.dir\\Debug\\cmTC_1caa2.tlog\\".
+          Creating directory "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-bw7voq\\Debug\\".
+          Creating directory "cmTC_112d3.dir\\Debug\\cmTC_112d3.tlog\\".
         InitializeBuildStatus:
-          Creating "cmTC_1caa2.dir\\Debug\\cmTC_1caa2.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
-          Touching "cmTC_1caa2.dir\\Debug\\cmTC_1caa2.tlog\\unsuccessfulbuild".
+          Creating "cmTC_112d3.dir\\Debug\\cmTC_112d3.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_112d3.dir\\Debug\\cmTC_112d3.tlog\\unsuccessfulbuild".
         VcpkgTripletSelection:
           Using triplet "x64-windows" from "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\"
           Using normalized configuration "Debug"
         ClCompile:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\CL.exe /c /I"C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\include" /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_1caa2.dir\\Debug\\\\" /Fd"cmTC_1caa2.dir\\Debug\\vc145.pdb" /external:W3 /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCCompilerABI.c"
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\CL.exe /c /I"C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\include" /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_112d3.dir\\Debug\\\\" /Fd"cmTC_112d3.dir\\Debug\\vc145.pdb" /external:W3 /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCCompilerABI.c"
           Microsoft (R) C/C++ Optimizing Compiler Version 19.51.36246 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /I"C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\include" /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_1caa2.dir\\Debug\\\\" /Fd"cmTC_1caa2.dir\\Debug\\vc145.pdb" /external:W3 /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCCompilerABI.c"
+          cl /c /I"C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\include" /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_112d3.dir\\Debug\\\\" /Fd"cmTC_112d3.dir\\Debug\\vc145.pdb" /external:W3 /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCCompilerABI.c"
           CMakeCCompilerABI.c
         Link:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-vypo9r\\Debug\\cmTC_1caa2.exe" /INCREMENTAL /ILK:"cmTC_1caa2.dir\\Debug\\cmTC_1caa2.ilk" /NOLOGO /LIBPATH:"C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\debug\\lib" /LIBPATH:"C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\debug\\lib\\manual-link" kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\debug\\lib\\*.lib" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/build/CMakeFiles/CMakeScratch/TryCompile-vypo9r/Debug/cmTC_1caa2.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/build/CMakeFiles/CMakeScratch/TryCompile-vypo9r/Debug/cmTC_1caa2.lib" /MACHINE:X64  /machine:x64 cmTC_1caa2.dir\\Debug\\CMakeCCompilerABI.obj
-          cmTC_1caa2.vcxproj -> C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-vypo9r\\Debug\\cmTC_1caa2.exe
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-bw7voq\\Debug\\cmTC_112d3.exe" /INCREMENTAL /ILK:"cmTC_112d3.dir\\Debug\\cmTC_112d3.ilk" /NOLOGO /LIBPATH:"C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\debug\\lib" /LIBPATH:"C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\debug\\lib\\manual-link" kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\debug\\lib\\*.lib" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/build/CMakeFiles/CMakeScratch/TryCompile-bw7voq/Debug/cmTC_112d3.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/build/CMakeFiles/CMakeScratch/TryCompile-bw7voq/Debug/cmTC_112d3.lib" /MACHINE:X64  /machine:x64 cmTC_112d3.dir\\Debug\\CMakeCCompilerABI.obj
+          cmTC_112d3.vcxproj -> C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-bw7voq\\Debug\\cmTC_112d3.exe
         AppLocalFromInstalled:
-          "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\vcpkg.exe" z-applocal --target-binary="C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-vypo9r\\Debug\\cmTC_1caa2.exe" --installed-bin-dir="C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\debug\\bin" --tlog-file="cmTC_1caa2.dir\\Debug\\cmTC_1caa2.tlog\\cmTC_1caa2.write.1u.tlog" --copied-files-log="cmTC_1caa2.dir\\Debug\\vcpkg.applocal.log"
-          C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-vypo9r\\Debug\\cmTC_1caa2.exe: message: deploying dependencies
+          "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\vcpkg.exe" z-applocal --target-binary="C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-bw7voq\\Debug\\cmTC_112d3.exe" --installed-bin-dir="C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\debug\\bin" --tlog-file="cmTC_112d3.dir\\Debug\\cmTC_112d3.tlog\\cmTC_112d3.write.1u.tlog" --copied-files-log="cmTC_112d3.dir\\Debug\\vcpkg.applocal.log"
+          C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-bw7voq\\Debug\\cmTC_112d3.exe: message: deploying dependencies
         FinalizeBuildStatus:
-          Deleting file "cmTC_1caa2.dir\\Debug\\cmTC_1caa2.tlog\\unsuccessfulbuild".
-          Touching "cmTC_1caa2.dir\\Debug\\cmTC_1caa2.tlog\\cmTC_1caa2.lastbuildstate".
-        Done Building Project "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-vypo9r\\cmTC_1caa2.vcxproj" (default targets).
+          Deleting file "cmTC_112d3.dir\\Debug\\cmTC_112d3.tlog\\unsuccessfulbuild".
+          Touching "cmTC_112d3.dir\\Debug\\cmTC_112d3.tlog\\cmTC_112d3.lastbuildstate".
+        Done Building Project "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-bw7voq\\cmTC_112d3.vcxproj" (default targets).
         
         Build succeeded.
             0 Warning(s)
             0 Error(s)
         
-        Time Elapsed 00:00:00.67
+        Time Elapsed 00:00:00.62
         
       exitCode: 0
   -
@@ -1157,8 +1157,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/build/CMakeFiles/CMakeScratch/TryCompile-mznnl5"
-      binary: "C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/build/CMakeFiles/CMakeScratch/TryCompile-mznnl5"
+      source: "C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/build/CMakeFiles/CMakeScratch/TryCompile-o2j500"
+      binary: "C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/build/CMakeFiles/CMakeScratch/TryCompile-o2j500"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /W3 /GR /EHsc"
       CMAKE_CXX_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
@@ -1169,45 +1169,45 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/build/CMakeFiles/CMakeScratch/TryCompile-mznnl5'
+        Change Dir: 'C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/build/CMakeFiles/CMakeScratch/TryCompile-o2j500'
         
-        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_6cf0f.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/18/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_7ef84.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
         MSBuild version 18.6.3+84d3e95b4 for .NET Framework
-        Build started 05/08/2026 10:25:51.
+        Build started 05/08/2026 11:00:37.
         
-        Project "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-mznnl5\\cmTC_6cf0f.vcxproj" on node 1 (default targets).
+        Project "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-o2j500\\cmTC_7ef84.vcxproj" on node 1 (default targets).
         PrepareForBuild:
           Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
-          Creating directory "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-mznnl5\\Debug\\".
-          Creating directory "cmTC_6cf0f.dir\\Debug\\cmTC_6cf0f.tlog\\".
+          Creating directory "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-o2j500\\Debug\\".
+          Creating directory "cmTC_7ef84.dir\\Debug\\cmTC_7ef84.tlog\\".
         InitializeBuildStatus:
-          Creating "cmTC_6cf0f.dir\\Debug\\cmTC_6cf0f.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
-          Touching "cmTC_6cf0f.dir\\Debug\\cmTC_6cf0f.tlog\\unsuccessfulbuild".
+          Creating "cmTC_7ef84.dir\\Debug\\cmTC_7ef84.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_7ef84.dir\\Debug\\cmTC_7ef84.tlog\\unsuccessfulbuild".
         VcpkgTripletSelection:
           Using triplet "x64-windows" from "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\"
           Using normalized configuration "Debug"
         ClCompile:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\CL.exe /c /I"C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\include" /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_6cf0f.dir\\Debug\\\\" /Fd"cmTC_6cf0f.dir\\Debug\\vc145.pdb" /external:W3 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCXXCompilerABI.cpp"
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\CL.exe /c /I"C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\include" /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_7ef84.dir\\Debug\\\\" /Fd"cmTC_7ef84.dir\\Debug\\vc145.pdb" /external:W3 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCXXCompilerABI.cpp"
           Microsoft (R) C/C++ Optimizing Compiler Version 19.51.36246 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /I"C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\include" /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_6cf0f.dir\\Debug\\\\" /Fd"cmTC_6cf0f.dir\\Debug\\vc145.pdb" /external:W3 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCXXCompilerABI.cpp"
+          cl /c /I"C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\include" /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GR /Fo"cmTC_7ef84.dir\\Debug\\\\" /Fd"cmTC_7ef84.dir\\Debug\\vc145.pdb" /external:W3 /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-4.3\\Modules\\CMakeCXXCompilerABI.cpp"
           CMakeCXXCompilerABI.cpp
         Link:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-mznnl5\\Debug\\cmTC_6cf0f.exe" /INCREMENTAL /ILK:"cmTC_6cf0f.dir\\Debug\\cmTC_6cf0f.ilk" /NOLOGO /LIBPATH:"C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\debug\\lib" /LIBPATH:"C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\debug\\lib\\manual-link" kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\debug\\lib\\*.lib" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/build/CMakeFiles/CMakeScratch/TryCompile-mznnl5/Debug/cmTC_6cf0f.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/build/CMakeFiles/CMakeScratch/TryCompile-mznnl5/Debug/cmTC_6cf0f.lib" /MACHINE:X64  /machine:x64 cmTC_6cf0f.dir\\Debug\\CMakeCXXCompilerABI.obj
-          cmTC_6cf0f.vcxproj -> C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-mznnl5\\Debug\\cmTC_6cf0f.exe
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\18\\BuildTools\\VC\\Tools\\MSVC\\14.51.36231\\bin\\HostX64\\x64\\link.exe /OUT:"C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-o2j500\\Debug\\cmTC_7ef84.exe" /INCREMENTAL /ILK:"cmTC_7ef84.dir\\Debug\\cmTC_7ef84.ilk" /NOLOGO /LIBPATH:"C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\debug\\lib" /LIBPATH:"C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\debug\\lib\\manual-link" kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\debug\\lib\\*.lib" /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/build/CMakeFiles/CMakeScratch/TryCompile-o2j500/Debug/cmTC_7ef84.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"C:/Users/Sebastian/OneDrive/Documents/GitHub/M-U-E-S/build/CMakeFiles/CMakeScratch/TryCompile-o2j500/Debug/cmTC_7ef84.lib" /MACHINE:X64  /machine:x64 cmTC_7ef84.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_7ef84.vcxproj -> C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-o2j500\\Debug\\cmTC_7ef84.exe
         AppLocalFromInstalled:
-          "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\vcpkg.exe" z-applocal --target-binary="C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-mznnl5\\Debug\\cmTC_6cf0f.exe" --installed-bin-dir="C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\debug\\bin" --tlog-file="cmTC_6cf0f.dir\\Debug\\cmTC_6cf0f.tlog\\cmTC_6cf0f.write.1u.tlog" --copied-files-log="cmTC_6cf0f.dir\\Debug\\vcpkg.applocal.log"
-          C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-mznnl5\\Debug\\cmTC_6cf0f.exe: message: deploying dependencies
+          "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\vcpkg.exe" z-applocal --target-binary="C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-o2j500\\Debug\\cmTC_7ef84.exe" --installed-bin-dir="C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\CHIP 8 EMU\\vcpkg\\installed\\x64-windows\\debug\\bin" --tlog-file="cmTC_7ef84.dir\\Debug\\cmTC_7ef84.tlog\\cmTC_7ef84.write.1u.tlog" --copied-files-log="cmTC_7ef84.dir\\Debug\\vcpkg.applocal.log"
+          C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-o2j500\\Debug\\cmTC_7ef84.exe: message: deploying dependencies
         FinalizeBuildStatus:
-          Deleting file "cmTC_6cf0f.dir\\Debug\\cmTC_6cf0f.tlog\\unsuccessfulbuild".
-          Touching "cmTC_6cf0f.dir\\Debug\\cmTC_6cf0f.tlog\\cmTC_6cf0f.lastbuildstate".
-        Done Building Project "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-mznnl5\\cmTC_6cf0f.vcxproj" (default targets).
+          Deleting file "cmTC_7ef84.dir\\Debug\\cmTC_7ef84.tlog\\unsuccessfulbuild".
+          Touching "cmTC_7ef84.dir\\Debug\\cmTC_7ef84.tlog\\cmTC_7ef84.lastbuildstate".
+        Done Building Project "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\build\\CMakeFiles\\CMakeScratch\\TryCompile-o2j500\\cmTC_7ef84.vcxproj" (default targets).
         
         Build succeeded.
             0 Warning(s)
             0 Error(s)
         
-        Time Elapsed 00:00:00.65
+        Time Elapsed 00:00:00.70
         
       exitCode: 0
   -

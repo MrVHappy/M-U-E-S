@@ -14,8 +14,6 @@ Mapper::Mapper(Cartridge *cartridge){
 
 uint8_t Mapper::read_PRG(uint16_t address){
     int prg_size = static_cast<int>(this->cart_info->get_PRG_data().size());
-    std::cout << "PRG size:\t" << prg_size << std::endl;
-    std::cout << "Bank size:\t" << this->cart_info->get_PRG_bank() << std::endl;
     // check if valid address
     if(address < 0x8000){
         return 0;

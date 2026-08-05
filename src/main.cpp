@@ -68,15 +68,6 @@ int main(int argc, char*argv[]){
     // reset the CPU
     nes.reset();
 
-    // debug outputs:
-    std::cout << std::hex << std::setfill('0');
-    // load the low byte
-    std::cout << "Low byte:\t" << std::setw(4) << static_cast<int>(bus.read(0xFFFC)) << std::endl;
-    // load the high byte:
-    std::cout << "High byte:\t" << std::setw(4) << static_cast<int>(bus.read(0xFFFD)) << std::endl;
-    // load the PC result
-    std::cout << "PC result:\t" << std::setw(4) << nes.get_pc() << std::endl;
-
     // for (int i = 0; i < 8991; i++){
     //     // uint8_t current_opcode = nes.get_prg_rom()[nes.get_pc() - 0x8000]; // or a peek() method if you add one
     //     uint8_t current_opcode = bus.read(nes.get_pc());
@@ -92,14 +83,6 @@ int main(int argc, char*argv[]){
     //     << "stack_ptr:" << std::setw(2) << static_cast<int>(nes.get_stack_ptr()) << std::endl;
 
     //     nes.execute();
-
-    //     // std::cout << "After execution" << std::endl;
-    //     // std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << " "
-    //     // << "acc:" << std::setw(2) << static_cast<int>(nes.get_acc()) << " "
-    //     // << "x:" << std::setw(2) << static_cast<int>(nes.get_x()) << " "
-    //     // << "y:" << std::setw(2) << static_cast<int>(nes.get_y()) << " "
-    //     // << "status_flag:" << std::setw(2) << static_cast<int>(nes.get_status_flag().to_ulong()) << " "
-    //     // << "stack_ptr:" << std::setw(2) << static_cast<int>(nes.get_stack_ptr()) << " ";
     // }
 
     return 0;
