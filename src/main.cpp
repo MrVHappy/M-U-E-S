@@ -52,39 +52,55 @@ const char* opcode_names[256] = {
 
 
 int main(int argc, char*argv[]){
+    // initialisation of the emulator
     BUS bus = BUS();
+    // connect the bus with the cartridge
     Cartridge rom = Cartridge(&bus);
     if(!rom.load_ROM("C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\TEST\\nestest.nes")){
+        // if ROM is invalid load error
         std::cout << "Error:\t failed to load ROM" << std::endl;
         return 1;
     }
+    // connect the cartridge with the bus
+    bus.set_cartridge(&rom);
+    // connect the bus with the CPU
     NES nes = NES(&bus);
+    // reset the CPU
     nes.reset();
 
-    for (int i = 0; i < 8991; i++){
-        // uint8_t current_opcode = nes.get_prg_rom()[nes.get_pc() - 0x8000]; // or a peek() method if you add one
-        uint8_t current_opcode = bus.read(nes.get_pc());
-        std::cout << opcode_names[current_opcode] << " ";
-        std::cout << std::hex << std::setfill('0');
+    // debug outputs:
+    std::cout << std::hex << std::setfill('0');
+    // load the low byte
+    std::cout << "Low byte:\t" << std::setw(4) << static_cast<int>(bus.read(0xFFFC)) << std::endl;
+    // load the high byte:
+    std::cout << "High byte:\t" << std::setw(4) << static_cast<int>(bus.read(0xFFFD)) << std::endl;
+    // load the PC result
+    std::cout << "PC result:\t" << std::setw(4) << nes.get_pc() << std::endl;
 
-        // std::cout << "Before execution" << std::endl;
-        std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << " "
-        << "acc:" << std::setw(2) << static_cast<int>(nes.get_acc()) << " "
-        << "x:" << std::setw(2) << static_cast<int>(nes.get_x()) << " "
-        << "y:" << std::setw(2) << static_cast<int>(nes.get_y()) << " "
-        << "status_flag:" << std::setw(2) << static_cast<int>(nes.get_status_flag().to_ulong()) << " "
-        << "stack_ptr:" << std::setw(2) << static_cast<int>(nes.get_stack_ptr()) << std::endl;
+    // for (int i = 0; i < 8991; i++){
+    //     // uint8_t current_opcode = nes.get_prg_rom()[nes.get_pc() - 0x8000]; // or a peek() method if you add one
+    //     uint8_t current_opcode = bus.read(nes.get_pc());
+    //     std::cout << opcode_names[current_opcode] << " ";
+    //     std::cout << std::hex << std::setfill('0');
 
-        nes.execute();
+    //     // std::cout << "Before execution" << std::endl;
+    //     std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << " "
+    //     << "acc:" << std::setw(2) << static_cast<int>(nes.get_acc()) << " "
+    //     << "x:" << std::setw(2) << static_cast<int>(nes.get_x()) << " "
+    //     << "y:" << std::setw(2) << static_cast<int>(nes.get_y()) << " "
+    //     << "status_flag:" << std::setw(2) << static_cast<int>(nes.get_status_flag().to_ulong()) << " "
+    //     << "stack_ptr:" << std::setw(2) << static_cast<int>(nes.get_stack_ptr()) << std::endl;
 
-        // std::cout << "After execution" << std::endl;
-        // std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << " "
-        // << "acc:" << std::setw(2) << static_cast<int>(nes.get_acc()) << " "
-        // << "x:" << std::setw(2) << static_cast<int>(nes.get_x()) << " "
-        // << "y:" << std::setw(2) << static_cast<int>(nes.get_y()) << " "
-        // << "status_flag:" << std::setw(2) << static_cast<int>(nes.get_status_flag().to_ulong()) << " "
-        // << "stack_ptr:" << std::setw(2) << static_cast<int>(nes.get_stack_ptr()) << " ";
-    }
+    //     nes.execute();
+
+    //     // std::cout << "After execution" << std::endl;
+    //     // std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << " "
+    //     // << "acc:" << std::setw(2) << static_cast<int>(nes.get_acc()) << " "
+    //     // << "x:" << std::setw(2) << static_cast<int>(nes.get_x()) << " "
+    //     // << "y:" << std::setw(2) << static_cast<int>(nes.get_y()) << " "
+    //     // << "status_flag:" << std::setw(2) << static_cast<int>(nes.get_status_flag().to_ulong()) << " "
+    //     // << "stack_ptr:" << std::setw(2) << static_cast<int>(nes.get_stack_ptr()) << " ";
+    // }
 
     return 0;
 }

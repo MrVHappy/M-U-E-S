@@ -1,1 +1,5 @@
 C:\Users\Sebastian\OneDrive\Documents\GitHub\M-U-E-S\src\main.cpp;C:\Users\Sebastian\OneDrive\Documents\GitHub\M-U-E-S\build\nes_emulator.dir\Debug\main.obj
+C:\Users\Sebastian\OneDrive\Documents\GitHub\M-U-E-S\src\BUS.cpp;C:\Users\Sebastian\OneDrive\Documents\GitHub\M-U-E-S\build\nes_emulator.dir\Debug\BUS.obj
+C:\Users\Sebastian\OneDrive\Documents\GitHub\M-U-E-S\src\Cartridge.cpp;C:\Users\Sebastian\OneDrive\Documents\GitHub\M-U-E-S\build\nes_emulator.dir\Debug\Cartridge.obj
+C:\Users\Sebastian\OneDrive\Documents\GitHub\M-U-E-S\src\Mapper.cpp;C:\Users\Sebastian\OneDrive\Documents\GitHub\M-U-E-S\build\nes_emulator.dir\Debug\Mapper.obj
+C:\Users\Sebastian\OneDrive\Documents\GitHub\M-U-E-S\src\NES.cpp;C:\Users\Sebastian\OneDrive\Documents\GitHub\M-U-E-S\build\nes_emulator.dir\Debug\NES.obj

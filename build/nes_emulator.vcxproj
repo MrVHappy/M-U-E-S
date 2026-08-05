@@ -365,6 +365,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\Users\Sebastian\OneDrive\Documents\GitHub\M-U-E-S\src\main.cpp" />
+    <ClCompile Include="C:\Users\Sebastian\OneDrive\Documents\GitHub\M-U-E-S\src\BUS.cpp" />
+    <ClCompile Include="C:\Users\Sebastian\OneDrive\Documents\GitHub\M-U-E-S\src\Cartridge.cpp" />
+    <ClCompile Include="C:\Users\Sebastian\OneDrive\Documents\GitHub\M-U-E-S\src\Mapper.cpp" />
+    <ClCompile Include="C:\Users\Sebastian\OneDrive\Documents\GitHub\M-U-E-S\src\NES.cpp" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

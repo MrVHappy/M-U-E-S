@@ -4,6 +4,18 @@
     <ClCompile Include="C:\Users\Sebastian\OneDrive\Documents\GitHub\M-U-E-S\src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\Sebastian\OneDrive\Documents\GitHub\M-U-E-S\src\BUS.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Sebastian\OneDrive\Documents\GitHub\M-U-E-S\src\Cartridge.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Sebastian\OneDrive\Documents\GitHub\M-U-E-S\src\Mapper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Sebastian\OneDrive\Documents\GitHub\M-U-E-S\src\NES.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\Sebastian\OneDrive\Documents\GitHub\M-U-E-S\CMakeLists.txt" />

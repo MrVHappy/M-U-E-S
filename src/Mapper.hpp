@@ -1,11 +1,10 @@
 #ifndef MAPPER_H
 #define MAPPER_H
 #include <vector>
-#include "Cartridge.hpp"
 class Mapper{
     private:   
         // contains information about the cartridge
-        Cartridge *cart_info;
+        class Cartridge *cart_info;
     public:
         // Constructor
         Mapper();
@@ -18,7 +17,7 @@ class Mapper{
         void write_CHR(uint16_t address, uint8_t value);
 
         // setter
-        void set_cart_info(Cartridge *cartridge);
+        void set_cart_info(class Cartridge *cartridge);
 
 };
 #endif

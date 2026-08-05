@@ -1,4 +1,6 @@
 #include "BUS.hpp"
+#include "Cartridge.hpp"
+#include "Mapper.hpp"
 
     // read to system RAM
     uint8_t BUS::read(uint16_t address){

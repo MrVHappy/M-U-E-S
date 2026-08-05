@@ -1,4 +1,6 @@
 #include "Cartridge.hpp"
+#include "Mapper.hpp"
+#include "BUS.hpp"
 #include <fstream>
 
 Cartridge::Cartridge(BUS *bus){
@@ -37,6 +39,7 @@ bool Cartridge::load_ROM(std::string path){
         this->PRG_data.resize(prg_size);
         // get the entire file
         file.read(reinterpret_cast<char*>(this->PRG_data.data()),prg_size);
+        
         // get the number of CHR banks from header
         this->CHR_banks_num = this->header[5];
         // check if CHR is used as ROM

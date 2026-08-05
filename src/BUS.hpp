@@ -4,8 +4,6 @@
 #include <cstdint>
 #include <vector>
 #include <bitset>
-#include "Cartridge.hpp"
-#include "Mapper.hpp"
 class BUS{
     private:
         // Memory:
@@ -16,7 +14,7 @@ class BUS{
         std::array<uint8_t, 32768> prg_rom;
 
         // link to the Cartridge
-        Cartridge *rom;
+        class Cartridge *rom;
 
     public:
         // read to system RAM
@@ -25,8 +23,8 @@ class BUS{
         void write(uint16_t address, uint8_t value);
         // getters
         std::array<uint8_t, 2048> get_sys_ram();
-        Cartridge get_rom();
+        class Cartridge get_rom();
         // setters
-        void set_cartridge(Cartridge *rom);
+        void set_cartridge(class Cartridge *rom);
 };
 #endif

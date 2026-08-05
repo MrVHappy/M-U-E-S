@@ -4,8 +4,6 @@
 #include <string>
 #include <array>
 #include <vector>
-#include "Mapper.hpp"
-#include "BUS.hpp"
 class Cartridge{
     private:
         // file location of the ROM
@@ -27,19 +25,19 @@ class Cartridge{
         // mirror affects the graphics rendering
         int mirror;
         // link to cartridge mappers
-        Mapper *mapper_info;
+        class Mapper *mapper_info;
         // link to BUS
-        BUS *bus;
+        class BUS *bus;
     public:
         // Constructor
-        Cartridge(BUS *bus);
+        Cartridge(class BUS *bus);
         bool load_ROM(std::string path);
         // getters:
         std::vector<uint8_t>& get_CHR_data();
         std::vector<uint8_t>& get_PRG_data();
         int get_PRG_bank();
         int get_CHR_bank();
-        Mapper& get_mapper_info();
+        class Mapper& get_mapper_info();
 
 
 };
