@@ -1,6 +1,7 @@
 #include "BUS.hpp"
 #include "Cartridge.hpp"
 #include "Mapper.hpp"
+#include "PPU.hpp"
 
     // read to system RAM
     uint8_t BUS::read(uint16_t address){
@@ -9,25 +10,37 @@
             // CPU data
             return this->sys_ram[address & 0x07FF];
         }
-        // check if the address is between 0x2000-0x7FFF
-        if((address >= 0x2000) && (address <= 0x7FFF)){
-            // PPU and APU data
+        // check if the address is between 0x2000-0x3FFF
+        if((address >= 0x2000) && (address <= 0x3FFF)){
+            // PPU data
             // mask the address to allow mirroring
             uint16_t masked_addr = address & 0x2007;
             // determine which PPU register to use
             switch (masked_addr){
-                case 0x2002:
+                case 0x2002:{
+                    // extract the PPU status register
+                    uint8_t ppu_status = this->ppu->get_status();
+                    // clear the v blank and write toggle
+                    this->ppu->clear_v_blank();
+                    this->ppu->clear_write_toggle();
                     // PPU status register
-                    return this->*ppu->get_status();
-                    break;
-                case 0x2004:
-                    // PPU OAM data register
-                    break;
-                case 0x2007:
+                    return ppu_status;
+                }
+                case 0x2004:{
+                    // extract PPU OAM data register
+                    uint8_t oam_data = this->ppu->get_oam_data();
+                    // update the PPU OAM address
+                    this->ppu->update_oam_addr();
+                    // return OAM data
+                    return oam_data;
+                }   
+                case 0x2007:{
                     // PPU data register
-                    break;
+                    return this->ppu->get_vram_data();
+                }                    
+                default:
+                    return 0;
             }
-            return 0;
         }
         // check if the address is >= 0x8000
         if (address >= 0x8000){

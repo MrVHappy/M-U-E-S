@@ -56,5 +56,13 @@ class PPU{
         uint16_t get_v();
         uint16_t get_t();
         uint8_t get_fine_x();
+        uint8_t get_vram_data();
+
+        // clears
+        void clear_v_blank();
+        void clear_write_toggle();
+
+        // updates
+        void update_oam_addr();
 };
 #endif
