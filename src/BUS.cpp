@@ -12,7 +12,21 @@
         // check if the address is between 0x2000-0x7FFF
         if((address >= 0x2000) && (address <= 0x7FFF)){
             // PPU and APU data
-            // temp
+            // mask the address to allow mirroring
+            uint16_t masked_addr = address & 0x2007;
+            // determine which PPU register to use
+            switch (masked_addr){
+                case 0x2002:
+                    // PPU status register
+                    return this->*ppu->get_status();
+                    break;
+                case 0x2004:
+                    // PPU OAM data register
+                    break;
+                case 0x2007:
+                    // PPU data register
+                    break;
+            }
             return 0;
         }
         // check if the address is >= 0x8000

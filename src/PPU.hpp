@@ -7,26 +7,24 @@
 class PPU{
     private:
         // registers:
-        // control register
+        // control register at address 0x2000
         uint8_t ctrl;
-        // render register
+        // render register at address 0x2001
         uint8_t mask;
-        // status register
+        // status register at address 0x2002
         uint8_t status;
-        // OAM address
+        // OAM address at address 0x2003
         uint8_t oam_addr;
-        // OAM data
+        // OAM data at address 0x2004
         uint8_t oam_data;
-        // current VRAM address
+        // current VRAM address at addresses 0x2006/0x2007
         uint16_t v;
-        // temp VRAM address
+        // temp VRAM address at addresses 0x2005/0x2006
         uint16_t t;
-        // horizontal scroll
+        // horizontal scroll at address 0x2005
         uint8_t fine_x;
         // VRAM data
         uint8_t vram_data;
-        // // OAM DMA
-        // uint8_t oam_dma;
         // RAM
         // name table memory 2KiB
         std::array<uint8_t,2048> vram;
@@ -48,5 +46,15 @@ class PPU{
         PPU(class BUS* bus);
         // advance cycle
         void tick();
+
+        // getters
+        uint8_t get_ctrl();
+        uint8_t get_mask();
+        uint8_t get_status();
+        uint8_t get_oam_adrr();
+        uint8_t get_oam_data();
+        uint16_t get_v();
+        uint16_t get_t();
+        uint8_t get_fine_x();
 };
 #endif

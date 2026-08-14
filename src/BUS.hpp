@@ -16,6 +16,12 @@ class BUS{
         // link to the Cartridge
         class Cartridge *rom;
 
+        // link to the PPU
+        class PPU *ppu;
+
+        // // OAM DMA
+        uint8_t oam_dma;
+
     public:
         // read to system RAM
         uint8_t read(uint16_t address);
