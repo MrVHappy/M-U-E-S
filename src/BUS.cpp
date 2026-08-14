@@ -91,20 +91,28 @@
                 case 0x2005:{
                     // check the value of write toggle
                     if(!this->ppu->get_write_toggle()){
-                        // extract the lower 3 bits for fine y stored in t
-                        uint16_t lower_bits = (value & 0b00000111) << 12;
+                        // extract the lower 3 bits for fine x
+                        uint8_t lower_bits = value & 0b00000111;
                         this->ppu->set_fine_x(lower_bits);
-                        // extract the higher 5 bits for coarse Y stored in t
-                        uint16_t higher_bits = (value & 0b11111000) << 2;
-                        this->ppu->set_t(higher_bits);
+                        // extract the higher 5 bits for t
+                        uint8_t higher_bits = (value & 0b11111000) >> 3;
+                        // update t
+                        uint16_t new_t = (this->ppu->get_t() & 0b111111111100000) | higher_bits;
+                        this->ppu->set_t(new_t);
                         // set write toggle to true
                         this->ppu->update_write_toggle();
                     }
                     else{
-
+                        // extract the lower 3 bits for fine y stored in t
+                        uint16_t lower_bits = (value & 0b00000111) << 12;
+                        // extract the higher 5 bits for coarse Y stored in t
+                        uint16_t higher_bits = (value & 0b11111000) << 2;
+                        // combine the bits together
+                        uint16_t new_t = (this->ppu->get_t() & 0b000110000011111) | lower_bits | higher_bits;
+                        this->ppu->set_t(new_t);
+                        // set write toggle to true
+                        this->ppu->clear_write_toggle();
                     }
-                    
-
                     return;
                 }
                 case 0x2006:{
