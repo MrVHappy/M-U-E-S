@@ -11,7 +11,7 @@
             return this->sys_ram[address & 0x07FF];
         }
         // check if the address is between 0x2000-0x3FFF
-        if((address >= 0x2000) && (address <= 0x3FFF)){
+        else if((address >= 0x2000) && (address <= 0x3FFF)){
             // PPU data
             // mask the address to allow mirroring
             uint16_t masked_addr = address & 0x2007;
@@ -43,7 +43,7 @@
             }
         }
         // check if the address is >= 0x8000
-        if (address >= 0x8000){
+        else if (address >= 0x8000){
             // ROM data
             Mapper *mapper = &this->rom->get_mapper_info();
             // check if mapper is NULL
@@ -62,7 +62,60 @@
         }
         // PPU functionality
         else if((address >= 0x2000) && (address < 0x4000)){
-            // temp
+            // mask the address to allow mirroring
+            uint16_t masked_addr = address & 0x2007;
+            // determine which PPU register to use
+            switch (masked_addr){
+                case 0x2000:{
+                    // write to ctrl register
+                    this->ppu->set_ctrl(value);
+                    return;
+                }
+                case 0x2001:{
+                    // write to mask register
+                    this->ppu->set_mask(value);
+                    return;
+                }
+                case 0x2003:{
+                    // write to the OAM address register
+                    this->ppu->set_oam_addr(value);
+                    return;
+                }
+                case 0x2004:{
+                    // write to the OAM data register
+                    this->ppu->set_oam_data(value);
+                    // update the OAM address
+                    this->ppu->update_oam_addr();
+                    return;
+                }
+                case 0x2005:{
+                    // check the value of write toggle
+                    if(!this->ppu->get_write_toggle()){
+                        // extract the lower 3 bits for fine y stored in t
+                        uint16_t lower_bits = (value & 0b00000111) << 12;
+                        this->ppu->set_fine_x(lower_bits);
+                        // extract the higher 5 bits for coarse Y stored in t
+                        uint16_t higher_bits = (value & 0b11111000) << 2;
+                        this->ppu->set_t(higher_bits);
+                        // set write toggle to true
+                        this->ppu->update_write_toggle();
+                    }
+                    else{
+
+                    }
+                    
+
+                    return;
+                }
+                case 0x2006:{
+                    return;
+                }
+                case 0x2007:{
+                    return;
+                }
+                default:
+                    return;
+            }
         }
         // APU and Controller registers
         else if((address >= 0x4000) && (address < 0x4018)){
