@@ -116,9 +116,72 @@
                     return;
                 }
                 case 0x2006:{
+                    // check the value of write toggle
+                    if(!this->ppu->get_write_toggle()){
+                        // extract the lower 6 bits and shift 8 bits
+                        uint16_t lower_bits = (value & 0b00111111) << 8;
+                        // clear bits 8-14 from t
+                        uint16_t new_t = this->ppu->get_t() & 0b0000000011111111;
+                        // place the low bits to t
+                        new_t = new_t | lower_bits;
+                        // update t
+                        this->ppu->set_t(new_t);
+                        // update write toggle to true
+                        this->ppu->update_write_toggle();
+                    }
+                    else{
+                        // extract the lower 8 bits
+                        uint16_t lower_bits = value & 0b11111111;
+                        // clear bits 0-7
+                        uint16_t new_t = this->ppu->get_t() & 0b1111111100000000;
+                        // place the lower buts into t
+                        new_t = new_t | lower_bits;
+                        // update t
+                        this->ppu->set_t(new_t);
+                        // copy the whole of t into v
+                        this->ppu->set_v(new_t);
+                        // clear the write toggle to false
+                        this->ppu->clear_write_toggle();
+                    }
                     return;
                 }
                 case 0x2007:{
+                    // get the address of v
+                    uint16_t addr_v = this->ppu->get_v() & 0x3FFF;
+                    // check the current address of v
+                    if((addr_v >= 0x3F00) && (addr_v < 0x4000)){
+                        // mask the address to allow mirroring
+                        uint16_t address = addr_v;
+                        address = address % 32;
+                        // check for special mirroring
+                        if((address == 0x10) || (address == 0x14) || (address == 0x18) || (address == 0x1C)){
+                            // mirror to 0x00, 0x04, 0x08 and 0x0C
+                            address = address & 0x0F;
+                        }
+                        // write to pallet RAM
+                        this->ppu->write_pal_ram(address, value);
+
+                    }
+                    else{
+                        // map the address for VRAM
+                        uint16_t address = addr_v & 0x07FF;
+                        // write to name table RAM
+                        this->ppu->write_vram(address, value);
+
+                    }
+                    // update v based on bit 2 of ctrl register
+                    uint8_t bit_2 = (this->ppu->get_ctrl() & 0b00000100) >> 2;
+                    uint16_t new_v = this->ppu->get_v();
+                    if(bit_2 == 1){
+                        // increment by 32
+                        new_v += 32;
+                    }
+                    else{
+                        // increment by 1
+                        new_v++;
+                    }
+                    // update v
+                    this->ppu->set_v(new_v);
                     return;
                 }
                 default:

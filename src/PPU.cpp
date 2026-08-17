@@ -73,3 +73,13 @@ void PPU::update_oam_addr(){
 void PPU::update_write_toggle(){
     this->write_toggle = true;
 }
+
+void PPU::write_vram(uint16_t address, uint8_t value){
+    this->vram[address] = value;
+}
+void PPU::write_pal_ram(uint16_t address, uint8_t value){
+    this->pal_ram[address] = value;
+}
+void PPU::write_oam_ram(uint16_t address, uint8_t value){
+    this->oam_ram[address] = value;
+}

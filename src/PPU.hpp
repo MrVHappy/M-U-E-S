@@ -77,5 +77,10 @@ class PPU{
         // updates
         void update_oam_addr();
         void update_write_toggle();
+
+        // writes to RAM
+        void write_vram(uint16_t address, uint8_t value);
+        void write_pal_ram(uint16_t address, uint8_t value);
+        void write_oam_ram(uint16_t address, uint8_t value);
 };
 #endif
