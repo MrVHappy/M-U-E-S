@@ -1,4 +1,52 @@
 #include "PPU.hpp"
+PPU::PPU(BUS *bus){
+    this->bus = bus;
+}
+
+void PPU::tick(){
+    // increment cycle count by one
+    this->cycle_count++;
+    // check if cycle count has reached 341
+    if(this->cycle_count == 341){
+        // reset cycle count
+        this->cycle_count = 0;
+        // increment scan ln count and MOD 262
+        this->scan_ln_count = (this->scan_ln_count + 1) % 262;
+
+        // 0-239 rendering
+        // 240 post render
+        // VBlank start
+        if(this->scan_ln_count == 241){
+            // set the Vblank flag in status
+            this->v_blank = true;
+            // extract the 7th bit from the ctrl register 10000000
+            uint8_t bit_7 = this->ctrl >> 7;
+            // check bit 7 of the ctrl register
+            if(bit_7 == 1){
+                // enable NMI
+                this->nmi = true;
+            }
+            else{
+                // disable NMI
+                this->nmi = false;
+            }
+            // update status register
+            this->status = this->status | 0b10000000;
+        }
+
+        // prerender
+        if(this->scan_ln_count == 261){
+            // clear the VBlank
+            this->v_blank = false;
+            // clear sprite 0 hit
+            this->sprite_0_hit = false;
+            // clear sprite overflow
+            this->sprite_overflow = false;
+            // update the status register
+            this->status = this->status & 0b00011111;
+        }
+    }
+}
 
 uint8_t PPU::get_ctrl(){
     return this->ctrl;
