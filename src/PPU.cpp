@@ -78,6 +78,9 @@ uint8_t PPU::get_vram_data(){
 bool PPU::get_write_toggle(){
     return this->write_toggle;
 }
+bool PPU::get_nmi(){
+    return this->nmi;
+}
 
 void PPU::set_ctrl(uint8_t value){
     this->ctrl = value;
@@ -107,12 +110,14 @@ void PPU::set_vram_data(uint8_t value){
     this->vram_data = value;
 }
 
-
 void PPU::clear_v_blank(){
     this->v_blank = false;
 }
 void PPU::clear_write_toggle(){
     this->write_toggle = false;
+}
+void PPU::clear_nmi(){
+    this->nmi = false;
 }
 
 void PPU::update_oam_addr(){

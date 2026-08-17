@@ -58,6 +58,7 @@ class PPU{
         uint8_t get_fine_x();
         uint8_t get_vram_data();
         bool get_write_toggle();
+        bool get_nmi();
 
         // setters
         void set_ctrl(uint8_t value);
@@ -73,6 +74,7 @@ class PPU{
         // clears
         void clear_v_blank();
         void clear_write_toggle();
+        void clear_nmi();
 
         // updates
         void update_oam_addr();

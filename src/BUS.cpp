@@ -213,4 +213,7 @@
     Cartridge BUS::get_rom(){
         return *this->rom;
     }
+    PPU BUS::get_ppu(){
+        return *this->ppu;
+    }
 

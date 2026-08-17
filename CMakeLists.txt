@@ -11,4 +11,5 @@ add_executable(nes_emulator
     src/Cartridge.cpp
     src/Mapper.cpp
     src/NES.cpp
+    src/PPU.cpp
 )

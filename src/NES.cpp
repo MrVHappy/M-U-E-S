@@ -591,7 +591,7 @@
         }
 
         // execute instruction:
-        void NES::NES::execute(){
+        void NES::execute(){
             // set acc_used to true
             this->acc_used = false;
             // get the opcode from memory
@@ -603,10 +603,49 @@
             // call the instruction
             (this->*new_instruction.operation)();
             // handel cycle (temp)
+            // check the NMI signal
+            if(this->bus->get_ppu()->get_nmi()){
+                // extract the high byte of the PC
+                uint8_t high_byte = this->pc >> 8;
+                // extract the low byte of the PC
+                uint8_t low_byte = static_cast<uint8_t>(this->pc & 0x00FF);
+
+                // get the address from the stack
+                uint16_t stack_address = this->OFFSET + this->stack_ptr;
+                // push value of the high_byte onto the stack
+                this->bus->write(stack_address,high_byte);
+                // update the stack pointer
+                this->stack_ptr--;
+
+                // get the address from the stack
+                stack_address = this->OFFSET + this->stack_ptr;
+                // push value of the low_byte onto the stack
+                this->bus->write(stack_address,low_byte);
+                // update the stack pointer
+                this->stack_ptr--;
+
+                // set the Break flag to false
+                status_flag[bit_index(register_bit::B)] = false;
+                // convert status flag to a uint8_t
+                uint8_t status_int = static_cast<uint8_t>(status_flag.to_ulong());
+                // get the address from the stack
+                stack_address = this->OFFSET + this->stack_ptr;
+                // push value of the status register onto the stack
+                this->bus->write(stack_address,status_int);
+                // update the stack pointer
+                this->stack_ptr--;
+
+                // set the Interrupt disable flag to true
+                status_flag[bit_index(register_bit::I)] = true;
+
+                // get the high byte in address 0xFFFA
+                // clear NMI
+                this->bus->get_ppu()->clear_nmi();
+            }
         }
 
         // set flag functions:
-        void NES::NES::set_Z_and_N_flags(uint8_t value){
+        void NES::set_Z_and_N_flags(uint8_t value){
             // check if the address value is 0
             if(value == 0)
             // set the "Z" flag to true
@@ -623,7 +662,7 @@
                 status_flag[bit_index(register_bit::N)] = false;
         }
 
-        void NES::NES::set_N_flag(uint8_t value){
+        void NES::set_N_flag(uint8_t value){
             if(value & 0x80)
                 // set the "N" flag to true
                 status_flag[bit_index(register_bit::N)] = true;
@@ -633,7 +672,7 @@
         }
 
 
-        void NES::NES::compare(uint8_t val1, uint8_t val2){
+        void NES::compare(uint8_t val1, uint8_t val2){
             if(val1 == val2){
                 // set the C and Z flag to true
                 status_flag[bit_index(register_bit::C)] = true;
