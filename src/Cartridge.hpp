@@ -38,10 +38,7 @@ class Cartridge{
         int get_PRG_bank();
         int get_CHR_bank();
         class Mapper& get_mapper_info();
-
-        // writes
-        void write_CHR(uint16_t address, uint8_t value);
-
+        std::array<uint8_t,16> get_header();
 
 };
 #endif

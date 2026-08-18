@@ -88,11 +88,6 @@ Mapper& Cartridge::get_mapper_info(){
     return *this->mapper_info;
 }
 
-void Cartridge::write_CHR(uint16_t address, uint8_t value){
-    // check if CHR is treated as RAM
-    if(this->CHR_banks_num > 0){
-        // CHR used as ROM
-        return;
-    }
-    CHR_data[address] = value;
+std::array<uint8_t,16> Cartridge::get_header(){
+    return this->header;
 }

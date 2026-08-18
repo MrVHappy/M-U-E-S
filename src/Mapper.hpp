@@ -19,5 +19,7 @@ class Mapper{
         // setter
         void set_cart_info(class Cartridge *cartridge);
 
+        // Mirroring mode identifier
+        bool is_vertical();
 };
 #endif

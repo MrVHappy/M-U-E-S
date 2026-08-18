@@ -42,9 +42,30 @@ uint8_t Mapper::read_CHR(uint16_t address){
 }
 
 void Mapper::write_CHR(uint16_t address, uint8_t value){
+    // check if CHR is treated as RAM
+    if(this->cart_info->get_CHR_bank() > 0){
+        // CHR used as ROM
+        return;
+    }
     this->cart_info->get_CHR_data().data()[address] = value;
 }
 
 void Mapper::set_cart_info(Cartridge *cartridge){
     this->cart_info = cartridge;
+}
+
+bool Mapper::is_vertical(){
+    // get the value of header[6]
+    uint8_t header = this->cart_info->get_header()[6];
+    // mask header to focus on bit 0
+    header = header & 0b00000001;
+    // check if header is 1
+    if(header == 1){
+        // use vertical mirroring
+        return true;
+    }
+    else{
+        // use horizontal mirroring
+        return false;
+    }
 }

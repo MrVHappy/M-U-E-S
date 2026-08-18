@@ -168,19 +168,32 @@
                         this->ppu->write_pal_ram(address, value);
 
                     }
-                    else if((addr_v >= 0x000) && (addr_v < 0x2000)){
-                        // handlling pallet table/CHR
-                        // check the CHR bank number to see if it can be writen to
-                        if(this->rom->get_CHR_bank() == 0){
-                            // the cartridge uses CHR as RAM and can be changed
-                            
-                        }
+                    else if((addr_v >= 0x0000) && (addr_v < 0x2000)){
+                        // handlling pallet table memory/CHR
+                        this->rom->get_mapper_info().write_CHR(addr_v, value);
                     }
-                    else{
-                        // map the address for VRAM
-                        uint16_t address = addr_v & 0x07FF;
+                    else if((addr_v >= 0x2000) && (addr_v < 0x3000)) {
+                        // use addr_v for vram address
+                        uint16_t vram_addr = addr_v;
+                        // check which mirroring mode will be used
+                        if(this->rom->get_mapper_info().is_vertical()){
+                            // using vertical mapping:
+                            vram_addr = vram_addr % 0x0800;
+                        }
+                        else{
+                            // use horizontal mapping:
+                            if((vram_addr >= 0x2000) && (vram_addr < 0x2800)){
+                                vram_addr = vram_addr % 0x0400;
+                            }
+                            else if((vram_addr >= 0x2800) && (vram_addr < 0x2C00)){
+                                vram_addr = (vram_addr % 0x0400) + 0x400;
+                            }
+                            else{
+                                vram_addr = vram_addr % 0x0800;
+                            }
+                        }
                         // write to name table RAM
-                        this->ppu->write_vram(address, value);
+                        this->ppu->write_vram(vram_addr, value);
 
                     }
                     // update v based on bit 2 of ctrl register
