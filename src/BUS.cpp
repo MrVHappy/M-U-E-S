@@ -210,10 +210,10 @@
         this->rom = rom;
     }
 
-    Cartridge BUS::get_rom(){
+    Cartridge & BUS::get_rom(){
         return *this->rom;
     }
-    PPU BUS::get_ppu(){
+    PPU & BUS::get_ppu(){
         return *this->ppu;
     }
 

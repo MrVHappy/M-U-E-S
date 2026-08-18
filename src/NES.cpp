@@ -14,6 +14,7 @@
 #include "register_bit.hpp"
 #include "Instruction.hpp"
 #include "NES.hpp"
+#include "PPU.hpp"
 
 // References:
 // https://en.cppreference.com/cpp/utility/bitset
@@ -604,13 +605,13 @@
             uint8_t ticks = new_instruction.cycles * 3;
             // call tick for every cycle
             for(int i = 0; i < ticks; i++){
-                this->bus->get_ppu()->tick();
+                this->bus->get_ppu().tick();
             }
             // call the instruction
             (this->*new_instruction.operation)();
             // handel cycle (temp)
             // check the NMI signal
-            if(this->bus->get_ppu()->get_nmi()){
+            if(this->bus->get_ppu().get_nmi()){
                 // extract the high byte of the PC
                 uint8_t high_byte = this->pc >> 8;
                 // extract the low byte of the PC
@@ -653,7 +654,7 @@
                 // store in PC
                 this->pc = target_address;
                 // clear NMI
-                this->bus->get_ppu()->clear_nmi();
+                this->bus->get_ppu().clear_nmi();
             }
         }
 
