@@ -3,6 +3,10 @@
 #include "Mapper.hpp"
 #include "PPU.hpp"
 
+    BUS::BUS(){
+        // create a PPU that points to this
+        this->ppu = &PPU(this);
+    }
     // read to system RAM
     uint8_t BUS::read(uint16_t address){
         // check if the address value is between 0x0000-0x1FFF
@@ -107,10 +111,12 @@
                         uint16_t lower_bits = (value & 0b00000111) << 12;
                         // extract the higher 5 bits for coarse Y stored in t
                         uint16_t higher_bits = (value & 0b11111000) << 2;
+                        // extract t and clear bits 5-9 and 12-14
+                        uint16_t new_t = this->ppu->get_t() & 0b000110000011111;
                         // combine the bits together
-                        uint16_t new_t = (this->ppu->get_t() & 0b000110000011111) | lower_bits | higher_bits;
+                        new_t = new_t | lower_bits | higher_bits;
                         this->ppu->set_t(new_t);
-                        // set write toggle to true
+                        // clear the write toggle to false
                         this->ppu->clear_write_toggle();
                     }
                     return;
@@ -161,6 +167,14 @@
                         // write to pallet RAM
                         this->ppu->write_pal_ram(address, value);
 
+                    }
+                    else if((addr_v >= 0x000) && (addr_v < 0x2000)){
+                        // handlling pallet table/CHR
+                        // check the CHR bank number to see if it can be writen to
+                        if(this->rom->get_CHR_bank() == 0){
+                            // the cartridge uses CHR as RAM and can be changed
+                            
+                        }
                     }
                     else{
                         // map the address for VRAM

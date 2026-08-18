@@ -39,6 +39,9 @@ class Cartridge{
         int get_CHR_bank();
         class Mapper& get_mapper_info();
 
+        // writes
+        void write_CHR(uint16_t address, uint8_t value);
+
 
 };
 #endif
