@@ -592,7 +592,7 @@
 
         // execute instruction:
         void NES::execute(){
-            // set acc_used to true
+            // set acc_used to false
             this->acc_used = false;
             // get the opcode from memory
             uint8_t opcode = fetch_byte();
@@ -600,6 +600,12 @@
             Instruction new_instruction = this->instruction_set[opcode];
             // call the addressing mode function and collect the address
             this->resolved_address = (this->*new_instruction.addressing_mode)();
+            // get the number of ticks 
+            uint8_t ticks = new_instruction.cycles * 3;
+            // call tick for every cycle
+            for(int i = 0; i < ticks; i++){
+                this->bus->get_ppu()->tick();
+            }
             // call the instruction
             (this->*new_instruction.operation)();
             // handel cycle (temp)
@@ -638,7 +644,14 @@
                 // set the Interrupt disable flag to true
                 status_flag[bit_index(register_bit::I)] = true;
 
-                // get the high byte in address 0xFFFA
+                // get the low byte in address 0xFFFA
+                low_byte = this->bus->read(0xFFFA);
+                // get the high byte in address 0xFFFB
+                high_byte = this->bus->read(0xFFFB);
+                // merge the two bytes together
+                uint16_t target_address = (high_byte << 8) | low_byte;
+                // store in PC
+                this->pc = target_address;
                 // clear NMI
                 this->bus->get_ppu()->clear_nmi();
             }
