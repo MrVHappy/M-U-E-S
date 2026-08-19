@@ -35,6 +35,8 @@
                     return oam_data;
                 }   
                 case 0x2007:{
+                    // create a result int 
+                    uint8_t result = 0;
                     // get the current VRAM address
                     uint16_t addr_v = this->ppu->get_v() & 0x3FFF;
                     // check the current address of v
@@ -47,18 +49,25 @@
                             // mirror to 0x00, 0x04, 0x08 and 0x0C
                             address = address & 0x0F;
                         }
+                        result = this->ppu->read_pal_ram(address);
                     }
                     else if ((addr_v >= 0x0000) && (addr_v < 0x2000)){
-
+                        // assign result to the value of vram data
+                        result = this->ppu->get_vram_data();
+                        // store data from CHR at addr v in vram data before update
+                        this->ppu->set_vram_data(this->rom->get_mapper_info().read_CHR(addr_v));
                     }
                     else if((addr_v >= 0x3000) && (addr_v < 0x3F00)){
                         // subtract addr_v by 0x1000 so that it mirrors 0x2000-0x2EFF
                         addr_v-= 0x1000;
                     }
                     if ((addr_v >= 0x2000) && (addr_v < 0x3000)){
-
+                        // assign result to the value of vram data
+                        result = this->ppu->get_vram_data();
+                        // store data in VRAM at addr v in vram data before update
+                        this->ppu->set_vram_data(this->ppu->read_vram(addr_v));
                     }
-
+                    
                     // update v based on bit 2 of ctrl register
                     uint8_t bit_2 = (this->ppu->get_ctrl() & 0b00000100) >> 2;
                     uint16_t new_v = this->ppu->get_v();
@@ -73,8 +82,7 @@
                     // update v
                     this->ppu->set_v(new_v);
 
-                    // PPU data register
-                    return this->ppu->get_vram_data();
+                    return result;
                 }                    
                 default:
                     return 0;
