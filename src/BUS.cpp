@@ -172,7 +172,11 @@
                         // handlling pallet table memory/CHR
                         this->rom->get_mapper_info().write_CHR(addr_v, value);
                     }
-                    else if((addr_v >= 0x2000) && (addr_v < 0x3000)) {
+                    else if ((addr_v >= 0x3000) && (addr_v < 0x3F00)){
+                        // subtract addr_v by 0x1000 so that it mirrors 0x2000-0x2EFF
+                        addr_v-= 0x1000;
+                    }
+                    if((addr_v >= 0x2000) && (addr_v < 0x3000)) {
                         // use addr_v for vram address
                         uint16_t vram_addr = addr_v;
                         // check which mirroring mode will be used
