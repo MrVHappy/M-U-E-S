@@ -136,3 +136,13 @@ void PPU::write_pal_ram(uint16_t address, uint8_t value){
 void PPU::write_oam_ram(uint16_t address, uint8_t value){
     this->oam_ram[address] = value;
 }
+
+uint8_t PPU::read_vram(uint16_t address){
+    return this->vram[address];
+}
+uint8_t PPU::read_pal_ram(uint16_t address){
+    return this->pal_ram[address];
+}
+uint8_t PPU::read_oam_ram(uint16_t address){
+    return this->oam_ram[address];
+}

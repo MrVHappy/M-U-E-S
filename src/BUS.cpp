@@ -35,6 +35,44 @@
                     return oam_data;
                 }   
                 case 0x2007:{
+                    // get the current VRAM address
+                    uint16_t addr_v = this->ppu->get_v() & 0x3FFF;
+                    // check the current address of v
+                    if ((addr_v >= 0x3F00) && (addr_v < 0x4000)){
+                        // mask the address to allow mirroring
+                        uint16_t address = addr_v;
+                        address = address % 32;
+                        // check for special mirroring
+                        if((address == 0x10) || (address == 0x14) || (address == 0x18) || (address == 0x1C)){
+                            // mirror to 0x00, 0x04, 0x08 and 0x0C
+                            address = address & 0x0F;
+                        }
+                    }
+                    else if ((addr_v >= 0x0000) && (addr_v < 0x2000)){
+
+                    }
+                    else if((addr_v >= 0x3000) && (addr_v < 0x3F00)){
+                        // subtract addr_v by 0x1000 so that it mirrors 0x2000-0x2EFF
+                        addr_v-= 0x1000;
+                    }
+                    if ((addr_v >= 0x2000) && (addr_v < 0x3000)){
+
+                    }
+
+                    // update v based on bit 2 of ctrl register
+                    uint8_t bit_2 = (this->ppu->get_ctrl() & 0b00000100) >> 2;
+                    uint16_t new_v = this->ppu->get_v();
+                    if(bit_2 == 1){
+                        // increment by 32
+                        new_v += 32;
+                    }
+                    else{
+                        // increment by 1
+                        new_v++;
+                    }
+                    // update v
+                    this->ppu->set_v(new_v);
+
                     // PPU data register
                     return this->ppu->get_vram_data();
                 }                    

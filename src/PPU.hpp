@@ -84,5 +84,10 @@ class PPU{
         void write_vram(uint16_t address, uint8_t value);
         void write_pal_ram(uint16_t address, uint8_t value);
         void write_oam_ram(uint16_t address, uint8_t value);
+
+        // reads to RAM
+        uint8_t read_vram(uint16_t address);
+        uint8_t read_pal_ram(uint16_t address);
+        uint8_t read_oam_ram(uint16_t address);
 };
 #endif
