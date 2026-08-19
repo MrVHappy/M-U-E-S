@@ -42,8 +42,8 @@ class PPU{
         class BUS *bus;
 
     public:
-        // constructor
-        PPU(class BUS* bus);
+        // constructor:
+        PPU(class BUS *bus); 
         // advance cycle
         void tick();
 

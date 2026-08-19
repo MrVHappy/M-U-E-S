@@ -2,6 +2,7 @@
 #include "Mapper.hpp"
 #include "BUS.hpp"
 #include "Cartridge.hpp"
+#include "PPU.hpp"
 #include <iomanip>
 #define TEST_ROM = "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\TEST\\nestest.nes"
 // array for testing:
@@ -63,27 +64,89 @@ int main(int argc, char*argv[]){
     }
     // connect the cartridge with the bus
     bus.set_cartridge(&rom);
+    // connect bus with PPU
+    PPU ppu = PPU(&bus);
+    // connect PPU with BUS
+    bus.set_ppu(&ppu);
     // connect the bus with the CPU
     NES nes = NES(&bus);
     // reset the CPU
     nes.reset();
 
-    // for (int i = 0; i < 8991; i++){
-    //     // uint8_t current_opcode = nes.get_prg_rom()[nes.get_pc() - 0x8000]; // or a peek() method if you add one
-    //     uint8_t current_opcode = bus.read(nes.get_pc());
-    //     std::cout << opcode_names[current_opcode] << " ";
-    //     std::cout << std::hex << std::setfill('0');
+    
+    // reset t, v, and clear write toggle
+    ppu.clear_write_toggle();
+    ppu.set_t(0);
+    ppu.set_v(0);
+    // test 0x2006 write 0x20
+    bus.write(0x2006,0x20);
+    // validate t and v and write toggle
+    if((ppu.get_t() == 0x2000) && (ppu.get_v() == 0) && (ppu.get_write_toggle() == true)){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
 
-    //     // std::cout << "Before execution" << std::endl;
-    //     std::cout << "PC:" << std::setw(4) << static_cast<int>(nes.get_pc()) << " "
-    //     << "acc:" << std::setw(2) << static_cast<int>(nes.get_acc()) << " "
-    //     << "x:" << std::setw(2) << static_cast<int>(nes.get_x()) << " "
-    //     << "y:" << std::setw(2) << static_cast<int>(nes.get_y()) << " "
-    //     << "status_flag:" << std::setw(2) << static_cast<int>(nes.get_status_flag().to_ulong()) << " "
-    //     << "stack_ptr:" << std::setw(2) << static_cast<int>(nes.get_stack_ptr()) << std::endl;
+    // test 0x2006 write 0x0
+    bus.write(0x2006,0x0);
+    // validate t and v and write toggle
+    if((ppu.get_t() == 0x2000) && (ppu.get_v() == 0x2000) && (ppu.get_write_toggle() == false)){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
 
-    //     nes.execute();
-    // }
+
+    // reset t, v, and clear write toggle
+    ppu.clear_write_toggle();
+    ppu.set_t(0);
+    ppu.set_v(0);
+    // test 0x2006 write 0x3F
+    bus.write(0x2006,0x3F);
+    // test 0x2006 write 0x0
+    bus.write(0x2006,0x0);
+    // validate t and v and write toggle
+    if((ppu.get_t() == 0x3F00) && (ppu.get_v() == 0x3F00) && (ppu.get_write_toggle() == false)){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    // test 0x2006 write 0x21
+    bus.write(0x2006,0x21);
+    // test 0x2006 write 0x0
+    bus.write(0x2006,0x65);
+    // validate t and v and write toggle
+    if((ppu.get_t() == 0x2165) && (ppu.get_v() == 0x2165) && (ppu.get_write_toggle() == false)){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    std::cout << std::hex << std::setfill('0');
+    // reset t, v, and clear write toggle
+    ppu.clear_write_toggle();
+    ppu.set_t(0x0000);
+    ppu.set_v(0x1234);
+    std::cout << "t:\t" << std::setw(4) << static_cast<int>(ppu.get_t()) <<std::endl;
+    std::cout << "v:\t" << std::setw(4) << static_cast<int>(ppu.get_v()) <<std::endl;
+    std::cout << "write toggle:\t" << ppu.get_write_toggle() <<std::endl;
+    // test 0x2006 write 0x25
+    bus.write(0x2006,0x3F);
+    // validate t and v and write toggle
+    if((ppu.get_t() == 0x2500) && (ppu.get_v() == 0x1234) && (ppu.get_write_toggle() == true)){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        
+        std::cout << "Fail" << std::endl;
+        std::cout << "t:\t" << std::setw(4) << static_cast<int>(ppu.get_t()) <<std::endl;
+        std::cout << "v:\t" << std::setw(4) << static_cast<int>(ppu.get_v()) <<std::endl;
+        std::cout << "write toggle:\t" << ppu.get_write_toggle() <<std::endl;
+    }
 
     return 0;
 }

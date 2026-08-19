@@ -17,6 +17,7 @@
             uint16_t masked_addr = address & 0x2007;
             // determine which PPU register to use
             switch (masked_addr){
+                // PPU STATUS
                 case 0x2002:{
                     // extract the PPU status register
                     uint8_t ppu_status = this->ppu->get_status();
@@ -26,6 +27,7 @@
                     // PPU status register
                     return ppu_status;
                 }
+                // OAM DATA
                 case 0x2004:{
                     // extract PPU OAM data register
                     uint8_t oam_data = this->ppu->get_oam_data();
@@ -33,7 +35,8 @@
                     this->ppu->update_oam_addr();
                     // return OAM data
                     return oam_data;
-                }   
+                }
+                // PPU DATA
                 case 0x2007:{
                     // create a result int 
                     uint8_t result = 0;
@@ -112,21 +115,25 @@
             uint16_t masked_addr = address & 0x2007;
             // determine which PPU register to use
             switch (masked_addr){
+                // PPU CTRL
                 case 0x2000:{
                     // write to ctrl register
                     this->ppu->set_ctrl(value);
                     return;
                 }
+                // PPU MASK
                 case 0x2001:{
                     // write to mask register
                     this->ppu->set_mask(value);
                     return;
                 }
+                // OAM ADDR
                 case 0x2003:{
                     // write to the OAM address register
                     this->ppu->set_oam_addr(value);
                     return;
                 }
+                // OAM DATA
                 case 0x2004:{
                     // write to the OAM data register
                     this->ppu->set_oam_data(value);
@@ -134,6 +141,7 @@
                     this->ppu->update_oam_addr();
                     return;
                 }
+                // PPU SCROLL
                 case 0x2005:{
                     // check the value of write toggle
                     if(!this->ppu->get_write_toggle()){
@@ -163,6 +171,7 @@
                     }
                     return;
                 }
+                // PPU ADDR
                 case 0x2006:{
                     // check the value of write toggle
                     if(!this->ppu->get_write_toggle()){
@@ -193,6 +202,7 @@
                     }
                     return;
                 }
+                // PPU DATA
                 case 0x2007:{
                     // get the address of v
                     uint16_t addr_v = this->ppu->get_v() & 0x3FFF;
