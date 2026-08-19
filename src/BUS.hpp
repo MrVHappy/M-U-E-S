@@ -23,8 +23,6 @@ class BUS{
         uint8_t oam_dma;
 
     public:
-        // constructor
-        BUS();
         // read to system RAM
         uint8_t read(uint16_t address);
         // write data to system RAM
@@ -35,5 +33,6 @@ class BUS{
         class PPU & get_ppu();
         // setters
         void set_cartridge(class Cartridge *rom);
+        void set_ppu(class PPU *ppu);
 };
 #endif

@@ -3,10 +3,6 @@
 #include "Mapper.hpp"
 #include "PPU.hpp"
 
-    BUS::BUS(){
-        // create a PPU that points to this
-        this->ppu = &PPU(this);
-    }
     // read to system RAM
     uint8_t BUS::read(uint16_t address){
         // check if the address value is between 0x0000-0x1FFF
@@ -239,6 +235,10 @@
 
     void BUS::set_cartridge(Cartridge *rom){
         this->rom = rom;
+    }
+
+    void BUS::set_ppu(class PPU *ppu){
+        this->ppu = ppu;
     }
 
     Cartridge & BUS::get_rom(){
