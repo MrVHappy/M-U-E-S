@@ -226,7 +226,7 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
-
+    std::cout << "TEST 9" << std::endl;
     ppu.set_v(0x2000);
     ppu.set_ctrl(0b100);
     bus.read(0x2007);
@@ -238,6 +238,81 @@ int main(int argc, char*argv[]){
     }
     bus.read(0x2007);
     if(ppu.get_v() == 0x2040){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    std::cout << "TEST 10" << std::endl;
+    rom.set_header(0);
+    ppu.clear_write_toggle();
+    ppu.set_v(0);
+    ppu.set_t(0);
+    
+    bus.write(0x2006, 0x20);
+    bus.write(0x2006, 0x00);
+    
+    bus.write(0x2007, 0xBB);
+
+    bus.write(0x2006, 0x20);
+    bus.write(0x2006, 0x00);
+
+    bus.read(0x2007);
+
+    if(bus.read(0x2007) == 0xBB){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.write(0x2006, 0x24);
+    bus.write(0x2006, 0x00);
+
+    bus.read(0x2007);
+
+    if(bus.read(0x2007) == 0xBB){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.write(0x2006, 0x28);
+    bus.write(0x2006, 0x00);
+
+    bus.write(0x2007, 0xCC);
+
+    bus.write(0x2006, 0x28);
+    bus.write(0x2006, 0x00);
+    
+    bus.read(0x2007);
+
+    if(bus.read(0x2007) == 0xCC){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.write(0x2006, 0x2C);
+    bus.write(0x2006, 0x00);
+
+    bus.read(0x2007);
+
+    if(bus.read(0x2007) == 0xCC){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.write(0x2006, 0x20);
+    bus.write(0x2006, 0x00);
+
+    bus.read(0x2007);
+
+    if(bus.read(0x2007) == 0xBB){
         std::cout << "Pass" << std::endl;
     }
     else{

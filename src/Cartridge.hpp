@@ -40,5 +40,8 @@ class Cartridge{
         class Mapper& get_mapper_info();
         std::array<uint8_t,16> get_header();
 
+        // setter for debugging
+        void set_header(int index);
+
 };
 #endif
