@@ -318,5 +318,110 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "TEST 11" << std::endl;
+    
+    ppu.clear_write_toggle();
+    ppu.set_v(0);
+    ppu.set_t(0);
+
+    bus.write(0x2006, 0x3F);
+    bus.write(0x2006, 0x00);
+
+    bus.write(0x2007, 0x11);
+
+    bus.write(0x2006, 0x3F);
+    bus.write(0x2006, 0x00);
+
+    if(bus.read(0x2007) == 0x11){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.write(0x2006, 0x3F);
+    bus.write(0x2006, 0x04);
+
+    bus.write(0x2007, 0x22);
+
+    bus.write(0x2006, 0x3F);
+    bus.write(0x2006, 0x04);
+
+    if(bus.read(0x2007) == 0x22){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.write(0x2006, 0x3F);
+    bus.write(0x2006, 0x14);
+
+    bus.write(0x2006, 0x3F);
+    bus.write(0x2006, 0x14);
+
+    if(bus.read(0x2007) == 0x22){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.write(0x2006, 0x3F);
+    bus.write(0x2006, 0x08);
+
+    bus.write(0x2007, 0x33);
+
+    bus.write(0x2006, 0x3F);
+    bus.write(0x2006, 0x08);
+
+    if(bus.read(0x2007) == 0x33){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.write(0x2006, 0x3F);
+    bus.write(0x2006, 0x18);
+
+    bus.write(0x2006, 0x3F);
+    bus.write(0x2006, 0x18);
+
+    if(bus.read(0x2007) == 0x33){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.write(0x2006, 0x3F);
+    bus.write(0x2006, 0x0C);
+
+    bus.write(0x2007, 0x44);
+
+    bus.write(0x2006, 0x3F);
+    bus.write(0x2006, 0x0C);
+
+    if(bus.read(0x2007) == 0x44){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.write(0x2006, 0x3F);
+    bus.write(0x2006, 0x1C);
+
+    bus.write(0x2006, 0x3F);
+    bus.write(0x2006, 0x1C);
+
+    if(bus.read(0x2007) == 0x44){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }
