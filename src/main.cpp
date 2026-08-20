@@ -53,6 +53,7 @@ const char* opcode_names[256] = {
 
 
 int main(int argc, char*argv[]){
+    std::cout << std::hex << std::setfill('0');
     // initialisation of the emulator
     BUS bus = BUS();
     // connect the bus with the cartridge
@@ -66,6 +67,7 @@ int main(int argc, char*argv[]){
     bus.set_cartridge(&rom);
     // connect bus with PPU
     PPU ppu = PPU(&bus);
+    ppu.set_ctrl(0);
     // connect PPU with BUS
     bus.set_ppu(&ppu);
     // connect the bus with the CPU
@@ -75,6 +77,8 @@ int main(int argc, char*argv[]){
 
     
     // reset t, v, and clear write toggle
+    std::cout << "TEST 1 A" << std::endl;
+    std::cout << "before TEST 1 A ctrl " << std::setw(4) << static_cast<int>(ppu.get_ctrl()) << std::endl;
     ppu.clear_write_toggle();
     ppu.set_t(0);
     ppu.set_v(0);
@@ -88,6 +92,9 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
 
+    std::cout << "after TEST 1 A ctrl " << std::setw(4) << static_cast<int>(ppu.get_ctrl()) << std::endl;
+    std::cout << "TEST 1 B" << std::endl;
+    std::cout << "before TEST 1 B ctrl " << std::setw(4) << static_cast<int>(ppu.get_ctrl()) << std::endl;
     // test 0x2006 write 0x0
     bus.write(0x2006,0x0);
     // validate t and v and write toggle
@@ -99,6 +106,9 @@ int main(int argc, char*argv[]){
     }
 
 
+    std::cout << "after TEST 1 B ctrl " << std::setw(4) << static_cast<int>(ppu.get_ctrl()) << std::endl;
+    std::cout << "TEST 2" << std::endl;
+    std::cout << "before TEST 2 ctrl " << std::setw(4) << static_cast<int>(ppu.get_ctrl()) << std::endl;
     // reset t, v, and clear write toggle
     ppu.clear_write_toggle();
     ppu.set_t(0);
@@ -115,6 +125,7 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
 
+    std::cout << "TEST 3" << std::endl;
     // test 0x2006 write 0x21
     bus.write(0x2006,0x21);
     // test 0x2006 write 0x0
@@ -126,27 +137,113 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
-    std::cout << std::hex << std::setfill('0');
+
+    std::cout << "after TEST 3 ctrl " << std::setw(4) << static_cast<int>(ppu.get_ctrl()) << std::endl;
+    std::cout << "TEST 4" << std::endl;
+    std::cout << "before TEST 4 ctrl " << std::setw(4) << static_cast<int>(ppu.get_ctrl()) << std::endl;
+    
     // reset t, v, and clear write toggle
     ppu.clear_write_toggle();
     ppu.set_t(0x0000);
     ppu.set_v(0x1234);
-    std::cout << "t:\t" << std::setw(4) << static_cast<int>(ppu.get_t()) <<std::endl;
-    std::cout << "v:\t" << std::setw(4) << static_cast<int>(ppu.get_v()) <<std::endl;
-    std::cout << "write toggle:\t" << ppu.get_write_toggle() <<std::endl;
     // test 0x2006 write 0x25
-    bus.write(0x2006,0x3F);
+    bus.write(0x2006,0x25);
     // validate t and v and write toggle
     if((ppu.get_t() == 0x2500) && (ppu.get_v() == 0x1234) && (ppu.get_write_toggle() == true)){
         std::cout << "Pass" << std::endl;
     }
     else{
-        
         std::cout << "Fail" << std::endl;
-        std::cout << "t:\t" << std::setw(4) << static_cast<int>(ppu.get_t()) <<std::endl;
-        std::cout << "v:\t" << std::setw(4) << static_cast<int>(ppu.get_v()) <<std::endl;
-        std::cout << "write toggle:\t" << ppu.get_write_toggle() <<std::endl;
     }
 
+    std::cout << "after TEST 4 ctrl " << std::setw(4) << static_cast<int>(ppu.get_ctrl()) << std::endl;
+    std::cout << "TEST 5" << std::endl;
+    std::cout << "before TEST 5 ctrl " << std::setw(4) << static_cast<int>(ppu.get_ctrl()) << std::endl;
+    ppu.clear_write_toggle();
+    bus.write(0x2006,0x20);
+    bus.read(0x2002);
+    if(ppu.get_write_toggle() == false){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    bus.write(0x2006,0x3F);
+    bus.write(0x2006,0x00);
+    if(ppu.get_v() == 0x3F00){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    std::cout << "TEST 6" << std::endl;
+    ppu.clear_write_toggle();
+    bus.write(0x2005,0x12);
+    if(ppu.get_write_toggle() == true){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    bus.write(0x2006,0x34);
+    if(ppu.get_write_toggle() == false){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    std::cout << "after TEST 7 ctrl " << std::setw(4) << static_cast<int>(ppu.get_ctrl()) << std::endl;
+    std::cout << "TEST 7" << std::endl;
+    std::cout << "before TEST 7 ctrl " << std::setw(4) << static_cast<int>(ppu.get_ctrl()) << std::endl;
+    ppu.clear_write_toggle();
+    bus.write(0x2006,0x20);
+    if(ppu.get_write_toggle() == true){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    bus.write(0x2005,0x40);
+    if(ppu.get_write_toggle() == false){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    std::cout << "after TEST 7 ctrl " << std::setw(4) << static_cast<int>(ppu.get_ctrl()) << std::endl;
+    std::cout << "TEST 8" << std::endl;
+    ppu.clear_write_toggle();
+    ppu.set_t(0);
+    ppu.set_v(0);
+    std::cout << "before write call v " << std::setw(4) << static_cast<int>(ppu.get_v()) << std::endl;
+    std::cout << "before write call ctrl " << std::setw(4) << static_cast<int>(ppu.get_ctrl()) << std::endl;
+    bus.write(0x2006,0x20);
+    std::cout << "after write call t " << std::setw(4) << static_cast<int>(ppu.get_t()) << std::endl;
+
+    bus.write(0x2006,0x00);
+    std::cout << "after write call v " << std::setw(4) << static_cast<int>(ppu.get_v()) << std::endl;
+    std::cout << "after write call ctrl " << std::setw(4) << static_cast<int>(ppu.get_ctrl()) << std::endl;
+    if(ppu.get_v() == 0x2000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    bus.read(0x2007);
+    if(ppu.get_v() == 0x2001){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    std::cout << "before 2nd call v " << std::setw(4) << static_cast<int>(ppu.get_v()) << std::endl;
+    bus.read(0x2007);
+    if(ppu.get_v() == 0x2002){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+        std::cout << "after 2nd call v "<< std::setw(4) << static_cast<int>(ppu.get_v()) << std::endl;
+    }
     return 0;
 }
