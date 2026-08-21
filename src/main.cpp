@@ -714,5 +714,30 @@ int main(int argc, char*argv[]){
     ppu.set_v(0);
     ppu.clear_write_toggle();
     ppu.set_ctrl(0);
+    ppu.clear_nmi();
+
+    ppu.set_v(0x2000);
+
+    bus.write(0x2000,0x00);
+    bus.write(0x2007,0x00);
+
+    if(ppu.get_v() == 0x2001){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    ppu.set_v(0x2000);
+
+    bus.write(0x2000,0x04);
+    bus.write(0x2007,0x00);
+
+    if(ppu.get_v() == 0x2020){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }
