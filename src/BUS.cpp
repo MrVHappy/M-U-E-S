@@ -136,6 +136,26 @@
                 case 0x2000:{
                     // write to ctrl register
                     this->ppu->set_ctrl(value);
+                    // extract the nametable value from bits 0-1
+                    uint16_t name_table_val = this->ppu->get_ctrl() & 0b00000011;
+                    // perform a left shift by 10
+                    name_table_val = name_table_val << 10;
+                    // mask t to clear bits 10 and 11
+                    uint16_t new_t = this->ppu->get_t() & 0b111100111111111;
+                    // update t
+                    new_t = name_table_val | new_t;
+                    this->ppu->set_t(new_t);
+
+                    // extract bit 7
+                    uint8_t bit_7 = this->ppu->get_ctrl() >> 7;
+                    if(bit_7 == 1){
+                        // set nmi to true
+                        this->ppu->update_nmi();
+                    }
+                    else{
+                        // set nmi to false
+                        this->ppu->clear_nmi();
+                    }
                     return;
                 }
                 // PPU MASK
