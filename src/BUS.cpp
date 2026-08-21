@@ -19,6 +19,8 @@
             switch (masked_addr){
                 // PPU STATUS
                 case 0x2002:{
+                    // extract bit 5
+                    
                     // extract the PPU status register
                     uint8_t ppu_status = this->ppu->get_status();
                     // clear the v blank and write toggle

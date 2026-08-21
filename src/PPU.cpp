@@ -119,6 +119,12 @@ void PPU::clear_write_toggle(){
 void PPU::clear_nmi(){
     this->nmi = false;
 }
+void PPU::clear_sprite_overflow(){
+    this->sprite_overflow = false;
+}
+void PPU::clear_sprite_0_hit(){
+    this->sprite_0_hit = false;
+}
 
 void PPU::update_oam_addr(){
     this->oam_addr++;
@@ -128,6 +134,12 @@ void PPU::update_write_toggle(){
 }
 void PPU::update_nmi(){
     this->nmi = true;
+}
+void PPU::update_sprite_overflow(){
+    this->sprite_overflow = true;
+}
+void PPU::update_sprite_0_hit(){
+    this->sprite_0_hit = true;
 }
 
 void PPU::write_vram(uint16_t address, uint8_t value){

@@ -75,11 +75,15 @@ class PPU{
         void clear_v_blank();
         void clear_write_toggle();
         void clear_nmi();
+        void clear_sprite_overflow();
+        void clear_sprite_0_hit();
 
         // updates
         void update_oam_addr();
         void update_write_toggle();
         void update_nmi();
+        void update_sprite_overflow();
+        void update_sprite_0_hit();
 
         // writes to RAM
         void write_vram(uint16_t address, uint8_t value);
