@@ -423,5 +423,74 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "TEST 12" << std::endl;
+    rom.set_CHR(0);
+    ppu.clear_write_toggle();
+    ppu.set_t(0);
+    ppu.set_v(0);
+
+    bus.write(0x2006,0x00);
+    bus.write(0x2006,0x00);
+
+    bus.write(0x2007, 0xAA);
+
+    bus.write(0x2006,0x00);
+    bus.write(0x2006,0x00);
+
+    bus.read(0x2007);
+
+    if(bus.read(0x2007) == 0xAA){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.write(0x2006,0x00);
+    bus.write(0x2006,0x01);
+
+    bus.write(0x2007, 0xBB);
+
+    bus.write(0x2006,0x00);
+    bus.write(0x2006,0x01);
+
+    bus.read(0x2007);
+
+    if(bus.read(0x2007) == 0xBB){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.write(0x2006,0x00);
+    bus.write(0x2006,0x00);
+
+    bus.read(0x2007);
+
+    if(bus.read(0x2007) == 0xAA){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.write(0x2006,0x1F);
+    bus.write(0x2006,0xFF);
+
+    bus.write(0x2007, 0xCC);
+
+    bus.write(0x2006,0x1F);
+    bus.write(0x2006,0xFF);
+
+    bus.read(0x2007);
+
+    if(bus.read(0x2007) == 0xCC){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }

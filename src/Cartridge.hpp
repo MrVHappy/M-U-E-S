@@ -42,6 +42,7 @@ class Cartridge{
 
         // setter for debugging
         void set_header(int index);
+        void set_CHR(int index);
 
 };
 #endif

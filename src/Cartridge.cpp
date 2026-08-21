@@ -94,3 +94,7 @@ std::array<uint8_t,16> Cartridge::get_header(){
 void Cartridge::set_header(int index){
     this->header[6] = index;
 }
+
+void Cartridge::set_CHR(int index){
+    this->CHR_banks_num = index;
+}
