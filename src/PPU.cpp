@@ -126,6 +126,9 @@ void PPU::update_oam_addr(){
 void PPU::update_write_toggle(){
     this->write_toggle = true;
 }
+void PPU::update_nmi(){
+    this->nmi = true;
+}
 
 void PPU::write_vram(uint16_t address, uint8_t value){
     this->vram[address] = value;

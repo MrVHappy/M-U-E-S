@@ -641,8 +641,76 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
     
-    std::cout << "TEST 15" << std::endl;
-    ppu.set_t(0b00010110000101);
+    std::cout << "TEST 17" << std::endl;
+    ppu.set_t(0b00000110000101);
+    ppu.set_v(0);
+    ppu.clear_write_toggle();
+    ppu.set_ctrl(0);
+
+    bus.write(0x2000,0x03);
+    if(ppu.get_t() == 0b00110110000101){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 18 A" << std::endl;
+    ppu.set_t(0);
+    ppu.set_v(0);
+    ppu.clear_write_toggle();
+    ppu.set_ctrl(0);
+
+    bus.write(0x2000,0x00);
+    ppu.set_v(0x2000);
+
+    bus.write(0x2007, 0x10);
+
+    if(ppu.get_v() == 0x2001){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 18 B" << std::endl;
+
+    bus.write(0x2000,0x04);
+    ppu.set_v(0x2000);
+
+    bus.write(0x2007, 0x10);
+
+    if(ppu.get_v() == 0x2020){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    
+    std::cout << "TEST 19 A" << std::endl;
+
+    bus.write(0x2000,0x00);
+
+    if(ppu.get_nmi() == false){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 19 B" << std::endl;
+
+    bus.write(0x2000,0x80);
+
+    if(ppu.get_nmi() == true){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 20" << std::endl;
+    ppu.set_t(0);
     ppu.set_v(0);
     ppu.clear_write_toggle();
     ppu.set_ctrl(0);
