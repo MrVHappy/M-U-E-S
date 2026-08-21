@@ -492,5 +492,76 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "TEST 13" << std::endl;
+    ppu.set_t(0);
+    ppu.set_v(0);
+    ppu.clear_write_toggle();
+
+    bus.write(0x2006,0x00);
+    bus.write(0x2006,0x00);
+
+    ppu.set_ctrl(0);
+
+    bus.write(0x2006,0x2F);
+    bus.write(0x2006,0xFE);
+
+    bus.read(0x2007);
+
+    if(ppu.get_v() == 0x2FFF){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.read(0x2007);
+
+    if(ppu.get_v() == 0x3000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.write(0x2006,0x00);
+    bus.write(0x2006,0x00);
+
+    ppu.set_ctrl(0b00000100);
+
+    bus.write(0x2006,0x20);
+    bus.write(0x2006,0x00);
+
+    bus.read(0x2007);
+
+    if(ppu.get_v() == 0x2020){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.read(0x2007);
+
+    if(ppu.get_v() == 0x2040){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    ppu.set_ctrl(0);
+    bus.write(0x2006,0x3F);
+    bus.write(0x2006,0xFF);
+
+    bus.read(0x2007);
+
+    if(ppu.get_v() == 0x0000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+        std::cout << ppu.get_v() << std::endl;
+    }
     return 0;
 }
