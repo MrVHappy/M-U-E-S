@@ -563,5 +563,88 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
         std::cout << ppu.get_v() << std::endl;
     }
+
+    std::cout << "TEST 14" << std::endl;
+    ppu.set_t(0);
+    ppu.set_v(0);
+    ppu.clear_write_toggle();
+    ppu.set_ctrl(0);
+
+    bus.write(0x2000,0x80);
+
+    if(ppu.get_ctrl() == 0x80){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "PPU CTRL TESTS" << std::endl;
+    std::cout << "TEST 15" << std::endl;
+    ppu.set_t(0);
+    ppu.set_v(0);
+    ppu.clear_write_toggle();
+    ppu.set_ctrl(0);
+
+    bus.write(0x2000,0x01);
+
+    if(ppu.get_ctrl() == 0x01){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 16" << std::endl;
+    ppu.set_t(0);
+    ppu.set_v(0);
+    ppu.clear_write_toggle();
+    ppu.set_ctrl(0);
+
+    bus.write(0x2000,0x00);
+
+    uint8_t test_bits = ppu.get_t() >> 10;
+    if(test_bits == 0b00){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.write(0x2000,0x01);
+
+    test_bits = ppu.get_t() >> 10;
+    if(test_bits == 0b01){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.write(0x2000,0x02);
+
+    test_bits = ppu.get_t() >> 10;
+    if(test_bits == 0b10){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.write(0x2000,0x03);
+
+    test_bits = ppu.get_t() >> 10;
+    if(test_bits == 0b11){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    
+    std::cout << "TEST 15" << std::endl;
+    ppu.set_t(0b00010110000101);
+    ppu.set_v(0);
+    ppu.clear_write_toggle();
+    ppu.set_ctrl(0);
     return 0;
 }
