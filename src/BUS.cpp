@@ -61,10 +61,9 @@
                 }
                 // OAM DATA
                 case 0x2004:{
-                    // extract PPU OAM data register
-                    uint8_t oam_data = this->ppu->get_oam_data();
-                    // update the PPU OAM address
-                    this->ppu->update_oam_addr();
+                    // extract OAM DATA via OAM address
+                    uint8_t oam_addr = this->ppu->get_oam_adrr();
+                    uint8_t oam_data = this->ppu->read_oam_ram(oam_addr);
                     // return OAM data
                     return oam_data;
                 }
