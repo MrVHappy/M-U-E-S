@@ -87,6 +87,7 @@ class PPU{
         void update_nmi();
         void update_sprite_overflow();
         void update_sprite_0_hit();
+        void update_v_blank();
 
         // writes to RAM
         void write_vram(uint16_t address, uint8_t value);

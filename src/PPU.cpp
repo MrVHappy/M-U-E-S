@@ -150,7 +150,9 @@ void PPU::update_sprite_overflow(){
 void PPU::update_sprite_0_hit(){
     this->sprite_0_hit = true;
 }
-
+void PPU::update_v_blank(){
+    this->v_blank = true;
+}
 void PPU::write_vram(uint16_t address, uint8_t value){
     this->vram[address] = value;
 }

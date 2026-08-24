@@ -739,5 +739,116 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "PPU STATUS TESTS" << std::endl;
+    std::cout << "TEST 21" << std::endl;
+    ppu.clear_sprite_0_hit();
+    ppu.clear_sprite_overflow();
+    ppu.clear_v_blank();
+    ppu.clear_write_toggle();
+
+    bus.read(0x2002);
+
+    if(ppu.get_status() == 0x0000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 22" << std::endl;
+    ppu.clear_sprite_0_hit();
+    ppu.clear_sprite_overflow();
+    ppu.update_v_blank();
+    ppu.clear_write_toggle();
+
+    bus.read(0x2002);
+
+    if(ppu.get_status() == 0b10000000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_v_blank() == false){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 23" << std::endl;
+    ppu.update_sprite_0_hit();
+    ppu.clear_sprite_overflow();
+    ppu.clear_v_blank();
+    ppu.clear_write_toggle();
+
+    bus.read(0x2002);
+    if(ppu.get_status() == 0b01000000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(ppu.get_sprite_0_hit()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 24" << std::endl;
+    ppu.clear_sprite_0_hit();
+    ppu.update_sprite_overflow();
+    ppu.clear_v_blank();
+    ppu.clear_write_toggle();
+
+    bus.read(0x2002);
+
+    if(ppu.get_status() == 0b00100000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(ppu.get_sprite_overflow()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 25" << std::endl;
+    ppu.update_sprite_0_hit();
+    ppu.update_v_blank();
+    ppu.update_sprite_overflow();
+
+    bus.read(0x2002);
+    if(ppu.get_status() == 0b11100000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_overflow()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_0_hit()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_v_blank() == false){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }
