@@ -59,6 +59,9 @@ class PPU{
         uint8_t get_vram_data();
         bool get_write_toggle();
         bool get_nmi();
+        bool get_sprite_overflow();
+        bool get_v_blank();
+        bool get_sprite_0_hit();
 
         // setters
         void set_ctrl(uint8_t value);

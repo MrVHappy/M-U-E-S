@@ -81,6 +81,15 @@ bool PPU::get_write_toggle(){
 bool PPU::get_nmi(){
     return this->nmi;
 }
+bool PPU::get_sprite_overflow(){
+    return this->sprite_overflow;
+}
+bool PPU::get_v_blank(){
+    return this->v_blank;
+}
+bool PPU::get_sprite_0_hit(){
+    return this->sprite_0_hit;
+}
 
 void PPU::set_ctrl(uint8_t value){
     this->ctrl = value;

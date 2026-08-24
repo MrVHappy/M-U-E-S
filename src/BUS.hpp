@@ -31,6 +31,7 @@ class BUS{
         std::array<uint8_t, 2048> get_sys_ram();
         class Cartridge & get_rom();
         class PPU & get_ppu();
+        
         // setters
         void set_cartridge(class Cartridge *rom);
         void set_ppu(class PPU *ppu);

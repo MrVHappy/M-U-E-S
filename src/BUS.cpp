@@ -19,10 +19,40 @@
             switch (masked_addr){
                 // PPU STATUS
                 case 0x2002:{
+                    uint8_t bit_5, bit_6, bit_7;
                     // extract bit 5
-                    
-                    // extract the PPU status register
-                    uint8_t ppu_status = this->ppu->get_status();
+                    if (this->ppu->get_sprite_overflow()){
+                        // if true mark bit 5 as 1
+                        bit_5 = 0b100000;
+                    }
+                    else{
+                        // else mark bit 5 as 0
+                        bit_5 = 0;
+                    }
+                    // extract bit 6
+                    if (this->ppu->get_sprite_0_hit()){
+                        // if true mark bit 6 as 1
+                        bit_6 = 0b1000000;
+                    }
+                    else{
+                        // else mark bit 6 as 0
+                        bit_6 = 0;
+                    }
+                    // extract bit 7
+                    if(this->ppu->get_v_blank()){
+                        // if true mark bit 7 as 1
+                        bit_7 = 0b10000000;
+                    }
+                    else{
+                        // mark bit 7 as 0
+                        bit_7 = 0;
+                    }
+                    // add bits 5, 6, 7 together
+                    uint8_t status_change = bit_5 | bit_6 | bit_7;
+                    // update ppu status
+                    uint8_t ppu_status = 0;
+                    ppu_status = ppu_status | status_change;
+                    this->ppu->set_status(ppu_status);
                     // clear the v blank and write toggle
                     this->ppu->clear_v_blank();
                     this->ppu->clear_write_toggle();
