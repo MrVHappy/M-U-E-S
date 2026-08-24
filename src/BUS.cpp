@@ -204,8 +204,8 @@
                 }
                 // OAM DATA
                 case 0x2004:{
-                    // write to the OAM data register
-                    this->ppu->set_oam_data(value);
+                    // write value to OAM RAM at OAM ADDR
+                    this->ppu->write_oam_ram(this->ppu->get_oam_adrr(), value);
                     // update the OAM address
                     this->ppu->update_oam_addr();
                     return;

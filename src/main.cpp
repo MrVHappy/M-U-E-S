@@ -925,5 +925,62 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "PPU OAM DATA TEST" << std::endl;
+    std::cout << "TEST 29" << std::endl;
+    
+    bus.write(0x2003, 0x00);
+    bus.write(0x2004, 0xAB);
+
+    if(ppu.read_oam_ram(0x00) == 0xAB){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(ppu.get_oam_adrr() == 0x01){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 30" << std::endl;
+    bus.write(0x2003, 0x80);
+    bus.write(0x2004, 0x42);
+
+    if(ppu.read_oam_ram(0x80) == 0x42){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(ppu.get_oam_adrr() == 0x81){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 31" << std::endl;
+    
+    bus.write(0x2003, 0xFF);
+    bus.write(0x2004, 0x55);
+
+    if(ppu.read_oam_ram(0xFF) == 0x55){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(ppu.get_oam_adrr() == 0x00){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }
