@@ -850,5 +850,44 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "TEST 26" << std::endl;
+    ppu.clear_sprite_0_hit();
+    ppu.clear_sprite_overflow();
+    ppu.clear_v_blank();
+    ppu.update_write_toggle();
+
+    bus.read(0x2002);
+    if(ppu.get_write_toggle() == false){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 27" << std::endl;
+    ppu.update_sprite_0_hit();
+    ppu.update_v_blank();
+    ppu.update_sprite_overflow();
+
+    bus.read(0x2002);
+    if(ppu.get_status() == 0b11100000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    ppu.clear_sprite_0_hit();
+    ppu.clear_v_blank();
+    ppu.clear_sprite_overflow();
+
+    bus.read(0x2002);
+    if(ppu.get_status() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }
