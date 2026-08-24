@@ -889,5 +889,41 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "PPU OAM ADDR TEST" << std::endl;
+    std::cout << "TEST 28" << std::endl;
+
+    bus.write(0x2003, 0x00);
+
+    if(ppu.get_oam_adrr() == 0x00){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    bus.write(0x2003, 0x01);
+
+    if(ppu.get_oam_adrr() == 0x01){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    bus.write(0x2003, 0x80);
+
+    if(ppu.get_oam_adrr() == 0x80){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    bus.write(0x2003, 0xFF);
+
+    if(ppu.get_oam_adrr() == 0xFF){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }
