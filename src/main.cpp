@@ -1037,12 +1037,178 @@ int main(int argc, char*argv[]){
     }
 
     bus.write(0x2003, 0xFF);
-    
+
     if(bus.read(0x2004) == 0x55){
         std::cout << "Pass" << std::endl;
     }
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "PPU SCROLL TEST" << std::endl;
+    std::cout << "TEST 35" << std::endl;
+    ppu.clear_write_toggle();
+    ppu.set_t(0);
+    ppu.set_fine_x(0);
+
+    bus.write(0x2005, 0b10101010);
+
+    if(ppu.get_t() == 0b000000000010101){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(ppu.get_fine_x() == 0b010){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(ppu.get_write_toggle()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "Test 36" << std::endl;
+    ppu.clear_write_toggle();
+    ppu.set_t(0b010110101010101);
+    ppu.set_fine_x(0);
+
+    bus.write(0x2005,0b11001101);
+    
+    if(ppu.get_t() == 0b010110101011001){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(ppu.get_fine_x() == 0b101){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(ppu.get_write_toggle()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 37" << std::endl;
+
+    ppu.update_write_toggle();
+    ppu.set_t(0);
+    ppu.set_fine_x(0);
+
+    bus.write(0x2005,0b10101010);
+    
+    if(ppu.get_t() == 0b010001010100000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+        std::cout << ppu.get_t() << std::endl;
+    }
+
+    if(!ppu.get_write_toggle()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    std::cout << "TEST 38" << std::endl;
+
+    ppu.update_write_toggle();
+    ppu.set_t(0b000000000010101);
+    ppu.set_fine_x(0);
+
+    bus.write(0x2005,0b10101010);
+    
+    if(ppu.get_t() == 0b010001010110101){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+        std::cout << ppu.get_t() << std::endl;
+    }
+
+    if(!ppu.get_write_toggle()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 39" << std::endl;
+
+    ppu.clear_write_toggle();
+    ppu.set_t(0);
+    ppu.set_fine_x(0);
+
+    bus.write(0x2005,0b10101010);
+    bus.write(0x2005, 0b11001101);
+    
+    if(ppu.get_t() == 0b0101001100110101){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+        std::cout << ppu.get_t() << std::endl;
+    }
+
+    if(ppu.get_fine_x() == 0b010){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(!ppu.get_write_toggle()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 40" << std::endl;
+
+    ppu.clear_write_toggle();
+    ppu.set_t(0);
+
+    bus.write(0x2005, 0b10101010);
+
+    if(ppu.get_write_toggle()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.read(0x2002);
+
+    if(!ppu.get_write_toggle()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.write(0x2005, 0b10101010);
+
+    if(ppu.get_write_toggle()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
     return 0;
 }
