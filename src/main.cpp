@@ -989,47 +989,56 @@ int main(int argc, char*argv[]){
     bus.write(0x2003, 0x10);
     bus.write(0x2004, 0xAB);
 
+    if(ppu.get_oam_adrr() == 0x11){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.write(0x2003, 0x10);
+
     if(bus.read(0x2004) == 0xAB){
         std::cout << "Pass" << std::endl;
     }
     else{
         std::cout << "Fail" << std::endl;
     }
-    if(ppu.get_oam_adrr() == 0x10){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    
 
     std::cout << "TEST 33" << std::endl;
     bus.write(0x2003, 0x80);
     bus.write(0x2004, 0x42);
 
+    if(ppu.get_oam_adrr() == 0x81){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    bus.write(0x2003, 0x80);
     if(bus.read(0x2004) == 0x42){
         std::cout << "Pass" << std::endl;
     }
     else{
         std::cout << "Fail" << std::endl;
     }
-    if(ppu.get_oam_adrr() == 0x80){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    
 
     std::cout << "TEST 34" << std::endl;
     bus.write(0x2003, 0xFF);
     bus.write(0x2004, 0x55);
-
-    if(bus.read(0x2004) == 0x55){
+    
+    if(ppu.get_oam_adrr() == 0x00){
         std::cout << "Pass" << std::endl;
     }
     else{
         std::cout << "Fail" << std::endl;
     }
-    if(ppu.get_oam_adrr() == 0xFF){
+
+    bus.write(0x2003, 0xFF);
+    
+    if(bus.read(0x2004) == 0x55){
         std::cout << "Pass" << std::endl;
     }
     else{
