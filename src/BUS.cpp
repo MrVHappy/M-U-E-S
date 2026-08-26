@@ -124,11 +124,11 @@
                     uint16_t new_v = this->ppu->get_v();
                     if(bit_2 == 1){
                         // increment by 32
-                        new_v = (new_v + 32) % 0x4000;
+                        new_v = (new_v + 32) % 0x8000;
                     }
                     else{
                         // increment by 1
-                        new_v = (new_v + 1) % 0x4000;
+                        new_v = (new_v + 1) % 0x8000;
                     }
                     // update v
                     this->ppu->set_v(new_v);
@@ -325,11 +325,11 @@
                     uint16_t new_v = this->ppu->get_v();
                     if(bit_2 == 1){
                         // increment by 32
-                        new_v = (new_v + 32) % 0x4000;
+                        new_v = (new_v + 32) % 0x8000;
                     }
                     else{
                         // increment by 1
-                        new_v = (new_v + 1) % 0x4000;
+                        new_v = (new_v + 1) % 0x8000;
                     }
                     // update v
                     this->ppu->set_v(new_v);
