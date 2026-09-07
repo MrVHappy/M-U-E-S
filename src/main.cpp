@@ -1558,7 +1558,7 @@ int main(int argc, char*argv[]){
     }
 
     std::cout << "TEST 50" << std::endl;
-
+    ppu.set_ctrl(0);
     ppu.clear_write_toggle();
 
     bus.write(0x2006,0x21);
@@ -1578,17 +1578,20 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
-
-    if(ppu.get_v() == 0x2101){
+    if(ppu.get_v() == 0x2100){
         std::cout << "Pass" << std::endl;
     }
     else{
         std::cout << "Fail" << std::endl;
+        std::cout << static_cast<int>(ppu.get_v()) << std::endl;
     }
 
     ppu.set_vram_data(0);
 
     bus.write(0x2007,0xAA);
+
+    bus.write(0x2006,0x21);
+    bus.write(0x2006,0x00);
 
     if(bus.read(0x2007) == 0){
         std::cout << "Pass" << std::endl;
@@ -1602,6 +1605,7 @@ int main(int argc, char*argv[]){
     }
     else{
         std::cout << "Fail" << std::endl;
+        std::cout << static_cast<int>(ppu.get_vram_data()) << std::endl;
     }
 
     if(ppu.get_v() == 0x2101){
@@ -1609,6 +1613,8 @@ int main(int argc, char*argv[]){
     }
     else{
         std::cout << "Fail" << std::endl;
+        std::cout << static_cast<int>(ppu.get_v()) << std::endl;
+
     }
     std::cout << "TEST 51" << std::endl;
     bus.write(0x2006, 0x3F);
