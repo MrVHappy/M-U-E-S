@@ -551,12 +551,12 @@ int main(int argc, char*argv[]){
     }
 
     ppu.set_ctrl(0);
-    bus.write(0x2006,0x3F);
+    bus.write(0x2006,0x7F);
     bus.write(0x2006,0xFF);
 
     bus.read(0x2007);
 
-    if(ppu.get_v() == 0x0000){
+    if(ppu.get_v() == 0x4000){
         std::cout << "Pass" << std::endl;
     }
     else{
