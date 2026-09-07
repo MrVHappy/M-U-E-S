@@ -1751,7 +1751,7 @@ int main(int argc, char*argv[]){
     ppu.set_v(0x3FFF);
 
     bus.read(0x2007);
-    if(ppu.get_v() == 0){
+    if(ppu.get_v() == 0x4000){
         std::cout << "Pass" << std::endl;
     }
     else{
