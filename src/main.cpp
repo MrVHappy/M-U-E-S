@@ -1233,6 +1233,7 @@ int main(int argc, char*argv[]){
 
     std::cout << "TEST 42" << std::endl;
     ppu.clear_write_toggle();
+    ppu.set_ctrl(0);
     ppu.set_t(0);
     ppu.set_v(0x2000);
 
@@ -1252,7 +1253,7 @@ int main(int argc, char*argv[]){
     }
     else{
         std::cout << "Fail" << std::endl;
-        std::cout << "VRAM 0x2001 MOD 0x07FF = " << ppu.read_vram(0x0001) << std::endl;
+        std::cout << "VRAM 0x2001 MOD 0x0800 = " << static_cast<int>(ppu.read_vram(0x0001)) << std::endl;
     }
 
     std::cout << "TEST 43" << std::endl;
