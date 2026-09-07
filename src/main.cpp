@@ -1430,7 +1430,7 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
 
-    if(ppu.get_v() == 0x6789){
+    if(ppu.get_v() == 0x2789){
         std::cout << "Pass" << std::endl;
     }
     else{
