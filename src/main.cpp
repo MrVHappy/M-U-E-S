@@ -1505,7 +1505,7 @@ int main(int argc, char*argv[]){
     }
 
     std::cout << "TEST 49" << std::endl;
-
+    ppu.set_vram_data(0);
     ppu.set_ctrl(0b100);
     ppu.set_v(0x2000);
 
