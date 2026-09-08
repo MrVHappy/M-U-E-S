@@ -165,6 +165,8 @@
             switch (masked_addr){
                 // PPU CTRL
                 case 0x2000:{
+                    // extract bit 7 from ctrl reg before update
+                    uint8_t old_bit_7 = this->ppu->get_ctrl() >> 7;
                     // write to ctrl register
                     this->ppu->set_ctrl(value);
                     // extract the nametable value from bits 0-1
@@ -176,11 +178,19 @@
                     // update t
                     new_t = name_table_val | new_t;
                     this->ppu->set_t(new_t);
-
                     // extract bit 7
                     uint8_t nmi_output = this->ppu->get_ctrl() >> 7;
-                    // calculate nmi_line by ANDing vblank and bit 7
-                    bool nmi_line = this->ppu->get_v_blank() && static_cast<bool>(nmi_output);
+                    // check if bit 7 has changed from 0 to 1
+                    if(old_bit_7 < nmi_output){
+                        // calculate nmi_line by ANDing vblank and bit 7
+                        bool nmi_line = this->ppu->get_v_blank() && static_cast<bool>(nmi_output);
+                        // if NMI line is true then trigger nmi request
+                        if(nmi_line){
+                            // update nmi
+                            this->ppu->update_nmi();
+                        }
+                    }
+                    
                     return;
                 }
                 // PPU MASK
