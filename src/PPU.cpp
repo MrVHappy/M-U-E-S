@@ -19,19 +19,12 @@ void PPU::tick(){
         if(this->scan_ln_count == 241){
             // set the Vblank flag in status
             this->v_blank = true;
-            // extract the 7th bit from the ctrl register 10000000
-            uint8_t bit_7 = this->ctrl >> 7;
-            // check bit 7 of the ctrl register
-            if(bit_7 == 1){
-                // enable NMI
-                this->nmi = true;
-            }
-            else{
-                // disable NMI
-                this->nmi = false;
-            }
-            // update status register
-            this->status = this->status | 0b10000000;
+            // // extract the 7th bit from the ctrl register 10000000
+            // uint8_t bit_7 = this->ctrl >> 7;
+            // // get nmi_line from bit 7 AND v blank
+            // bool nmi_line = v_blank && static_cast<bool>(bit_7);
+            // // update status register
+            // this->status = this->status | 0b10000000;
         }
 
         // prerender

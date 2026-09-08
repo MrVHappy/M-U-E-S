@@ -178,15 +178,17 @@
                     this->ppu->set_t(new_t);
 
                     // extract bit 7
-                    uint8_t bit_7 = this->ppu->get_ctrl() >> 7;
-                    if(bit_7 == 1){
-                        // set nmi to true
-                        this->ppu->update_nmi();
-                    }
-                    else{
-                        // set nmi to false
-                        this->ppu->clear_nmi();
-                    }
+                    uint8_t nmi_output = this->ppu->get_ctrl() >> 7;
+                    // calculate nmi_line by ANDing vblank and bit 7
+                    bool nmi_line = this->ppu->get_v_blank() && static_cast<bool>(nmi_output);
+                    // if(bit_7 == 1){
+                    //     // set nmi to true
+                    //     this->ppu->update_nmi();
+                    // }
+                    // else{
+                    //     // set nmi to false
+                    //     this->ppu->clear_nmi();
+                    // }
                     return;
                 }
                 // PPU MASK
