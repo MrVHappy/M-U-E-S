@@ -120,6 +120,12 @@ void PPU::set_fine_x(uint8_t value){
 void PPU::set_vram_data(uint8_t value){
     this->vram_data = value;
 }
+void PPU::set_cycle_count(int value){
+    this->cycle_count = value;
+}
+void PPU::set_scan_ln_count(int value){
+    this->scan_ln_count = value;
+}
 
 void PPU::clear_v_blank(){
     this->v_blank = false;

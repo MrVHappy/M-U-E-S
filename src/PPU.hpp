@@ -73,6 +73,8 @@ class PPU{
         void set_t(uint16_t value);
         void set_fine_x(uint8_t value);
         void set_vram_data(uint8_t value);
+        void set_cycle_count(int value);
+        void set_scan_ln_count(int value);
 
         // clears
         void clear_v_blank();

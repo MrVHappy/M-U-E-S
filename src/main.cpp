@@ -1788,5 +1788,157 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "NMI TESTS" << std::endl;
+    std::cout << "TEST 1" << std::endl;
+
+    ppu.set_cycle_count(340);
+    ppu.set_scan_ln_count(240);
+    ppu.set_ctrl(0b10000000);
+    ppu.clear_v_blank();
+    ppu.clear_nmi();
+
+    ppu.tick();
+
+    if(ppu.get_v_blank()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(ppu.get_nmi()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 2" << std::endl;
+
+    ppu.set_cycle_count(340);
+    ppu.set_scan_ln_count(240);
+    ppu.set_ctrl(0);
+    ppu.clear_v_blank();
+    ppu.clear_nmi();
+
+    ppu.tick();
+
+    if(ppu.get_v_blank()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(!ppu.get_nmi()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 3" << std::endl;
+
+    ppu.set_cycle_count(340);
+    ppu.set_scan_ln_count(240);
+    ppu.set_ctrl(0);
+    ppu.update_v_blank();
+    ppu.clear_nmi();
+
+    bus.write(0x2000, 0x80);
+
+    if(ppu.get_v_blank()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if((ppu.get_ctrl() >> 7) == 1){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(ppu.get_nmi()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 4" << std::endl;
+
+    ppu.set_cycle_count(340);
+    ppu.set_scan_ln_count(240);
+    ppu.set_ctrl(128);
+    ppu.update_v_blank();
+    ppu.clear_nmi();
+
+    bus.write(0x2000, 0x80);
+
+    if(!ppu.get_nmi()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 5" << std::endl;
+
+    ppu.set_cycle_count(340);
+    ppu.set_scan_ln_count(240);
+    ppu.set_ctrl(128);
+    ppu.update_v_blank();
+    ppu.clear_nmi();
+
+    bus.write(0x2000, 0x00);
+
+    ppu.tick();
+
+    if((ppu.get_ctrl() >> 7) == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(!ppu.get_nmi()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 5" << std::endl;
+
+    ppu.set_cycle_count(340);
+    ppu.set_scan_ln_count(240);
+    ppu.set_ctrl(128);
+    ppu.update_v_blank();
+    ppu.clear_nmi();
+
+    ppu.tick();
+
+    ppu.set_cycle_count(340);
+    ppu.set_scan_ln_count(260);
+
+    ppu.tick();
+
+    if(!ppu.get_v_blank()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(!ppu.get_nmi()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }
