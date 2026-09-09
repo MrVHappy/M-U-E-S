@@ -23,8 +23,8 @@ void PPU::tick(){
             this->v_blank = true;
             // check if v blank updated from false to true
             if(!old_v_blank){
-                // extract the bit 7 from ctrl reg
-                uint8_t nmi_output = this->ctrl >> 7;
+                // // extract the bit 7 from ctrl reg
+                // this->nmi_output = this->ctrl >> 7;
                 // perform v_blank AND nmi_output
                 bool nmi_line = this->v_blank && static_cast<bool>(nmi_output);
                 // if NMI line is true then trigger nmi request
@@ -92,6 +92,9 @@ bool PPU::get_v_blank(){
 bool PPU::get_sprite_0_hit(){
     return this->sprite_0_hit;
 }
+bool PPU::get_nmi_output(){
+    return nmi_output;
+}
 
 void PPU::set_ctrl(uint8_t value){
     this->ctrl = value;
@@ -125,6 +128,9 @@ void PPU::set_cycle_count(int value){
 }
 void PPU::set_scan_ln_count(int value){
     this->scan_ln_count = value;
+}
+void PPU::set_nmi_output(bool value){
+    this->nmi_output = value;
 }
 
 void PPU::clear_v_blank(){

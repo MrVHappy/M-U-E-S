@@ -34,7 +34,7 @@
             this->status_flag = 0x24;
             this->page_crossed = false;
             this->acc_used = false;
-            this->page_crossed = false;
+            this->previous_nmi_line = false;
             this->resolved_address = 0;
             this->bus = bus;
             // instruction locations:

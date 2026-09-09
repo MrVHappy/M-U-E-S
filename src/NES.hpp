@@ -39,7 +39,8 @@ class NES{
 
         // offset for stack_ptr
         const uint16_t OFFSET = 0x100;
-
+        
+        
         // status flag register
         std::bitset<8> status_flag;
 
@@ -48,6 +49,7 @@ class NES{
 
         // flags
         bool page_crossed;
+        bool previous_nmi_line;
 
         // an array of instructions
         std::array<Instruction, 256> instruction_set;

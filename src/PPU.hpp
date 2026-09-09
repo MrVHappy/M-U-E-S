@@ -37,7 +37,7 @@ class PPU{
         // cycle count
         int cycle_count;
         // boolean flags
-        bool v_blank, nmi, sprite_overflow, sprite_0_hit, write_toggle;
+        bool v_blank, nmi, nmi_output, sprite_overflow, sprite_0_hit, write_toggle;
         // link PPU to bus
         class BUS *bus;
 
@@ -62,6 +62,7 @@ class PPU{
         bool get_sprite_overflow();
         bool get_v_blank();
         bool get_sprite_0_hit();
+        bool get_nmi_output();
 
         // setters
         void set_ctrl(uint8_t value);
@@ -75,6 +76,7 @@ class PPU{
         void set_vram_data(uint8_t value);
         void set_cycle_count(int value);
         void set_scan_ln_count(int value);
+        void set_nmi_output(bool value);
 
         // clears
         void clear_v_blank();
