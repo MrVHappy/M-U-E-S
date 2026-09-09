@@ -24,7 +24,7 @@ bool Cartridge::load_ROM(std::string path){
         }
         // set start position after reading the header
         int start_pos = 16;
-           // detecting if the ROM contains a trainer
+        // detecting if the ROM contains a trainer
         if((this->header[6] & 0x04) != 0){
             // trainer is present
             start_pos += 512;
@@ -37,7 +37,7 @@ bool Cartridge::load_ROM(std::string path){
         size_t prg_size = PRG_banks_num * 16384;
         // set the size of PRG data to prg size
         this->PRG_data.resize(prg_size);
-        // get the entire file
+        // get the entire file and store it in PRG data
         file.read(reinterpret_cast<char*>(this->PRG_data.data()),prg_size);
         
         // get the number of CHR banks from header
@@ -48,7 +48,7 @@ bool Cartridge::load_ROM(std::string path){
             size_t chr_size = this->CHR_banks_num * 8192;
             // update the size of CHR data
             this->CHR_data.resize(chr_size);
-            // get the entire file
+            // get the entire file and store it in CHR data
             file.read(reinterpret_cast<char*>(this->CHR_data.data()),chr_size);
         }
         else{
@@ -97,4 +97,9 @@ void Cartridge::set_header(int index){
 
 void Cartridge::set_CHR(int index){
     this->CHR_banks_num = index;
+}
+
+void Cartridge::set_FA_FB(uint8_t FA, uint8_t FB){
+    PRG_data[0xFFFA] = FA;
+    PRG_data[0xFFFB] = FB;
 }

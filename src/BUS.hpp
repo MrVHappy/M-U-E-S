@@ -35,5 +35,8 @@ class BUS{
         // setters
         void set_cartridge(class Cartridge *rom);
         void set_ppu(class PPU *ppu);
+
+        // DEBUG functions
+        void set_NOP_sys_ram();
 };
 #endif

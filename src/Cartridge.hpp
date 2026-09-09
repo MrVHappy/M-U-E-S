@@ -43,6 +43,7 @@ class Cartridge{
         // setter for debugging
         void set_header(int index);
         void set_CHR(int index);
+        void set_FA_FB(uint8_t FA, uint8_t FB);
 
 };
 #endif

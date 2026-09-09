@@ -369,6 +369,13 @@
         this->ppu = ppu;
     }
 
+    void BUS::set_NOP_sys_ram(){
+        // set every index in RAM to NOP
+        for(int i:this->sys_ram){
+            this->sys_ram[i] = 0xEA;
+        }
+    }
+
     Cartridge & BUS::get_rom(){
         return *this->rom;
     }

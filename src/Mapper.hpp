@@ -14,6 +14,7 @@ class Mapper{
 
         // PPU access
         uint8_t read_CHR(uint16_t address);
+        
         void write_CHR(uint16_t address, uint8_t value);
 
         // setter
@@ -21,5 +22,6 @@ class Mapper{
 
         // Mirroring mode identifier
         bool is_vertical();
+
 };
 #endif
