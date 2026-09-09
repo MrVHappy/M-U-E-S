@@ -1405,10 +1405,6 @@
             this->stack_ptr = addr;
         }
 
-        // DEBUG GETTERS
-        uint16_t NES::get_pc(){
-            return this->pc;
-        }
-        uint8_t NES::get_stack_ptr(){
-            return this->stack_ptr;
+        void NES::set_status_flag(uint8_t flag){
+            this->status_flag = flag;
         }

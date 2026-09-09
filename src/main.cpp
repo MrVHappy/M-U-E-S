@@ -1943,7 +1943,71 @@ int main(int argc, char*argv[]){
 
     std::cout << "NMI CPU EXECUTION TESTS" << std::endl;
     std::cout << "TEST 1" << std::endl;
-    
+    bus.set_NOP_sys_ram();
+    nes.set_pc(0x0100);
+    nes.set_stack_ptr(0xFF);
+    ppu.update_nmi();
+    rom.set_FA_FB(0x78,0x56);
 
+    nes.execute();
+
+    if(!ppu.get_nmi()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(nes.get_pc() == 0x5678){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 2" << std::endl;
+    nes.set_pc(0x1234);
+    nes.set_stack_ptr(0xFF);
+    ppu.update_nmi();
+    rom.set_FA_FB(0x78,0x56);
+
+    nes.execute();
+
+    if(bus.read(0x01FF) == 0x12){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(bus.read(0x01FE) == 0x34){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(nes.get_stack_ptr() == 0xFC){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 3" << std::endl;
+    nes.set_pc(0x1234);
+    nes.set_status_flag(0x55);
+    nes.set_stack_ptr(0xFF);
+    ppu.update_nmi();
+    rom.set_FA_FB(0x78,0x56);
+
+    nes.execute();
+
+    if(nes.get_status_flag() == 0x45){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }

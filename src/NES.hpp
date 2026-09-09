@@ -165,9 +165,7 @@ class NES{
         // DEBUG SETTERS
         void set_pc(uint16_t addr);
         void set_stack_ptr(uint8_t addr);
+        void set_status_flag(uint8_t flag);
 
-        // DEBUG GETTERS
-        uint16_t get_pc();
-        uint8_t get_stack_ptr();
 };
 #endif
