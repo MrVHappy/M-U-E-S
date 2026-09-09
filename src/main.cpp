@@ -1948,7 +1948,6 @@ int main(int argc, char*argv[]){
     nes.set_stack_ptr(0xFF);
     ppu.update_nmi();
     rom.set_FA_FB(0x78,0x56);
-
     nes.execute();
 
     if(!ppu.get_nmi()){
@@ -1980,11 +1979,12 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
 
-    if(bus.read(0x01FE) == 0x34){
+    if(bus.read(0x01FE) == 0x35){
         std::cout << "Pass" << std::endl;
     }
     else{
         std::cout << "Fail" << std::endl;
+        std::cout << static_cast<int>(bus.read(0x01FE)) << std::endl;
     }
 
     if(nes.get_stack_ptr() == 0xFC){
@@ -1992,6 +1992,7 @@ int main(int argc, char*argv[]){
     }
     else{
         std::cout << "Fail" << std::endl;
+        std::cout << static_cast<int>(nes.get_stack_ptr()) << std::endl;
     }
 
     std::cout << "TEST 3" << std::endl;

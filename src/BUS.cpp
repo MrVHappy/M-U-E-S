@@ -371,7 +371,7 @@
 
     void BUS::set_NOP_sys_ram(){
         // set every index in RAM to NOP
-        for(int i:this->sys_ram){
+        for(int i = 0; i < this->sys_ram.size(); i++){
             this->sys_ram[i] = 0xEA;
         }
     }

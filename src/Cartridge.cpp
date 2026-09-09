@@ -100,6 +100,6 @@ void Cartridge::set_CHR(int index){
 }
 
 void Cartridge::set_FA_FB(uint8_t FA, uint8_t FB){
-    PRG_data[0xFFFA] = FA;
-    PRG_data[0xFFFB] = FB;
+    PRG_data[0x3FFA] = FA;
+    PRG_data[0x3FFB] = FB;
 }
