@@ -1912,7 +1912,7 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
 
-    std::cout << "TEST 5" << std::endl;
+    std::cout << "TEST 6" << std::endl;
 
     ppu.set_cycle_count(340);
     ppu.set_scan_ln_count(240);
@@ -1940,5 +1940,10 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "NMI CPU EXECUTION TESTS" << std::endl;
+    std::cout << "TEST 1" << std::endl;
+    
+
     return 0;
 }

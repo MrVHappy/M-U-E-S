@@ -161,5 +161,13 @@ class NES{
         void RLA();
         void SRE();
         void RRA();
+
+        // DEBUG SETTERS
+        void set_pc(uint16_t addr);
+        void set_stack_ptr(uint8_t addr);
+
+        // DEBUG GETTERS
+        uint16_t get_pc();
+        uint8_t get_stack_ptr();
 };
 #endif
