@@ -4,8 +4,6 @@ PPU::PPU(BUS *bus){
 }
 
 void PPU::tick(){
-    // get old v blank value
-    bool old_v_blank = this->v_blank;
     // increment cycle count by one
     this->cycle_count++;
     // check if cycle count has reached 341
@@ -21,19 +19,6 @@ void PPU::tick(){
         if(this->scan_ln_count == 241){
             // set the Vblank flag in status
             this->v_blank = true;
-            // check if v blank updated from false to true
-            // if(!old_v_blank){
-            //     // // extract the bit 7 from ctrl reg
-            //     // this->nmi_output = this->ctrl >> 7;
-            //     // perform v_blank AND nmi_output
-            //     bool nmi_line = this->v_blank && static_cast<bool>(nmi_output);
-            //     // if NMI line is true then trigger nmi request
-            //     if(nmi_line){
-            //         this->nmi = true;
-            //     }
-            // }
-            // // update status register
-            // this->status = this->status | 0b10000000;
         }
 
         // prerender
