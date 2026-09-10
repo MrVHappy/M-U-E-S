@@ -1411,3 +1411,11 @@
         void NES::set_status_flag(uint8_t flag){
             this->status_flag = flag;
         }
+
+        void NES::set_prev_nmi_line(bool flag){
+            this->previous_nmi_line = flag;
+        }
+
+        bool NES::get_prev_nmi_line(){
+            return this->previous_nmi_line;
+        }

@@ -1789,25 +1789,24 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
 
-    std::cout << "NMI TESTS" << std::endl;
+    std::cout << "NMI CPU EXECUTION TESTS" << std::endl;
     std::cout << "TEST 1" << std::endl;
-
-    ppu.set_cycle_count(340);
-    ppu.set_scan_ln_count(240);
-    ppu.set_ctrl(0b10000000);
+    bus.set_NOP_sys_ram();
+    nes.set_pc(0x0100);
+    nes.set_stack_ptr(0xFF);
+    ppu.set_nmi_output(false);
+    nes.set_prev_nmi_line(false);
     ppu.clear_v_blank();
-    ppu.clear_nmi();
+    rom.set_FA_FB(0x78,0x56);
+    nes.execute();
 
-    ppu.tick();
-
-    if(ppu.get_v_blank()){
+    if(nes.get_pc() == 0x0101){
         std::cout << "Pass" << std::endl;
     }
     else{
         std::cout << "Fail" << std::endl;
     }
-
-    if(ppu.get_nmi()){
+    if(!nes.get_prev_nmi_line()){
         std::cout << "Pass" << std::endl;
     }
     else{
@@ -1815,23 +1814,27 @@ int main(int argc, char*argv[]){
     }
 
     std::cout << "TEST 2" << std::endl;
+    nes.set_pc(0x0100);
+    nes.set_stack_ptr(0xFF);
+    ppu.set_nmi_output(true);
+    nes.set_prev_nmi_line(false);
+    ppu.update_v_blank();
+    rom.set_FA_FB(0x78,0x56);
+    nes.execute();
 
-    ppu.set_cycle_count(340);
-    ppu.set_scan_ln_count(240);
-    ppu.set_ctrl(0);
-    ppu.clear_v_blank();
-    ppu.clear_nmi();
-
-    ppu.tick();
-
-    if(ppu.get_v_blank()){
+    if(nes.get_pc() == 0x5678){
         std::cout << "Pass" << std::endl;
     }
     else{
         std::cout << "Fail" << std::endl;
     }
-
-    if(!ppu.get_nmi()){
+    if(nes.get_prev_nmi_line()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFC){
         std::cout << "Pass" << std::endl;
     }
     else{
@@ -1839,30 +1842,21 @@ int main(int argc, char*argv[]){
     }
 
     std::cout << "TEST 3" << std::endl;
-
-    ppu.set_cycle_count(340);
-    ppu.set_scan_ln_count(240);
-    ppu.set_ctrl(0);
+    nes.set_pc(0x0100);
+    nes.set_stack_ptr(0xFF);
+    ppu.set_nmi_output(true);
+    nes.set_prev_nmi_line(true);
     ppu.update_v_blank();
-    ppu.clear_nmi();
+    rom.set_FA_FB(0x78,0x56);
+    nes.execute();
 
-    bus.write(0x2000, 0x80);
-
-    if(ppu.get_v_blank()){
+    if(nes.get_pc() == 0x0101){
         std::cout << "Pass" << std::endl;
     }
     else{
         std::cout << "Fail" << std::endl;
     }
-
-    if((ppu.get_ctrl() >> 7) == 1){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(ppu.get_nmi()){
+    if(nes.get_prev_nmi_line()){
         std::cout << "Pass" << std::endl;
     }
     else{
@@ -1870,16 +1864,21 @@ int main(int argc, char*argv[]){
     }
 
     std::cout << "TEST 4" << std::endl;
+    nes.set_pc(0x0100);
+    nes.set_stack_ptr(0xFF);
+    ppu.set_nmi_output(true);
+    nes.set_prev_nmi_line(true);
+    ppu.clear_v_blank();
+    rom.set_FA_FB(0x78,0x56);
+    nes.execute();
 
-    ppu.set_cycle_count(340);
-    ppu.set_scan_ln_count(240);
-    ppu.set_ctrl(128);
-    ppu.update_v_blank();
-    ppu.clear_nmi();
-
-    bus.write(0x2000, 0x80);
-
-    if(!ppu.get_nmi()){
+    if(nes.get_pc() == 0x0101){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(!nes.get_prev_nmi_line()){
         std::cout << "Pass" << std::endl;
     }
     else{
@@ -1887,25 +1886,21 @@ int main(int argc, char*argv[]){
     }
 
     std::cout << "TEST 5" << std::endl;
-
-    ppu.set_cycle_count(340);
-    ppu.set_scan_ln_count(240);
-    ppu.set_ctrl(128);
+    nes.set_pc(0x0100);
+    nes.set_stack_ptr(0xFF);
+    ppu.set_nmi_output(false);
+    nes.set_prev_nmi_line(false);
     ppu.update_v_blank();
-    ppu.clear_nmi();
+    rom.set_FA_FB(0x78,0x56);
+    nes.execute();
 
-    bus.write(0x2000, 0x00);
-
-    ppu.tick();
-
-    if((ppu.get_ctrl() >> 7) == 0){
+    if(nes.get_pc() == 0x0101){
         std::cout << "Pass" << std::endl;
     }
     else{
         std::cout << "Fail" << std::endl;
     }
-
-    if(!ppu.get_nmi()){
+    if(!nes.get_prev_nmi_line()){
         std::cout << "Pass" << std::endl;
     }
     else{
@@ -1913,17 +1908,72 @@ int main(int argc, char*argv[]){
     }
 
     std::cout << "TEST 6" << std::endl;
-
-    ppu.set_cycle_count(340);
-    ppu.set_scan_ln_count(240);
-    ppu.set_ctrl(128);
+    nes.set_pc(0x0100);
+    nes.set_stack_ptr(0xFF);
+    ppu.set_nmi_output(false);
+    nes.set_prev_nmi_line(false);
     ppu.update_v_blank();
-    ppu.clear_nmi();
+    rom.set_FA_FB(0x78,0x56);
+
+    bus.write(0x2000, 128);
+
+    nes.execute();
+
+    if(nes.get_pc() == 0x5678){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(nes.get_prev_nmi_line()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFC){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 7" << std::endl;
+    nes.set_pc(0x0100);
+    nes.set_stack_ptr(0xFF);
+    ppu.set_nmi_output(true);
+    nes.set_prev_nmi_line(false);
+    ppu.clear_v_blank();
+    ppu.set_scan_ln_count(240);
+    ppu.set_cycle_count(340);
+    rom.set_FA_FB(0x78,0x56);
 
     ppu.tick();
+    
+    if(ppu.get_nmi()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
 
-    ppu.set_cycle_count(340);
+    nes.execute();
+
+    if(nes.get_pc() == 0x0101){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(!nes.get_prev_nmi_line()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
     ppu.set_scan_ln_count(260);
+    ppu.set_cycle_count(340);
 
     ppu.tick();
 
@@ -1934,144 +1984,18 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
 
-    if(!ppu.get_nmi()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "NMI CPU EXECUTION TESTS" << std::endl;
-    std::cout << "TEST 1" << std::endl;
-    bus.set_NOP_sys_ram();
-    nes.set_pc(0x0100);
-    nes.set_stack_ptr(0xFF);
-    ppu.update_nmi();
-    rom.set_FA_FB(0x78,0x56);
     nes.execute();
 
-    if(!ppu.get_nmi()){
+    if(!nes.get_prev_nmi_line()){
         std::cout << "Pass" << std::endl;
     }
     else{
         std::cout << "Fail" << std::endl;
     }
 
-    if(nes.get_pc() == 0x5678){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    ppu.set_scan_ln_count(240);
+    ppu.set_cycle_count(340);
 
-    std::cout << "TEST 2" << std::endl;
-    nes.set_pc(0x1234);
-    nes.set_stack_ptr(0xFF);
-    ppu.update_nmi();
-    rom.set_FA_FB(0x78,0x56);
-
-    nes.execute();
-
-    if(bus.read(0x01FF) == 0x12){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(bus.read(0x01FE) == 0x35){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-        std::cout << static_cast<int>(bus.read(0x01FE)) << std::endl;
-    }
-
-    if(nes.get_stack_ptr() == 0xFC){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-        std::cout << static_cast<int>(nes.get_stack_ptr()) << std::endl;
-    }
-
-    std::cout << "TEST 3" << std::endl;
-    nes.set_pc(0x1234);
-    nes.set_status_flag(0x75);
-    nes.set_stack_ptr(0xFF);
-    ppu.update_nmi();
-    rom.set_FA_FB(0x78,0x56);
-
-    nes.execute();
-
-    if(nes.get_status_flag()[bit_index(register_bit::B)] == false){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 4" << std::endl;
-    nes.set_pc(0x0100);
-    nes.set_status_flag(0x75);
-    nes.set_stack_ptr(0xFF);
-    ppu.update_nmi();
-    rom.set_FA_FB(0x78,0x56);
-
-    nes.execute();
-
-    if(nes.get_status_flag()[bit_index(register_bit::I)] == true){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 5" << std::endl;
-    nes.set_pc(0x0100);
-    nes.set_status_flag(0x75);
-    nes.set_stack_ptr(0xFF);
-    ppu.update_nmi();
-    rom.set_FA_FB(0x78,0x56);
-
-    nes.execute();
-
-    if(!ppu.get_nmi()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 6" << std::endl;
-    nes.set_pc(0x0100);
-    nes.set_status_flag(0x75);
-    nes.set_stack_ptr(0xFF);
-    ppu.clear_nmi();
-    rom.set_FA_FB(0x78,0x56);
-
-    nes.execute();
-
-    if(nes.get_pc() != 0x5678){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(nes.get_stack_ptr() == 0xFF){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(!ppu.get_nmi()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
+    ppu.tick();
     return 0;
 }

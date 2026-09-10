@@ -186,3 +186,12 @@ uint8_t PPU::read_pal_ram(uint16_t address){
 uint8_t PPU::read_oam_ram(uint16_t address){
     return this->oam_ram[address];
 }
+
+// DEBUG FUNCTIONS:
+void PPU::set_nmi_output(bool flag){
+    this->nmi_output = flag;
+}
+
+bool PPU::get_nmi_output(){
+    return this->nmi_output;
+}
