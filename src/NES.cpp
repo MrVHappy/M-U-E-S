@@ -610,8 +610,10 @@
             // call the instruction
             (this->*new_instruction.operation)();
             // handel cycle (temp)
-            // check the NMI signal
-            if(this->bus->get_ppu().get_nmi()){
+            // get the current nmi line
+            bool current_nmi_line = this->bus->get_ppu().get_v_blank() && this->bus->get_ppu().get_nmi_output();
+            // check if previous nmi line == 0 and current nmi line == 1
+            if((this->previous_nmi_line == 0) && (current_nmi_line == 1)){
                 // extract the high byte of the PC
                 uint8_t high_byte = this->pc >> 8;
                 // extract the low byte of the PC
@@ -656,6 +658,7 @@
                 // clear NMI
                 this->bus->get_ppu().clear_nmi();
             }
+            this->previous_nmi_line = current_nmi_line;
         }
 
         // set flag functions:
