@@ -14,8 +14,14 @@ void PPU::tick(){
         this->scan_ln_count = (this->scan_ln_count + 1) % 262;
 
         // 0-239 rendering
+        if((this->scan_ln_count >= 0) && (this->scan_ln_count < 240)){
+
+        }
         // 240 post render
-        // VBlank start
+        if(this->scan_ln_count == 240){
+
+        }
+        // 241-260 VBlank start
         if(this->scan_ln_count == 241){
             // set the Vblank flag in status
             this->v_blank = true;
