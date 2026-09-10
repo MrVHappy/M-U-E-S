@@ -1949,23 +1949,21 @@ int main(int argc, char*argv[]){
     rom.set_FA_FB(0x78,0x56);
 
     ppu.tick();
-    
-    if(ppu.get_nmi()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
     nes.execute();
 
-    if(nes.get_pc() == 0x0101){
+    if(nes.get_pc() == 0x5678){
         std::cout << "Pass" << std::endl;
     }
     else{
         std::cout << "Fail" << std::endl;
     }
-    if(!nes.get_prev_nmi_line()){
+    if(nes.get_prev_nmi_line()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFC){
         std::cout << "Pass" << std::endl;
     }
     else{
@@ -1997,5 +1995,19 @@ int main(int argc, char*argv[]){
     ppu.set_cycle_count(340);
 
     ppu.tick();
+    nes.execute();
+    
+    if(nes.get_pc() == 0x5678){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(nes.get_prev_nmi_line()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }

@@ -103,8 +103,5 @@ class PPU{
         uint8_t read_pal_ram(uint16_t address);
         uint8_t read_oam_ram(uint16_t address);
 
-        // DEBUG FUNCTIONS:
-        void set_nmi_output(bool flag);
-        bool get_nmi_output();
 };
 #endif

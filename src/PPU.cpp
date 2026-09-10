@@ -22,16 +22,16 @@ void PPU::tick(){
             // set the Vblank flag in status
             this->v_blank = true;
             // check if v blank updated from false to true
-            if(!old_v_blank){
-                // // extract the bit 7 from ctrl reg
-                // this->nmi_output = this->ctrl >> 7;
-                // perform v_blank AND nmi_output
-                bool nmi_line = this->v_blank && static_cast<bool>(nmi_output);
-                // if NMI line is true then trigger nmi request
-                if(nmi_line){
-                    this->nmi = true;
-                }
-            }
+            // if(!old_v_blank){
+            //     // // extract the bit 7 from ctrl reg
+            //     // this->nmi_output = this->ctrl >> 7;
+            //     // perform v_blank AND nmi_output
+            //     bool nmi_line = this->v_blank && static_cast<bool>(nmi_output);
+            //     // if NMI line is true then trigger nmi request
+            //     if(nmi_line){
+            //         this->nmi = true;
+            //     }
+            // }
             // // update status register
             // this->status = this->status | 0b10000000;
         }
@@ -185,13 +185,4 @@ uint8_t PPU::read_pal_ram(uint16_t address){
 }
 uint8_t PPU::read_oam_ram(uint16_t address){
     return this->oam_ram[address];
-}
-
-// DEBUG FUNCTIONS:
-void PPU::set_nmi_output(bool flag){
-    this->nmi_output = flag;
-}
-
-bool PPU::get_nmi_output(){
-    return this->nmi_output;
 }
