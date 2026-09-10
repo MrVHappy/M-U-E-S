@@ -1,4 +1,7 @@
 #include "PPU.hpp"
+#include "BUS.hpp"
+#include "Cartridge.hpp"
+#include "Mapper.hpp"
 PPU::PPU(BUS *bus){
     this->bus = bus;
 }
@@ -14,8 +17,29 @@ void PPU::tick(){
         this->scan_ln_count = (this->scan_ln_count + 1) % 262;
 
         // 0-239 rendering
-        if((this->scan_ln_count >= 0) && (this->scan_ln_count < 240)){
+        if((this->scan_ln_count < 240) && (cycle_count >=1) && (cycle_count < 257)){
+            // get the vram address
+            uint16_t address = 0x2000 | (this->v & 0x0FFF);
+            // check which mirroring mode will be used
+            if(this->bus->get_rom().get_mapper_info().is_vertical()){
+                // vertical mapping
+                address = address % 0x0800;
+            }
+            else{
+                // horizontal mapping
+                if((address >= 0x2000) && (address < 0x2800)){
+                    address = address % 0x0400;
+                }
+                else if((address >= 0x2800) && (address < 0x2C00)){
+                    address = (address % 0x0400) + 0x400;
+                }
+                else{
+                    address = address % 0x0800;
+                }
 
+            }
+            // read vram at the mirrored address
+            uint8_t tile_num = this->read_vram(address);
         }
         // 240 post render
         if(this->scan_ln_count == 240){
