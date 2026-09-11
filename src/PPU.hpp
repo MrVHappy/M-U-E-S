@@ -29,6 +29,12 @@ class PPU{
         uint8_t pattern_low;
         // pattern high
         uint8_t pattern_high;
+        // pattern low shift register
+        uint16_t low_shift;
+        // pattern high shift register
+        uint16_t high_shift;
+        // pallet state register
+        uint8_t pal_state;
         // RAM
         // name table memory 2KiB
         std::array<uint8_t,2048> vram;

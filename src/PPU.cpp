@@ -116,6 +116,41 @@ void PPU::tick(){
                 this->pattern_high = this->bus->get_rom().get_mapper_info().read_CHR(high_addr);
                 break;
             }
+            // tile boundary loading
+            case 7:{
+                // remove the bits 0-7 from low shift
+                this->low_shift = this->low_shift & 0b1111111100000000;
+                // then add pattern low to bits 0-7
+                this->low_shift = this->low_shift | this->pattern_low;
+                // remove the bits 0-7 from high shift
+                this->high_shift = this->high_shift & 0b1111111100000000;
+                // then add pattern high to bits 0-7
+                this->high_shift = this->high_shift | this->pattern_high;
+                // extract coarse x from register v
+                uint8_t coarse_x = this->v & 0b1111;
+                // extract coarse y from register v
+                uint8_t coarse_y = (this->v & 0b11110000) >> 4;
+                // get the horizontal quadrant from bit 1 of coarse x
+                bool horizontal_quad = (coarse_x & 0b0010) >> 1;
+                // get the vertical quadrant from bit 1 of coarse y
+                bool vertical_quad = (coarse_y & 0b0010) >> 1;
+                // get the attribute byte from attribute buffer at tile index
+                uint8_t attribute_byte = this->attribute_buffer[tile_index];
+                // check which attribute bit to use
+                if((horizontal_quad == 0) && (vertical_quad == 0)){
+
+                }
+                else if((horizontal_quad == 0) && (vertical_quad == 1)){
+
+                }
+                else if((horizontal_quad == 1) && (vertical_quad == 0)){
+
+                }
+                else{
+
+                }
+                break;
+            }
         }
     }
     // 240 post render
