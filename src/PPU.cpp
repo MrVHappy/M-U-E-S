@@ -43,7 +43,58 @@ void PPU::tick(){
                 break;
             }
             // attribute processing
+            case 2:{
+                // calculate the attribute address
+                address = 0x23C0 + (this->v & 0x0C00)
+                    + ((this->v >> 4) & 0x38) 
+                    + ((this->v >> 2) & 0x07);
+                
+                // check which mirroring mode will be used
+                if(this->bus->get_rom().get_mapper_info().is_vertical()){
+                    // vertical mapping
+                    address = address % 0x0800;
+                }
+                else{
+                    // horizontal mapping
+                    if((address >= 0x2000) && (address < 0x2800)){
+                        address = address % 0x0400;
+                    }
+                    else if((address >= 0x2800) && (address < 0x2C00)){
+                        address = (address % 0x0400) + 0x400;
+                    }
+                    else{
+                        address = address % 0x0800;
+                    }
+                }
 
+                // extract the mirrored address from vram
+                uint8_t attribute_byte = this->read_vram(address);
+                // store in the tile buffer
+                this->attribute_buffer[tile_index] = attribute_byte;
+                break;
+            }
+            // Pattern low byte fetch
+            case 4:{
+                // extract bit 4 from ctrl register
+                bool bit_4 = (this->ctrl & 0b00010000) >> 4;
+                // extract the tile number from the tile buffer at tile index
+                uint8_t tile_num = tile_buffer[tile_index];
+                // extract fine y from v register
+                uint8_t fine_y = (this->v & 0b11100000000000) >> 12;
+                // calculate the low byte
+                uint16_t low_addr;
+                if(bit_4){
+                    // pattern table is 0x1000
+                    low_addr = 0x1000 + (tile_num * 16) + fine_y;
+                }
+                else{
+                    // pattern table is 0
+                    low_addr = (tile_num * 16) + fine_y;
+                }
+                // extract the contents from CHR at index low addr and store in pattern low
+                this->pattern_low = this->bus->get_rom().get_mapper_info().read_CHR(low_addr);
+                break;
+            }
         }
     }
     // 240 post render

@@ -25,6 +25,10 @@ class PPU{
         uint8_t fine_x;
         // VRAM data
         uint8_t vram_data;
+        // pattern low
+        uint8_t pattern_low;
+        // pattern high
+        uint8_t pattern_high;
         // RAM
         // name table memory 2KiB
         std::array<uint8_t,2048> vram;
@@ -34,6 +38,8 @@ class PPU{
         std::array<uint8_t,256> oam_ram;
         // 32B tile buffer
         std::array<uint8_t,32> tile_buffer;
+        // 32B attribute buffer
+        std::array<uint8_t,32> attribute_buffer;
         // scanline counter
         int scan_ln_count;
         // cycle count
