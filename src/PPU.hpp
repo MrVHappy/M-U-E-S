@@ -36,6 +36,8 @@ class PPU{
         int scan_ln_count;
         // cycle count
         int cycle_count;
+        // dot count
+        int dot_count;
         // boolean flags
         bool v_blank, nmi, nmi_output, sprite_overflow, sprite_0_hit, write_toggle;
         // link PPU to bus

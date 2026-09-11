@@ -7,63 +7,64 @@ PPU::PPU(BUS *bus){
 }
 
 void PPU::tick(){
-    // increment cycle count by one
-    this->cycle_count++;
-    // check if cycle count has reached 341
-    if(this->cycle_count == 341){
-        // reset cycle count
-        this->cycle_count = 0;
-        // increment scan ln count and MOD 262
-        this->scan_ln_count = (this->scan_ln_count + 1) % 262;
-
-        // 0-239 rendering
-        if((this->scan_ln_count < 240) && (cycle_count >=1) && (cycle_count < 257)){
-            // get the vram address
-            uint16_t address = 0x2000 | (this->v & 0x0FFF);
-            // check which mirroring mode will be used
-            if(this->bus->get_rom().get_mapper_info().is_vertical()){
-                // vertical mapping
-                address = address % 0x0800;
+    // 0-239 rendering
+    if((this->scan_ln_count < 240) && (this->dot_count >=1) && (this->dot_count < 257)){
+        // get the vram address
+        uint16_t address = 0x2000 | (this->v & 0x0FFF);
+        // check which mirroring mode will be used
+        if(this->bus->get_rom().get_mapper_info().is_vertical()){
+            // vertical mapping
+            address = address % 0x0800;
+        }
+        else{
+            // horizontal mapping
+            if((address >= 0x2000) && (address < 0x2800)){
+                address = address % 0x0400;
+            }
+            else if((address >= 0x2800) && (address < 0x2C00)){
+                address = (address % 0x0400) + 0x400;
             }
             else{
-                // horizontal mapping
-                if((address >= 0x2000) && (address < 0x2800)){
-                    address = address % 0x0400;
-                }
-                else if((address >= 0x2800) && (address < 0x2C00)){
-                    address = (address % 0x0400) + 0x400;
-                }
-                else{
-                    address = address % 0x0800;
-                }
-
+                address = address % 0x0800;
             }
-            // read vram at the mirrored address
-            uint8_t tile_num = this->read_vram(address);
-        }
-        // 240 post render
-        if(this->scan_ln_count == 240){
 
         }
-        // 241-260 VBlank start
-        if(this->scan_ln_count == 241){
-            // set the Vblank flag in status
-            this->v_blank = true;
-        }
-
-        // prerender
-        if(this->scan_ln_count == 261){
-            // clear the VBlank
-            this->v_blank = false;
-            // clear sprite 0 hit
-            this->sprite_0_hit = false;
-            // clear sprite overflow
-            this->sprite_overflow = false;
-            // update the status register
-            this->status = this->status & 0b00011111;
-        }
+        // read vram at the mirrored address
+        uint8_t tile_num = this->read_vram(address);
     }
+    // 240 post render
+    if(this->scan_ln_count == 240){
+
+    }
+    // 241-260 VBlank start
+    if(this->scan_ln_count == 241){
+        // set the Vblank flag in status
+        this->v_blank = true;
+    }
+
+    // prerender
+    if(this->scan_ln_count == 261){
+        // clear the VBlank
+        this->v_blank = false;
+        // clear sprite 0 hit
+        this->sprite_0_hit = false;
+        // clear sprite overflow
+        this->sprite_overflow = false;
+        // update the status register
+        this->status = this->status & 0b00011111;
+    }
+
+    // increment dot count
+    this->dot_count++;
+    // check if there have been 340 dots in order to advance the scan line
+    if(this->dot_count == 341){
+        // increment scan ln count and MOD 262
+        this->scan_ln_count = (this->scan_ln_count + 1) % 262;
+    }
+    // wrap dot count back to 0
+    this->dot_count = 0;
 }
+
 
 uint8_t PPU::get_ctrl(){
     return this->ctrl;
@@ -201,3 +202,4 @@ uint8_t PPU::read_pal_ram(uint16_t address){
 uint8_t PPU::read_oam_ram(uint16_t address){
     return this->oam_ram[address];
 }
+

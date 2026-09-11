@@ -605,6 +605,7 @@
             uint8_t ticks = new_instruction.cycles * 3;
             // call tick for every cycle
             for(int i = 0; i < ticks; i++){
+                // perform PPU rendering
                 this->bus->get_ppu().tick();
             }
             // call the instruction
