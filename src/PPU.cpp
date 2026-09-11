@@ -95,6 +95,27 @@ void PPU::tick(){
                 this->pattern_low = this->bus->get_rom().get_mapper_info().read_CHR(low_addr);
                 break;
             }
+            case 6:{
+                // extract bit 4 from ctrl register
+                bool bit_4 = (this->ctrl & 0b00010000) >> 4;
+                // extract the tile number from the tile buffer at tile index
+                uint8_t tile_num = tile_buffer[tile_index];
+                // extract fine y from v register
+                uint8_t fine_y = (this->v & 0b11100000000000) >> 12;
+                // calculate the low byte
+                uint16_t high_addr;
+                if(bit_4){
+                    // pattern table is 0x1000
+                    high_addr = 0x1000 + (tile_num * 16) + fine_y + 8;
+                }
+                else{
+                    // pattern table is 0
+                    high_addr = (tile_num * 16) + fine_y + 8;
+                }
+                // extract the contents from CHR at index low addr and store in pattern high
+                this->pattern_high = this->bus->get_rom().get_mapper_info().read_CHR(high_addr);
+                break;
+            }
         }
     }
     // 240 post render
