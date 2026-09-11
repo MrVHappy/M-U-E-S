@@ -9,7 +9,7 @@ PPU::PPU(BUS *bus){
 void PPU::tick(){
     // 0-239 rendering
     if((this->scan_ln_count < 240) && (this->dot_count >=1) && (this->dot_count < 257)){
-        // get the vram address
+        // get the nametable tile address
         uint16_t address = 0x2000 | (this->v & 0x0FFF);
         // check which mirroring mode will be used
         if(this->bus->get_rom().get_mapper_info().is_vertical()){
@@ -29,8 +29,22 @@ void PPU::tick(){
             }
 
         }
-        // read vram at the mirrored address
-        uint8_t tile_num = this->read_vram(address);
+        // get the tile index 
+        uint8_t tile_index = (this->dot_count - 1) / 8;
+        // get the tile fetch sequence
+        uint8_t tile_fetch_seq = (this->dot_count - 1) % 8;    
+        switch(tile_fetch_seq){
+            // nametable processing
+            case 0:{
+                // read nametable
+                uint8_t vram_data = this->read_vram(address);
+                // store in the tile buffer
+                this->tile_buffer[tile_index] = vram_data;
+                break;
+            }
+            // attribute processing
+
+        }
     }
     // 240 post render
     if(this->scan_ln_count == 240){
