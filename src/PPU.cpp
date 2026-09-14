@@ -170,6 +170,7 @@ void PPU::tick(){
         // calculate pattern value using high and low bit
         uint8_t pattern_val = low_bit + (high_bit * 2);
         uint16_t palelet_val;
+        // check if the pattern value is 0
         if(pattern_val == 0){
             // uses a transparent or background pattern
             palelet_val = 0x3F00;
@@ -177,6 +178,22 @@ void PPU::tick(){
         else{
             // calculate palelet_val using pal state and pattern value
             palelet_val = 0x3F00 + this->pal_state * 4 + pattern_val;
+        }
+        
+        uint8_t colour_byte;
+
+        // check the current address of v
+        if ((palelet_val >= 0x3F00) && (palelet_val < 0x4000)){
+            // mask the address to allow mirroring
+            uint16_t address = palelet_val;
+            address = address % 32;
+            // check for special mirroring
+            if((address == 0x10) || (address == 0x14) || (address == 0x18) || (address == 0x1C)){
+                // mirror to 0x00, 0x04, 0x08 and 0x0C
+                address = address & 0x0F;
+            }
+            // get the colour byte from PAL RAM using address 
+            colour_byte = this->read_pal_ram(address);
         }
         
     }
