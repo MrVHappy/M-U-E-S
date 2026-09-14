@@ -46,6 +46,8 @@ class PPU{
         std::array<uint8_t,32> tile_buffer;
         // 32B attribute buffer
         std::array<uint8_t,32> attribute_buffer;
+        // Frame buffer
+        uint8_t frame_buffer[240][256];
         // scanline counter
         int scan_ln_count;
         // cycle count

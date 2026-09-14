@@ -194,6 +194,46 @@ void PPU::tick(){
             }
             // get the colour byte from PAL RAM using address 
             colour_byte = this->read_pal_ram(address);
+            // get the x coordinate
+            uint8_t x = this->dot_count -1;
+            // get the y coordinate
+            uint8_t y = this->scan_ln_count;
+            // store colour byte in the frame buffer
+            this->frame_buffer[y][x] = colour_byte;
+        }
+        // check if the tile fetch sequence is at 7
+        if(tile_fetch_seq == 7){
+            // get coarse x from v
+            uint8_t coarse_x = this->v & 0b11111;
+            // get the horizontal bit from v at bit 10
+            bool horizontal_bit = (this->v & 0b10000000000) >> 10;
+            // check if coarse x is between 0-30
+            if(coarse_x < 31){
+                // increment coarse x
+                coarse_x++;
+                // update v
+                this->v = this->v &0b1111111111100000;
+                this->v = this->v | coarse_x;
+            }
+            else{
+                // reset coarse x
+                coarse_x = 0;
+                // check if horizontal bit is set at 0 or 1
+                if(!horizontal_bit){
+                    // set horizontal bit to true (1)
+                    horizontal_bit = true;
+                    // update v
+                    this->v = this->v & 0b1111111111100000;
+                    this->v = this->v | 0b10000000000;
+                }
+                else{
+                    // set horizontal bit to false (0)
+                    horizontal_bit = false;
+                    // update v
+                    this->v = this->v &0b1111101111100000;
+                }
+
+            }
         }
         
     }
