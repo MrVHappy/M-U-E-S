@@ -29,6 +29,10 @@ void PPU::tick(){
             }
 
         }
+        // left shift low and high shift by 1
+        this->low_shift = this->low_shift << 1;
+        this->high_shift = this->high_shift << 1;
+
         // get the tile index 
         uint8_t tile_index = (this->dot_count - 1) / 8;
         // get the tile fetch sequence
@@ -159,6 +163,22 @@ void PPU::tick(){
                 break;
             }
         }
+        // extract the 15th bit from low shift
+        uint8_t low_bit = this->low_shift >> 15;
+        // extract the 15th bit from high shift
+        uint8_t high_bit = this->high_shift >> 15;
+        // calculate pattern value using high and low bit
+        uint8_t pattern_val = low_bit + (high_bit * 2);
+        uint16_t palelet_val;
+        if(pattern_val == 0){
+            // uses a transparent or background pattern
+            palelet_val = 0x3F00;
+        }
+        else{
+            // calculate palelet_val using pal state and pattern value
+            palelet_val = 0x3F00 + this->pal_state * 4 + pattern_val;
+        }
+        
     }
     // 240 post render
     if(this->scan_ln_count == 240){
