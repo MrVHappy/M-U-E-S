@@ -127,9 +127,9 @@ void PPU::tick(){
                 // then add pattern high to bits 0-7
                 this->high_shift = this->high_shift | this->pattern_high;
                 // extract coarse x from register v
-                uint8_t coarse_x = this->v & 0b1111;
+                uint8_t coarse_x = this->v & 0b11111;
                 // extract coarse y from register v
-                uint8_t coarse_y = (this->v & 0b11110000) >> 4;
+                uint8_t coarse_y = (this->v & 0b1111100000) >> 5;
                 // get the horizontal quadrant from bit 1 of coarse x
                 bool horizontal_quad = (coarse_x & 0b0010) >> 1;
                 // get the vertical quadrant from bit 1 of coarse y
@@ -138,17 +138,24 @@ void PPU::tick(){
                 uint8_t attribute_byte = this->attribute_buffer[tile_index];
                 // check which attribute bit to use
                 if((horizontal_quad == 0) && (vertical_quad == 0)){
-
-                }
-                else if((horizontal_quad == 0) && (vertical_quad == 1)){
-
+                    // only use bits 0-1
+                    attribute_byte = attribute_byte & 0b00000011;
                 }
                 else if((horizontal_quad == 1) && (vertical_quad == 0)){
-
+                    // only use bits 2-3
+                    attribute_byte = (attribute_byte & 0b00001100) >> 2;
+                }
+                else if((horizontal_quad == 0) && (vertical_quad == 1)){
+                    // only use bits 4-5
+                    attribute_byte = (attribute_byte & 0b00110000) >> 4;
                 }
                 else{
-
+                    // only use bits 6-7
+                    attribute_byte = (attribute_byte & 0b11000000) >> 6;
                 }
+
+                // set the updated attribute byte into pal state
+                this->pal_state = attribute_byte;
                 break;
             }
         }
