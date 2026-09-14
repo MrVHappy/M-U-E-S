@@ -300,6 +300,17 @@ void PPU::tick(){
             }
             
         }
+
+        // check if dot count is 257
+        if(this->dot_count == 257){
+            // get coarse X from register t
+            uint8_t new_coarse_x = this->t & 0b11111;
+            // get horizontal bit from register t
+            uint16_t new_horizontal_bit = this->t & 0b10000000000;
+            // update v
+            this->v = this->v & 0b1111101111100000;
+            this->v = this->v | new_coarse_x | new_horizontal_bit;
+        }
         
     }
     // 240 post render
