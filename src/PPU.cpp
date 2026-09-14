@@ -333,6 +333,20 @@ void PPU::tick(){
         this->sprite_overflow = false;
         // update the status register
         this->status = this->status & 0b00011111;
+
+        // check if dot count is between 280 and 304
+        if((this->dot_count >= 280) && (this->dot_count < 305)){
+            // get coarse Y from register t
+            uint16_t new_coarse_y = this->t & 0b1111100000;
+            // get vertical bit from register t
+            uint16_t new_vertical_bit = this->t & 0b100000000000;
+            // get fine y from register t
+            uint16_t new_fine_y = this->t & 0b111000000000000;
+
+            // update v
+            this->v = this->v & 0b1000010000011111;
+            this->v = this->v | new_coarse_y | new_vertical_bit | new_fine_y;
+        }
     }
 
     // increment dot count
