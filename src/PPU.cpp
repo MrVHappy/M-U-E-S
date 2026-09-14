@@ -235,6 +235,71 @@ void PPU::tick(){
 
             }
         }
+        // check if dot count is at 256
+        if(this->dot_count == 256){
+            // get the contents of fine Y
+            uint8_t fine_y = (this->v & 0b111000000000000) >> 12;
+            // get the contents of coarse Y
+            uint8_t coarse_y = (this->v & 0b1111100000) >> 5;
+            // get the contents of vertical bit
+            bool vertical_bit = (this->v & 0b100000000000) >> 11;
+            // check if fine Y if between 0-6
+            if(fine_y < 7){
+                // increment fine y
+                fine_y++;
+                // update v
+                this->v = this->v & 0b1000111111111111;
+                this->v = this->v | (fine_y << 12);
+            }
+            // check if fine Y is 7
+            else if(fine_y == 7){
+                // reset fine y to 0
+                fine_y = 0;
+                // update v
+                this->v = this->v & 0b1000111111111111;
+
+                // check if coarse Y is between 0-28
+                if(coarse_y < 29){
+                    // increment coarse Y
+                    coarse_y++;
+
+                    // update v
+                    this->v = this->v & 0b111111000001111;
+                    this->v = this->v | (coarse_y << 5);
+                }
+                // check if coarse Y is 29
+                else if(coarse_y == 29){
+                    // reset coarse Y
+                    coarse_y = 0;
+                    // check if the vertical bit is false(0)
+                    if(!vertical_bit){
+                        // set it to true (1)
+                        vertical_bit = true;
+                        // update v
+                        this->v = this->v & 0b111101000001111;
+                        this->v = this->v | (coarse_y << 5);
+                        this->v = this->v | 0b100000000000;
+                    }
+                    else{
+                        // set it to false (0)
+                        vertical_bit = false;
+                        
+                        // update v
+                        this->v = this->v & 0b111101000001111;
+                        this->v = this->v | (coarse_y << 5);
+                    }
+                }
+                // check if coarse Y is 30 or 31
+                else if(coarse_y >= 30){
+                    // reset coarse Y
+                    coarse_y = 0;
+
+                    // update v
+                    this->v = this->v & 0b111111000001111;
+                }
+            }
+            
+        }
         
     }
     // 240 post render
