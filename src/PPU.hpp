@@ -81,6 +81,8 @@ class PPU{
         bool get_v_blank();
         bool get_sprite_0_hit();
         bool get_nmi_output();
+        int get_scan_ln_count();
+        int get_dot_count();
 
         // setters
         void set_ctrl(uint8_t value);
@@ -94,6 +96,7 @@ class PPU{
         void set_vram_data(uint8_t value);
         void set_cycle_count(int value);
         void set_scan_ln_count(int value);
+        void set_dot_count(int value);
         void set_nmi_output(bool value);
 
         // clears

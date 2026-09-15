@@ -740,6 +740,12 @@ bool PPU::get_sprite_0_hit(){
 bool PPU::get_nmi_output(){
     return nmi_output;
 }
+int PPU::get_scan_ln_count(){
+    return this->scan_ln_count;
+}
+int PPU::get_dot_count(){
+    return this->dot_count;
+}
 
 void PPU::set_ctrl(uint8_t value){
     this->ctrl = value;
@@ -773,6 +779,9 @@ void PPU::set_cycle_count(int value){
 }
 void PPU::set_scan_ln_count(int value){
     this->scan_ln_count = value;
+}
+void PPU::set_dot_count(int value){
+    this->dot_count = value;
 }
 void PPU::set_nmi_output(bool value){
     this->nmi_output = value;

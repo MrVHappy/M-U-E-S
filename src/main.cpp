@@ -2009,5 +2009,38 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "PPU RENDERING TESTS" << std::endl;
+    std::cout << "TEST 1" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(0);
+    bool loop_fin = true;
+    for(int i = 0; i < 341; i++){
+        ppu.tick();
+        if((ppu.get_dot_count() < 0) || (ppu.get_dot_count() < 340)){
+            loop_fin = false;
+            break;
+        }
+    }
+    if(loop_fin){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_scan_ln_count() == 1){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    std::cout << "TEST 2" << std::endl;
+    
     return 0;
 }
