@@ -621,6 +621,32 @@ void PPU::tick(){
         }
     }
     
+    // dummy fetches
+    // check if dot count is 337 or 338
+    if((this->dot_count == 337) || (this->dot_count == 338)){
+        // get the nametable tile address
+        uint16_t address = 0x2000 | (this->v & 0x0FFF);
+        // check which mirroring mode will be used
+        if(this->bus->get_rom().get_mapper_info().is_vertical()){
+            // vertical mapping
+            address = address % 0x0800;
+        }
+        else{
+            // horizontal mapping
+            if((address >= 0x2000) && (address < 0x2800)){
+                address = address % 0x0400;
+            }
+            else if((address >= 0x2800) && (address < 0x2C00)){
+                address = (address % 0x0400) + 0x400;
+            }
+            else{
+                address = address % 0x0800;
+            }
+
+        }
+        // read nametable but don't store it in the tile buffer
+        this->read_vram(address);
+    }
     // 240 post render
     if(this->scan_ln_count == 240){
         
