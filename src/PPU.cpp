@@ -264,7 +264,7 @@ void PPU::tick(){
                     coarse_y++;
 
                     // update v
-                    this->v = this->v & 0b111111000001111;
+                    this->v = this->v & 0b1111110000011111;
                     this->v = this->v | (coarse_y << 5);
                 }
                 // check if coarse Y is 29
@@ -276,7 +276,7 @@ void PPU::tick(){
                         // set it to true (1)
                         vertical_bit = true;
                         // update v
-                        this->v = this->v & 0b111101000001111;
+                        this->v = this->v & 0b1111010000011111;
                         this->v = this->v | (coarse_y << 5);
                         this->v = this->v | 0b100000000000;
                     }
@@ -285,7 +285,7 @@ void PPU::tick(){
                         vertical_bit = false;
                         
                         // update v
-                        this->v = this->v & 0b111101000001111;
+                        this->v = this->v & 0b1111010000011111;
                         this->v = this->v | (coarse_y << 5);
                     }
                 }
@@ -295,12 +295,14 @@ void PPU::tick(){
                     coarse_y = 0;
 
                     // update v
-                    this->v = this->v & 0b111111000001111;
+                    this->v = this->v & 0b1111110000011111;
                 }
             }
             
-        }
-
+        }      
+    }
+    // check if dot count is between 257-320
+    if((this->dot_count >= 257) && (this->dot_count < 321)){
         // check if dot count is 257
         if(this->dot_count == 257){
             // get coarse X from register t
@@ -311,8 +313,160 @@ void PPU::tick(){
             this->v = this->v & 0b1111101111100000;
             this->v = this->v | new_coarse_x | new_horizontal_bit;
         }
-        
+        // get the nametable tile address
+        uint16_t address = 0x2000 | (this->v & 0x0FFF);
+        // check which mirroring mode will be used
+        if(this->bus->get_rom().get_mapper_info().is_vertical()){
+            // vertical mapping
+            address = address % 0x0800;
+        }
+        else{
+            // horizontal mapping
+            if((address >= 0x2000) && (address < 0x2800)){
+                address = address % 0x0400;
+            }
+            else if((address >= 0x2800) && (address < 0x2C00)){
+                address = (address % 0x0400) + 0x400;
+            }
+            else{
+                address = address % 0x0800;
+            }
+
+        }
+        // get the tile index 
+        uint8_t tile_index = (this->dot_count - 257) / 8;
+        // get the tile fetch sequence
+        uint8_t tile_fetch_seq = (this->dot_count - 257) % 8; 
+
+        switch(tile_fetch_seq){
+            // nametable processing
+            case 0:{
+                // read nametable
+                uint8_t vram_data = this->read_vram(address);
+                // store in the tile buffer
+                this->tile_buffer[tile_index] = vram_data;
+                break;
+            }
+            // attribute processing
+            case 2:{
+                // calculate the attribute address
+                address = 0x23C0 + (this->v & 0x0C00)
+                    + ((this->v >> 4) & 0x38) 
+                    + ((this->v >> 2) & 0x07);
+                
+                // check which mirroring mode will be used
+                if(this->bus->get_rom().get_mapper_info().is_vertical()){
+                    // vertical mapping
+                    address = address % 0x0800;
+                }
+                else{
+                    // horizontal mapping
+                    if((address >= 0x2000) && (address < 0x2800)){
+                        address = address % 0x0400;
+                    }
+                    else if((address >= 0x2800) && (address < 0x2C00)){
+                        address = (address % 0x0400) + 0x400;
+                    }
+                    else{
+                        address = address % 0x0800;
+                    }
+                }
+
+                // extract the mirrored address from vram
+                uint8_t attribute_byte = this->read_vram(address);
+                // store in the tile buffer
+                this->attribute_buffer[tile_index] = attribute_byte;
+                break;
+            }
+            // Pattern low byte fetch
+            case 4:{
+                // extract bit 4 from ctrl register
+                bool bit_4 = (this->ctrl & 0b00010000) >> 4;
+                // extract the tile number from the tile buffer at tile index
+                uint8_t tile_num = tile_buffer[tile_index];
+                // extract fine y from v register
+                uint8_t fine_y = (this->v & 0b11100000000000) >> 12;
+                // calculate the low byte
+                uint16_t low_addr;
+                if(bit_4){
+                    // pattern table is 0x1000
+                    low_addr = 0x1000 + (tile_num * 16) + fine_y;
+                }
+                else{
+                    // pattern table is 0
+                    low_addr = (tile_num * 16) + fine_y;
+                }
+                // extract the contents from CHR at index low addr and store in pattern low
+                this->pattern_low = this->bus->get_rom().get_mapper_info().read_CHR(low_addr);
+                break;
+            }
+            case 6:{
+                // extract bit 4 from ctrl register
+                bool bit_4 = (this->ctrl & 0b00010000) >> 4;
+                // extract the tile number from the tile buffer at tile index
+                uint8_t tile_num = tile_buffer[tile_index];
+                // extract fine y from v register
+                uint8_t fine_y = (this->v & 0b11100000000000) >> 12;
+                // calculate the low byte
+                uint16_t high_addr;
+                if(bit_4){
+                    // pattern table is 0x1000
+                    high_addr = 0x1000 + (tile_num * 16) + fine_y + 8;
+                }
+                else{
+                    // pattern table is 0
+                    high_addr = (tile_num * 16) + fine_y + 8;
+                }
+                // extract the contents from CHR at index low addr and store in pattern high
+                this->pattern_high = this->bus->get_rom().get_mapper_info().read_CHR(high_addr);
+                break;
+            }
+            // tile boundary loading
+            case 7:{
+                // remove the bits 0-7 from low shift
+                this->low_shift = this->low_shift & 0b1111111100000000;
+                // then add pattern low to bits 0-7
+                this->low_shift = this->low_shift | this->pattern_low;
+                // remove the bits 0-7 from high shift
+                this->high_shift = this->high_shift & 0b1111111100000000;
+                // then add pattern high to bits 0-7
+                this->high_shift = this->high_shift | this->pattern_high;
+                // extract coarse x from register v
+                uint8_t coarse_x = this->v & 0b11111;
+                // extract coarse y from register v
+                uint8_t coarse_y = (this->v & 0b1111100000) >> 5;
+                // get the horizontal quadrant from bit 1 of coarse x
+                bool horizontal_quad = (coarse_x & 0b0010) >> 1;
+                // get the vertical quadrant from bit 1 of coarse y
+                bool vertical_quad = (coarse_y & 0b0010) >> 1;
+                // get the attribute byte from attribute buffer at tile index
+                uint8_t attribute_byte = this->attribute_buffer[tile_index];
+                // check which attribute bit to use
+                if((horizontal_quad == 0) && (vertical_quad == 0)){
+                    // only use bits 0-1
+                    attribute_byte = attribute_byte & 0b00000011;
+                }
+                else if((horizontal_quad == 1) && (vertical_quad == 0)){
+                    // only use bits 2-3
+                    attribute_byte = (attribute_byte & 0b00001100) >> 2;
+                }
+                else if((horizontal_quad == 0) && (vertical_quad == 1)){
+                    // only use bits 4-5
+                    attribute_byte = (attribute_byte & 0b00110000) >> 4;
+                }
+                else{
+                    // only use bits 6-7
+                    attribute_byte = (attribute_byte & 0b11000000) >> 6;
+                }
+
+                // set the updated attribute byte into pal state
+                this->pal_state = attribute_byte;
+                break;
+            }
+        }
+
     }
+    
     // 240 post render
     if(this->scan_ln_count == 240){
 
