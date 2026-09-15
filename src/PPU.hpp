@@ -83,6 +83,7 @@ class PPU{
         bool get_nmi_output();
         int get_scan_ln_count();
         int get_dot_count();
+        std::array<uint8_t,32> get_tile_buffer();
 
         // setters
         void set_ctrl(uint8_t value);
@@ -124,5 +125,7 @@ class PPU{
         uint8_t read_pal_ram(uint16_t address);
         uint8_t read_oam_ram(uint16_t address);
 
+        // DEBUG FUNCTIONS
+        void clear_tile_buffer();
 };
 #endif

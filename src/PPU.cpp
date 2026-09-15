@@ -746,6 +746,9 @@ int PPU::get_scan_ln_count(){
 int PPU::get_dot_count(){
     return this->dot_count;
 }
+std::array<uint8_t,32> PPU::get_tile_buffer(){
+    return this->tile_buffer;
+}
 
 void PPU::set_ctrl(uint8_t value){
     this->ctrl = value;
@@ -841,3 +844,9 @@ uint8_t PPU::read_oam_ram(uint16_t address){
     return this->oam_ram[address];
 }
 
+// DEBUG FUNCTIONS
+void PPU::clear_tile_buffer(){
+    for(int i = 0; i < 32; i++){
+        this->tile_buffer[i] = 0;
+    }
+}
