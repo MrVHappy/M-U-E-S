@@ -84,6 +84,9 @@ class PPU{
         int get_scan_ln_count();
         int get_dot_count();
         std::array<uint8_t,32> get_tile_buffer();
+        std::array<uint8_t,32> get_attribute_buffer();
+        uint8_t get_pattern_low();
+        uint8_t get_pattern_high();
 
         // setters
         void set_ctrl(uint8_t value);
@@ -127,5 +130,6 @@ class PPU{
 
         // DEBUG FUNCTIONS
         void clear_tile_buffer();
+        void clear_attribute_buffer();
 };
 #endif

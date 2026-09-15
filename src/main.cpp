@@ -2164,5 +2164,92 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "TEST 5" << std::endl;
+    ppu.set_v(0b001000000000000);
+    ppu.set_dot_count(256);
+    ppu.set_scan_ln_count(0);
+    ppu.write_vram(0x2000,0x12);
+    ppu.write_vram(0x23C0,0x34);
+    bus.get_rom().get_mapper_info().write_CHR(0x0120,0x56);
+    bus.get_rom().get_mapper_info().write_CHR(0x0128,0x78);
+    ppu.clear_tile_buffer();
+    ppu.clear_attribute_buffer();
+    
+    ppu.tick(); // 257
+    if(ppu.get_dot_count() == 257){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_tile_buffer()[0] == 0x12){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    ppu.tick(); // 258
+    ppu.tick(); // 259
+    
+    if(ppu.get_dot_count() == 259){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_attribute_buffer()[0] == 0x34){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    ppu.tick(); // 260
+    ppu.tick(); // 261
+    
+    if(ppu.get_dot_count() == 261){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_pattern_low() == 0x56){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    ppu.tick(); // 262
+    ppu.tick(); // 263
+
+    if(ppu.get_dot_count() == 263){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_pattern_low() == 0x56){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    ppu.tick(); // 264
+    ppu.tick(); // 265
+
+    if(ppu.get_dot_count() == 265){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_pattern_high() == 0x78){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }

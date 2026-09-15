@@ -749,7 +749,15 @@ int PPU::get_dot_count(){
 std::array<uint8_t,32> PPU::get_tile_buffer(){
     return this->tile_buffer;
 }
-
+std::array<uint8_t,32> PPU::get_attribute_buffer(){
+    return this->attribute_buffer;
+}
+uint8_t PPU::get_pattern_low(){
+    return this->pattern_low;
+}
+uint8_t PPU::get_pattern_high(){
+    return this->pattern_high;
+}
 void PPU::set_ctrl(uint8_t value){
     this->ctrl = value;
 }
@@ -848,5 +856,10 @@ uint8_t PPU::read_oam_ram(uint16_t address){
 void PPU::clear_tile_buffer(){
     for(int i = 0; i < 32; i++){
         this->tile_buffer[i] = 0;
+    }
+}
+void PPU::clear_attribute_buffer(){
+    for(int i = 0; i < 32; i++){
+        this->attribute_buffer[i] = 0;
     }
 }
