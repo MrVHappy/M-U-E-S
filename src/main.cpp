@@ -2521,7 +2521,142 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
 
-    std::cout << "TEST 15" << std::endl;
-    
+    std::cout << "TEST 15 A" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0);
+    ppu.set_pal_state(0);
+
+    ppu.write_pal_ram(0x00,0x10);
+    ppu.write_pal_ram(0x01,0x20);
+    ppu.write_pal_ram(0x02,0x30);
+    ppu.write_pal_ram(0x03,0x40);
+
+    ppu.tick();
+
+    if(ppu.get_low_shift() == 0x8000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_high_shift() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_frame_buffer()[0][0] == 0x20){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 15B" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.set_low_shift(0);
+    ppu.set_high_shift(0x4000);
+    ppu.set_pal_state(0);
+
+    ppu.write_pal_ram(0x00,0x10);
+    ppu.write_pal_ram(0x01,0x20);
+    ppu.write_pal_ram(0x02,0x30);
+    ppu.write_pal_ram(0x03,0x40);
+
+    ppu.tick();
+
+    if(ppu.get_low_shift() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_high_shift() == 0x8000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_frame_buffer()[0][0] == 0x30){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 15C" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x4000);
+    ppu.set_pal_state(0);
+
+    ppu.write_pal_ram(0x00,0x10);
+    ppu.write_pal_ram(0x01,0x20);
+    ppu.write_pal_ram(0x02,0x30);
+    ppu.write_pal_ram(0x03,0x40);
+
+    ppu.tick();
+
+    if(ppu.get_low_shift() == 0x8000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_high_shift() == 0x8000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_frame_buffer()[0][0] == 0x40){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 15D" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.set_low_shift(0);
+    ppu.set_high_shift(0);
+    ppu.set_pal_state(0);
+
+    ppu.write_pal_ram(0x00,0x10);
+    ppu.write_pal_ram(0x01,0x20);
+    ppu.write_pal_ram(0x02,0x30);
+    ppu.write_pal_ram(0x03,0x40);
+
+    ppu.tick();
+
+    if(ppu.get_low_shift() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_high_shift() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_frame_buffer()[0][0] == 0x10){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 16" << std::endl;
     return 0;
 }

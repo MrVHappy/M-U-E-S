@@ -7,7 +7,7 @@ PPU::PPU(BUS *bus){
 }
 
 void PPU::tick(){
-    // 0-239 rendering
+    // 1-239 rendering
     if((this->scan_ln_count < 240) && (this->dot_count >=1) && (this->dot_count < 257)){
         // get the nametable tile address
         uint16_t address = 0x2000 | (this->v & 0x0FFF);
@@ -764,6 +764,10 @@ uint16_t PPU::get_low_shift(){
 uint16_t PPU::get_high_shift(){
     return this->high_shift;
 }
+std::array<std::array<uint8_t,240>,256> PPU::get_frame_buffer(){
+    return this->frame_buffer;
+}
+
 void PPU::set_ctrl(uint8_t value){
     this->ctrl = value;
 }
@@ -802,6 +806,21 @@ void PPU::set_dot_count(int value){
 }
 void PPU::set_nmi_output(bool value){
     this->nmi_output = value;
+}
+void PPU::set_pattern_low(uint8_t value){
+    this->pattern_low = value;
+}
+void PPU::set_pattern_high(uint8_t value){
+    this->pattern_high = value;
+}
+void PPU::set_low_shift(uint16_t value){
+    this->low_shift = value;
+}
+void PPU::set_high_shift(uint16_t value){
+    this->high_shift = value;
+}
+void PPU::set_pal_state(uint8_t value){
+    this->pal_state = value;
 }
 
 void PPU::clear_v_blank(){
