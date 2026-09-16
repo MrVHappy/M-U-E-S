@@ -758,6 +758,12 @@ uint8_t PPU::get_pattern_low(){
 uint8_t PPU::get_pattern_high(){
     return this->pattern_high;
 }
+uint16_t PPU::get_low_shift(){
+    return this->low_shift;
+}
+uint16_t PPU::get_high_shift(){
+    return this->high_shift;
+}
 void PPU::set_ctrl(uint8_t value){
     this->ctrl = value;
 }
@@ -862,4 +868,12 @@ void PPU::clear_attribute_buffer(){
     for(int i = 0; i < 32; i++){
         this->attribute_buffer[i] = 0;
     }
+}
+
+void PPU::write_tile_buffer(uint8_t addr, uint8_t val){
+    this->tile_buffer[addr] = val;
+}
+void PPU::write_attribute_buffer(uint8_t addr, uint8_t val){
+    this->attribute_buffer[addr] = val;
+
 }

@@ -2235,8 +2235,34 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+    if(ppu.get_pattern_high() == 0x78){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
 
     ppu.tick(); // 264
+
+    if(ppu.get_dot_count() == 264){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_low_shift() == 0x56){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_high_shift() == 0x78){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
     ppu.tick(); // 265
 
     if(ppu.get_dot_count() == 265){
@@ -2245,11 +2271,104 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
-    if(ppu.get_pattern_high() == 0x78){
+
+    std::cout << "TEST 6" << std::endl;
+    ppu.set_v(0b001000000000000);
+    ppu.set_dot_count(256);
+    ppu.set_scan_ln_count(0);
+    ppu.write_vram(0x2000,0x10);
+    ppu.write_vram(0x2001,0x20);
+    ppu.write_vram(0x2002,0x30);
+    ppu.write_vram(0x2003,0x40);
+    ppu.write_vram(0x2004,0x50);
+    ppu.write_vram(0x2005,0x60);
+    ppu.write_vram(0x2006,0x70);
+    ppu.write_vram(0x2007,0x80);
+    ppu.clear_tile_buffer();
+    for (int i = 256; i <= 320; i++){
+        ppu.tick();
+    }
+    if(ppu.get_tile_buffer()[0] == 0x10){
         std::cout << "Pass" << std::endl;
     }
     else{
         std::cout << "Fail" << std::endl;
     }
+    if(ppu.get_tile_buffer()[1] == 0x20){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_tile_buffer()[2] == 0x30){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_tile_buffer()[3] == 0x40){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_tile_buffer()[4] == 0x50){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_tile_buffer()[5] == 0x60){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_tile_buffer()[6] == 0x70){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_tile_buffer()[7] == 0x80){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_v() == 0b001000000001000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 7" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+    ppu.set_v(0x2000);
+    ppu.write_vram(0x2000,0x42);
+
+    if(ppu.get_tile_buffer()[0] == 0x42){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 8" << std::endl;
+    ppu.set_v(0x2001);
+    ppu.write_vram(0x2001,0x37);
+    ppu.set_dot_count(9);
+
+    ppu.tick();
+
+    if(ppu.get_tile_buffer()[1] == 0x37){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    
     return 0;
 }

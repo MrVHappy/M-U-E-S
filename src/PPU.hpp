@@ -87,6 +87,8 @@ class PPU{
         std::array<uint8_t,32> get_attribute_buffer();
         uint8_t get_pattern_low();
         uint8_t get_pattern_high();
+        uint16_t get_low_shift();
+        uint16_t get_high_shift();
 
         // setters
         void set_ctrl(uint8_t value);
@@ -131,5 +133,7 @@ class PPU{
         // DEBUG FUNCTIONS
         void clear_tile_buffer();
         void clear_attribute_buffer();
+        void write_tile_buffer(uint8_t addr, uint8_t val);
+        void write_attribute_buffer(uint8_t addr, uint8_t val);
 };
 #endif
