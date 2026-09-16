@@ -2359,6 +2359,7 @@ int main(int argc, char*argv[]){
     std::cout << "TEST 8" << std::endl;
     ppu.set_v(0x2001);
     ppu.write_vram(0x2001,0x37);
+    ppu.set_scan_ln_count(0);
     ppu.set_dot_count(9);
 
     ppu.tick();
@@ -2369,6 +2370,158 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "TEST 9" << std::endl;
+    ppu.set_v(0x2000);
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(3);
+    ppu.write_vram(0x23C0,0xA5);
+    ppu.clear_attribute_buffer();
+    ppu.tick();
+    if(ppu.get_attribute_buffer()[0] == 0xA5){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 10" << std::endl;
+    ppu.set_v(0x2141);
+    ppu.write_vram(0x23D0,0x96);
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(3);
+
+    ppu.tick();
+    if(ppu.get_attribute_buffer()[0] = 0x96){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 11 A" << std::endl;
+    ppu.set_ctrl(0);
+    ppu.clear_tile_buffer();
+    ppu.write_tile_buffer(0,0x02);
+    ppu.set_v(0);
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(5);
+    bus.get_rom().get_mapper_info().write_CHR(0x0020,0xAB);
+    bus.get_rom().get_mapper_info().write_CHR(0x1020,0xCD);
+    ppu.tick();
+    if(ppu.get_pattern_low() == 0xAB){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 11 B" << std::endl;
+    ppu.set_ctrl(0x10);
+    ppu.clear_tile_buffer();
+    ppu.write_tile_buffer(0,0x02);
+    ppu.set_v(0);
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(5);
+    bus.get_rom().get_mapper_info().write_CHR(0x0020,0xAB);
+    bus.get_rom().get_mapper_info().write_CHR(0x1020,0xCD);
+    ppu.tick();
+    if(ppu.get_pattern_low() == 0xCD){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    
+    std::cout << "TEST 12" << std::endl;
+    ppu.set_ctrl(0);
+    ppu.clear_tile_buffer();
+    ppu.write_tile_buffer(0,0x03);
+    ppu.set_v(0x3000);
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(5);
+    bus.get_rom().get_mapper_info().write_CHR(0x0033, 0x71);
+
+    ppu.tick();
+
+    if(ppu.get_pattern_low() == 0x71){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 13" << std::endl;
+    ppu.set_ctrl(0);
+    ppu.clear_tile_buffer();
+    ppu.write_tile_buffer(0,0x03);
+    ppu.set_v(0x3000);
+    ppu.set_dot_count(7);
+    ppu.set_scan_ln_count(0);
+    bus.get_rom().get_mapper_info().write_CHR(0x0033, 0x71);
+    bus.get_rom().get_mapper_info().write_CHR(0x003B, 0xD2);
+
+    ppu.tick();
+
+    if(ppu.get_pattern_high() == 0xD2){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 14" << std::endl;
+    ppu.set_v(0);
+    ppu.set_ctrl(0);
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.write_vram(0x2000,0x04);
+    ppu.write_vram(0x23C0,0x55);
+
+    bus.get_rom().get_mapper_info().write_CHR(0x0040,0x12);
+    bus.get_rom().get_mapper_info().write_CHR(0x0048,0x34);
+
+    ppu.tick();
+
+    if(ppu.get_tile_buffer()[0] == 0x04){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    ppu.tick();
+    ppu.tick();
+
+    if(ppu.get_attribute_buffer()[0] == 0x55){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    ppu.tick();
+    ppu.tick();
+
+    if(ppu.get_pattern_low() == 0x12){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    ppu.tick();
+    ppu.tick();
+
+    if(ppu.get_pattern_high() == 0x34){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 15" << std::endl;
     
     return 0;
 }
