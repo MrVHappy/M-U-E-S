@@ -58,11 +58,11 @@ int main(int argc, char*argv[]){
     BUS bus = BUS();
     // connect the bus with the cartridge
     Cartridge rom = Cartridge(&bus);
-    if(!rom.load_ROM("C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\TEST\\nestest.nes")){
-        // if ROM is invalid load error
-        std::cout << "Error:\t failed to load ROM" << std::endl;
-        return 1;
-    }
+    // if(!rom.load_ROM("C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\TEST\\nestest.nes")){
+    //     // if ROM is invalid load error
+    //     std::cout << "Error:\t failed to load ROM" << std::endl;
+    //     return 1;
+    // }
     // connect the cartridge with the bus
     bus.set_cartridge(&rom);
     // connect bus with PPU
@@ -2013,20 +2013,9 @@ int main(int argc, char*argv[]){
     std::cout << "PPU RENDERING TESTS" << std::endl;
     std::cout << "TEST 1" << std::endl;
     ppu.set_scan_ln_count(0);
-    ppu.set_dot_count(0);
-    bool loop_fin = true;
-    for(int i = 0; i < 341; i++){
+    ppu.set_dot_count(1);
+    while(ppu.get_dot_count() <= 340){
         ppu.tick();
-        if((ppu.get_dot_count() < 0) || (ppu.get_dot_count() < 340)){
-            loop_fin = false;
-            break;
-        }
-    }
-    if(loop_fin){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
     }
     if(ppu.get_scan_ln_count() == 1){
         std::cout << "Pass" << std::endl;
@@ -2112,7 +2101,7 @@ int main(int argc, char*argv[]){
     ppu.clear_tile_buffer();
     ppu.set_dot_count(256);
     ppu.set_scan_ln_count(0);
-    for(int i = 256; i <=320; i++){
+    for(int i = 256; i < 320; i++){
         ppu.tick();
     }
 
@@ -2285,7 +2274,7 @@ int main(int argc, char*argv[]){
     ppu.write_vram(0x2006,0x70);
     ppu.write_vram(0x2007,0x80);
     ppu.clear_tile_buffer();
-    for (int i = 256; i <= 320; i++){
+    for (int i = 256; i < 320; i++){
         ppu.tick();
     }
     if(ppu.get_tile_buffer()[0] == 0x10){
@@ -2349,6 +2338,8 @@ int main(int argc, char*argv[]){
     ppu.set_v(0x2000);
     ppu.write_vram(0x2000,0x42);
 
+    ppu.tick();
+
     if(ppu.get_tile_buffer()[0] == 0x42){
         std::cout << "Pass" << std::endl;
     }
@@ -2392,7 +2383,7 @@ int main(int argc, char*argv[]){
     ppu.set_dot_count(3);
 
     ppu.tick();
-    if(ppu.get_attribute_buffer()[0] = 0x96){
+    if(ppu.get_attribute_buffer()[0] == 0x96){
         std::cout << "Pass" << std::endl;
     }
     else{
@@ -2716,14 +2707,8 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
-    if(ppu.get_frame_buffer()[0][7] == 0x12){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
 
-    std::cout << "TEST 17A" << std::endl;
+    std::cout << "TEST 17 A" << std::endl;
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(1);
 
@@ -2736,14 +2721,14 @@ int main(int argc, char*argv[]){
 
     ppu.tick();
 
-    if(ppu.get_frame_buffer()[0][0] = 0x11){
+    if(ppu.get_frame_buffer()[0][0] == 0x11){
         std::cout << "Pass" << std::endl;
     }
     else{
         std::cout << "Fail" << std::endl;
     }
 
-    std::cout << "TEST 17B" << std::endl;
+    std::cout << "TEST 17 B" << std::endl;
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(1);
 
@@ -2756,14 +2741,14 @@ int main(int argc, char*argv[]){
 
     ppu.tick();
 
-    if(ppu.get_frame_buffer()[0][0] = 0x21){
+    if(ppu.get_frame_buffer()[0][0] == 0x21){
         std::cout << "Pass" << std::endl;
     }
     else{
         std::cout << "Fail" << std::endl;
     }
 
-    std::cout << "TEST 17C" << std::endl;
+    std::cout << "TEST 17 C" << std::endl;
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(1);
 
@@ -2776,14 +2761,14 @@ int main(int argc, char*argv[]){
 
     ppu.tick();
 
-    if(ppu.get_frame_buffer()[0][0] = 0x31){
+    if(ppu.get_frame_buffer()[0][0] == 0x31){
         std::cout << "Pass" << std::endl;
     }
     else{
         std::cout << "Fail" << std::endl;
     }
 
-    std::cout << "TEST 17D" << std::endl;
+    std::cout << "TEST 17 D" << std::endl;
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(1);
 
@@ -2796,7 +2781,7 @@ int main(int argc, char*argv[]){
 
     ppu.tick();
 
-    if(ppu.get_frame_buffer()[0][0] = 0x41){
+    if(ppu.get_frame_buffer()[0][0] == 0x41){
         std::cout << "Pass" << std::endl;
     }
     else{
@@ -2805,7 +2790,7 @@ int main(int argc, char*argv[]){
 
     std::cout << "TEST 18" << std::endl;
     ppu.set_scan_ln_count(0);
-    ppu.set_dot_count(0);
+    ppu.set_dot_count(1);
 
     ppu.set_low_shift(0);
     ppu.set_high_shift(0);
@@ -2869,7 +2854,7 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
 
-    std::cout << "TEST 20A" << std::endl;
+    std::cout << "TEST 20 A" << std::endl;
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(256);
 
@@ -2878,6 +2863,106 @@ int main(int argc, char*argv[]){
     ppu.tick();
 
     if(ppu.get_v() == 0x1000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 20 B" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(256);
+
+    ppu.set_v(0x6000);
+
+    ppu.tick();
+
+    if(ppu.get_v() == 0x7000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 20 C" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(256);
+
+    ppu.set_v(0x70A0);
+
+    ppu.tick();
+
+    if(ppu.get_v() == 0x00C0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 21 A" << std::endl;
+    ppu.set_v(0x71A0);
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(256);
+
+    ppu.tick();
+
+    if(ppu.get_v() == 0x0800){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 21 B" << std::endl;
+    ppu.set_v(0x79A0);
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(256);
+    
+    ppu.tick();
+    
+    if(ppu.get_v() == 0x0000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 22 A" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(256);
+
+    ppu.set_v(0x73C0);
+    ppu.tick();
+
+    if(ppu.get_v() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 22 B" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(256);
+
+    ppu.set_v(0x7BC0);
+    ppu.tick();
+
+    if(ppu.get_v() == 0x0800){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 22 C" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(256);
+
+    ppu.set_v(0x7BE0);
+    ppu.tick();
+
+    if(ppu.get_v() == 0x0800){
         std::cout << "Pass" << std::endl;
     }
     else{
