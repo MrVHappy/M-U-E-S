@@ -2014,6 +2014,12 @@ int main(int argc, char*argv[]){
     std::cout << "TEST 1" << std::endl;
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(1);
+    ppu.set_v(0);
+    ppu.set_low_shift(0);
+    ppu.set_high_shift(0);
+    ppu.set_pal_state(0);
+    ppu.set_pattern_high(0);
+    ppu.set_pattern_low(0);
     while(ppu.get_dot_count() < 340){
         ppu.tick();
     }

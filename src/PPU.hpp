@@ -47,7 +47,7 @@ class PPU{
         // 32B attribute buffer
         std::array<uint8_t,32> attribute_buffer;
         // Frame buffer
-        std::array<std::array<uint8_t,240>,256> frame_buffer;
+        std::array<std::array<uint8_t,256>,240> frame_buffer;
         // scanline counter
         int scan_ln_count;
         // cycle count
@@ -89,7 +89,8 @@ class PPU{
         uint8_t get_pattern_high();
         uint16_t get_low_shift();
         uint16_t get_high_shift();
-        std::array<std::array<uint8_t,240>,256> get_frame_buffer();
+        std::array<std::array<uint8_t,256>,240> get_frame_buffer();
+        uint8_t get_pal_state();
 
         // setters
         void set_ctrl(uint8_t value);

@@ -2,6 +2,7 @@
 #include "BUS.hpp"
 #include "Cartridge.hpp"
 #include "Mapper.hpp"
+#include <iostream>
 PPU::PPU(BUS *bus){
     this->bus = bus;
 }
@@ -179,9 +180,7 @@ void PPU::tick(){
             // calculate palelet_val using pal state and pattern value
             palelet_val = 0x3F00 + this->pal_state * 4 + pattern_val;
         }
-        
         uint8_t colour_byte;
-
         // check the current address of v
         if ((palelet_val >= 0x3F00) && (palelet_val < 0x4000)){
             // mask the address to allow mirroring
@@ -765,8 +764,11 @@ uint16_t PPU::get_low_shift(){
 uint16_t PPU::get_high_shift(){
     return this->high_shift;
 }
-std::array<std::array<uint8_t,240>,256> PPU::get_frame_buffer(){
+std::array<std::array<uint8_t,256>,240> PPU::get_frame_buffer(){
     return this->frame_buffer;
+}
+uint8_t PPU::get_pal_state(){
+    return this->pal_state;
 }
 
 void PPU::set_ctrl(uint8_t value){
