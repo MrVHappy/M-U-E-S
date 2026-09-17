@@ -53,16 +53,15 @@ const char* opcode_names[256] = {
 
 
 int main(int argc, char*argv[]){
-    std::cout << std::hex << std::setfill('0');
     // initialisation of the emulator
     BUS bus = BUS();
     // connect the bus with the cartridge
     Cartridge rom = Cartridge(&bus);
-    // if(!rom.load_ROM("C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\TEST\\nestest.nes")){
-    //     // if ROM is invalid load error
-    //     std::cout << "Error:\t failed to load ROM" << std::endl;
-    //     return 1;
-    // }
+    if(!rom.load_ROM("C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\TEST\\nestest.nes")){
+        // if ROM is invalid load error
+        std::cout << "Error:\t failed to load ROM" << std::endl;
+        return 1;
+    }
     // connect the cartridge with the bus
     bus.set_cartridge(&rom);
     // connect bus with PPU
@@ -75,7 +74,7 @@ int main(int argc, char*argv[]){
     // reset the CPU
     nes.reset();
 
-    
+    std::cout << std::hex << std::setfill('0');
     // reset t, v, and clear write toggle
     std::cout << "TEST 1 A" << std::endl;
     ppu.clear_write_toggle();
