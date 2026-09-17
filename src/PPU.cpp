@@ -689,9 +689,10 @@ void PPU::tick(){
     if(this->dot_count == 341){
         // increment scan ln count and MOD 262
         this->scan_ln_count = (this->scan_ln_count + 1) % 262;
+        // wrap dot count back to 0
+        this->dot_count = 0;
     }
-    // wrap dot count back to 0
-    this->dot_count = 0;
+    
 }
 
 

@@ -54,8 +54,6 @@ const char* opcode_names[256] = {
 
 
 int main(int argc, char*argv[]){
-    std::cout << "HELLO" << std::endl;
-    MessageBoxA(nullptr, "MAIN STARTED", "M-U-E-S", MB_OK);
     // initialisation of the emulator
     BUS bus = BUS();
     // connect the bus with the cartridge
@@ -2016,7 +2014,7 @@ int main(int argc, char*argv[]){
     std::cout << "TEST 1" << std::endl;
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(1);
-    while(ppu.get_dot_count() <= 340){
+    while(ppu.get_dot_count() < 340){
         ppu.tick();
     }
     if(ppu.get_scan_ln_count() == 1){
