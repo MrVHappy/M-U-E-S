@@ -2777,33 +2777,23 @@ int main(int argc, char*argv[]){
     }
 
     std::cout << "TEST 17 D" << std::endl;
-    std::cout<<"1"<<std::endl;
     ppu.set_scan_ln_count(0);
-    std::cout<<"2"<<std::endl;
     ppu.set_dot_count(1);
-
-    std::cout<<"3"<<std::endl;
     ppu.set_low_shift(0x4000);
-    std::cout<<"4"<<std::endl;
     ppu.set_high_shift(0);
     
-    std::cout<<"5"<<std::endl;
     ppu.set_pal_state(3);
 
-    std::cout<<"6"<<std::endl;
     ppu.write_pal_ram(0x0D,0x41);
 
-    std::cout<<"7"<<std::endl;
     ppu.tick();
 
-    std::cout<<"8"<<std::endl;
-    std::cout<<ppu.get_frame_buffer()[0][0];
-    // if(ppu.get_frame_buffer()[0][0] == 0x41){
-    //     std::cout << "Pass" << std::endl;
-    // }
-    // else{
-    //     std::cout << "Fail" << std::endl;
-    // }
+    if(ppu.get_frame_buffer()[0][0] == 0x41){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     // std::cout<<"9"<<std::endl;
 
     // std::cout << "TEST 18" << std::endl;
