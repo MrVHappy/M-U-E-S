@@ -168,6 +168,7 @@ void PPU::tick(){
         uint8_t low_bit = this->low_shift >> 15;
         // extract the 15th bit from high shift
         uint8_t high_bit = this->high_shift >> 15;
+
         // calculate pattern value using high and low bit
         uint8_t pattern_val = low_bit + (high_bit * 2);
         uint16_t palelet_val;

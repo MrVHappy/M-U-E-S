@@ -2667,7 +2667,7 @@ int main(int argc, char*argv[]){
     std::cout << "4" << std::endl;
     ppu.set_low_shift(0x5500);
     std::cout << "5" << std::endl;
-    ppu.set_high_shift(0x3300);
+    ppu.set_high_shift(0xAA00);
 
     std::cout << "6" << std::endl;
     ppu.write_pal_ram(0x00,0x10);
@@ -2685,7 +2685,11 @@ int main(int argc, char*argv[]){
     uint8_t value = ppu.get_frame_buffer()[0][0];
 
     std::cout << "12" << std::endl;
-    std::cout << "VALUE: " << std::hex << static_cast<int>(value) << std::endl;
+    std::cout << "VALUE: " << static_cast<int>(value) << std::endl;
+
+    std::cout << "BEFORE VALUE 7" << std::endl;
+
+    uint8_t value4 = ppu.get_frame_buffer()[0][6];
 
     std::cout << "13" << std::endl;
     for (int i = 0; i < 8; i++){
@@ -2695,32 +2699,35 @@ int main(int argc, char*argv[]){
     std::cout << "14" << std::endl;
     value = ppu.get_frame_buffer()[0][0];
 
-    std::cout << "15" << std::endl;
-    std::cout << "AFTER FB CHECK" << std::endl;
-    std::cout << "16" << std::endl;
-    std::cout << "VALUE 0: " << std::hex << static_cast<int>(value) << std::endl;
-    std::cout << "17" << std::endl;
-    value = ppu.get_frame_buffer()[0][1];
-    std::cout << "18" << std::endl;
-    std::cout << "VALUE 1: " << std::hex << static_cast<int>(value) << std::endl;
-    std::cout << "19" << std::endl;
-    value = ppu.get_frame_buffer()[0][2];
-    std::cout << "20" << std::endl;
-    std::cout << "VALUE 2: " << std::hex << static_cast<int>(value) << std::endl;
-    std::cout << "21" << std::endl;
+    // std::cout << "15" << std::endl;
+    // std::cout << "AFTER FB CHECK" << std::endl;
+    // std::cout << "16" << std::endl;
+    // std::cout << "VALUE 0: " << static_cast<int>(value) << std::endl;
+    // std::cout << "17" << std::endl;
+    // value = ppu.get_frame_buffer()[0][1];
+    // std::cout << "18" << std::endl;
+    // std::cout << "VALUE 1: " << static_cast<int>(value) << std::endl;
+    // std::cout << "19" << std::endl;
+    // value = ppu.get_frame_buffer()[0][2];
+    // std::cout << "20" << std::endl;
+    // std::cout << "VALUE 2: " << static_cast<int>(value) << std::endl;
+    // std::cout << "21" << std::endl;
     // value = ppu.get_frame_buffer()[0][3];
     // std::cout << "22" << std::endl;
-    // std::cout << "VALUE 3: " << std::hex << static_cast<int>(value) << std::endl;
+    // std::cout << "VALUE 3: " << static_cast<int>(value) << std::endl;
     // std::cout << "23" << std::endl;
-    // // value = ppu.get_frame_buffer()[0][4];
-    // // std::cout << "24" << std::endl;
-    // // std::cout << "VALUE 4: " << std::hex << static_cast<int>(value) << std::endl;
-    // // value = ppu.get_frame_buffer()[0][5];
-    // // std::cout << "25" << std::endl;
-    // // std::cout << "VALUE 5: " << std::hex << static_cast<int>(value) << std::endl;
+    // value = ppu.get_frame_buffer()[0][4];
+    // std::cout << "24" << std::endl;
+    // std::cout << "VALUE 4: "<< static_cast<int>(value) << std::endl;
+    // value = ppu.get_frame_buffer()[0][5];
+    // std::cout << "25" << std::endl;
+    // std::cout << "VALUE 5: " << static_cast<int>(value) << std::endl;
     // value = ppu.get_frame_buffer()[0][6];
     // std::cout << "26" << std::endl;
-    // std::cout << "VALUE 6: " << std::hex << static_cast<int>(value) << std::endl;
+    // std::cout << "VALUE 6: " << static_cast<int>(value) << std::endl;
+    value = ppu.get_frame_buffer()[0][7];
+    std::cout << "26" << std::endl;
+    std::cout << "VALUE 7: " << static_cast<int>(value) << std::endl;
 
 
     
