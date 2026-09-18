@@ -199,7 +199,6 @@ void PPU::tick(){
             uint8_t y = this->scan_ln_count;
             // store colour byte in the frame buffer
             this->frame_buffer[y][x] = colour_byte;
-            std::cout<<"FRAME BUFFER: " <<  static_cast<int>(this->frame_buffer[y][x]) << std::endl;
         }
         // check if the tile fetch sequence is at 7
         if(tile_fetch_seq == 7){

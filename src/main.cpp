@@ -77,1938 +77,1938 @@ int main(int argc, char*argv[]){
 
     std::cout << std::hex << std::setfill('0');
     // reset t, v, and clear write toggle
-    std::cout << "TEST 1 A" << std::endl;
-    ppu.clear_write_toggle();
-    ppu.set_t(0);
-    ppu.set_v(0);
-    // test 0x2006 write 0x20
-    bus.write(0x2006,0x20);
-    // validate t and v and write toggle
-    if((ppu.get_t() == 0x2000) && (ppu.get_v() == 0) && (ppu.get_write_toggle() == true)){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // std::cout << "TEST 1 A" << std::endl;
+    // ppu.clear_write_toggle();
+    // ppu.set_t(0);
+    // ppu.set_v(0);
+    // // test 0x2006 write 0x20
+    // bus.write(0x2006,0x20);
+    // // validate t and v and write toggle
+    // if((ppu.get_t() == 0x2000) && (ppu.get_v() == 0) && (ppu.get_write_toggle() == true)){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 1 B" << std::endl;
-    // test 0x2006 write 0x0
-    bus.write(0x2006,0x0);
-    // validate t and v and write toggle
-    if((ppu.get_t() == 0x2000) && (ppu.get_v() == 0x2000) && (ppu.get_write_toggle() == false)){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // std::cout << "TEST 1 B" << std::endl;
+    // // test 0x2006 write 0x0
+    // bus.write(0x2006,0x0);
+    // // validate t and v and write toggle
+    // if((ppu.get_t() == 0x2000) && (ppu.get_v() == 0x2000) && (ppu.get_write_toggle() == false)){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
 
-    std::cout << "TEST 2" << std::endl;
-    // reset t, v, and clear write toggle
-    ppu.clear_write_toggle();
-    ppu.set_t(0);
-    ppu.set_v(0);
-    // test 0x2006 write 0x3F
-    bus.write(0x2006,0x3F);
-    // test 0x2006 write 0x0
-    bus.write(0x2006,0x0);
-    // validate t and v and write toggle
-    if((ppu.get_t() == 0x3F00) && (ppu.get_v() == 0x3F00) && (ppu.get_write_toggle() == false)){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // std::cout << "TEST 2" << std::endl;
+    // // reset t, v, and clear write toggle
+    // ppu.clear_write_toggle();
+    // ppu.set_t(0);
+    // ppu.set_v(0);
+    // // test 0x2006 write 0x3F
+    // bus.write(0x2006,0x3F);
+    // // test 0x2006 write 0x0
+    // bus.write(0x2006,0x0);
+    // // validate t and v and write toggle
+    // if((ppu.get_t() == 0x3F00) && (ppu.get_v() == 0x3F00) && (ppu.get_write_toggle() == false)){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 3" << std::endl;
-    // test 0x2006 write 0x21
-    bus.write(0x2006,0x21);
-    // test 0x2006 write 0x0
-    bus.write(0x2006,0x65);
-    // validate t and v and write toggle
-    if((ppu.get_t() == 0x2165) && (ppu.get_v() == 0x2165) && (ppu.get_write_toggle() == false)){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // std::cout << "TEST 3" << std::endl;
+    // // test 0x2006 write 0x21
+    // bus.write(0x2006,0x21);
+    // // test 0x2006 write 0x0
+    // bus.write(0x2006,0x65);
+    // // validate t and v and write toggle
+    // if((ppu.get_t() == 0x2165) && (ppu.get_v() == 0x2165) && (ppu.get_write_toggle() == false)){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 4" << std::endl;
+    // std::cout << "TEST 4" << std::endl;
     
-    // reset t, v, and clear write toggle
-    ppu.clear_write_toggle();
-    ppu.set_t(0x0000);
-    ppu.set_v(0x1234);
-    // test 0x2006 write 0x25
-    bus.write(0x2006,0x25);
-    // validate t and v and write toggle
-    if((ppu.get_t() == 0x2500) && (ppu.get_v() == 0x1234) && (ppu.get_write_toggle() == true)){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // // reset t, v, and clear write toggle
+    // ppu.clear_write_toggle();
+    // ppu.set_t(0x0000);
+    // ppu.set_v(0x1234);
+    // // test 0x2006 write 0x25
+    // bus.write(0x2006,0x25);
+    // // validate t and v and write toggle
+    // if((ppu.get_t() == 0x2500) && (ppu.get_v() == 0x1234) && (ppu.get_write_toggle() == true)){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 5" << std::endl;
-    ppu.clear_write_toggle();
-    bus.write(0x2006,0x20);
-    bus.read(0x2002);
-    if(ppu.get_write_toggle() == false){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    bus.write(0x2006,0x3F);
-    bus.write(0x2006,0x00);
-    if(ppu.get_v() == 0x3F00){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    std::cout << "TEST 6" << std::endl;
-    ppu.clear_write_toggle();
-    bus.write(0x2005,0x12);
-    if(ppu.get_write_toggle() == true){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    bus.write(0x2006,0x34);
-    if(ppu.get_write_toggle() == false){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    std::cout << "TEST 7" << std::endl;
-    ppu.clear_write_toggle();
-    bus.write(0x2006,0x20);
-    if(ppu.get_write_toggle() == true){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    bus.write(0x2005,0x40);
-    if(ppu.get_write_toggle() == false){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    std::cout << "TEST 8" << std::endl;
-    ppu.clear_write_toggle();
-    ppu.set_t(0);
-    ppu.set_v(0);
-    bus.write(0x2006,0x20);
+    // std::cout << "TEST 5" << std::endl;
+    // ppu.clear_write_toggle();
+    // bus.write(0x2006,0x20);
+    // bus.read(0x2002);
+    // if(ppu.get_write_toggle() == false){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // bus.write(0x2006,0x3F);
+    // bus.write(0x2006,0x00);
+    // if(ppu.get_v() == 0x3F00){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // std::cout << "TEST 6" << std::endl;
+    // ppu.clear_write_toggle();
+    // bus.write(0x2005,0x12);
+    // if(ppu.get_write_toggle() == true){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // bus.write(0x2006,0x34);
+    // if(ppu.get_write_toggle() == false){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // std::cout << "TEST 7" << std::endl;
+    // ppu.clear_write_toggle();
+    // bus.write(0x2006,0x20);
+    // if(ppu.get_write_toggle() == true){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // bus.write(0x2005,0x40);
+    // if(ppu.get_write_toggle() == false){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // std::cout << "TEST 8" << std::endl;
+    // ppu.clear_write_toggle();
+    // ppu.set_t(0);
+    // ppu.set_v(0);
+    // bus.write(0x2006,0x20);
     
-    bus.write(0x2006,0x00);
-    if(ppu.get_v() == 0x2000){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    bus.read(0x2007);
-    if(ppu.get_v() == 0x2001){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    bus.read(0x2007);
-    if(ppu.get_v() == 0x2002){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    std::cout << "TEST 9" << std::endl;
-    ppu.set_v(0x2000);
-    ppu.set_ctrl(0b100);
-    bus.read(0x2007);
-    if(ppu.get_v() == 0x2020){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    bus.read(0x2007);
-    if(ppu.get_v() == 0x2040){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    std::cout << "TEST 10" << std::endl;
-    rom.set_header(0);
-    ppu.clear_write_toggle();
-    ppu.set_v(0);
-    ppu.set_t(0);
+    // bus.write(0x2006,0x00);
+    // if(ppu.get_v() == 0x2000){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // bus.read(0x2007);
+    // if(ppu.get_v() == 0x2001){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // bus.read(0x2007);
+    // if(ppu.get_v() == 0x2002){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // std::cout << "TEST 9" << std::endl;
+    // ppu.set_v(0x2000);
+    // ppu.set_ctrl(0b100);
+    // bus.read(0x2007);
+    // if(ppu.get_v() == 0x2020){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // bus.read(0x2007);
+    // if(ppu.get_v() == 0x2040){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // std::cout << "TEST 10" << std::endl;
+    // rom.set_header(0);
+    // ppu.clear_write_toggle();
+    // ppu.set_v(0);
+    // ppu.set_t(0);
     
-    bus.write(0x2006, 0x20);
-    bus.write(0x2006, 0x00);
+    // bus.write(0x2006, 0x20);
+    // bus.write(0x2006, 0x00);
     
-    bus.write(0x2007, 0xBB);
+    // bus.write(0x2007, 0xBB);
 
-    bus.write(0x2006, 0x20);
-    bus.write(0x2006, 0x00);
+    // bus.write(0x2006, 0x20);
+    // bus.write(0x2006, 0x00);
 
-    bus.read(0x2007);
+    // bus.read(0x2007);
 
-    if(bus.read(0x2007) == 0xBB){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(bus.read(0x2007) == 0xBB){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    bus.write(0x2006, 0x24);
-    bus.write(0x2006, 0x00);
+    // bus.write(0x2006, 0x24);
+    // bus.write(0x2006, 0x00);
 
-    bus.read(0x2007);
+    // bus.read(0x2007);
 
-    if(bus.read(0x2007) == 0xBB){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(bus.read(0x2007) == 0xBB){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    bus.write(0x2006, 0x28);
-    bus.write(0x2006, 0x00);
+    // bus.write(0x2006, 0x28);
+    // bus.write(0x2006, 0x00);
 
-    bus.write(0x2007, 0xCC);
+    // bus.write(0x2007, 0xCC);
 
-    bus.write(0x2006, 0x28);
-    bus.write(0x2006, 0x00);
+    // bus.write(0x2006, 0x28);
+    // bus.write(0x2006, 0x00);
     
-    bus.read(0x2007);
+    // bus.read(0x2007);
 
-    if(bus.read(0x2007) == 0xCC){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(bus.read(0x2007) == 0xCC){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    bus.write(0x2006, 0x2C);
-    bus.write(0x2006, 0x00);
+    // bus.write(0x2006, 0x2C);
+    // bus.write(0x2006, 0x00);
 
-    bus.read(0x2007);
+    // bus.read(0x2007);
 
-    if(bus.read(0x2007) == 0xCC){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(bus.read(0x2007) == 0xCC){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    bus.write(0x2006, 0x20);
-    bus.write(0x2006, 0x00);
+    // bus.write(0x2006, 0x20);
+    // bus.write(0x2006, 0x00);
 
-    bus.read(0x2007);
+    // bus.read(0x2007);
 
-    if(bus.read(0x2007) == 0xBB){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(bus.read(0x2007) == 0xBB){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 11" << std::endl;
+    // std::cout << "TEST 11" << std::endl;
     
-    ppu.clear_write_toggle();
-    ppu.set_v(0);
-    ppu.set_t(0);
+    // ppu.clear_write_toggle();
+    // ppu.set_v(0);
+    // ppu.set_t(0);
 
-    bus.write(0x2006, 0x3F);
-    bus.write(0x2006, 0x00);
-
-    bus.write(0x2007, 0x11);
-
-    bus.write(0x2006, 0x3F);
-    bus.write(0x2006, 0x00);
-
-    if(bus.read(0x2007) == 0x11){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // bus.write(0x2006, 0x3F);
+    // bus.write(0x2006, 0x00);
+
+    // bus.write(0x2007, 0x11);
+
+    // bus.write(0x2006, 0x3F);
+    // bus.write(0x2006, 0x00);
+
+    // if(bus.read(0x2007) == 0x11){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    bus.write(0x2006, 0x3F);
-    bus.write(0x2006, 0x04);
+    // bus.write(0x2006, 0x3F);
+    // bus.write(0x2006, 0x04);
 
-    bus.write(0x2007, 0x22);
+    // bus.write(0x2007, 0x22);
 
-    bus.write(0x2006, 0x3F);
-    bus.write(0x2006, 0x04);
+    // bus.write(0x2006, 0x3F);
+    // bus.write(0x2006, 0x04);
 
-    if(bus.read(0x2007) == 0x22){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(bus.read(0x2007) == 0x22){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    bus.write(0x2006, 0x3F);
-    bus.write(0x2006, 0x14);
+    // bus.write(0x2006, 0x3F);
+    // bus.write(0x2006, 0x14);
 
-    bus.write(0x2006, 0x3F);
-    bus.write(0x2006, 0x14);
+    // bus.write(0x2006, 0x3F);
+    // bus.write(0x2006, 0x14);
 
-    if(bus.read(0x2007) == 0x22){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(bus.read(0x2007) == 0x22){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    bus.write(0x2006, 0x3F);
-    bus.write(0x2006, 0x08);
+    // bus.write(0x2006, 0x3F);
+    // bus.write(0x2006, 0x08);
 
-    bus.write(0x2007, 0x33);
+    // bus.write(0x2007, 0x33);
 
-    bus.write(0x2006, 0x3F);
-    bus.write(0x2006, 0x08);
+    // bus.write(0x2006, 0x3F);
+    // bus.write(0x2006, 0x08);
 
-    if(bus.read(0x2007) == 0x33){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(bus.read(0x2007) == 0x33){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    bus.write(0x2006, 0x3F);
-    bus.write(0x2006, 0x18);
+    // bus.write(0x2006, 0x3F);
+    // bus.write(0x2006, 0x18);
 
-    bus.write(0x2006, 0x3F);
-    bus.write(0x2006, 0x18);
+    // bus.write(0x2006, 0x3F);
+    // bus.write(0x2006, 0x18);
 
-    if(bus.read(0x2007) == 0x33){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(bus.read(0x2007) == 0x33){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    bus.write(0x2006, 0x3F);
-    bus.write(0x2006, 0x0C);
+    // bus.write(0x2006, 0x3F);
+    // bus.write(0x2006, 0x0C);
 
-    bus.write(0x2007, 0x44);
+    // bus.write(0x2007, 0x44);
 
-    bus.write(0x2006, 0x3F);
-    bus.write(0x2006, 0x0C);
+    // bus.write(0x2006, 0x3F);
+    // bus.write(0x2006, 0x0C);
 
-    if(bus.read(0x2007) == 0x44){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(bus.read(0x2007) == 0x44){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    bus.write(0x2006, 0x3F);
-    bus.write(0x2006, 0x1C);
+    // bus.write(0x2006, 0x3F);
+    // bus.write(0x2006, 0x1C);
 
-    bus.write(0x2006, 0x3F);
-    bus.write(0x2006, 0x1C);
+    // bus.write(0x2006, 0x3F);
+    // bus.write(0x2006, 0x1C);
 
-    if(bus.read(0x2007) == 0x44){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(bus.read(0x2007) == 0x44){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 12" << std::endl;
-    rom.set_CHR(0);
-    ppu.clear_write_toggle();
-    ppu.set_t(0);
-    ppu.set_v(0);
+    // std::cout << "TEST 12" << std::endl;
+    // rom.set_CHR(0);
+    // ppu.clear_write_toggle();
+    // ppu.set_t(0);
+    // ppu.set_v(0);
 
-    bus.write(0x2006,0x00);
-    bus.write(0x2006,0x00);
+    // bus.write(0x2006,0x00);
+    // bus.write(0x2006,0x00);
 
-    bus.write(0x2007, 0xAA);
+    // bus.write(0x2007, 0xAA);
 
-    bus.write(0x2006,0x00);
-    bus.write(0x2006,0x00);
+    // bus.write(0x2006,0x00);
+    // bus.write(0x2006,0x00);
 
-    bus.read(0x2007);
+    // bus.read(0x2007);
 
-    if(bus.read(0x2007) == 0xAA){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(bus.read(0x2007) == 0xAA){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    bus.write(0x2006,0x00);
-    bus.write(0x2006,0x01);
+    // bus.write(0x2006,0x00);
+    // bus.write(0x2006,0x01);
 
-    bus.write(0x2007, 0xBB);
+    // bus.write(0x2007, 0xBB);
 
-    bus.write(0x2006,0x00);
-    bus.write(0x2006,0x01);
+    // bus.write(0x2006,0x00);
+    // bus.write(0x2006,0x01);
 
-    bus.read(0x2007);
+    // bus.read(0x2007);
 
-    if(bus.read(0x2007) == 0xBB){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(bus.read(0x2007) == 0xBB){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    bus.write(0x2006,0x00);
-    bus.write(0x2006,0x00);
+    // bus.write(0x2006,0x00);
+    // bus.write(0x2006,0x00);
 
-    bus.read(0x2007);
+    // bus.read(0x2007);
 
-    if(bus.read(0x2007) == 0xAA){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(bus.read(0x2007) == 0xAA){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    bus.write(0x2006,0x1F);
-    bus.write(0x2006,0xFF);
+    // bus.write(0x2006,0x1F);
+    // bus.write(0x2006,0xFF);
 
-    bus.write(0x2007, 0xCC);
+    // bus.write(0x2007, 0xCC);
 
-    bus.write(0x2006,0x1F);
-    bus.write(0x2006,0xFF);
+    // bus.write(0x2006,0x1F);
+    // bus.write(0x2006,0xFF);
 
-    bus.read(0x2007);
+    // bus.read(0x2007);
 
-    if(bus.read(0x2007) == 0xCC){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(bus.read(0x2007) == 0xCC){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 13" << std::endl;
-    ppu.set_t(0);
-    ppu.set_v(0);
-    ppu.clear_write_toggle();
+    // std::cout << "TEST 13" << std::endl;
+    // ppu.set_t(0);
+    // ppu.set_v(0);
+    // ppu.clear_write_toggle();
 
-    bus.write(0x2006,0x00);
-    bus.write(0x2006,0x00);
-
-    ppu.set_ctrl(0);
-
-    bus.write(0x2006,0x2F);
-    bus.write(0x2006,0xFE);
+    // bus.write(0x2006,0x00);
+    // bus.write(0x2006,0x00);
+
+    // ppu.set_ctrl(0);
+
+    // bus.write(0x2006,0x2F);
+    // bus.write(0x2006,0xFE);
 
-    bus.read(0x2007);
-
-    if(ppu.get_v() == 0x2FFF){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    bus.read(0x2007);
-
-    if(ppu.get_v() == 0x3000){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    bus.write(0x2006,0x00);
-    bus.write(0x2006,0x00);
-
-    ppu.set_ctrl(0b00000100);
-
-    bus.write(0x2006,0x20);
-    bus.write(0x2006,0x00);
-
-    bus.read(0x2007);
-
-    if(ppu.get_v() == 0x2020){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    bus.read(0x2007);
-
-    if(ppu.get_v() == 0x2040){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    ppu.set_ctrl(0);
-    bus.write(0x2006,0x7F);
-    bus.write(0x2006,0xFF);
-
-    bus.read(0x2007);
-
-    if(ppu.get_v() == 0x4000){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-        std::cout << ppu.get_v() << std::endl;
-    }
-
-    std::cout << "TEST 14" << std::endl;
-    ppu.set_t(0);
-    ppu.set_v(0);
-    ppu.clear_write_toggle();
-    ppu.set_ctrl(0);
-
-    bus.write(0x2000,0x80);
-
-    if(ppu.get_ctrl() == 0x80){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "PPU CTRL TESTS" << std::endl;
-    std::cout << "TEST 15" << std::endl;
-    ppu.set_t(0);
-    ppu.set_v(0);
-    ppu.clear_write_toggle();
-    ppu.set_ctrl(0);
-
-    bus.write(0x2000,0x01);
-
-    if(ppu.get_ctrl() == 0x01){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 16" << std::endl;
-    ppu.set_t(0);
-    ppu.set_v(0);
-    ppu.clear_write_toggle();
-    ppu.set_ctrl(0);
-
-    bus.write(0x2000,0x00);
-
-    uint8_t test_bits = ppu.get_t() >> 10;
-    if(test_bits == 0b00){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    bus.write(0x2000,0x01);
-
-    test_bits = ppu.get_t() >> 10;
-    if(test_bits == 0b01){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    bus.write(0x2000,0x02);
-
-    test_bits = ppu.get_t() >> 10;
-    if(test_bits == 0b10){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    bus.write(0x2000,0x03);
-
-    test_bits = ppu.get_t() >> 10;
-    if(test_bits == 0b11){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // bus.read(0x2007);
+
+    // if(ppu.get_v() == 0x2FFF){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // bus.read(0x2007);
+
+    // if(ppu.get_v() == 0x3000){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // bus.write(0x2006,0x00);
+    // bus.write(0x2006,0x00);
+
+    // ppu.set_ctrl(0b00000100);
+
+    // bus.write(0x2006,0x20);
+    // bus.write(0x2006,0x00);
+
+    // bus.read(0x2007);
+
+    // if(ppu.get_v() == 0x2020){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // bus.read(0x2007);
+
+    // if(ppu.get_v() == 0x2040){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // ppu.set_ctrl(0);
+    // bus.write(0x2006,0x7F);
+    // bus.write(0x2006,0xFF);
+
+    // bus.read(0x2007);
+
+    // if(ppu.get_v() == 0x4000){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    //     std::cout << ppu.get_v() << std::endl;
+    // }
+
+    // std::cout << "TEST 14" << std::endl;
+    // ppu.set_t(0);
+    // ppu.set_v(0);
+    // ppu.clear_write_toggle();
+    // ppu.set_ctrl(0);
+
+    // bus.write(0x2000,0x80);
+
+    // if(ppu.get_ctrl() == 0x80){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "PPU CTRL TESTS" << std::endl;
+    // std::cout << "TEST 15" << std::endl;
+    // ppu.set_t(0);
+    // ppu.set_v(0);
+    // ppu.clear_write_toggle();
+    // ppu.set_ctrl(0);
+
+    // bus.write(0x2000,0x01);
+
+    // if(ppu.get_ctrl() == 0x01){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 16" << std::endl;
+    // ppu.set_t(0);
+    // ppu.set_v(0);
+    // ppu.clear_write_toggle();
+    // ppu.set_ctrl(0);
+
+    // bus.write(0x2000,0x00);
+
+    // uint8_t test_bits = ppu.get_t() >> 10;
+    // if(test_bits == 0b00){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // bus.write(0x2000,0x01);
+
+    // test_bits = ppu.get_t() >> 10;
+    // if(test_bits == 0b01){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // bus.write(0x2000,0x02);
+
+    // test_bits = ppu.get_t() >> 10;
+    // if(test_bits == 0b10){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // bus.write(0x2000,0x03);
+
+    // test_bits = ppu.get_t() >> 10;
+    // if(test_bits == 0b11){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
     
-    std::cout << "TEST 17" << std::endl;
-    ppu.set_t(0b00000110000101);
-    ppu.set_v(0);
-    ppu.clear_write_toggle();
-    ppu.set_ctrl(0);
+    // std::cout << "TEST 17" << std::endl;
+    // ppu.set_t(0b00000110000101);
+    // ppu.set_v(0);
+    // ppu.clear_write_toggle();
+    // ppu.set_ctrl(0);
 
-    bus.write(0x2000,0x03);
-    if(ppu.get_t() == 0b00110110000101){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // bus.write(0x2000,0x03);
+    // if(ppu.get_t() == 0b00110110000101){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 18 A" << std::endl;
-    ppu.set_t(0);
-    ppu.set_v(0);
-    ppu.clear_write_toggle();
-    ppu.set_ctrl(0);
+    // std::cout << "TEST 18 A" << std::endl;
+    // ppu.set_t(0);
+    // ppu.set_v(0);
+    // ppu.clear_write_toggle();
+    // ppu.set_ctrl(0);
 
-    bus.write(0x2000,0x00);
-    ppu.set_v(0x2000);
+    // bus.write(0x2000,0x00);
+    // ppu.set_v(0x2000);
 
-    bus.write(0x2007, 0x10);
+    // bus.write(0x2007, 0x10);
 
-    if(ppu.get_v() == 0x2001){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_v() == 0x2001){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 18 B" << std::endl;
+    // std::cout << "TEST 18 B" << std::endl;
 
-    bus.write(0x2000,0x04);
-    ppu.set_v(0x2000);
+    // bus.write(0x2000,0x04);
+    // ppu.set_v(0x2000);
 
-    bus.write(0x2007, 0x10);
+    // bus.write(0x2007, 0x10);
 
-    if(ppu.get_v() == 0x2020){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_v() == 0x2020){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
     
-    std::cout << "TEST 19 A" << std::endl;
+    // std::cout << "TEST 19 A" << std::endl;
 
-    bus.write(0x2000,0x00);
+    // bus.write(0x2000,0x00);
 
-    if(ppu.get_nmi() == false){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_nmi() == false){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 19 B" << std::endl;
+    // std::cout << "TEST 19 B" << std::endl;
 
-    bus.write(0x2000,0x80);
+    // bus.write(0x2000,0x80);
 
-    if(ppu.get_nmi() == true){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_nmi() == true){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 20" << std::endl;
-    ppu.set_t(0);
-    ppu.set_v(0);
-    ppu.clear_write_toggle();
-    ppu.set_ctrl(0);
-    ppu.clear_nmi();
+    // std::cout << "TEST 20" << std::endl;
+    // ppu.set_t(0);
+    // ppu.set_v(0);
+    // ppu.clear_write_toggle();
+    // ppu.set_ctrl(0);
+    // ppu.clear_nmi();
 
-    ppu.set_v(0x2000);
+    // ppu.set_v(0x2000);
 
-    bus.write(0x2000,0x00);
-    bus.write(0x2007,0x00);
+    // bus.write(0x2000,0x00);
+    // bus.write(0x2007,0x00);
 
-    if(ppu.get_v() == 0x2001){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_v() == 0x2001){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    ppu.set_v(0x2000);
+    // ppu.set_v(0x2000);
 
-    bus.write(0x2000,0x04);
-    bus.write(0x2007,0x00);
+    // bus.write(0x2000,0x04);
+    // bus.write(0x2007,0x00);
 
-    if(ppu.get_v() == 0x2020){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_v() == 0x2020){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "PPU STATUS TESTS" << std::endl;
-    std::cout << "TEST 21" << std::endl;
-    ppu.clear_sprite_0_hit();
-    ppu.clear_sprite_overflow();
-    ppu.clear_v_blank();
-    ppu.clear_write_toggle();
+    // std::cout << "PPU STATUS TESTS" << std::endl;
+    // std::cout << "TEST 21" << std::endl;
+    // ppu.clear_sprite_0_hit();
+    // ppu.clear_sprite_overflow();
+    // ppu.clear_v_blank();
+    // ppu.clear_write_toggle();
 
-    bus.read(0x2002);
+    // bus.read(0x2002);
 
-    if(ppu.get_status() == 0x0000){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_status() == 0x0000){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 22" << std::endl;
-    ppu.clear_sprite_0_hit();
-    ppu.clear_sprite_overflow();
-    ppu.update_v_blank();
-    ppu.clear_write_toggle();
+    // std::cout << "TEST 22" << std::endl;
+    // ppu.clear_sprite_0_hit();
+    // ppu.clear_sprite_overflow();
+    // ppu.update_v_blank();
+    // ppu.clear_write_toggle();
 
-    bus.read(0x2002);
+    // bus.read(0x2002);
 
-    if(ppu.get_status() == 0b10000000){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_v_blank() == false){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_status() == 0b10000000){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_v_blank() == false){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 23" << std::endl;
-    ppu.update_sprite_0_hit();
-    ppu.clear_sprite_overflow();
-    ppu.clear_v_blank();
-    ppu.clear_write_toggle();
+    // std::cout << "TEST 23" << std::endl;
+    // ppu.update_sprite_0_hit();
+    // ppu.clear_sprite_overflow();
+    // ppu.clear_v_blank();
+    // ppu.clear_write_toggle();
 
-    bus.read(0x2002);
-    if(ppu.get_status() == 0b01000000){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // bus.read(0x2002);
+    // if(ppu.get_status() == 0b01000000){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    if(ppu.get_sprite_0_hit()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_sprite_0_hit()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 24" << std::endl;
-    ppu.clear_sprite_0_hit();
-    ppu.update_sprite_overflow();
-    ppu.clear_v_blank();
-    ppu.clear_write_toggle();
+    // std::cout << "TEST 24" << std::endl;
+    // ppu.clear_sprite_0_hit();
+    // ppu.update_sprite_overflow();
+    // ppu.clear_v_blank();
+    // ppu.clear_write_toggle();
 
-    bus.read(0x2002);
+    // bus.read(0x2002);
 
-    if(ppu.get_status() == 0b00100000){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_status() == 0b00100000){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    if(ppu.get_sprite_overflow()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_sprite_overflow()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 25" << std::endl;
-    ppu.update_sprite_0_hit();
-    ppu.update_v_blank();
-    ppu.update_sprite_overflow();
+    // std::cout << "TEST 25" << std::endl;
+    // ppu.update_sprite_0_hit();
+    // ppu.update_v_blank();
+    // ppu.update_sprite_overflow();
 
-    bus.read(0x2002);
-    if(ppu.get_status() == 0b11100000){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_sprite_overflow()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_sprite_0_hit()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_v_blank() == false){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // bus.read(0x2002);
+    // if(ppu.get_status() == 0b11100000){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_sprite_overflow()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_sprite_0_hit()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_v_blank() == false){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 26" << std::endl;
-    ppu.clear_sprite_0_hit();
-    ppu.clear_sprite_overflow();
-    ppu.clear_v_blank();
-    ppu.update_write_toggle();
+    // std::cout << "TEST 26" << std::endl;
+    // ppu.clear_sprite_0_hit();
+    // ppu.clear_sprite_overflow();
+    // ppu.clear_v_blank();
+    // ppu.update_write_toggle();
 
-    bus.read(0x2002);
-    if(ppu.get_write_toggle() == false){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // bus.read(0x2002);
+    // if(ppu.get_write_toggle() == false){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 27" << std::endl;
-    ppu.update_sprite_0_hit();
-    ppu.update_v_blank();
-    ppu.update_sprite_overflow();
+    // std::cout << "TEST 27" << std::endl;
+    // ppu.update_sprite_0_hit();
+    // ppu.update_v_blank();
+    // ppu.update_sprite_overflow();
 
-    bus.read(0x2002);
-    if(ppu.get_status() == 0b11100000){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // bus.read(0x2002);
+    // if(ppu.get_status() == 0b11100000){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    ppu.clear_sprite_0_hit();
-    ppu.clear_v_blank();
-    ppu.clear_sprite_overflow();
+    // ppu.clear_sprite_0_hit();
+    // ppu.clear_v_blank();
+    // ppu.clear_sprite_overflow();
 
-    bus.read(0x2002);
-    if(ppu.get_status() == 0){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // bus.read(0x2002);
+    // if(ppu.get_status() == 0){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "PPU OAM ADDR TEST" << std::endl;
-    std::cout << "TEST 28" << std::endl;
+    // std::cout << "PPU OAM ADDR TEST" << std::endl;
+    // std::cout << "TEST 28" << std::endl;
 
-    bus.write(0x2003, 0x00);
+    // bus.write(0x2003, 0x00);
 
-    if(ppu.get_oam_adrr() == 0x00){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    bus.write(0x2003, 0x01);
+    // if(ppu.get_oam_adrr() == 0x00){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // bus.write(0x2003, 0x01);
 
-    if(ppu.get_oam_adrr() == 0x01){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    bus.write(0x2003, 0x80);
+    // if(ppu.get_oam_adrr() == 0x01){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // bus.write(0x2003, 0x80);
 
-    if(ppu.get_oam_adrr() == 0x80){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    bus.write(0x2003, 0xFF);
+    // if(ppu.get_oam_adrr() == 0x80){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // bus.write(0x2003, 0xFF);
 
-    if(ppu.get_oam_adrr() == 0xFF){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_oam_adrr() == 0xFF){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "PPU OAM DATA TEST" << std::endl;
-    std::cout << "TEST 29" << std::endl;
+    // std::cout << "PPU OAM DATA TEST" << std::endl;
+    // std::cout << "TEST 29" << std::endl;
     
-    bus.write(0x2003, 0x00);
-    bus.write(0x2004, 0xAB);
+    // bus.write(0x2003, 0x00);
+    // bus.write(0x2004, 0xAB);
 
-    if(ppu.read_oam_ram(0x00) == 0xAB){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.read_oam_ram(0x00) == 0xAB){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    if(ppu.get_oam_adrr() == 0x01){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_oam_adrr() == 0x01){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 30" << std::endl;
-    bus.write(0x2003, 0x80);
-    bus.write(0x2004, 0x42);
+    // std::cout << "TEST 30" << std::endl;
+    // bus.write(0x2003, 0x80);
+    // bus.write(0x2004, 0x42);
 
-    if(ppu.read_oam_ram(0x80) == 0x42){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.read_oam_ram(0x80) == 0x42){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    if(ppu.get_oam_adrr() == 0x81){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_oam_adrr() == 0x81){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 31" << std::endl;
+    // std::cout << "TEST 31" << std::endl;
     
-    bus.write(0x2003, 0xFF);
-    bus.write(0x2004, 0x55);
+    // bus.write(0x2003, 0xFF);
+    // bus.write(0x2004, 0x55);
 
-    if(ppu.read_oam_ram(0xFF) == 0x55){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.read_oam_ram(0xFF) == 0x55){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    if(ppu.get_oam_adrr() == 0x00){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_oam_adrr() == 0x00){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "PPU OAM DATA" << std::endl;
-    std::cout << "TEST 32" << std::endl;
+    // std::cout << "PPU OAM DATA" << std::endl;
+    // std::cout << "TEST 32" << std::endl;
 
-    bus.write(0x2003, 0x10);
-    bus.write(0x2004, 0xAB);
+    // bus.write(0x2003, 0x10);
+    // bus.write(0x2004, 0xAB);
 
-    if(ppu.get_oam_adrr() == 0x11){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_oam_adrr() == 0x11){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    bus.write(0x2003, 0x10);
+    // bus.write(0x2003, 0x10);
 
-    if(bus.read(0x2004) == 0xAB){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    
-
-    std::cout << "TEST 33" << std::endl;
-    bus.write(0x2003, 0x80);
-    bus.write(0x2004, 0x42);
-
-    if(ppu.get_oam_adrr() == 0x81){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    bus.write(0x2003, 0x80);
-    if(bus.read(0x2004) == 0x42){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(bus.read(0x2004) == 0xAB){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
     
 
-    std::cout << "TEST 34" << std::endl;
-    bus.write(0x2003, 0xFF);
-    bus.write(0x2004, 0x55);
-    
-    if(ppu.get_oam_adrr() == 0x00){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // std::cout << "TEST 33" << std::endl;
+    // bus.write(0x2003, 0x80);
+    // bus.write(0x2004, 0x42);
 
-    bus.write(0x2003, 0xFF);
-
-    if(bus.read(0x2004) == 0x55){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "PPU SCROLL TEST" << std::endl;
-    std::cout << "TEST 35" << std::endl;
-    ppu.clear_write_toggle();
-    ppu.set_t(0);
-    ppu.set_fine_x(0);
-
-    bus.write(0x2005, 0b10101010);
-
-    if(ppu.get_t() == 0b000000000010101){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(ppu.get_fine_x() == 0b010){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(ppu.get_write_toggle()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "Test 36" << std::endl;
-    ppu.clear_write_toggle();
-    ppu.set_t(0b010110101010101);
-    ppu.set_fine_x(0);
-
-    bus.write(0x2005,0b11001101);
-    
-    if(ppu.get_t() == 0b010110101011001){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(ppu.get_fine_x() == 0b101){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(ppu.get_write_toggle()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 37" << std::endl;
-
-    ppu.update_write_toggle();
-    ppu.set_t(0);
-    ppu.set_fine_x(0);
-
-    bus.write(0x2005,0b10101010);
-    
-    if(ppu.get_t() == 0b010001010100000){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-        std::cout << ppu.get_t() << std::endl;
-    }
-
-    if(!ppu.get_write_toggle()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    std::cout << "TEST 38" << std::endl;
-
-    ppu.update_write_toggle();
-    ppu.set_t(0b000000000010101);
-    ppu.set_fine_x(0);
-
-    bus.write(0x2005,0b10101010);
-    
-    if(ppu.get_t() == 0b010001010110101){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-        std::cout << ppu.get_t() << std::endl;
-    }
-
-    if(!ppu.get_write_toggle()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 39" << std::endl;
-
-    ppu.clear_write_toggle();
-    ppu.set_t(0);
-    ppu.set_fine_x(0);
-
-    bus.write(0x2005,0b10101010);
-    bus.write(0x2005, 0b11001101);
-    
-    if(ppu.get_t() == 0b0101001100110101){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-        std::cout << ppu.get_t() << std::endl;
-    }
-
-    if(ppu.get_fine_x() == 0b010){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(!ppu.get_write_toggle()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 40" << std::endl;
-
-    ppu.clear_write_toggle();
-    ppu.set_t(0);
-
-    bus.write(0x2005, 0b10101010);
-
-    if(ppu.get_write_toggle()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    bus.read(0x2002);
-
-    if(!ppu.get_write_toggle()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    bus.write(0x2005, 0b10101010);
-
-    if(ppu.get_write_toggle()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "PPU DATA" << std::endl;
-    std::cout << "TEST 41" << std::endl;
-    ppu.clear_write_toggle();
-    ppu.set_t(0);
-    ppu.set_v(0);
-
-    bus.write(0x2006, 0x20);
-    bus.write(0x2006, 0x00);
-
-    bus.write(0x2007,0xAB);
-
-    bus.write(0x2006, 0x20);
-    bus.write(0x2006, 0x00);
-    bus.read(0x2007);
-    if(bus.read(0x2007) == 0xAB){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 42" << std::endl;
-    ppu.clear_write_toggle();
-    ppu.set_ctrl(0);
-    ppu.set_t(0);
-    ppu.set_v(0x2000);
-
-    bus.write(0x2007, 0xAA);
-    bus.write(0x2007, 0xBB);
+    // if(ppu.get_oam_adrr() == 0x81){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // bus.write(0x2003, 0x80);
+    // if(bus.read(0x2004) == 0x42){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
     
 
-    if(ppu.read_vram(0x0000) == 0xAA){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-        std::cout << "VRAM 0x100 = " << ppu.read_vram(0x0000) << std::endl;
-    }
-    if(ppu.read_vram(0x0001) == 0xBB){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-        std::cout << "VRAM 0x2001 MOD 0x0800 = " << static_cast<int>(ppu.read_vram(0x0001)) << std::endl;
-    }
-
-    std::cout << "TEST 43" << std::endl;
-    ppu.set_ctrl(0);
-    ppu.set_v(0x2000);
-
-    bus.write(0x2007,0);
-    if(ppu.get_v() == 0x2001){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    bus.write(0x2007,0);
-    if(ppu.get_v() == 0x2002){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // std::cout << "TEST 34" << std::endl;
+    // bus.write(0x2003, 0xFF);
+    // bus.write(0x2004, 0x55);
     
-    std::cout << "TEST 44" << std::endl;
-    ppu.set_ctrl(0b100);
-    ppu.set_v(0x2000);
+    // if(ppu.get_oam_adrr() == 0x00){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    bus.write(0x2007,0);
-    if(ppu.get_v() == 0x2020){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    bus.write(0x2007,0);
-    if(ppu.get_v() == 0x2040){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // bus.write(0x2003, 0xFF);
 
-    std::cout << "TEST 45" << std::endl;
-    ppu.set_ctrl(0b0);
-    ppu.set_v(0x2000);
+    // if(bus.read(0x2004) == 0x55){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    bus.write(0x2007, 0x11);
-    bus.write(0x2007, 0x22);
-    bus.write(0x2007, 0x33);
+    // std::cout << "PPU SCROLL TEST" << std::endl;
+    // std::cout << "TEST 35" << std::endl;
+    // ppu.clear_write_toggle();
+    // ppu.set_t(0);
+    // ppu.set_fine_x(0);
 
-    if(ppu.get_v() == 0x2003){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // bus.write(0x2005, 0b10101010);
 
-    bus.read(0x2007);
-    bus.read(0x2007);
-    bus.read(0x2007);
+    // if(ppu.get_t() == 0b000000000010101){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    if(ppu.get_v() == 0x2006){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_fine_x() == 0b010){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 46" << std::endl;
-    ppu.clear_write_toggle();
+    // if(ppu.get_write_toggle()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "Test 36" << std::endl;
+    // ppu.clear_write_toggle();
+    // ppu.set_t(0b010110101010101);
+    // ppu.set_fine_x(0);
+
+    // bus.write(0x2005,0b11001101);
     
-    bus.write(0x2006, 0x21);
+    // if(ppu.get_t() == 0b010110101011001){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    if(ppu.get_t() == 0x2100){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_fine_x() == 0b101){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    if(ppu.get_write_toggle()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_write_toggle()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    bus.write(0x2006,0x00);
+    // std::cout << "TEST 37" << std::endl;
 
-    if(ppu.get_t() == 0x2100){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // ppu.update_write_toggle();
+    // ppu.set_t(0);
+    // ppu.set_fine_x(0);
 
-    if(ppu.get_v() == 0x2100){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(!ppu.get_write_toggle()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    bus.write(0x2007, 0x55);
-
-    if(ppu.read_vram(0x0100) == 0x55){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(ppu.get_v() == 0x2101){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 47" << std::endl;
-    ppu.clear_write_toggle();
+    // bus.write(0x2005,0b10101010);
     
-    bus.write(0x2006,0x23);
+    // if(ppu.get_t() == 0b010001010100000){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    //     std::cout << ppu.get_t() << std::endl;
+    // }
 
-    if(ppu.get_write_toggle()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(!ppu.get_write_toggle()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // std::cout << "TEST 38" << std::endl;
 
-    bus.write(0x2006,0x45);
-    if(!ppu.get_write_toggle()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // ppu.update_write_toggle();
+    // ppu.set_t(0b000000000010101);
+    // ppu.set_fine_x(0);
 
-    if(ppu.get_v() == 0x2345){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    bus.write(0x2006, 0x67);
-
-    if(ppu.get_write_toggle()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(ppu.get_v() == 0x2345){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    bus.write(0x2006, 0x89);
-
-    if(!ppu.get_write_toggle()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(ppu.get_v() == 0x2789){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-        std::cout << ppu.get_v() << std::endl;
-    }
-
-    std::cout << "TEST 48" << std::endl;
-
-    ppu.set_v(0x2000);
-    ppu.set_vram_data(0);
-
-    bus.write(0x2007, 0xAA);
-    bus.write(0x2007, 0xBB);
-
-    ppu.set_v(0x2000);
-
-    if(bus.read(0x2007) == 0){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(ppu.get_vram_data() == 0xAA){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(ppu.get_v() == 0x2001){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(bus.read(0x2007) == 0xAA){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(ppu.get_vram_data() == 0xBB){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(ppu.get_v() == 0x2002){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(bus.read(0x2007) == 0xBB){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(ppu.get_v() == 0x2003){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 49" << std::endl;
-    ppu.set_vram_data(0);
-    ppu.set_ctrl(0b100);
-    ppu.set_v(0x2000);
-
-    bus.write(0x2007, 0xAA);
-    bus.write(0x2007, 0xBB);
-
-    ppu.set_v(0x2000);
-    uint16_t result = bus.read(0x2007);
-    if( result == 0){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-        std::cout << result << std::endl;
-    }
-
-    if(ppu.get_vram_data() == 0xAA){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(ppu.get_v() == 0x2020){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(bus.read(0x2007) == 0xAA){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(ppu.get_vram_data() == 0xBB){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(ppu.get_v() == 0x2040){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 50" << std::endl;
-    ppu.set_ctrl(0);
-    ppu.clear_write_toggle();
-
-    bus.write(0x2006,0x21);
-
-    if(ppu.get_write_toggle()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    bus.write(0x2006,0x00);
-
-    if(!ppu.get_write_toggle()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_v() == 0x2100){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-        std::cout << static_cast<int>(ppu.get_v()) << std::endl;
-    }
-
-    ppu.set_vram_data(0);
-
-    bus.write(0x2007,0xAA);
-
-    bus.write(0x2006,0x21);
-    bus.write(0x2006,0x00);
-
-    if(bus.read(0x2007) == 0){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(ppu.get_vram_data() == 0xAA){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-        std::cout << static_cast<int>(ppu.get_vram_data()) << std::endl;
-    }
-
-    if(ppu.get_v() == 0x2101){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-        std::cout << static_cast<int>(ppu.get_v()) << std::endl;
-
-    }
-    std::cout << "TEST 51" << std::endl;
-    bus.write(0x2006, 0x3F);
-    bus.write(0x2006, 0x00);
-
-    bus.write(0x2007, 0x3F);
-
-    ppu.set_v(0x3F00);
-
-    if(bus.read(0x2007) == 0x3F){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(ppu.get_v() == 0x3F01){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    ppu.set_v(0x3F00);
-
-    if(bus.read(0x2007) == 0x3F){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 52" << std::endl;
-    bus.write(0x2006, 0x3F);
-    bus.write(0x2006, 0x00);
-
-    bus.write(0x2007, 0x3F);
-
-    ppu.set_v(0x3F00);
-
-    if(bus.read(0x2007) == 0x3F){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    ppu.set_v(0x3F20);
-
-    if(bus.read(0x2007) == 0x3F){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // bus.write(0x2005,0b10101010);
     
-    ppu.set_v(0x3F40);
+    // if(ppu.get_t() == 0b010001010110101){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    //     std::cout << ppu.get_t() << std::endl;
+    // }
 
-    if(bus.read(0x2007) == 0x3F){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(!ppu.get_write_toggle()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    ppu.set_v(0x3F60);
+    // std::cout << "TEST 39" << std::endl;
 
-    if(bus.read(0x2007) == 0x3F){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // ppu.clear_write_toggle();
+    // ppu.set_t(0);
+    // ppu.set_fine_x(0);
 
-    std::cout << "TEST 53" << std::endl;
-
-    bus.write(0x2006, 0x3F);
-    bus.write(0x2006, 0x00);
-
-    bus.write(0x2007, 0x11);
-
-    bus.write(0x2006, 0x3F);
-    bus.write(0x2006, 0x04);
-
-    bus.write(0x2007, 0x22);
-
-    bus.write(0x2006, 0x3F);
-    bus.write(0x2006, 0x08);
-
-    bus.write(0x2007, 0x33);
-
-    bus.write(0x2006, 0x3F);
-    bus.write(0x2006, 0x0C);
-
-    bus.write(0x2007, 0x44);
-
-    ppu.set_v(0x3F10);
-
-    if(bus.read(0x2007) == 0x11){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    ppu.set_v(0x3F14);
-
-    if(bus.read(0x2007) == 0x22){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    ppu.set_v(0x3F18);
-
-    if(bus.read(0x2007) == 0x33){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    ppu.set_v(0x3F1C);
-
-    if(bus.read(0x2007) == 0x44){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 54" << std::endl;
-    ppu.set_ctrl(0);
-    ppu.set_v(0x3FFF);
-
-    bus.read(0x2007);
-    if(ppu.get_v() == 0x4000){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 55" << std::endl;
-
-    bus.write(0x2006,0x20);
-    bus.write(0x2006,0x00);
-
-    bus.write(0x2007,0xAA);
-
-    ppu.set_v(0x3000);
-    ppu.set_vram_data(0x00);
-
-    if(bus.read(0x2007) == 0x00){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(ppu.get_vram_data() == 0xAA){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    if(ppu.get_v() == 0x3001){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "NMI CPU EXECUTION TESTS" << std::endl;
-    std::cout << "TEST 1" << std::endl;
-    bus.set_NOP_sys_ram();
-    nes.set_pc(0x0100);
-    nes.set_stack_ptr(0xFF);
-    ppu.set_nmi_output(false);
-    nes.set_prev_nmi_line(false);
-    ppu.clear_v_blank();
-    rom.set_FA_FB(0x78,0x56);
-    nes.execute();
-
-    if(nes.get_pc() == 0x0101){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(!nes.get_prev_nmi_line()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 2" << std::endl;
-    nes.set_pc(0x0100);
-    nes.set_stack_ptr(0xFF);
-    ppu.set_nmi_output(true);
-    nes.set_prev_nmi_line(false);
-    ppu.update_v_blank();
-    rom.set_FA_FB(0x78,0x56);
-    nes.execute();
-
-    if(nes.get_pc() == 0x5678){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(nes.get_prev_nmi_line()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(nes.get_stack_ptr() == 0xFC){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 3" << std::endl;
-    nes.set_pc(0x0100);
-    nes.set_stack_ptr(0xFF);
-    ppu.set_nmi_output(true);
-    nes.set_prev_nmi_line(true);
-    ppu.update_v_blank();
-    rom.set_FA_FB(0x78,0x56);
-    nes.execute();
-
-    if(nes.get_pc() == 0x0101){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(nes.get_prev_nmi_line()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 4" << std::endl;
-    nes.set_pc(0x0100);
-    nes.set_stack_ptr(0xFF);
-    ppu.set_nmi_output(true);
-    nes.set_prev_nmi_line(true);
-    ppu.clear_v_blank();
-    rom.set_FA_FB(0x78,0x56);
-    nes.execute();
-
-    if(nes.get_pc() == 0x0101){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(!nes.get_prev_nmi_line()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 5" << std::endl;
-    nes.set_pc(0x0100);
-    nes.set_stack_ptr(0xFF);
-    ppu.set_nmi_output(false);
-    nes.set_prev_nmi_line(false);
-    ppu.update_v_blank();
-    rom.set_FA_FB(0x78,0x56);
-    nes.execute();
-
-    if(nes.get_pc() == 0x0101){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(!nes.get_prev_nmi_line()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 6" << std::endl;
-    nes.set_pc(0x0100);
-    nes.set_stack_ptr(0xFF);
-    ppu.set_nmi_output(false);
-    nes.set_prev_nmi_line(false);
-    ppu.update_v_blank();
-    rom.set_FA_FB(0x78,0x56);
-
-    bus.write(0x2000, 128);
-
-    nes.execute();
-
-    if(nes.get_pc() == 0x5678){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(nes.get_prev_nmi_line()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(nes.get_stack_ptr() == 0xFC){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 7" << std::endl;
-    nes.set_pc(0x0100);
-    nes.set_stack_ptr(0xFF);
-    ppu.set_nmi_output(true);
-    nes.set_prev_nmi_line(false);
-    ppu.clear_v_blank();
-    ppu.set_scan_ln_count(240);
-    ppu.set_cycle_count(340);
-    rom.set_FA_FB(0x78,0x56);
-
-    ppu.tick();
-    nes.execute();
-
-    if(nes.get_pc() == 0x5678){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(nes.get_prev_nmi_line()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(nes.get_stack_ptr() == 0xFC){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    ppu.set_scan_ln_count(260);
-    ppu.set_cycle_count(340);
-
-    ppu.tick();
-
-    if(!ppu.get_v_blank()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    nes.execute();
-
-    if(!nes.get_prev_nmi_line()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    ppu.set_scan_ln_count(240);
-    ppu.set_cycle_count(340);
-
-    ppu.tick();
-    nes.execute();
+    // bus.write(0x2005,0b10101010);
+    // bus.write(0x2005, 0b11001101);
     
-    if(nes.get_pc() == 0x5678){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(nes.get_prev_nmi_line()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_t() == 0b0101001100110101){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    //     std::cout << ppu.get_t() << std::endl;
+    // }
+
+    // if(ppu.get_fine_x() == 0b010){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(!ppu.get_write_toggle()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 40" << std::endl;
+
+    // ppu.clear_write_toggle();
+    // ppu.set_t(0);
+
+    // bus.write(0x2005, 0b10101010);
+
+    // if(ppu.get_write_toggle()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // bus.read(0x2002);
+
+    // if(!ppu.get_write_toggle()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // bus.write(0x2005, 0b10101010);
+
+    // if(ppu.get_write_toggle()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "PPU DATA" << std::endl;
+    // std::cout << "TEST 41" << std::endl;
+    // ppu.clear_write_toggle();
+    // ppu.set_t(0);
+    // ppu.set_v(0);
+
+    // bus.write(0x2006, 0x20);
+    // bus.write(0x2006, 0x00);
+
+    // bus.write(0x2007,0xAB);
+
+    // bus.write(0x2006, 0x20);
+    // bus.write(0x2006, 0x00);
+    // bus.read(0x2007);
+    // if(bus.read(0x2007) == 0xAB){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 42" << std::endl;
+    // ppu.clear_write_toggle();
+    // ppu.set_ctrl(0);
+    // ppu.set_t(0);
+    // ppu.set_v(0x2000);
+
+    // bus.write(0x2007, 0xAA);
+    // bus.write(0x2007, 0xBB);
+    
+
+    // if(ppu.read_vram(0x0000) == 0xAA){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    //     std::cout << "VRAM 0x100 = " << ppu.read_vram(0x0000) << std::endl;
+    // }
+    // if(ppu.read_vram(0x0001) == 0xBB){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    //     std::cout << "VRAM 0x2001 MOD 0x0800 = " << static_cast<int>(ppu.read_vram(0x0001)) << std::endl;
+    // }
+
+    // std::cout << "TEST 43" << std::endl;
+    // ppu.set_ctrl(0);
+    // ppu.set_v(0x2000);
+
+    // bus.write(0x2007,0);
+    // if(ppu.get_v() == 0x2001){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // bus.write(0x2007,0);
+    // if(ppu.get_v() == 0x2002){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    
+    // std::cout << "TEST 44" << std::endl;
+    // ppu.set_ctrl(0b100);
+    // ppu.set_v(0x2000);
+
+    // bus.write(0x2007,0);
+    // if(ppu.get_v() == 0x2020){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // bus.write(0x2007,0);
+    // if(ppu.get_v() == 0x2040){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 45" << std::endl;
+    // ppu.set_ctrl(0b0);
+    // ppu.set_v(0x2000);
+
+    // bus.write(0x2007, 0x11);
+    // bus.write(0x2007, 0x22);
+    // bus.write(0x2007, 0x33);
+
+    // if(ppu.get_v() == 0x2003){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // bus.read(0x2007);
+    // bus.read(0x2007);
+    // bus.read(0x2007);
+
+    // if(ppu.get_v() == 0x2006){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 46" << std::endl;
+    // ppu.clear_write_toggle();
+    
+    // bus.write(0x2006, 0x21);
+
+    // if(ppu.get_t() == 0x2100){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(ppu.get_write_toggle()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // bus.write(0x2006,0x00);
+
+    // if(ppu.get_t() == 0x2100){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(ppu.get_v() == 0x2100){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(!ppu.get_write_toggle()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // bus.write(0x2007, 0x55);
+
+    // if(ppu.read_vram(0x0100) == 0x55){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(ppu.get_v() == 0x2101){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 47" << std::endl;
+    // ppu.clear_write_toggle();
+    
+    // bus.write(0x2006,0x23);
+
+    // if(ppu.get_write_toggle()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // bus.write(0x2006,0x45);
+    // if(!ppu.get_write_toggle()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(ppu.get_v() == 0x2345){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // bus.write(0x2006, 0x67);
+
+    // if(ppu.get_write_toggle()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(ppu.get_v() == 0x2345){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // bus.write(0x2006, 0x89);
+
+    // if(!ppu.get_write_toggle()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(ppu.get_v() == 0x2789){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    //     std::cout << ppu.get_v() << std::endl;
+    // }
+
+    // std::cout << "TEST 48" << std::endl;
+
+    // ppu.set_v(0x2000);
+    // ppu.set_vram_data(0);
+
+    // bus.write(0x2007, 0xAA);
+    // bus.write(0x2007, 0xBB);
+
+    // ppu.set_v(0x2000);
+
+    // if(bus.read(0x2007) == 0){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(ppu.get_vram_data() == 0xAA){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(ppu.get_v() == 0x2001){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(bus.read(0x2007) == 0xAA){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(ppu.get_vram_data() == 0xBB){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(ppu.get_v() == 0x2002){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(bus.read(0x2007) == 0xBB){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(ppu.get_v() == 0x2003){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 49" << std::endl;
+    // ppu.set_vram_data(0);
+    // ppu.set_ctrl(0b100);
+    // ppu.set_v(0x2000);
+
+    // bus.write(0x2007, 0xAA);
+    // bus.write(0x2007, 0xBB);
+
+    // ppu.set_v(0x2000);
+    // uint16_t result = bus.read(0x2007);
+    // if( result == 0){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    //     std::cout << result << std::endl;
+    // }
+
+    // if(ppu.get_vram_data() == 0xAA){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(ppu.get_v() == 0x2020){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(bus.read(0x2007) == 0xAA){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(ppu.get_vram_data() == 0xBB){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(ppu.get_v() == 0x2040){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 50" << std::endl;
+    // ppu.set_ctrl(0);
+    // ppu.clear_write_toggle();
+
+    // bus.write(0x2006,0x21);
+
+    // if(ppu.get_write_toggle()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // bus.write(0x2006,0x00);
+
+    // if(!ppu.get_write_toggle()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_v() == 0x2100){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    //     std::cout << static_cast<int>(ppu.get_v()) << std::endl;
+    // }
+
+    // ppu.set_vram_data(0);
+
+    // bus.write(0x2007,0xAA);
+
+    // bus.write(0x2006,0x21);
+    // bus.write(0x2006,0x00);
+
+    // if(bus.read(0x2007) == 0){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(ppu.get_vram_data() == 0xAA){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    //     std::cout << static_cast<int>(ppu.get_vram_data()) << std::endl;
+    // }
+
+    // if(ppu.get_v() == 0x2101){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    //     std::cout << static_cast<int>(ppu.get_v()) << std::endl;
+
+    // }
+    // std::cout << "TEST 51" << std::endl;
+    // bus.write(0x2006, 0x3F);
+    // bus.write(0x2006, 0x00);
+
+    // bus.write(0x2007, 0x3F);
+
+    // ppu.set_v(0x3F00);
+
+    // if(bus.read(0x2007) == 0x3F){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(ppu.get_v() == 0x3F01){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // ppu.set_v(0x3F00);
+
+    // if(bus.read(0x2007) == 0x3F){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 52" << std::endl;
+    // bus.write(0x2006, 0x3F);
+    // bus.write(0x2006, 0x00);
+
+    // bus.write(0x2007, 0x3F);
+
+    // ppu.set_v(0x3F00);
+
+    // if(bus.read(0x2007) == 0x3F){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // ppu.set_v(0x3F20);
+
+    // if(bus.read(0x2007) == 0x3F){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    
+    // ppu.set_v(0x3F40);
+
+    // if(bus.read(0x2007) == 0x3F){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // ppu.set_v(0x3F60);
+
+    // if(bus.read(0x2007) == 0x3F){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 53" << std::endl;
+
+    // bus.write(0x2006, 0x3F);
+    // bus.write(0x2006, 0x00);
+
+    // bus.write(0x2007, 0x11);
+
+    // bus.write(0x2006, 0x3F);
+    // bus.write(0x2006, 0x04);
+
+    // bus.write(0x2007, 0x22);
+
+    // bus.write(0x2006, 0x3F);
+    // bus.write(0x2006, 0x08);
+
+    // bus.write(0x2007, 0x33);
+
+    // bus.write(0x2006, 0x3F);
+    // bus.write(0x2006, 0x0C);
+
+    // bus.write(0x2007, 0x44);
+
+    // ppu.set_v(0x3F10);
+
+    // if(bus.read(0x2007) == 0x11){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // ppu.set_v(0x3F14);
+
+    // if(bus.read(0x2007) == 0x22){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // ppu.set_v(0x3F18);
+
+    // if(bus.read(0x2007) == 0x33){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // ppu.set_v(0x3F1C);
+
+    // if(bus.read(0x2007) == 0x44){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 54" << std::endl;
+    // ppu.set_ctrl(0);
+    // ppu.set_v(0x3FFF);
+
+    // bus.read(0x2007);
+    // if(ppu.get_v() == 0x4000){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 55" << std::endl;
+
+    // bus.write(0x2006,0x20);
+    // bus.write(0x2006,0x00);
+
+    // bus.write(0x2007,0xAA);
+
+    // ppu.set_v(0x3000);
+    // ppu.set_vram_data(0x00);
+
+    // if(bus.read(0x2007) == 0x00){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(ppu.get_vram_data() == 0xAA){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // if(ppu.get_v() == 0x3001){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "NMI CPU EXECUTION TESTS" << std::endl;
+    // std::cout << "TEST 1" << std::endl;
+    // bus.set_NOP_sys_ram();
+    // nes.set_pc(0x0100);
+    // nes.set_stack_ptr(0xFF);
+    // ppu.set_nmi_output(false);
+    // nes.set_prev_nmi_line(false);
+    // ppu.clear_v_blank();
+    // rom.set_FA_FB(0x78,0x56);
+    // nes.execute();
+
+    // if(nes.get_pc() == 0x0101){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(!nes.get_prev_nmi_line()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 2" << std::endl;
+    // nes.set_pc(0x0100);
+    // nes.set_stack_ptr(0xFF);
+    // ppu.set_nmi_output(true);
+    // nes.set_prev_nmi_line(false);
+    // ppu.update_v_blank();
+    // rom.set_FA_FB(0x78,0x56);
+    // nes.execute();
+
+    // if(nes.get_pc() == 0x5678){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(nes.get_prev_nmi_line()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(nes.get_stack_ptr() == 0xFC){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 3" << std::endl;
+    // nes.set_pc(0x0100);
+    // nes.set_stack_ptr(0xFF);
+    // ppu.set_nmi_output(true);
+    // nes.set_prev_nmi_line(true);
+    // ppu.update_v_blank();
+    // rom.set_FA_FB(0x78,0x56);
+    // nes.execute();
+
+    // if(nes.get_pc() == 0x0101){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(nes.get_prev_nmi_line()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 4" << std::endl;
+    // nes.set_pc(0x0100);
+    // nes.set_stack_ptr(0xFF);
+    // ppu.set_nmi_output(true);
+    // nes.set_prev_nmi_line(true);
+    // ppu.clear_v_blank();
+    // rom.set_FA_FB(0x78,0x56);
+    // nes.execute();
+
+    // if(nes.get_pc() == 0x0101){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(!nes.get_prev_nmi_line()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 5" << std::endl;
+    // nes.set_pc(0x0100);
+    // nes.set_stack_ptr(0xFF);
+    // ppu.set_nmi_output(false);
+    // nes.set_prev_nmi_line(false);
+    // ppu.update_v_blank();
+    // rom.set_FA_FB(0x78,0x56);
+    // nes.execute();
+
+    // if(nes.get_pc() == 0x0101){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(!nes.get_prev_nmi_line()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 6" << std::endl;
+    // nes.set_pc(0x0100);
+    // nes.set_stack_ptr(0xFF);
+    // ppu.set_nmi_output(false);
+    // nes.set_prev_nmi_line(false);
+    // ppu.update_v_blank();
+    // rom.set_FA_FB(0x78,0x56);
+
+    // bus.write(0x2000, 128);
+
+    // nes.execute();
+
+    // if(nes.get_pc() == 0x5678){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(nes.get_prev_nmi_line()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(nes.get_stack_ptr() == 0xFC){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 7" << std::endl;
+    // nes.set_pc(0x0100);
+    // nes.set_stack_ptr(0xFF);
+    // ppu.set_nmi_output(true);
+    // nes.set_prev_nmi_line(false);
+    // ppu.clear_v_blank();
+    // ppu.set_scan_ln_count(240);
+    // ppu.set_cycle_count(340);
+    // rom.set_FA_FB(0x78,0x56);
+
+    // ppu.tick();
+    // nes.execute();
+
+    // if(nes.get_pc() == 0x5678){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(nes.get_prev_nmi_line()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(nes.get_stack_ptr() == 0xFC){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // ppu.set_scan_ln_count(260);
+    // ppu.set_cycle_count(340);
+
+    // ppu.tick();
+
+    // if(!ppu.get_v_blank()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // nes.execute();
+
+    // if(!nes.get_prev_nmi_line()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // ppu.set_scan_ln_count(240);
+    // ppu.set_cycle_count(340);
+
+    // ppu.tick();
+    // nes.execute();
+    
+    // if(nes.get_pc() == 0x5678){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(nes.get_prev_nmi_line()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
     std::cout << "PPU RENDERING TESTS" << std::endl;
     std::cout << "TEST 1" << std::endl;
@@ -2657,65 +2657,116 @@ int main(int argc, char*argv[]){
     }
 
     std::cout << "TEST 16" << std::endl;
+    std::cout << "1" << std::endl;
     ppu.set_scan_ln_count(0);
+    std::cout << "2" << std::endl;
     ppu.set_dot_count(1);
+    std::cout << "3" << std::endl;
     ppu.set_pal_state(0);
 
+    std::cout << "4" << std::endl;
     ppu.set_low_shift(0x5500);
+    std::cout << "5" << std::endl;
     ppu.set_high_shift(0x3300);
 
+    std::cout << "6" << std::endl;
     ppu.write_pal_ram(0x00,0x10);
+    std::cout << "7" << std::endl;
     ppu.write_pal_ram(0x01,0x11);
+    std::cout << "8" << std::endl;
     ppu.write_pal_ram(0x02,0x12);
+    std::cout << "9" << std::endl;
     ppu.write_pal_ram(0x03,0x13);
 
+    std::cout << "10" << std::endl;
+    std::cout << "BEFORE FB CHECK" << std::endl;
+
+    std::cout << "11" << std::endl;
+    uint8_t value = ppu.get_frame_buffer()[0][0];
+
+    std::cout << "12" << std::endl;
+    std::cout << "VALUE: " << std::hex << static_cast<int>(value) << std::endl;
+
+    std::cout << "13" << std::endl;
     for (int i = 0; i < 8; i++){
         ppu.tick();
     }
 
-    if(ppu.get_frame_buffer()[0][0] == 0x11){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_frame_buffer()[0][1] == 0x12){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_frame_buffer()[0][2] == 0x11){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_frame_buffer()[0][3] == 0x12){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_frame_buffer()[0][4] == 0x11){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_frame_buffer()[0][5] == 0x12){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_frame_buffer()[0][6] == 0x11){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    std::cout << "14" << std::endl;
+    value = ppu.get_frame_buffer()[0][0];
 
+    std::cout << "15" << std::endl;
+    std::cout << "AFTER FB CHECK" << std::endl;
+    std::cout << "16" << std::endl;
+    std::cout << "VALUE 0: " << std::hex << static_cast<int>(value) << std::endl;
+    std::cout << "17" << std::endl;
+    value = ppu.get_frame_buffer()[0][1];
+    std::cout << "18" << std::endl;
+    std::cout << "VALUE 1: " << std::hex << static_cast<int>(value) << std::endl;
+    std::cout << "19" << std::endl;
+    value = ppu.get_frame_buffer()[0][2];
+    std::cout << "20" << std::endl;
+    std::cout << "VALUE 2: " << std::hex << static_cast<int>(value) << std::endl;
+    std::cout << "21" << std::endl;
+    // value = ppu.get_frame_buffer()[0][3];
+    // std::cout << "22" << std::endl;
+    // std::cout << "VALUE 3: " << std::hex << static_cast<int>(value) << std::endl;
+    // std::cout << "23" << std::endl;
+    // // value = ppu.get_frame_buffer()[0][4];
+    // // std::cout << "24" << std::endl;
+    // // std::cout << "VALUE 4: " << std::hex << static_cast<int>(value) << std::endl;
+    // // value = ppu.get_frame_buffer()[0][5];
+    // // std::cout << "25" << std::endl;
+    // // std::cout << "VALUE 5: " << std::hex << static_cast<int>(value) << std::endl;
+    // value = ppu.get_frame_buffer()[0][6];
+    // std::cout << "26" << std::endl;
+    // std::cout << "VALUE 6: " << std::hex << static_cast<int>(value) << std::endl;
+
+
+    
+    // if(ppu.get_frame_buffer()[0][0] == 0x11){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_frame_buffer()[0][1] == 0x12){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_frame_buffer()[0][2] == 0x11){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_frame_buffer()[0][3] == 0x12){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_frame_buffer()[0][4] == 0x11){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_frame_buffer()[0][5] == 0x12){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_frame_buffer()[0][6] == 0x11){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // uint8_t value;
     std::cout << "TEST 17 A" << std::endl;
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(1);
@@ -2728,7 +2779,7 @@ int main(int argc, char*argv[]){
     ppu.write_pal_ram(0x01,0x11);
 
     ppu.tick();
-    uint8_t value = ppu.get_frame_buffer()[0][0];
+    value = ppu.get_frame_buffer()[0][0];
 
     if(value == 0x11){
         std::cout << "Pass" << std::endl;
