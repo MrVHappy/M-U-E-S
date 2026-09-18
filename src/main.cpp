@@ -2728,8 +2728,9 @@ int main(int argc, char*argv[]){
     ppu.write_pal_ram(0x01,0x11);
 
     ppu.tick();
+    uint8_t value = ppu.get_frame_buffer()[0][0];
 
-    if(ppu.get_frame_buffer()[0][0] == 0x11){
+    if(value == 0x11){
         std::cout << "Pass" << std::endl;
     }
     else{
@@ -2749,7 +2750,9 @@ int main(int argc, char*argv[]){
 
     ppu.tick();
 
-    if(ppu.get_frame_buffer()[0][0] == 0x21){
+    value = ppu.get_frame_buffer()[0][0];
+
+    if(value == 0x21){
         std::cout << "Pass" << std::endl;
     }
     else{
@@ -2769,7 +2772,9 @@ int main(int argc, char*argv[]){
 
     ppu.tick();
 
-    if(ppu.get_frame_buffer()[0][0] == 0x31){
+    value = ppu.get_frame_buffer()[0][0];
+
+    if(value == 0x31){
         std::cout << "Pass" << std::endl;
     }
     else{
@@ -2788,13 +2793,23 @@ int main(int argc, char*argv[]){
 
     ppu.tick();
 
+    value = ppu.get_frame_buffer()[0][0];
+
+    if(value == 0x41){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
     if(ppu.get_frame_buffer()[0][0] == 0x41){
         std::cout << "Pass" << std::endl;
     }
     else{
         std::cout << "Fail" << std::endl;
     }
-    // std::cout<<"9"<<std::endl;
+
+    std::cout<<"9"<<std::endl;
 
     // std::cout << "TEST 18" << std::endl;
     // ppu.set_scan_ln_count(0);
