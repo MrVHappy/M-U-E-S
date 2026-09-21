@@ -2109,7 +2109,6 @@ int main(int argc, char*argv[]){
     }
 
     std::cout << "TEST 4" << std::endl;
-    std::cout<<"1"<<std::endl;
     ppu.write_vram(0,0x10);
     ppu.write_vram(1,0x20);
     ppu.write_vram(2,0x30);
@@ -2119,30 +2118,35 @@ int main(int argc, char*argv[]){
     ppu.write_vram(6,0x70);
     ppu.write_vram(7,0x80);
     ppu.set_v(0b001000000000000);
+    ppu.set_t(0b001000000000000);
     ppu.clear_tile_buffer();
-    ppu.set_dot_count(256);
+    ppu.set_dot_count(257);
     ppu.set_scan_ln_count(0);
-    for(int i = 256; i < 320; i++){
+    for(int i = 257; i <= 320; i++){
         ppu.tick();
     }
-    std::cout<<"HELLO"<<std::endl;
-
     if(ppu.get_tile_buffer()[0] == 0x10){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "tile buffer index 0: " << static_cast<int>(ppu.get_tile_buffer()[0]) << std::endl;
+        std::cout << "VRAM at index 0: " << static_cast<int>(ppu.read_vram(0)) << std::endl;
         std::cout << "Fail" << std::endl;
     }
     if(ppu.get_tile_buffer()[1] == 0x20){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "tile buffer index 1: " << static_cast<int>(ppu.get_tile_buffer()[1]) << std::endl;
+        std::cout << "VRAM at index 1: " << static_cast<int>(ppu.read_vram(1)) << std::endl;
         std::cout << "Fail" << std::endl;
     }
     if(ppu.get_tile_buffer()[2] == 0x30){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "tile buffer index 2: " << static_cast<int>(ppu.get_tile_buffer()[2]) << std::endl;
+        std::cout << "VRAM at index 2: " << static_cast<int>(ppu.read_vram(2)) << std::endl;
         std::cout << "Fail" << std::endl;
     }
     if(ppu.get_tile_buffer()[3] == 0x40){
