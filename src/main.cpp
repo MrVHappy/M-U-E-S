@@ -2086,12 +2086,12 @@ int main(int argc, char*argv[]){
     ppu.set_scan_ln_count(0);
     ppu.tick();
 
-    if(ppu.get_v() == 0b010010000101010){
+    if(ppu.get_v() == 0b011001111101011){
         std::cout << "Pass" << std::endl;
     }
     else{
         std::cout << "register V: " << ppu.get_v() << std::endl;
-        std::cout << "expected V: " << 0b010101010101010 << std::endl;
+        std::cout << "expected V: " << 0b011001111101011 << std::endl;
         std::cout << "Fail" << std::endl;
     }
 
@@ -2101,7 +2101,7 @@ int main(int argc, char*argv[]){
     ppu.set_scan_ln_count(0);
     ppu.tick();
 
-    if(ppu.get_v() == 0b001000000001010){
+    if(ppu.get_v() == 0b001111111101011){
         std::cout << "Pass" << std::endl;
     }
     else{
