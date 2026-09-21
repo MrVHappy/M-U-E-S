@@ -2066,20 +2066,23 @@ int main(int argc, char*argv[]){
 
     std::cout << "TEST 3 A" << std::endl;
     ppu.set_v(0b010001010101010);
-    ppu.set_dot_count(255);
+    std::cout << "register V: " << ppu.get_v() << std::endl;
+    ppu.set_dot_count(256);
     ppu.set_scan_ln_count(0);
     ppu.tick();
 
-    if(ppu.get_v() == 0b010101010101010){
+    if(ppu.get_v() == 0b011001010101011){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "register V: " << ppu.get_v() << std::endl;
+        std::cout << "expected V: " << 0b010101010101010 << std::endl;
         std::cout << "Fail" << std::endl;
     }
 
     std::cout << "TEST 3 B" << std::endl;
     ppu.set_v(0b010001111101010);
-    ppu.set_dot_count(255);
+    ppu.set_dot_count(256);
     ppu.set_scan_ln_count(0);
     ppu.tick();
 
@@ -2087,12 +2090,14 @@ int main(int argc, char*argv[]){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "register V: " << ppu.get_v() << std::endl;
+        std::cout << "expected V: " << 0b010101010101010 << std::endl;
         std::cout << "Fail" << std::endl;
     }
 
     std::cout << "TEST 3 C" << std::endl;
     ppu.set_v(0b000111111101010);
-    ppu.set_dot_count(255);
+    ppu.set_dot_count(256);
     ppu.set_scan_ln_count(0);
     ppu.tick();
 
