@@ -2182,7 +2182,9 @@ int main(int argc, char*argv[]){
 
     std::cout << "TEST 5" << std::endl;
     ppu.set_v(0b001000000000000);
-    ppu.set_dot_count(256);
+    ppu.set_t(0b001000000000000);
+    ppu.set_dot_count(257);
+    ppu.set_ctrl(0);
     ppu.set_scan_ln_count(0);
     ppu.write_vram(0,0x12);
     ppu.write_vram(0x3C0,0x34);
@@ -2192,7 +2194,7 @@ int main(int argc, char*argv[]){
     ppu.clear_attribute_buffer();
     
     ppu.tick(); // 257
-    if(ppu.get_dot_count() == 257){
+    if(ppu.get_dot_count() == 258){
         std::cout << "Pass" << std::endl;
     }
     else{
@@ -2202,12 +2204,14 @@ int main(int argc, char*argv[]){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "Tile Buffer at index 0: " << static_cast<int>(ppu.get_tile_buffer()[0]) << std::endl;
+        std::cout << "Expected Value: " << 0x12 << std::endl;
         std::cout << "Fail" << std::endl;
     }
-    ppu.tick(); // 258
     ppu.tick(); // 259
+    ppu.tick(); // 260
     
-    if(ppu.get_dot_count() == 259){
+    if(ppu.get_dot_count() == 260){
         std::cout << "Pass" << std::endl;
     }
     else{
@@ -2219,10 +2223,10 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
-    ppu.tick(); // 260
     ppu.tick(); // 261
+    ppu.tick(); // 262
     
-    if(ppu.get_dot_count() == 261){
+    if(ppu.get_dot_count() == 262){
         std::cout << "Pass" << std::endl;
     }
     else{
@@ -2232,13 +2236,15 @@ int main(int argc, char*argv[]){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "Pattern Low: " << static_cast<int>(ppu.get_pattern_low()) << std::endl;
+        std::cout << "Expected: " << 0x56 << std::endl;
         std::cout << "Fail" << std::endl;
     }
 
-    ppu.tick(); // 262
     ppu.tick(); // 263
+    ppu.tick(); // 264
 
-    if(ppu.get_dot_count() == 263){
+    if(ppu.get_dot_count() == 264){
         std::cout << "Pass" << std::endl;
     }
     else{
@@ -2257,9 +2263,9 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
 
-    ppu.tick(); // 264
+    ppu.tick(); // 265
 
-    if(ppu.get_dot_count() == 264){
+    if(ppu.get_dot_count() == 265){
         std::cout << "Pass" << std::endl;
     }
     else{
@@ -2278,9 +2284,9 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
 
-    ppu.tick(); // 265
+    ppu.tick(); // 266
 
-    if(ppu.get_dot_count() == 265){
+    if(ppu.get_dot_count() == 266){
         std::cout << "Pass" << std::endl;
     }
     else{
