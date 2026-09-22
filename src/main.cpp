@@ -2297,7 +2297,7 @@ int main(int argc, char*argv[]){
 
     std::cout << "TEST 6" << std::endl;
     ppu.set_v(0b001000000000000);
-    ppu.set_dot_count(256);
+    ppu.set_dot_count(257);
     ppu.set_scan_ln_count(0);
     ppu.write_vram(0x0,0x10);
     ppu.write_vram(0x1,0x20);
@@ -2308,7 +2308,7 @@ int main(int argc, char*argv[]){
     ppu.write_vram(0x6,0x70);
     ppu.write_vram(0x7,0x80);
     ppu.clear_tile_buffer();
-    for (int i = 256; i < 320; i++){
+    for (int i = 257; i <= 320; i++){
         ppu.tick();
     }
     if(ppu.get_tile_buffer()[0] == 0x10){
@@ -2363,6 +2363,8 @@ int main(int argc, char*argv[]){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "Register V: " << ppu.get_v() << std::endl;
+        std::cout << "Expected V: " << 0b001000000001000 << std::endl;
         std::cout << "Fail" << std::endl;
     }
 
