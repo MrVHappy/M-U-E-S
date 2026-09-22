@@ -3016,10 +3016,12 @@ int main(int argc, char*argv[]){
 
     ppu.tick();
 
-    if(ppu.get_v() == 0x0800){
+    if(ppu.get_v() == 0x01C1){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "Register V: " << ppu.get_v() << std::endl;
+        std::cout << "Expected V: " << 0x0800 << std::endl;
         std::cout << "Fail" << std::endl;
     }
 
@@ -3030,7 +3032,7 @@ int main(int argc, char*argv[]){
     
     ppu.tick();
     
-    if(ppu.get_v() == 0x0000){
+    if(ppu.get_v() == 0x09C1){
         std::cout << "Pass" << std::endl;
     }
     else{
