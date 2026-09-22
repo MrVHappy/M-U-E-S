@@ -303,6 +303,11 @@ void PPU::tick(){
     }
     // check if dot count is between 257-320
     if((this->dot_count >= 257) && (this->dot_count < 321)){
+
+        std::cout << "Dot Count: " << static_cast<int>(this->dot_count) << std::endl;
+        std::cout << "Register V: " << static_cast<int>(this->v) << std::endl;
+        std::cout << "Register CTRL: " << static_cast<int>(this->ctrl) << std::endl;
+
         // check if dot count is 257
         if(this->dot_count == 257){
             // get coarse X from register t
@@ -338,6 +343,8 @@ void PPU::tick(){
         // get the tile fetch sequence
         uint8_t tile_fetch_seq = (this->dot_count - 257) % 8; 
 
+        std::cout << "Tile Index: " << static_cast<int>(tile_index) << std::endl;
+        std::cout << "Tile Fetch Sequence: " << static_cast<int>(tile_fetch_seq) << std::endl;
         switch(tile_fetch_seq){
             // nametable processing
             case 0:{
@@ -386,6 +393,10 @@ void PPU::tick(){
                 uint8_t tile_num = tile_buffer[tile_index];
                 // extract fine y from v register
                 uint8_t fine_y = (this->v & 0b11100000000000) >> 12;
+                std::cout << "PATTERN LOW:" << std::endl;
+                std::cout << "BIT 4: " << static_cast<int>(bit_4) << std::endl;
+                std::cout << "Tile Number: " << static_cast<int>(tile_num) << std::endl;
+                std::cout << "Fine Y: " << static_cast<int>(fine_y) << std::endl;
                 // calculate the low byte
                 uint16_t low_addr;
                 if(bit_4){
@@ -396,8 +407,11 @@ void PPU::tick(){
                     // pattern table is 0
                     low_addr = (tile_num * 16) + fine_y;
                 }
+
+                std::cout << "Low Address: " << static_cast<int>(low_addr) << std::endl;
                 // extract the contents from CHR at index low addr and store in pattern low
                 this->pattern_low = this->bus->get_rom().get_mapper_info().read_CHR(low_addr);
+                std::cout << "Pattern Low: " << static_cast<int>(this->pattern_low);
                 break;
             }
             case 6:{
@@ -407,6 +421,9 @@ void PPU::tick(){
                 uint8_t tile_num = tile_buffer[tile_index];
                 // extract fine y from v register
                 uint8_t fine_y = (this->v & 0b11100000000000) >> 12;
+                std::cout << "PATTERN HIGH:" << std::endl;
+                std::cout << "Tile Number: " << static_cast<int>(tile_num) << std::endl;
+                std::cout << "Fine Y: " << static_cast<int>(fine_y) << std::endl;
                 // calculate the low byte
                 uint16_t high_addr;
                 if(bit_4){
@@ -417,8 +434,11 @@ void PPU::tick(){
                     // pattern table is 0
                     high_addr = (tile_num * 16) + fine_y + 8;
                 }
+
+                std::cout << "High Address: " << static_cast<int>(high_addr) << std::endl;
                 // extract the contents from CHR at index low addr and store in pattern high
                 this->pattern_high = this->bus->get_rom().get_mapper_info().read_CHR(high_addr);
+                std::cout << "Pattern High: " << static_cast<int>(this->pattern_high) << std::endl;
                 break;
             }
             // tile boundary loading
@@ -431,6 +451,13 @@ void PPU::tick(){
                 this->high_shift = this->high_shift & 0b1111111100000000;
                 // then add pattern high to bits 0-7
                 this->high_shift = this->high_shift | this->pattern_high;
+                
+                std::cout << "SHIFT LOAD:" << std::endl;
+                std::cout << "Pattern Low: " << static_cast<int>(this->pattern_low) << std::endl;
+                std::cout << "Pattern High: " << static_cast<int>(this->pattern_high) << std::endl;
+                std::cout << "Low Shift: " << static_cast<int>(this->low_shift) << std::endl;
+                std::cout << "High Shift: " << static_cast<int>(this->high_shift) << std::endl;
+                
                 // extract coarse x from register v
                 uint8_t coarse_x = this->v & 0b11111;
                 // extract coarse y from register v
