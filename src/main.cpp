@@ -1955,18 +1955,24 @@ int main(int argc, char*argv[]){
     //     std::cout << "Pass" << std::endl;
     // }
     // else{
+    //     std::cout << "PC: " << static_cast<int>(nes.get_pc()) << std::endl;
+    //     std::cout << "Expected PC: " << 0x5678 << std::endl;
     //     std::cout << "Fail" << std::endl;
     // }
     // if(nes.get_prev_nmi_line()){
     //     std::cout << "Pass" << std::endl;
     // }
     // else{
+    //     std::cout << "Prev NMI Line: " << nes.get_prev_nmi_line() << std::endl;
+    //     std::cout << "Expected Prev NMI Line: TRUE" << std::endl;
     //     std::cout << "Fail" << std::endl;
     // }
     // if(nes.get_stack_ptr() == 0xFC){
     //     std::cout << "Pass" << std::endl;
     // }
     // else{
+    //     std::cout << "Stack Ptr: " << static_cast<int>(nes.get_stack_ptr()) << std::endl;
+    //     std::cout << "Expected Stack Ptr: TRUE" << std::endl;
     //     std::cout << "Fail" << std::endl;
     // }
 
@@ -2001,12 +2007,16 @@ int main(int argc, char*argv[]){
     //     std::cout << "Pass" << std::endl;
     // }
     // else{
+    //     std::cout << "PC: " << static_cast<int>(nes.get_pc()) << std::endl;
+    //     std::cout << "Expected PC: " << static_cast<int>(nes.get_pc()) << std::endl;
     //     std::cout << "Fail" << std::endl;
     // }
     // if(nes.get_prev_nmi_line()){
     //     std::cout << "Pass" << std::endl;
     // }
     // else{
+    //     std::cout << "Prev NMI Line: " << nes.get_prev_nmi_line() << std::endl;
+    //     std::cout << "Expected Prev NMI Line: TRUE" << std::endl;
     //     std::cout << "Fail" << std::endl;
     // }
 
@@ -3084,6 +3094,241 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Register V: " << ppu.get_v() << std::endl;
         std::cout << "Expected V: " << 0x800 << std::endl;
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 23" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.set_low_shift(0x1234);
+    ppu.set_high_shift(0);
+
+    ppu.tick();
+
+    if(ppu.get_low_shift() == 0x2468){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(ppu.get_scan_ln_count() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(ppu.get_dot_count() == 2){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 24" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.set_low_shift(0);
+    ppu.set_high_shift(0x1234);
+
+    ppu.tick();
+
+    if(ppu.get_high_shift() == 0x2468){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(ppu.get_scan_ln_count() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(ppu.get_dot_count() == 2){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 25" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.set_low_shift(0x1234);
+    ppu.set_high_shift(0xABCD);
+
+    ppu.tick();
+
+    if(ppu.get_low_shift() == 0x2468){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(ppu.get_high_shift() == 0x579A){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(ppu.get_scan_ln_count() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(ppu.get_dot_count() == 2){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 26" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.set_low_shift(0x8001);
+    ppu.set_high_shift(0x8000);
+
+    ppu.tick();
+
+    if(ppu.get_low_shift() == 2){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_high_shift() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_scan_ln_count() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 2){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 27" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+    
+    ppu.set_low_shift(0x1234);
+    ppu.set_high_shift(0x5678);
+
+    ppu.tick();
+
+    if(ppu.get_low_shift() == 0x2468){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_high_shift() == 0xACF0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 2){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    ppu.tick();
+
+    if(ppu.get_low_shift() == 0x48D0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_high_shift() == 0x59E0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 3){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    ppu.tick();
+
+    if(ppu.get_low_shift() == 0x91A0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_high_shift() == 0xB3C0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 4){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 28" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(0x10);
+
+    ppu.set_low_shift(0x1234);
+    ppu.set_high_shift(0xABCD);
+
+    ppu.tick();
+
+    if(ppu.get_low_shift() == 0x2468){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_high_shift() == 0x579A){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_scan_ln_count() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 0x11){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
         std::cout << "Fail" << std::endl;
     }
     return 0;
