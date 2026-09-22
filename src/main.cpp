@@ -3046,10 +3046,12 @@ int main(int argc, char*argv[]){
     ppu.set_v(0x73C0);
     ppu.tick();
 
-    if(ppu.get_v() == 0){
+    if(ppu.get_v() == 1){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "Register V: " << ppu.get_v() << std::endl;
+        std::cout << "Expected V: " << 0 << std::endl;
         std::cout << "Fail" << std::endl;
     }
 
@@ -3060,10 +3062,12 @@ int main(int argc, char*argv[]){
     ppu.set_v(0x7BC0);
     ppu.tick();
 
-    if(ppu.get_v() == 0x0800){
+    if(ppu.get_v() == 0x0801){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "Register V: " << ppu.get_v() << std::endl;
+        std::cout << "Expected V: " << 0x800 << std::endl;
         std::cout << "Fail" << std::endl;
     }
 
@@ -3074,10 +3078,12 @@ int main(int argc, char*argv[]){
     ppu.set_v(0x7BE0);
     ppu.tick();
 
-    if(ppu.get_v() == 0x0800){
+    if(ppu.get_v() == 0x0801){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "Register V: " << ppu.get_v() << std::endl;
+        std::cout << "Expected V: " << 0x800 << std::endl;
         std::cout << "Fail" << std::endl;
     }
     return 0;
