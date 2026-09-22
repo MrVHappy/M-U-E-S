@@ -2188,8 +2188,10 @@ int main(int argc, char*argv[]){
     ppu.set_scan_ln_count(0);
     ppu.write_vram(0,0x12);
     ppu.write_vram(0x3C0,0x34);
-    bus.get_rom().get_mapper_info().write_CHR(0x0120,0x56);
-    bus.get_rom().get_mapper_info().write_CHR(0x0128,0x78);
+    rom.set_CHR(0);
+    bus.get_rom().get_mapper_info().write_CHR(0x0121,0x56);
+    bus.get_rom().get_mapper_info().write_CHR(0x0129,0x78);
+
     ppu.clear_tile_buffer();
     ppu.clear_attribute_buffer();
     
