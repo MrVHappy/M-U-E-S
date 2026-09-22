@@ -304,10 +304,6 @@ void PPU::tick(){
     // check if dot count is between 257-320
     if((this->dot_count >= 257) && (this->dot_count < 321)){
 
-        std::cout << "Dot Count: " << static_cast<int>(this->dot_count) << std::endl;
-        std::cout << "Register V: " << static_cast<int>(this->v) << std::endl;
-        std::cout << "Register CTRL: " << static_cast<int>(this->ctrl) << std::endl;
-
         // check if dot count is 257
         if(this->dot_count == 257){
             // get coarse X from register t
