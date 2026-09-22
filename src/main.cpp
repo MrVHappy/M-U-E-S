@@ -3300,23 +3300,29 @@ int main(int argc, char*argv[]){
 
     std::cout << "TEST 28" << std::endl;
     ppu.set_scan_ln_count(0);
-    ppu.set_dot_count(0x10);
+    ppu.set_dot_count(0x11);
 
     ppu.set_low_shift(0x1234);
+    std::cout << "low shift: " << static_cast<int>(ppu.get_low_shift()) << std::endl;
     ppu.set_high_shift(0xABCD);
-
+    std::cout << "high shift: " << static_cast<int>(ppu.get_high_shift()) << std::endl;
+    
     ppu.tick();
 
     if(ppu.get_low_shift() == 0x2468){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "low shift: " << static_cast<int>(ppu.get_low_shift()) << std::endl;
+        std::cout << "expected: " << 0x2468 << std::endl;
         std::cout << "Fail" << std::endl;
     }
     if(ppu.get_high_shift() == 0x579A){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "high shift: " << static_cast<int>(ppu.get_high_shift()) << std::endl;
+        std::cout << "expected: " << 0x579A << std::endl;
         std::cout << "Fail" << std::endl;
     }
     if(ppu.get_scan_ln_count() == 0){
@@ -3325,7 +3331,7 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
-    if(ppu.get_dot_count() == 0x11){
+    if(ppu.get_dot_count() == 0x12){
         std::cout << "Pass" << std::endl;
     }
     else{

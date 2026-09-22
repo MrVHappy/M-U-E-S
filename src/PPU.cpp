@@ -33,11 +33,11 @@ void PPU::tick(){
         // left shift low and high shift by 1
         this->low_shift = this->low_shift << 1;
         this->high_shift = this->high_shift << 1;
-
+        
         // get the tile index 
         uint8_t tile_index = (this->dot_count - 1) / 8;
         // get the tile fetch sequence
-        uint8_t tile_fetch_seq = (this->dot_count - 1) % 8;    
+        uint8_t tile_fetch_seq = (this->dot_count - 1) % 8; 
         switch(tile_fetch_seq){
             // nametable processing
             case 0:{
