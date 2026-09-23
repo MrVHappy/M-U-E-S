@@ -3337,5 +3337,90 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "TEST 29 A" << std::endl;
+    uint8_t low_bit, high_bit, pattern_val;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(0x11);
+
+    ppu.set_low_shift(0x8000);
+    ppu.set_high_shift(0);
+
+    ppu.tick();
+
+    low_bit = ppu.get_low_shift() >> 15;
+    high_bit = ppu.get_high_shift() >> 15;
+
+    pattern_val = low_bit + (2 * high_bit);
+
+    if(pattern_val == 0x01){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 29 B" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(0x11);
+
+    ppu.set_low_shift(0);
+    ppu.set_high_shift(0x8000);
+
+    ppu.tick();
+
+    low_bit = ppu.get_low_shift() >> 15;
+    high_bit = ppu.get_high_shift() >> 15;
+
+    pattern_val = low_bit + (2 * high_bit);
+
+    if(pattern_val == 0x02){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 29 C" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(0x11);
+
+    ppu.set_low_shift(0x8000);
+    ppu.set_high_shift(0x8000);
+
+    ppu.tick();
+
+    low_bit = ppu.get_low_shift() >> 15;
+    high_bit = ppu.get_high_shift() >> 15;
+
+    pattern_val = low_bit + (2 * high_bit);
+
+    if(pattern_val == 0x03){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 29 D" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(0x11);
+
+    ppu.set_low_shift(0);
+    ppu.set_high_shift(0);
+
+    ppu.tick();
+
+    low_bit = ppu.get_low_shift() >> 15;
+    high_bit = ppu.get_high_shift() >> 15;
+
+    pattern_val = low_bit + (2 * high_bit);
+
+    if(pattern_val == 0x00){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }
