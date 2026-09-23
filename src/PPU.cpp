@@ -167,10 +167,16 @@ void PPU::tick(){
                 break;
             }
         }
-        // extract the 15th bit from low shift
-        uint8_t low_bit = this->low_shift >> 15;
-        // extract the 15th bit from high shift
-        uint8_t high_bit = this->high_shift >> 15;
+        // calculate the number of shifts
+        int shift_num = 15 - this->fine_x;
+        // shift low bit by shift num
+        uint8_t low_bit = this->low_shift >> shift_num;
+        // mask low_bit to get ride of left over data
+        low_bit = low_bit & 0b00000001;
+        // shift high bit by shift num
+        uint8_t high_bit = this->high_shift >> shift_num;
+        // mask high_bit to get ride of left over data
+        high_bit = high_bit & 0b00000001;
 
         // calculate pattern value using high and low bit
         uint8_t pattern_val = low_bit + (high_bit * 2);

@@ -2023,6 +2023,7 @@ int main(int argc, char*argv[]){
     // }
 
     std::cout << "PPU RENDERING TESTS" << std::endl;
+    ppu.set_fine_x(0);
     std::cout << "TEST 1" << std::endl;
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(1);
