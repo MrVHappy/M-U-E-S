@@ -75,6 +75,8 @@ int main(int argc, char*argv[]){
     // reset the CPU
     nes.reset();
 
+    ppu.set_mask(0x08);
+
     std::cout << std::hex << std::setfill('0');
     // reset t, v, and clear write toggle
     // std::cout << "TEST 1 A" << std::endl;
@@ -3628,11 +3630,13 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
 
-    std::cout << "TEST 32" << std::endl;
+    std::cout << "TEST 32 A" << std::endl;
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(0x01);
+    ppu.set_mask(0);
 
-    ppu.set_v(0x2000);
-    ppu.set_ctrl(0);
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0);
+    ppu.set_pal_state(0);
     return 0;
 }
