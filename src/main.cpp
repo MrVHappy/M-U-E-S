@@ -3690,5 +3690,169 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "TEST 33 A" << std::endl;
+    int shift_num;
+    ppu.set_mask(0x08);
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x8000);
+
+    ppu.set_fine_x(0);
+
+    ppu.tick();
+    
+    shift_num = 15 - ppu.get_fine_x();
+    low_bit = ppu.get_low_shift() >> shift_num;
+    low_bit = low_bit & 0b00000001;
+    high_bit = ppu.get_high_shift() >> shift_num;
+    high_bit = high_bit & 0b00000001;
+
+    pattern_val = low_bit + (2 * high_bit);
+
+    if(pattern_val == 1){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 33 B" << std::endl;
+    ppu.set_mask(0x08);
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x8000);
+
+    ppu.set_fine_x(1);
+
+    ppu.tick();
+    
+    shift_num = 15 - ppu.get_fine_x();
+    low_bit = ppu.get_low_shift() >> shift_num;
+    low_bit = low_bit & 0b00000001;
+    high_bit = ppu.get_high_shift() >> shift_num;
+    high_bit = high_bit & 0b00000001;
+
+    pattern_val = low_bit + (2 * high_bit);
+
+    if(pattern_val == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 33 C" << std::endl;
+    ppu.set_mask(0x08);
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.set_low_shift(0);
+    ppu.set_high_shift(0x4000);
+
+    ppu.set_fine_x(0);
+
+    ppu.tick();
+    
+    shift_num = 15 - ppu.get_fine_x();
+    low_bit = ppu.get_low_shift() >> shift_num;
+    low_bit = low_bit & 0b00000001;
+    high_bit = ppu.get_high_shift() >> shift_num;
+    high_bit = high_bit & 0b00000001;
+
+    pattern_val = low_bit + (2 * high_bit);
+
+    if(pattern_val == 2){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 33 D" << std::endl;
+    ppu.set_mask(0x08);
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.set_low_shift(0);
+    ppu.set_high_shift(0x4000);
+
+    ppu.set_fine_x(1);
+
+    ppu.tick();
+    
+    shift_num = 15 - ppu.get_fine_x();
+    low_bit = ppu.get_low_shift() >> shift_num;
+    low_bit = low_bit & 0b00000001;
+    high_bit = ppu.get_high_shift() >> shift_num;
+    high_bit = high_bit & 0b00000001;
+
+    pattern_val = low_bit + (2 * high_bit);
+
+    if(pattern_val == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 33 E" << std::endl;
+    ppu.set_mask(0x08);
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.set_low_shift(0x0080);
+    ppu.set_high_shift(0);
+
+    ppu.set_fine_x(7);
+
+    ppu.tick();
+    
+    shift_num = 15 - ppu.get_fine_x();
+    low_bit = ppu.get_low_shift() >> shift_num;
+    low_bit = low_bit & 0b00000001;
+    high_bit = ppu.get_high_shift() >> shift_num;
+    high_bit = high_bit & 0b00000001;
+
+    pattern_val = low_bit + (2 * high_bit);
+
+    if(low_bit == 1){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 33 F" << std::endl;
+    ppu.set_mask(0x08);
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.set_low_shift(0x2000);
+    ppu.set_high_shift(0x2000);
+
+    ppu.set_fine_x(1);
+
+    ppu.tick();
+    
+    shift_num = 15 - ppu.get_fine_x();
+    low_bit = ppu.get_low_shift() >> shift_num;
+    low_bit = low_bit & 0b00000001;
+    high_bit = ppu.get_high_shift() >> shift_num;
+    high_bit = high_bit & 0b00000001;
+
+    pattern_val = low_bit + (2 * high_bit);
+
+    if(pattern_val == 3){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
     return 0;
 }
