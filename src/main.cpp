@@ -3343,7 +3343,7 @@ int main(int argc, char*argv[]){
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(0x11);
 
-    ppu.set_low_shift(0x8000);
+    ppu.set_low_shift(0x4000);
     ppu.set_high_shift(0);
 
     ppu.tick();
@@ -3365,7 +3365,7 @@ int main(int argc, char*argv[]){
     ppu.set_dot_count(0x11);
 
     ppu.set_low_shift(0);
-    ppu.set_high_shift(0x8000);
+    ppu.set_high_shift(0x4000);
 
     ppu.tick();
 
@@ -3385,8 +3385,8 @@ int main(int argc, char*argv[]){
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(0x11);
 
-    ppu.set_low_shift(0x8000);
-    ppu.set_high_shift(0x8000);
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x4000);
 
     ppu.tick();
 
