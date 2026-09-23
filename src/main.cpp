@@ -3638,5 +3638,56 @@ int main(int argc, char*argv[]){
     ppu.set_low_shift(0x4000);
     ppu.set_high_shift(0);
     ppu.set_pal_state(0);
+
+    ppu.tick();
+
+    if(ppu.get_low_shift() == 0x4000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_high_shift() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_pal_state() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 32 B" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(0x01);
+    ppu.set_mask(0x08);
+
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x4000);
+    ppu.set_pal_state(0);
+
+    ppu.tick();
+
+    if(ppu.get_low_shift() == 0x8000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_high_shift() == 0x8000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_pal_state() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }
