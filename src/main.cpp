@@ -3627,5 +3627,12 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "TEST 32" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(0x01);
+
+    ppu.set_v(0x2000);
+    ppu.set_ctrl(0);
     return 0;
 }

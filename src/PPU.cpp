@@ -8,8 +8,11 @@ PPU::PPU(BUS *bus){
 }
 
 void PPU::tick(){
+    // get bit 3 from mask 
+    bool bit_3 = static_cast<int>((this->mask & 0b01000) >> 3);
     // 1-239 rendering
-    if((this->scan_ln_count < 240) && (this->dot_count >=1) && (this->dot_count < 257)){
+    // also check to see if background rendering is enabled
+    if((this->scan_ln_count < 240) && (this->dot_count >=1) && (this->dot_count < 257) && (bit_3 == true)){
         // get the nametable tile address
         uint16_t address = 0x2000 | (this->v & 0x0FFF);
         // check which mirroring mode will be used
