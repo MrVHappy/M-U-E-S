@@ -3422,5 +3422,77 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "TEST 30 A" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(0x11);
+
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0);
+
+    ppu.set_pal_state(0);
+
+    ppu.write_pal_ram(0x01,0x2A);
+
+    ppu.tick();
+
+    if(ppu.get_frame_buffer()[0][0x10] == 0x2A){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 30 B" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(0x11);
+
+    ppu.set_low_shift(0);
+    ppu.set_high_shift(0);
+
+    ppu.set_pal_state(0x03);
+
+    ppu.write_pal_ram(0x00,0x15);
+
+    ppu.tick();
+
+    low_bit = ppu.get_low_shift() >> 15;
+    high_bit = ppu.get_high_shift() >> 15;
+
+    pattern_val = low_bit + (2 * high_bit);
+
+    if(pattern_val == 0x00){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(ppu.get_frame_buffer()[0][0x10] == 0x15){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 30 C" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(0x11);
+
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x4000);
+
+    ppu.set_pal_state(0x02);
+
+    ppu.write_pal_ram(0x0B,0x37);
+
+    ppu.tick();
+
+    if(ppu.get_frame_buffer()[0][0x10] == 0x37){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }
