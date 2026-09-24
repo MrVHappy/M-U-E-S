@@ -3854,5 +3854,96 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
 
+    std::cout << "TEST 34" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(257);
+
+    ppu.set_t(0b101010101010101);
+    ppu.set_v(0b010101010101010);
+
+    ppu.tick();
+
+    if(ppu.get_v() == 0b010111010110101){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 35 A" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(321);
+
+    ppu.set_v(0x2000);
+    ppu.set_ctrl(0);
+    ppu.set_pattern_high(0);
+    ppu.set_pattern_low(0);
+    ppu.set_low_shift(0);
+    ppu.set_high_shift(0);
+
+    ppu.clear_tile_buffer();
+    ppu.clear_attribute_buffer();
+
+    ppu.write_vram(0,0x12);
+    ppu.write_vram(0x03C0, 0x34);
+
+    bus.get_rom().get_mapper_info().write_CHR(0x120, 0x56);
+    bus.get_rom().get_mapper_info().write_CHR(0x128, 0x78);
+
+    ppu.tick();
+
+    if(ppu.get_tile_buffer()[0] == 0x12){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    ppu.tick();
+
+    if(ppu.get_attribute_buffer()[0] == 0x34){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "INDEX 0: " << static_cast<int>(ppu.get_attribute_buffer()[0]) << std::endl;
+        std::cout << "EXPECTED: " << 0x34 << std::endl;
+        std::cout << "Fail" << std::endl;
+    }
+
+    ppu.tick();
+    ppu.tick();
+
+    if(ppu.get_pattern_low() == 0x56){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    ppu.tick();
+    ppu.tick();
+
+    if(ppu.get_pattern_high() == 0x78){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    ppu.tick();
+
+    if(ppu.get_low_shift() & 0xFF == 0x56){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(ppu.get_high_shift() & 0xFF == 0x78){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }
