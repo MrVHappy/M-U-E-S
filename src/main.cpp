@@ -3874,7 +3874,7 @@ int main(int argc, char*argv[]){
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(321);
 
-    ppu.set_v(0x2000);
+    ppu.set_v(0x000);
     ppu.set_ctrl(0);
     ppu.set_pattern_high(0);
     ppu.set_pattern_low(0);
@@ -3900,6 +3900,7 @@ int main(int argc, char*argv[]){
     }
 
     ppu.tick();
+    ppu.tick();
 
     if(ppu.get_attribute_buffer()[0] == 0x34){
         std::cout << "Pass" << std::endl;
@@ -3912,11 +3913,13 @@ int main(int argc, char*argv[]){
 
     ppu.tick();
     ppu.tick();
-
+    
     if(ppu.get_pattern_low() == 0x56){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "Pattern Low: " << static_cast<int>(ppu.get_pattern_low()) << std::endl;
+        std::cout << "EXPECTED: " << 0x56 << std::endl;
         std::cout << "Fail" << std::endl;
     }
 
@@ -3927,22 +3930,28 @@ int main(int argc, char*argv[]){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "Pattern High: " << static_cast<int>(ppu.get_pattern_high()) << std::endl;
+        std::cout << "EXPECTED: " << 0x78 << std::endl;
         std::cout << "Fail" << std::endl;
     }
 
     ppu.tick();
 
-    if(ppu.get_low_shift() & 0xFF == 0x56){
+    if((ppu.get_low_shift() & 0xFF) == 0x56){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "Low Shift AND FF: " << (static_cast<int>(ppu.get_low_shift()) & 0xFF)<< std::endl;
+        std::cout << "EXPECTED: " << 0x56 << std::endl;
         std::cout << "Fail" << std::endl;
     }
 
-    if(ppu.get_high_shift() & 0xFF == 0x78){
+    if((ppu.get_high_shift() & 0xFF) == 0x78){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "High Shift AND FF: " << (static_cast<int>(ppu.get_high_shift()) & 0xFF)<< std::endl;
+        std::cout << "EXPECTED: " << 0x78 << std::endl;
         std::cout << "Fail" << std::endl;
     }
     return 0;
