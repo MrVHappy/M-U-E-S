@@ -3954,5 +3954,79 @@ int main(int argc, char*argv[]){
         std::cout << "EXPECTED: " << 0x78 << std::endl;
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "TEST 35 B" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(329);
+
+    ppu.set_ctrl(0);
+    ppu.set_v(0);
+
+    ppu.clear_tile_buffer();
+    ppu.clear_attribute_buffer();
+    ppu.set_pattern_low(0);
+    ppu.set_pattern_high(0);
+    ppu.set_low_shift(0);
+    ppu.set_high_shift(0);
+
+    ppu.write_vram(0x01,0x23);
+    ppu.write_vram(0x03C1,0x45);
+
+    bus.get_rom().get_mapper_info().write_CHR(0x0230,0x67);
+    bus.get_rom().get_mapper_info().write_CHR(0x0238,0x89);
+
+    ppu.tick();
+
+    if(ppu.get_tile_buffer()[1] == 0x23){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    ppu.tick();
+    ppu.tick();
+
+    if(ppu.get_attribute_buffer()[1] == 0x45){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    ppu.tick();
+    ppu.tick();
+
+    if(ppu.get_pattern_low() == 0x67){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    ppu.tick();
+    ppu.tick();
+
+    if(ppu.get_pattern_high() == 0x89){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    ppu.tick();
+
+    if(ppu.get_low_shift() == 0x67){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_high_shift() == 0x89){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }
