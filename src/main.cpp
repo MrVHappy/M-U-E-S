@@ -3963,14 +3963,15 @@ int main(int argc, char*argv[]){
     ppu.set_v(0);
 
     ppu.clear_tile_buffer();
+    std::cout << "INDEX 1: " << static_cast<int>(ppu.get_tile_buffer()[1]) << std::endl;
     ppu.clear_attribute_buffer();
     ppu.set_pattern_low(0);
     ppu.set_pattern_high(0);
     ppu.set_low_shift(0);
     ppu.set_high_shift(0);
 
-    ppu.write_vram(0x01,0x23);
-    ppu.write_vram(0x03C1,0x45);
+    ppu.write_vram(0x00,0x23);
+    ppu.write_vram(0x03C0,0x45);
 
     bus.get_rom().get_mapper_info().write_CHR(0x0230,0x67);
     bus.get_rom().get_mapper_info().write_CHR(0x0238,0x89);
@@ -3981,6 +3982,8 @@ int main(int argc, char*argv[]){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "INDEX 1: " << static_cast<int>(ppu.get_tile_buffer()[1]) << std::endl;
+        std::cout << "EXPECTED: " << 0x23 << std::endl;
         std::cout << "Fail" << std::endl;
     }
 
@@ -4023,6 +4026,13 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
     if(ppu.get_high_shift() == 0x89){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    if(ppu.get_v() == 0x00001){
         std::cout << "Pass" << std::endl;
     }
     else{
