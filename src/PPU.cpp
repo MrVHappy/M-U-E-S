@@ -311,7 +311,7 @@ void PPU::tick(){
         }      
     }
     // check if dot count is between 257-320
-    if((this->dot_count >= 257) && (this->dot_count < 321)){
+    if((this->dot_count >= 257) && (this->dot_count < 321) && (bit_3 == true)){
 
         // check if dot count is 257
         if(this->dot_count == 257){
@@ -514,7 +514,7 @@ void PPU::tick(){
     }
 
     // check if dot count is between 321-336
-    if((this->dot_count >= 321) && (this->dot_count < 337)){
+    if((this->dot_count >= 321) && (this->dot_count < 337) && (bit_3 == true)){
         // get the nametable tile address
         uint16_t address = 0x2000 | (this->v & 0x0FFF);
         // check which mirroring mode will be used
@@ -704,7 +704,7 @@ void PPU::tick(){
     
     // dummy fetches
     // check if dot count is 337 or 338
-    if((this->dot_count == 337) || (this->dot_count == 338)){
+    if(((this->dot_count == 337) || (this->dot_count == 338)) && (bit_3 == true)){
         // get the nametable tile address
         uint16_t address = 0x2000 | (this->v & 0x0FFF);
         // check which mirroring mode will be used
