@@ -4495,6 +4495,100 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
 
+    std::cout << "TEST 39" << std::endl;
+    ppu.set_dot_count(328);
+    ppu.set_scan_ln_count(0);
+    ppu.set_v(0x2005);
 
+    ppu.tick();
+
+    if(ppu.get_dot_count() == 329){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_scan_ln_count() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_v() == 0x2006){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 40" << std::endl;
+    ppu.set_dot_count(328);
+    ppu.set_scan_ln_count(0);
+    ppu.set_v(0x241F);
+
+    ppu.tick();
+
+    if(ppu.get_v() == 0x2000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 41" << std::endl;
+    ppu.set_dot_count(328);
+    ppu.set_scan_ln_count(0);
+    ppu.set_v(0x2B27);
+
+    ppu.tick();
+
+    if(ppu.get_v() == 0x2B28){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 42" << std::endl;
+    ppu.set_dot_count(328);
+    ppu.set_scan_ln_count(0);
+    ppu.set_v(0x795F);
+
+    ppu.tick();
+
+    if(ppu.get_v() == 0x7D40){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "V: " << static_cast<int>(ppu.get_v()) << std::endl;
+        std::cout << "EXPECTED: " << 0x7600 << std::endl;
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 43" << std::endl;
+    ppu.set_dot_count(329);
+    ppu.set_scan_ln_count(0);
+    ppu.set_v(0x2C00);
+    ppu.write_vram(0x0400, 0x5A);
+    ppu.tick();
+
+    if(ppu.get_tile_buffer()[1] == 0x5A){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 330){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_v() == 0x2C00){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }
