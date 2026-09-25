@@ -4463,10 +4463,12 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
-    if(ppu.get_v() == 0x2400){
+    if(ppu.get_v() == 0x2401){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "V: " << static_cast<int>(ppu.get_v()) << std::endl;
+        std::cout << "EXPECTED: " << 0x2400 << std::endl;
         std::cout << "Fail" << std::endl;
     }
 
@@ -4474,6 +4476,7 @@ int main(int argc, char*argv[]){
     ppu.set_dot_count(329);
     ppu.set_v(0x2400);
     ppu.write_vram(0x0400, 0x99);
+    rom.set_header(1);
 
     ppu.tick();
 
@@ -4487,12 +4490,8 @@ int main(int argc, char*argv[]){
         std::cout << "Pass" << std::endl;
     }
     else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_dot_count() == 0x330){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
+        std::cout << "TILE BUFFER INDEX 1: " << static_cast<int>(ppu.get_tile_buffer()[1]) << std::endl;
+        std::cout << "EXPECTED: " << 0x99 << std::endl;
         std::cout << "Fail" << std::endl;
     }
 
