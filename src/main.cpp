@@ -4395,5 +4395,75 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "TEST 38 A" << std::endl;
+    ppu.set_v(0x201F);
+    ppu.set_dot_count(321);
+    ppu.set_scan_ln_count(0);
+    ppu.set_ctrl(0);
+
+    ppu.write_vram(0x01FF,0xAA);
+    ppu.clear_tile_buffer();
+
+    ppu.tick();
+
+    if(ppu.get_dot_count() == 322){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_scan_ln_count() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_tile_buffer()[0] == 0xAA){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 38 B" << std::endl;
+    ppu.set_dot_count(328);
+    ppu.set_scan_ln_count(0);
+    ppu.set_v(0x201F);
+
+    if(ppu.get_v() == 0x2400){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 329){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 38 C" << std::endl;
+    ppu.set_dot_count(329);
+    ppu.set_scan_ln_count(0);
+    ppu.set_v(0x2400);
+
+    ppu.write_vram(0x400,0x99);
+
+    if(ppu.get_tile_buffer()[1] == 0x99){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 0x330){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+
     return 0;
 }
