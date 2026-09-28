@@ -140,6 +140,7 @@ class PPU{
         // DEBUG FUNCTIONS
         void clear_tile_buffer();
         void clear_attribute_buffer();
+        void clear_frame_buffer();
         void write_tile_buffer(uint8_t addr, uint8_t val);
         void write_attribute_buffer(uint8_t addr, uint8_t val);
 };

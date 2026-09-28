@@ -972,7 +972,13 @@ void PPU::clear_attribute_buffer(){
         this->attribute_buffer[i] = 0;
     }
 }
-
+void PPU::clear_frame_buffer(){
+    for(int i = 0; i < 240; i++){
+        for(int j = 0; j < 256; j++){
+            this->frame_buffer[i][j] = 0;
+        }
+    }
+}
 void PPU::write_tile_buffer(uint8_t addr, uint8_t val){
     this->tile_buffer[addr] = val;
 }
