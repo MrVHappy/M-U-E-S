@@ -241,7 +241,6 @@ void PPU::tick(){
                     // update v
                     this->v = this->v &0b1111101111100000;
                 }
-
             }
         }
         // check if dot count is at 256
