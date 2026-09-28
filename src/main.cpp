@@ -4590,5 +4590,239 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "TEST 44" << std::endl;
+    ppu.set_mask(0x08);
+
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(10);
+
+    ppu.set_fine_x(0);
+
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0);
+
+    ppu.set_pal_state(0);
+
+    ppu.write_pal_ram(0x01,0x42);
+
+    ppu.tick();
+
+    if(ppu.get_frame_buffer()[0][9] == 0x42){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 45" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(10);
+
+    ppu.set_fine_x(7);
+
+    ppu.set_low_shift(0x80);
+    ppu.set_high_shift(0);
+
+    ppu.set_pal_state(0);
+
+    ppu.write_pal_ram(0x01,0x53);
+
+    ppu.tick();
+
+    if(ppu.get_frame_buffer()[0][9] == 0x53){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 46" << std::endl;
+    ppu.set_mask(0x08);
+
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(10);
+
+    ppu.set_fine_x(0);
+
+    ppu.set_low_shift(0);
+    ppu.set_high_shift(0x4000);
+
+    ppu.set_pal_state(0);
+
+    ppu.write_pal_ram(0x02,0x64);
+
+    ppu.tick();
+
+    if(ppu.get_frame_buffer()[0][9] == 0x64){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 47" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(10);
+
+    ppu.set_fine_x(0);
+
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x4000);
+
+    ppu.set_pal_state(0);
+
+    ppu.write_pal_ram(0x03,0x75);
+
+    ppu.tick();
+
+    if(ppu.get_frame_buffer()[0][9] == 0x75){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 48" << std::endl;
+    ppu.set_mask(0x08);
+
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(10);
+
+    ppu.set_fine_x(0);
+
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0);
+
+    ppu.set_pal_state(2);
+
+    ppu.write_pal_ram(0x09,0x86);
+
+    ppu.tick();
+
+    if(ppu.get_frame_buffer()[0][9] == 0x86){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 49" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(10);
+
+    ppu.set_fine_x(0);
+
+    ppu.set_low_shift(0);
+    ppu.set_high_shift(0);
+
+    ppu.set_pal_state(3);
+
+    ppu.write_pal_ram(0x00,0x97);
+    ppu.write_pal_ram(0x0D,0x55);
+
+    ppu.tick();
+
+    if(ppu.get_frame_buffer()[0][9] == 0x97){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 50 A" << std::endl;
+    ppu.set_mask(0x08);
+
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(10);
+
+    ppu.set_fine_x(0);
+
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0);
+
+    ppu.set_pal_state(3);
+
+    ppu.write_pal_ram(0x0D,0xAA);
+    ppu.write_pal_ram(0x0C,0xBB);
+    ppu.write_pal_ram(0x0E,0xCC);
+    ppu.write_pal_ram(0x0F,0xDD);
+
+    ppu.tick();
+
+    if(ppu.get_frame_buffer()[0][9] == 0xAA){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 50 B" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(10);
+
+    ppu.set_fine_x(0);
+
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x4000);
+
+    ppu.set_pal_state(3);
+
+    ppu.write_pal_ram(0x0F,0xEE);
+
+    ppu.tick();
+
+    if(ppu.get_frame_buffer()[0][9] == 0xEE){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 51 A" << std::endl;
+    ppu.set_mask(0x08);
+
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(10);
+
+    ppu.set_fine_x(3);
+
+    ppu.set_low_shift(0x5280);
+    ppu.set_high_shift(0x2D00);
+
+    ppu.set_pal_state(0);
+
+    ppu.write_pal_ram(0x01,0xAA);
+
+    ppu.tick();
+
+    if(ppu.get_frame_buffer()[0][9] == 0xAA){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 51 B" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(10);
+
+    ppu.set_fine_x(7);
+
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0);
+
+    ppu.set_pal_state(0);
+
+    ppu.write_pal_ram(0x00,0xBB);
+
+    ppu.tick();
+
+    if(ppu.get_frame_buffer()[0][9] == 0xBB){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }
