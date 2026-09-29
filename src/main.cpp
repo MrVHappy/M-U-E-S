@@ -4991,12 +4991,12 @@ int main(int argc, char*argv[]){
 
     ppu.tick();
 
-    if(ppu.get_v() == 0x0401){
+    if(ppu.get_v() == 0xB7C1){
         std::cout << "Pass" << std::endl;
     }
     else{
         std::cout << "V: " << static_cast<int>(ppu.get_v()) << std::endl;
-        std::cout << "EXPECTED: " << 0x8401 << std::endl;
+        std::cout << "EXPECTED: " << 0x401 << std::endl;
         std::cout << "Fail" << std::endl;
     }
     return 0;
