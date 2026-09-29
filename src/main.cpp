@@ -5064,7 +5064,7 @@ int main(int argc, char*argv[]){
         ppu.tick();
     }
 
-    if(ppu.get_tile_buffer()[0] = 0x12){
+    if(ppu.get_tile_buffer()[0] == 0x12){
         std::cout << "Pass" << std::endl;
     }
     else{
@@ -5190,7 +5190,7 @@ int main(int argc, char*argv[]){
 
     ppu.tick();
 
-    if(ppu.get_v() == 0){
+    if(ppu.get_v() == 0x200){
         std::cout << "Pass" << std::endl;
     }
     else{
@@ -5204,7 +5204,7 @@ int main(int argc, char*argv[]){
 
     ppu.tick();
 
-    if(ppu.get_v() == 0x7000){
+    if(ppu.get_v() == 0x7001){
         std::cout << "Pass" << std::endl;
     }
     else{
@@ -5233,6 +5233,158 @@ int main(int argc, char*argv[]){
     ppu.tick();
 
     if(ppu.get_v() == 0x0801){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 8" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(0);
+    ppu.set_v(0x2000);
+    ppu.set_fine_x(0);
+
+    for(int i = 0; i < 0x20; i++){
+        ppu.write_vram(i,i+1);
+    }
+
+    for(int i = 0; i < 341; i++){
+        ppu.tick();
+    }
+
+    if(ppu.get_scan_ln_count() == 1){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    // if(ppu.get_v() == 0x2021){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    std::cout << "TEST 9" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(0);
+    ppu.set_v(0x2000);
+
+    for(int i = 0; i < 81840; i++){
+        ppu.tick();
+    }
+
+    if(ppu.get_scan_ln_count() == 240){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 10" << std::endl;
+    ppu.set_scan_ln_count(0xF0);
+    ppu.set_dot_count(0);
+    ppu.clear_v_blank();
+
+    for(int i = 0; i < 341; i++){
+        ppu.tick();
+    }
+
+    if(ppu.get_scan_ln_count() == 0xF1){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    ppu.tick();
+    if(ppu.get_v_blank()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 11" << std::endl;
+    ppu.set_scan_ln_count(0xF0);
+    ppu.set_dot_count(0x154);
+
+    ppu.clear_v_blank();
+    ppu.set_nmi_output(true);
+
+    nes.set_prev_nmi_line(false);
+    nes.set_pc(0xC000);
+    nes.set_stack_ptr(0xFD);
+
+    ppu.tick();
+
+    if(ppu.get_scan_ln_count() == 0xF1){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(!ppu.get_v_blank()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    ppu.tick();
+
+    if(ppu.get_v_blank()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_v_blank() && ppu.get_nmi_output()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    nes.execute();
+
+    if(nes.get_pc() == 0x8000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFA){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(nes.get_prev_nmi_line()){
         std::cout << "Pass" << std::endl;
     }
     else{
