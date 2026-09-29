@@ -5145,6 +5145,8 @@ int main(int argc, char*argv[]){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "INDEX 0: " << static_cast<int>(ppu.get_attribute_buffer()[0] == 0xE4) << std::endl;
+        std::cout << "EXPECTED: " << 0xE4 << std::endl;
         std::cout << "Fail" << std::endl;
     }
     if(ppu.get_pal_state() == 0x01){
