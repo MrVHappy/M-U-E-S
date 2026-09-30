@@ -5524,5 +5524,97 @@ int main(int argc, char*argv[]){
     ppu.write_pal_ram(0x1, 0x55);
 
     ppu.clear_frame_buffer();
+
+    nes.set_pc(0xC000);
+    
+
+    for(int i = 0; i < 38; i++){
+        bus.write((0xC000 + 1),0x04);
+        nes.execute();
+    }
+
+    if(ppu.get_dot_count() == 2){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_scan_ln_count() == 1){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 6" << std::endl;
+    ppu.set_scan_ln_count(0xEF);
+    ppu.set_dot_count(0x154);
+    ppu.clear_v_blank();
+
+    ppu.tick();
+
+    if(ppu.get_scan_ln_count() == 0xF0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(!ppu.get_v_blank()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    for(int i = 0; i < 0x155; i++){
+        ppu.tick();
+    }
+
+    if(ppu.get_scan_ln_count() == 0xF1){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_v_blank()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 7" << std::endl;
+    ppu.set_scan_ln_count(0x103);
+    ppu.set_dot_count(0x154);
+    ppu.update_v_blank();
+
+    ppu.tick();
+
+    if(ppu.get_scan_ln_count() == 0x104){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 8" << std::endl;
     return 0;
 }
