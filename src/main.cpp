@@ -5422,7 +5422,8 @@ int main(int argc, char*argv[]){
     std::cout << "TEST 1" << std::endl;
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(0);
-
+    nes.set_pc(0);
+    bus.write(0, 0xEA);
     nes.execute();
 
     if(ppu.get_scan_ln_count() == 0){
@@ -5431,7 +5432,7 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
-    if(ppu.get_dot_count() == 3){
+    if(ppu.get_dot_count() == 6){
         std::cout << "Pass" << std::endl;
     }
     else{
@@ -5439,8 +5440,8 @@ int main(int argc, char*argv[]){
     }
 
     std::cout << "TEST 2" << std::endl;
-    nes.set_pc(0xC000);
-    bus.write(0xC000, 0xEA);
+    nes.set_pc(0);
+    bus.write(0, 0xEA);
 
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(0);
@@ -5459,7 +5460,7 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
-    if(nes.get_pc() == 0xC001){
+    if(nes.get_pc() == 1){
         std::cout << "Pass" << std::endl;
     }
     else{
@@ -5525,11 +5526,12 @@ int main(int argc, char*argv[]){
 
     ppu.clear_frame_buffer();
 
-    nes.set_pc(0xC000);
+    nes.set_pc(0);
     
 
-    for(int i = 0; i < 38; i++){
-        bus.write((0xC000 + 1),0x04);
+    for(int i = 0; i < 37; i++){
+        bus.write(i,0x04);
+        std::cout << "DOT: " << ppu.get_dot_count() << std::endl;
         nes.execute();
     }
 
@@ -5537,12 +5539,16 @@ int main(int argc, char*argv[]){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "DOT: " << ppu.get_dot_count() << std::endl;
+        std::cout << "EXPECTED: " << 2 << std::endl;
         std::cout << "Fail" << std::endl;
     }
     if(ppu.get_scan_ln_count() == 1){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "SCAN LINE: " << ppu.get_scan_ln_count() << std::endl;
+        std::cout << "EXPECTED: " << 1 << std::endl;
         std::cout << "Fail" << std::endl;
     }
 
