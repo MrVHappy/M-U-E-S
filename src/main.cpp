@@ -5417,5 +5417,112 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "CPU + PPU TESTS" << std::endl;
+    std::cout << "TEST 1" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(0);
+
+    nes.execute();
+
+    if(ppu.get_scan_ln_count() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 3){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 2" << std::endl;
+    nes.set_pc(0xC000);
+    bus.write(0xC000, 0xEA);
+
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(0);
+
+    nes.execute();
+
+    if(ppu.get_scan_ln_count() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 6){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(nes.get_pc() == 0xC001){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    
+    std::cout << "TEST 3" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(0);
+
+    for(int i = 0; i < 340; i++){
+        ppu.tick();
+    }
+
+    if(ppu.get_scan_ln_count() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 0x154){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 4" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(0x154);
+
+    ppu.tick();
+
+    if(ppu.get_scan_ln_count() == 1){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 5" << std::endl;
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(0);
+
+    ppu.set_v(0);
+    ppu.set_fine_x(0);
+
+    ppu.set_mask(0x8);
+    ppu.set_ctrl(0);
+
+    ppu.write_vram(0,0x12);
+
+    rom.get_mapper_info().write_CHR(0x120,0x80);
+    rom.get_mapper_info().write_CHR(0x128,0);
+
+    ppu.write_pal_ram(0x1, 0x55);
+
+    ppu.clear_frame_buffer();
     return 0;
 }
