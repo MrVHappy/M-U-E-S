@@ -5136,9 +5136,12 @@ int main(int argc, char*argv[]){
     ppu.set_dot_count(0);
     ppu.set_v(0x2082);
 
-    ppu.write_vram(0,0xE4);
+    ppu.write_vram(0x03C8,0xE4);
 
-    for(int i = 0; i < 8; i++){
+    ppu.set_low_shift(0);
+    ppu.set_high_shift(0);
+
+    for(int i = 0; i < 9; i++){
         ppu.tick();
     }
     if(ppu.get_attribute_buffer()[0] == 0xE4){
@@ -5153,10 +5156,14 @@ int main(int argc, char*argv[]){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "PAL STATE: " << static_cast<int>(ppu.get_pal_state()) << std::endl;
+        std::cout << "EXPECTED: " << 0x01 << std::endl;
         std::cout << "Fail" << std::endl;
     }
 
     std::cout << "TEST 5 A" << std::endl;
+    rom.set_CHR(0);
+
     ppu.set_dot_count(8);
     ppu.set_scan_ln_count(0);
 
@@ -5167,12 +5174,16 @@ int main(int argc, char*argv[]){
 
     ppu.write_pal_ram(0x01,0x55);
 
+    ppu.clear_attribute_buffer();
+
     ppu.tick();
 
     if(ppu.get_frame_buffer()[0][7] == 0x55){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "INDEX 7: " << static_cast<int>(ppu.get_frame_buffer()[0][7]) << std::endl;
+        std::cout << "EXPECTED: " << 0x55 << std::endl;
         std::cout << "Fail" << std::endl;
     }
 
@@ -5339,6 +5350,7 @@ int main(int argc, char*argv[]){
     std::cout << "TEST 11" << std::endl;
     ppu.set_scan_ln_count(0xF0);
     ppu.set_dot_count(0x154);
+    rom.set_FA_FB(0,0x80);
 
     ppu.clear_v_blank();
     ppu.set_nmi_output(true);
@@ -5389,6 +5401,8 @@ int main(int argc, char*argv[]){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "PC: " << static_cast<int>(nes.get_pc()) << std::endl;
+        std::cout << "EXPECTED: " << 0x8000 << std::endl;
         std::cout << "Fail" << std::endl;
     }
     if(nes.get_stack_ptr() == 0xFA){
