@@ -5529,13 +5529,13 @@ int main(int argc, char*argv[]){
     nes.set_pc(0);
     
 
-    for(int i = 0; i < 37; i++){
+    for(int i = 0; i < 38; i++){
         bus.write(i,0x04);
-        std::cout << "DOT: " << ppu.get_dot_count() << std::endl;
+        nes.set_pc(0);
         nes.execute();
     }
 
-    if(ppu.get_dot_count() == 2){
+    if(ppu.get_dot_count() == 1){
         std::cout << "Pass" << std::endl;
     }
     else{

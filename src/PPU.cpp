@@ -731,11 +731,6 @@ void PPU::tick(){
     if(this->scan_ln_count == 240){
         
     }
-    // 241-260 VBlank start
-    if(this->scan_ln_count == 241){
-        // set the Vblank flag in status
-        this->v_blank = true;
-    }
 
     // prerender
     if(this->scan_ln_count == 261){
@@ -771,6 +766,12 @@ void PPU::tick(){
         this->scan_ln_count = (this->scan_ln_count + 1) % 262;
         // wrap dot count back to 0
         this->dot_count = 0;
+    }
+
+    // 241-260 VBlank start
+    if(this->scan_ln_count == 241){
+        // set the Vblank flag in status
+        this->v_blank = true;
     }
     
 }
