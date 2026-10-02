@@ -19,7 +19,7 @@ class BUS{
         // link to the PPU
         class PPU *ppu;
 
-        // // OAM DMA
+        // OAM DMA
         uint8_t oam_dma;
 
     public:

@@ -348,11 +348,29 @@
         // APU and Controller registers
         else if((address >= 0x4000) && (address < 0x4018)){
             switch(address){
+                // DMA
                 case 0x4014:{
                     // shift value 8 times and store in source start
                     uint16_t source_start = value << 8;
                     // get the end source
                     uint16_t source_end = source_start | 0xFF;
+                    // get the DMA destination address
+                    uint8_t dma_dst_addr = this->ppu->get_oam_adrr();
+                    // set source start as dma source address
+                    uint16_t dma_src_addr = source_start;
+
+                    // loop until dma_src_addr == source_end + 1
+                    while(dma_src_addr != (source_end + 1)){
+                        // get the contents of RAM at the dma_src_addr
+                        uint8_t ram_value = sys_ram[dma_src_addr & 0x07FF];
+                        // then write ram value to oam at the oam address
+                        this->ppu->write_oam_ram(this->ppu->get_oam_adrr(),ram_value);
+                        // increment dma_src_addr
+                        dma_src_addr++;
+                        // increment oam address
+                        this->ppu->update_oam_addr();
+                    }
+
                     break;
                 }
             }
