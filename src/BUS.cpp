@@ -347,7 +347,15 @@
         }
         // APU and Controller registers
         else if((address >= 0x4000) && (address < 0x4018)){
-            // temp
+            switch(address){
+                case 0x4014:{
+                    // shift value 8 times and store in source start
+                    uint16_t source_start = value << 8;
+                    // get the end source
+                    uint16_t source_end = source_start | 0xFF;
+                    break;
+                }
+            }
         }
         // write to SRAM
         else if((address >= 0x6000) && (address < 0x8000)){
