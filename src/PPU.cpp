@@ -987,3 +987,9 @@ void PPU::write_attribute_buffer(uint8_t addr, uint8_t val){
     this->attribute_buffer[addr] = val;
 
 }
+
+void PPU::set_oam_ram(uint8_t value){
+    for(int i = 0; i < this->oam_ram.size(); i++){
+        this->oam_ram[i] = value;
+    }
+}

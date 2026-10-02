@@ -5994,5 +5994,153 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "OAM DMA TESTS" << std::endl;
+    std::cout << "TEST 1" << std::endl;
+    bus.set_sys_ram(0x02);
+    ppu.set_oam_addr(0);
+    bus.write(0x4014,0x02);
+    pass_flag = true;
+    for(int i = 0; i < 0x100; i++){
+        if(ppu.read_oam_ram(i) != 0x2){
+            pass_flag = false;
+            break;
+        }
+    }
+    if(pass_flag){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_oam_adrr() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 2" << std::endl;
+    bus.clear_sys_ram();
+    bus.write(0x500, 0xAA);
+    bus.write(0x501, 0xBB);
+    bus.write(0x502, 0xCC);
+    bus.write(0x503, 0xDD);
+
+    ppu.set_oam_addr(0);
+    bus.write(0x4014,0x05);
+
+    if(ppu.read_oam_ram(0) == 0xAA){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.read_oam_ram(1) == 0xBB){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.read_oam_ram(2) == 0xCC){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.read_oam_ram(3) == 0xDD){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 3" << std::endl;
+    ppu.set_oam_addr(0x40);
+    int index = 10;
+    for(int i = 0x300; i < 0x400; i++){
+        bus.write(i,index);
+        index++;
+    }
+    bus.write(0x4014,0x03);
+    if(ppu.get_oam_adrr() == 0x40){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(bus.read(0x300) == 10){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(bus.read(0x301) == 11){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(bus.read(0x302) == 12){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 4" << std::endl;
+    ppu.set_oam_ram(0xAA);
+    bus.set_sys_ram(0x55);
+
+    bus.write(0x2003,0);
+    bus.write(0x4014,06);
+    pass_flag = true;
+
+    for(int i = 0; i < 0x100; i++){
+        if(ppu.read_oam_ram(i) != 0x55){
+            pass_flag = false;
+        }
+    }
+
+    if(pass_flag){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 5" << std::endl;
+    bus.write(0,0xDE);
+    bus.write(1,0xAD);
+    bus.write(2,0xBE);
+    bus.write(3,0xEF);
+
+    ppu.set_oam_addr(0);
+    bus.write(0x4014,0x08);
+
+    if(ppu.read_oam_ram(0) == 0xDE){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.read_oam_ram(1) == 0xAD){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.read_oam_ram(2) == 0xBE){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.read_oam_ram(3) == 0xEF){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }

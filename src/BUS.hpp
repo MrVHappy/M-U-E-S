@@ -38,5 +38,7 @@ class BUS{
 
         // DEBUG functions
         void set_NOP_sys_ram();
+        void clear_sys_ram();
+        void set_sys_ram(uint8_t value);
 };
 #endif

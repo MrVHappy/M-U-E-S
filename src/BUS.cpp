@@ -354,12 +354,10 @@
                     uint16_t source_start = value << 8;
                     // get the end source
                     uint16_t source_end = source_start | 0xFF;
-                    // get the DMA destination address
-                    uint8_t dma_dst_addr = this->ppu->get_oam_adrr();
                     // set source start as dma source address
                     uint16_t dma_src_addr = source_start;
 
-                    // loop until dma_src_addr == source_end + 1
+                    // oam ram to sys ram data transfer
                     while(dma_src_addr != (source_end + 1)){
                         // get the contents of RAM at the dma_src_addr
                         uint8_t ram_value = sys_ram[dma_src_addr & 0x07FF];
@@ -403,11 +401,24 @@
             this->sys_ram[i] = 0xEA;
         }
     }
+    void BUS::clear_sys_ram(){
+        // set every index in RAM to 0
+        for(int i = 0; i < this->sys_ram.size(); i++){
+            this->sys_ram[i] = 0;
+        }
+    }
 
     Cartridge & BUS::get_rom(){
         return *this->rom;
     }
     PPU & BUS::get_ppu(){
         return *this->ppu;
+    }
+
+    void BUS::set_sys_ram(uint8_t value){
+        // set every index in RAM to 0
+        for(int i = 0; i < this->sys_ram.size(); i++){
+            this->sys_ram[i] = value;
+        }
     }
 
