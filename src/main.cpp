@@ -6142,5 +6142,55 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "DMA TIMING TEST" << std::endl;
+    std::cout << "TEST 1" << std::endl;
+    bus.set_dma_timer(3);
+    bus.dma_activate();
+
+    bus.write(0x4014,1);
+
+    if(bus.get_dma_timer() == 2){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(bus.get_dma_active()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.write(0x4014,1);
+
+    if(bus.get_dma_timer() == 1){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(bus.get_dma_active()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    bus.write(0x4014,1);
+
+    if(bus.get_dma_timer() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(!bus.get_dma_active()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }

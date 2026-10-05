@@ -39,9 +39,11 @@ class BUS{
         // setters
         void set_cartridge(class Cartridge *rom);
         void set_ppu(class PPU *ppu);
+        void set_dma_timer(int value);
 
         // getters
         bool get_dma_active();
+        int get_dma_timer();
 
         // increments
         void increment_timer(int cycles);

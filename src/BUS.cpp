@@ -404,8 +404,16 @@
         this->ppu = ppu;
     }
 
+    void BUS::set_dma_timer(int value){
+        this->dma_timer = value;
+    }
+
     bool BUS::get_dma_active(){
         return this->dma_active;
+    }
+
+    int BUS::get_dma_timer(){
+        return this->dma_timer;
     }
 
     void BUS::increment_timer(int cycles){
