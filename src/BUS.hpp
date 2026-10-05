@@ -47,6 +47,8 @@ class BUS{
 
         // increments
         void increment_timer(int cycles);
+        // decrements
+        void decrement_timer();
 
         // clear and updates
         void dma_activate();

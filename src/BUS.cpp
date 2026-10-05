@@ -369,15 +369,18 @@
                         this->ppu->update_oam_addr();
                     }
 
-                    if(this->dma_timer > 0){
-                        dma_timer--;
-                    }
-                    if(this->dma_timer == 0){
-                        this->dma_active = false;
-                    }
-                    else{
-                        this->dma_active = true;
-                    }
+                    // // decrement dma timer
+                    // if(this->dma_timer > 0){
+                    //     dma_timer--;
+                    // }
+                    // // deactivate dma if timer is 0
+                    // if(this->dma_timer == 0){
+                    //     this->dma_active = false;
+                    // }
+                    // // else activate dma
+                    // else{
+                    //     this->dma_active = true;
+                    // }
                     break;
                 }
             }
@@ -418,6 +421,10 @@
 
     void BUS::increment_timer(int cycles){
         this->dma_timer += cycles;
+    }
+
+    void BUS::decrement_timer(){
+        this->dma_timer--;
     }
 
     void BUS::dma_activate(){
