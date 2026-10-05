@@ -409,6 +409,10 @@
         this->dma_timer = value;
     }
 
+    void BUS::set_cycles(int value){
+        this->cpu_cycles = value;
+    }
+
     bool BUS::get_dma_active(){
         return this->dma_active;
     }

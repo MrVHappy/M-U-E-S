@@ -6392,5 +6392,33 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "DMA CYCLE TIMING UPDATES" << std::endl;
+    std::cout << "TEST 1" << std::endl;
+    bus.set_cycles(0x100);
+    bus.set_dma_timer(0);
+    bus.dma_activate();
+    ppu.set_oam_addr(0);
+
+    int count = 0;
+    for(int i = 0x200; i < 0x300; i++){
+        bus.write(i,count);
+        count++;
+    }
+
+    bus.write(0x4014,2);
+
+    if(bus.get_dma_timer() == 0x201){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(bus.get_dma_active()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }
