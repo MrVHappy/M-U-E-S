@@ -601,6 +601,8 @@
             Instruction new_instruction = this->instruction_set[opcode];
             // call the addressing mode function and collect the address
             this->resolved_address = (this->*new_instruction.addressing_mode)();
+            // update the DMA timer based on the clock cycle
+            this->bus->increment_timer(new_instruction.cycles);
             // get the number of ticks 
             uint8_t ticks = new_instruction.cycles * 3;
             // call tick for every cycle

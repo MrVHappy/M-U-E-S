@@ -395,6 +395,10 @@
         this->ppu = ppu;
     }
 
+    void BUS::increment_timer(int cycles){
+        this->dma_timer = (this->dma_timer + cycles) % 515;
+    }
+
     void BUS::set_NOP_sys_ram(){
         // set every index in RAM to NOP
         for(int i = 0; i < this->sys_ram.size(); i++){

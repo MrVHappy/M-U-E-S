@@ -21,6 +21,8 @@ class BUS{
 
         // OAM DMA
         uint8_t oam_dma;
+        // DMA timer
+        int dma_timer = 0;
 
     public:
         // read to system RAM
@@ -35,6 +37,9 @@ class BUS{
         // setters
         void set_cartridge(class Cartridge *rom);
         void set_ppu(class PPU *ppu);
+
+        // increments
+        void increment_timer(int cycles);
 
         // DEBUG functions
         void set_NOP_sys_ram();

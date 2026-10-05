@@ -5373,7 +5373,7 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
-    if(!ppu.get_v_blank()){
+    if(ppu.get_v_blank()){
         std::cout << "Pass" << std::endl;
     }
     else{
