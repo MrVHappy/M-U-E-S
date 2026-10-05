@@ -6145,7 +6145,56 @@ int main(int argc, char*argv[]){
 
     std::cout << "DMA TEST" << std::endl;
     std::cout << "TEST 1" << std::endl;
+    bus.dma_deactivate();
+    bus.set_dma_timer(0);
+    ppu.set_oam_addr(0);
 
+    bus.write(0x4014,0x2);
+
+    if(bus.get_dma_active()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(bus.get_dma_timer() == 0x202){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 2" << std::endl;
+    int count = 0;
+    for(int i = 0x200; i < 0x300; i++){
+        bus.write(i,count);
+        count++;
+    }
+
+    bus.write(0x2003,0);
+    bus.write(0x4014,2);
+
+    pass_flag = true;
+    for(int i = 0; i < 0x100; i++){
+        if(ppu.read_oam_ram(i) != i){
+            pass_flag = false;
+        }
+    }
+
+    if(pass_flag){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_oam_adrr() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 3" << std::endl;
     bus.dma_activate();
     bus.set_dma_timer(3);
 
@@ -6236,6 +6285,8 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
 
+    std::cout << "TEST 4" << std::endl;
+
     nes.execute();
 
     if(nes.get_pc() == 1){
@@ -6251,6 +6302,91 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
     if(ppu.get_dot_count() == 0xF){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 5" << std::endl;
+    bus.dma_activate();
+    bus.set_dma_timer(0);
+
+    bus.write(0x4014,2);
+
+    if(bus.get_dma_active()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(bus.get_dma_timer() == 0x202){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 6" << std::endl;
+    bus.dma_activate();
+    bus.set_dma_timer(3);
+    nes.set_pc(0);
+    ppu.set_dot_count(0);
+
+    nes.execute();
+
+    if(bus.get_dma_timer() == 2){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(bus.get_dma_active()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(nes.get_pc() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 3){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 7" << std::endl;
+    bus.dma_activate();
+    bus.set_dma_timer(1);
+    nes.set_pc(0);
+    ppu.set_dot_count(0);
+
+    nes.execute();
+
+    if(bus.get_dma_timer() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(!bus.get_dma_active()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(nes.get_pc() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 3){
         std::cout << "Pass" << std::endl;
     }
     else{

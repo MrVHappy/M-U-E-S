@@ -368,19 +368,9 @@
                         // increment oam address
                         this->ppu->update_oam_addr();
                     }
-
-                    // // decrement dma timer
-                    // if(this->dma_timer > 0){
-                    //     dma_timer--;
-                    // }
-                    // // deactivate dma if timer is 0
-                    // if(this->dma_timer == 0){
-                    //     this->dma_active = false;
-                    // }
-                    // // else activate dma
-                    // else{
-                    //     this->dma_active = true;
-                    // }
+                    // reset DMA timer
+                    this->dma_timer = 0x202;
+                    this->dma_active = true;
                     break;
                 }
             }
