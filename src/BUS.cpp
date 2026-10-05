@@ -369,6 +369,15 @@
                         this->ppu->update_oam_addr();
                     }
 
+                    if(this->dma_timer > 0){
+                        dma_timer--;
+                    }
+                    if(this->dma_timer == 0){
+                        this->dma_active = false;
+                    }
+                    else{
+                        this->dma_active = true;
+                    }
                     break;
                 }
             }
@@ -395,8 +404,19 @@
         this->ppu = ppu;
     }
 
+    bool BUS::get_dma_active(){
+        return this->dma_active;
+    }
+
     void BUS::increment_timer(int cycles){
-        this->dma_timer = (this->dma_timer + cycles) % 515;
+        this->dma_timer += cycles;
+    }
+
+    void BUS::dma_activate(){
+        this->dma_active = true;
+    }
+    void BUS::dma_deactivate(){
+        this->dma_active = false;
     }
 
     void BUS::set_NOP_sys_ram(){

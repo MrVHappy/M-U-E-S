@@ -22,7 +22,9 @@ class BUS{
         // OAM DMA
         uint8_t oam_dma;
         // DMA timer
-        int dma_timer = 0;
+        int dma_timer = 514;
+        // DMA flag
+        bool dma_active = true;
 
     public:
         // read to system RAM
@@ -38,8 +40,15 @@ class BUS{
         void set_cartridge(class Cartridge *rom);
         void set_ppu(class PPU *ppu);
 
+        // getters
+        bool get_dma_active();
+
         // increments
         void increment_timer(int cycles);
+
+        // clear and updates
+        void dma_activate();
+        void dma_deactivate();
 
         // DEBUG functions
         void set_NOP_sys_ram();
