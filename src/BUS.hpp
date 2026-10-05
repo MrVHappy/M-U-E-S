@@ -22,9 +22,12 @@ class BUS{
         // OAM DMA
         uint8_t oam_dma;
         // DMA timer
-        int dma_timer = 514;
+        int dma_timer = 0;
         // DMA flag
-        bool dma_active = true;
+        bool dma_active = false;
+
+        // records the number of cpu cycles
+        int cpu_cycles = 0;
 
     public:
         // read to system RAM
@@ -44,9 +47,10 @@ class BUS{
         // getters
         bool get_dma_active();
         int get_dma_timer();
+        int get_cpu_cycles();
 
         // increments
-        void increment_timer(int cycles);
+        void increment_cycles(int cycles);
         // decrements
         void decrement_timer();
 

@@ -57,6 +57,7 @@ class NES{
         // holds the address resolved by the most recent addressing mode function
         uint16_t resolved_address;
 
+
     public:
         NES(BUS *bus);
 

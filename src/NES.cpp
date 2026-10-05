@@ -605,6 +605,8 @@
                 if(bus->get_dma_timer() == 0){
                     bus->dma_deactivate();
                 }
+                // increment the CPU cycle count
+                this->bus->increment_cycles(1);
                 // skip the rest of the FDE cycle
                 return;
             }
@@ -625,6 +627,8 @@
             }
             // call the instruction
             (this->*new_instruction.operation)();
+            // update cpu cycle count
+            this->bus->increment_cycles(new_instruction.cycles);
             // handel cycle (temp)
             // get the current nmi line
             bool current_nmi_line = this->bus->get_ppu().get_v_blank() && this->bus->get_ppu().get_nmi_output();

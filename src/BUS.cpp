@@ -369,7 +369,15 @@
                         this->ppu->update_oam_addr();
                     }
                     // reset DMA timer
-                    this->dma_timer = 0x202;
+                    if((this->cpu_cycles % 2) == 0){
+                        // set DMA timer to 513 if even
+                        this->dma_timer = 0x201;
+                    }
+                    else{
+                        // set DMA timer 514 if odd
+                        this->dma_timer = 0x202;
+                    }
+                    // set activate DMA
                     this->dma_active = true;
                     break;
                 }
@@ -409,8 +417,8 @@
         return this->dma_timer;
     }
 
-    void BUS::increment_timer(int cycles){
-        this->dma_timer += cycles;
+    void BUS::increment_cycles(int cycles){
+        this->cpu_cycles += cycles;
     }
 
     void BUS::decrement_timer(){
