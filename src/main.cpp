@@ -6143,7 +6143,43 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
 
-    std::cout << "DMA TIMING TEST" << std::endl;
+    std::cout << "DMA TEST" << std::endl;
     std::cout << "TEST 1" << std::endl;
+
+    bus.dma_activate();
+    bus.set_dma_timer(3);
+
+    nes.set_pc(0);
+    bus.set_sys_ram(0xEA);
+
+    ppu.set_dot_count(0);
+    ppu.set_scan_ln_count(0);
+
+    nes.execute();
+
+    if(nes.get_pc() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(bus.get_dma_timer() == 2){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(bus.get_dma_active()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_dot_count() == 3){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }
