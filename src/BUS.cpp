@@ -421,6 +421,10 @@
         return this->dma_timer;
     }
 
+    int BUS::get_cpu_cycles(){
+        return this->cpu_cycles;
+    }
+
     void BUS::increment_cycles(int cycles){
         this->cpu_cycles += cycles;
     }

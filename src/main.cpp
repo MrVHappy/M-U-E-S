@@ -6400,7 +6400,7 @@ int main(int argc, char*argv[]){
     bus.dma_activate();
     ppu.set_oam_addr(0);
 
-    int count = 0;
+    count = 0;
     for(int i = 0x200; i < 0x300; i++){
         bus.write(i,count);
         count++;
@@ -6420,5 +6420,191 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "TEST 2" << std::endl;
+    bus.set_cycles(0x101);
+    bus.set_dma_timer(0);
+    bus.dma_deactivate();
+    ppu.set_oam_addr(0);
+
+    count = 0;
+    for(int i = 0x200; i < 0x300; i++){
+        bus.write(i,count);
+        count++;
+    }
+
+    bus.write(0x4014,0x2);
+
+    if(bus.get_dma_timer() == 0x202){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(bus.get_dma_active()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 3" << std::endl;
+    bus.set_dma_timer(0x201);
+    bus.dma_activate();
+    bus.set_cycles(0x100);
+
+    
+    for(int i = 0; i < 0x201; i++){
+        nes.execute();
+    }
+
+    if(bus.get_dma_timer() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(!bus.get_dma_active()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(bus.get_cpu_cycles() == 0x301){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "CYCLES: " << bus.get_cpu_cycles() << std::endl;
+        std::cout << "EXPECTED: " << 0x301 << std::endl;
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 4" << std::endl;
+    bus.set_dma_timer(0x202);
+    bus.dma_activate();
+    bus.set_cycles(0x101);
+
+    for(int i = 0; i < 0x202; i++){
+        nes.execute();
+    }
+
+    if(bus.get_dma_timer() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(!bus.get_dma_active()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(bus.get_cpu_cycles() == 0x303){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 5" << std::endl;
+    bus.write(0,0xEA);
+    nes.set_pc(0);
+
+    bus.set_cycles(0x100);
+    bus.set_dma_timer(1);
+    bus.dma_activate();
+
+    nes.execute();
+
+    if(bus.get_cpu_cycles() == 0x101){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(bus.get_dma_timer() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(!bus.get_dma_active()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(nes.get_pc() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    nes.execute();
+
+    if(nes.get_pc() == 1){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(bus.get_cpu_cycles() == 0x103){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 6" << std::endl;
+    bus.write(0,0xEA);
+    nes.set_pc(0);
+    bus.set_cycles(0x101);
+    bus.set_dma_timer(1);
+    bus.dma_activate();
+
+    nes.execute();
+
+    if(nes.get_pc() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(bus.get_dma_timer() == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(!bus.get_dma_active()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(bus.get_cpu_cycles() == 0x102){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    nes.execute();
+
+    if(nes.get_pc() == 1){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(bus.get_cpu_cycles() == 0x104){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
     return 0;
 }
