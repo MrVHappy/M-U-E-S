@@ -326,7 +326,7 @@ void PPU::tick(){
         int eval_scan_ln = this->scan_ln_count + 1;
         int sprite_oam_index = 0;
         // go through each sprite
-        for(int i = 0; i < 65; i++){
+        for(int i = 0; i < 64; i++){
             // get the starting position
             int start_pos = i * 4;
             // get the y position from sprite i
@@ -340,13 +340,16 @@ void PPU::tick(){
 
             // check if the sprite is in range
             if((y <= eval_scan_ln) && ((y + 8) > eval_scan_ln)){
-                // copy sprite data to sprite oam
-                this->sprite_oam[sprite_oam_index] = y;
-                this->sprite_oam[sprite_oam_index + 1] = sprite_data;
-                this->sprite_oam[sprite_oam_index + 2] = sprite_attribute;
-                this->sprite_oam[sprite_oam_index + 3] = x;
-                // increment sprite oam index by 4
-                sprite_oam_index += 4;
+                // check if there can be more sprites
+                if(sprite_oam_index < 0x20){
+                    // copy sprite data to sprite oam
+                    this->sprite_oam[sprite_oam_index] = y;
+                    this->sprite_oam[sprite_oam_index + 1] = sprite_data;
+                    this->sprite_oam[sprite_oam_index + 2] = sprite_attribute;
+                    this->sprite_oam[sprite_oam_index + 3] = x;
+                    // increment sprite oam index by 4
+                    sprite_oam_index += 4;
+                }
             }
         }
     }
