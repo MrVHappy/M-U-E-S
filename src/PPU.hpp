@@ -93,6 +93,7 @@ class PPU{
         uint16_t get_high_shift();
         std::array<std::array<uint8_t,256>,240> get_frame_buffer();
         uint8_t get_pal_state();
+        std::array<uint8_t,32> get_sprite_oam();
 
         // setters
         void set_ctrl(uint8_t value);

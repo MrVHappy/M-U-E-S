@@ -6606,5 +6606,347 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
 
+    std::cout << "SPRITE EVALUATION TESTS" << std::endl;
+    std::cout << "TEST 1" << std::endl; 
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(0x40);
+    ppu.set_oam_addr(0);
+
+    ppu.write_oam_ram(0,0x20);
+    ppu.write_oam_ram(1,0x15);
+    ppu.write_oam_ram(2,0x40);
+    ppu.write_oam_ram(3,0x80);
+
+    ppu.tick();
+
+    pass_flag = true;
+
+    for(int i = 0; i < ppu.get_sprite_oam().size(); i++){
+        if(ppu.get_sprite_oam()[i] != 0xFF){
+            pass_flag = false;
+        }
+    }
+    
+    if(pass_flag){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    ppu.tick();
+
+    if(ppu.get_sprite_oam()[0] == 0x20){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[1] == 0x15){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[2] == 0x40){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[3] == 0x80){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    pass_flag = true;
+
+    for(int i = 4; i < ppu.get_sprite_oam().size(); i++){
+        if(ppu.get_sprite_oam()[i] != 0xFF){
+            pass_flag = false;
+        }
+    }
+    
+    if(pass_flag){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 2" << std::endl;
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(0x40);
+    ppu.set_oam_addr(0);
+
+    ppu.write_oam_ram(0,0x22);
+    ppu.write_oam_ram(1,0x15);
+    ppu.write_oam_ram(2,0x40);
+    ppu.write_oam_ram(3,0x80);
+
+    ppu.tick();
+    ppu.tick();
+
+    pass_flag = true;
+
+    for(int i = 0; i < ppu.get_sprite_oam().size(); i++){
+        if(ppu.get_sprite_oam()[i] != 0xFF){
+            pass_flag = false;
+        }
+    }
+    
+    if(pass_flag){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 3" << std::endl;
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(0x40);
+    ppu.set_oam_addr(0);
+
+    ppu.write_oam_ram(0,0x1A);
+    ppu.write_oam_ram(1,0x15);
+    ppu.write_oam_ram(2,0x40);
+    ppu.write_oam_ram(3,0x80);
+
+    ppu.tick();
+    ppu.tick();
+
+    if(ppu.get_sprite_oam()[0] == 0x1A){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[1] == 0x15){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[2] == 0x40){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[3] == 0x80){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 4" << std::endl;
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(0x40);
+    ppu.set_oam_addr(0);
+
+    ppu.write_oam_ram(0,0x22);
+    ppu.write_oam_ram(1,0x15);
+    ppu.write_oam_ram(2,0x40);
+    ppu.write_oam_ram(3,0x80);
+
+    ppu.tick();
+    ppu.tick();
+
+    pass_flag = true;
+
+    for(int i = 0; i < ppu.get_sprite_oam().size(); i++){
+        if(ppu.get_sprite_oam()[i] != 0xFF){
+            pass_flag = false;
+        }
+    }
+    
+    if(pass_flag){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 5" << std::endl;
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(0x40);
+    ppu.set_oam_addr(0);
+
+    ppu.write_oam_ram(0,0x10);
+    ppu.write_oam_ram(1,0x11);
+    ppu.write_oam_ram(2,0x22);
+    ppu.write_oam_ram(3,0x33);
+
+    ppu.write_oam_ram(4,0x22);
+    ppu.write_oam_ram(5,0x44);
+    ppu.write_oam_ram(6,0x55);
+    ppu.write_oam_ram(7,0x66);
+
+    ppu.write_oam_ram(8,0x20);
+    ppu.write_oam_ram(9,0x77);
+    ppu.write_oam_ram(10,0x88);
+    ppu.write_oam_ram(11,0x99);
+
+    ppu.tick();
+    ppu.tick();
+
+    if(ppu.get_sprite_oam()[0] == 0x20){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[1] == 0x77){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[2] == 0x88){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[3] == 0x99){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    pass_flag = true;
+
+    for(int i = 4; i < ppu.get_sprite_oam().size(); i++){
+        if(ppu.get_sprite_oam()[i] != 0xFF){
+            pass_flag = false;
+        }
+    }
+    
+    if(pass_flag){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 6" << std::endl;
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(0x40);
+    ppu.set_oam_addr(0);
+
+    ppu.write_oam_ram(0,0x20);
+    ppu.write_oam_ram(1,0x10);
+    ppu.write_oam_ram(2,0x40);
+    ppu.write_oam_ram(3,0x80);
+
+    ppu.write_oam_ram(4,0x21);
+    ppu.write_oam_ram(5,0x11);
+    ppu.write_oam_ram(6,0x50);
+    ppu.write_oam_ram(7,0x90);
+
+    ppu.tick();
+    ppu.tick();
+
+    std::cout << "TEST 7" << std::endl;
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(0x40);
+    ppu.set_oam_addr(0);
+
+    ppu.write_oam_ram(0,0x20);
+    ppu.write_oam_ram(1,0x20);
+    ppu.write_oam_ram(2,0x30);
+    ppu.write_oam_ram(3,0x40);
+
+    ppu.write_oam_ram(4,0x20);
+    ppu.write_oam_ram(5,0x21);
+    ppu.write_oam_ram(6,0x31);
+    ppu.write_oam_ram(7,0x41);
+
+    ppu.write_oam_ram(8,0x20);
+    ppu.write_oam_ram(9,0x22);
+    ppu.write_oam_ram(10,0x32);
+    ppu.write_oam_ram(11,0x42);
+
+    ppu.write_oam_ram(12,0x20);
+    ppu.write_oam_ram(13,0x23);
+    ppu.write_oam_ram(14,0x33);
+    ppu.write_oam_ram(15,0x43);
+
+    ppu.write_oam_ram(16,0x20);
+    ppu.write_oam_ram(17,0x24);
+    ppu.write_oam_ram(18,0x34);
+    ppu.write_oam_ram(19,0x44);
+
+    ppu.write_oam_ram(20,0x20);
+    ppu.write_oam_ram(21,0x25);
+    ppu.write_oam_ram(22,0x35);
+    ppu.write_oam_ram(23,0x45);
+
+    ppu.write_oam_ram(24,0x20);
+    ppu.write_oam_ram(25,0x26);
+    ppu.write_oam_ram(26,0x36);
+    ppu.write_oam_ram(27,0x46);
+
+    ppu.write_oam_ram(28,0x20);
+    ppu.write_oam_ram(29,0x27);
+    ppu.write_oam_ram(30,0x37);
+    ppu.write_oam_ram(31,0x47);
+
+    ppu.tick();
+    ppu.tick();
+
+    if(ppu.get_sprite_oam()[1] == 0x20){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[5] == 0x21){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[9] == 0x22){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[0xD] == 0x23){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[0x11] == 0x24){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[0x15] == 0x25){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[0x19] == 0x26){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[0x1D] == 0x27){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
     return 0;
 }

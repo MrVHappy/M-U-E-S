@@ -896,6 +896,9 @@ std::array<std::array<uint8_t,256>,240> PPU::get_frame_buffer(){
 uint8_t PPU::get_pal_state(){
     return this->pal_state;
 }
+std::array<uint8_t,32> PPU::get_sprite_oam(){
+    return this->sprite_oam;
+}
 
 void PPU::set_ctrl(uint8_t value){
     this->ctrl = value;
