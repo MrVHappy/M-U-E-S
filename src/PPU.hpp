@@ -42,6 +42,8 @@ class PPU{
         std::array<uint8_t,32> pal_ram;
         // 256B of sprite RAM
         std::array<uint8_t,256> oam_ram;
+        // secondary oam for sprite data
+        std::array<uint8_t,32> sprite_oam;
         // 32B tile buffer
         std::array<uint8_t,32> tile_buffer;
         // 32B attribute buffer

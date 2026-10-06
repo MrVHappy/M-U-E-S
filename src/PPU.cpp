@@ -309,6 +309,47 @@ void PPU::tick(){
             
         }      
     }
+
+    // check if dot count is 64
+    if(this->dot_count == 64){
+        // preparation before sprite evaluation
+        for(int i = 0; i < this->sprite_oam.size(); i ++){
+            // clear sprite oam
+            this->sprite_oam[i] = 0xFF;
+        }
+    }
+
+    // check if dot count is between 65-256
+    if((this->dot_count >= 65) && (this->dot_count < 257)){
+        // sprite evaluation
+        // get the evaluation scanline
+        int eval_scan_ln = this->scan_ln_count + 1;
+        int sprite_oam_index = 0;
+        // go through each sprite
+        for(int i = 0; i < 65; i++){
+            // get the starting position
+            int start_pos = i * 4;
+            // get the y position from sprite i
+            int y = this->oam_ram[start_pos];
+            // get the tile data from sprite i
+            int sprite_data = this->oam_ram[start_pos + 1];
+            // get the sprite attributes from sprite i
+            int sprite_attribute = this->oam_ram[start_pos + 2];
+            // get the x position from sprite i
+            int x = this->oam_ram[start_pos + 3];
+
+            // check if the sprite is in range
+            if((y <= eval_scan_ln) && ((y + 8) > eval_scan_ln)){
+                // copy sprite data to sprite oam
+                this->sprite_oam[sprite_oam_index] = y;
+                this->sprite_oam[sprite_oam_index + 1] = sprite_data;
+                this->sprite_oam[sprite_oam_index + 2] = sprite_attribute;
+                this->sprite_oam[sprite_oam_index + 3] = x;
+                // increment sprite oam index by 4
+                sprite_oam_index += 4;
+            }
+        }
+    }
     // check if dot count is between 257-320
     if((this->dot_count >= 257) && (this->dot_count < 321) && (bit_3 == true)){
 
