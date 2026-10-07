@@ -7142,5 +7142,31 @@ int main(int argc, char*argv[]){
         std::cout << "EXPECTED: " << true << std::endl;
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "SPRITE PATTERN FETCHING TESTS" << std::endl;
+    std::cout << "TEST 1" << std::endl;
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(0x101);
+    ppu.set_oam_addr(0);
+    ppu.set_oam_ram(0);
+    ppu.clear_sprite_overflow();
+    ppu.set_ctrl(0);
+    rom.set_CHR(0);
+
+    ppu.write_sprite_oam(0,0x20);
+    ppu.write_sprite_oam(1,0x03);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x40);
+
+    rom.get_mapper_info().write_CHR(0x31,0xAA);
+    rom.get_mapper_info().write_CHR(0x39,0x55);
+
+    ppu.tick();
+    ppu.tick();
+    ppu.tick();
+    ppu.tick();
+    ppu.tick();
+
+    
     return 0;
 }

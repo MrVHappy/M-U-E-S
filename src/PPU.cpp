@@ -949,6 +949,12 @@ uint8_t PPU::get_pal_state(){
 std::array<uint8_t,32> PPU::get_sprite_oam(){
     return this->sprite_oam;
 }
+std::array<uint8_t,8> PPU::get_sprite_pattern_low(){
+    return this->sprite_pattern_low;
+}
+std::array<uint8_t,8> PPU::get_sprite_pattern_high(){
+    return this->sprite_pattern_high;
+}
 
 void PPU::set_ctrl(uint8_t value){
     this->ctrl = value;
@@ -1047,6 +1053,9 @@ void PPU::write_pal_ram(uint16_t address, uint8_t value){
 }
 void PPU::write_oam_ram(uint16_t address, uint8_t value){
     this->oam_ram[address] = value;
+}
+void PPU::write_sprite_oam(uint8_t address, uint8_t value){
+    this->sprite_oam[address] = value;
 }
 
 uint8_t PPU::read_vram(uint16_t address){

@@ -100,6 +100,8 @@ class PPU{
         std::array<std::array<uint8_t,256>,240> get_frame_buffer();
         uint8_t get_pal_state();
         std::array<uint8_t,32> get_sprite_oam();
+        std::array<uint8_t,8> get_sprite_pattern_low();
+        std::array<uint8_t,8> get_sprite_pattern_high();
 
         // setters
         void set_ctrl(uint8_t value);
@@ -140,6 +142,7 @@ class PPU{
         void write_vram(uint16_t address, uint8_t value);
         void write_pal_ram(uint16_t address, uint8_t value);
         void write_oam_ram(uint16_t address, uint8_t value);
+        void write_sprite_oam(uint8_t address, uint8_t value);
 
         // reads to RAM
         uint8_t read_vram(uint16_t address);
