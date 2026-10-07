@@ -25,10 +25,16 @@ class PPU{
         uint8_t fine_x;
         // VRAM data
         uint8_t vram_data;
+        // background pattern registers
         // pattern low
         uint8_t pattern_low;
         // pattern high
         uint8_t pattern_high;
+        // sprite pattern registers
+        // sprite pattern low
+        std::array<uint8_t,8> sprite_pattern_low;
+        // sprite pattern high
+        std::array<uint8_t,8> sprite_pattern_high;
         // pattern low shift register
         uint16_t low_shift;
         // pattern high shift register
