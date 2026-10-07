@@ -6611,6 +6611,7 @@ int main(int argc, char*argv[]){
     ppu.set_scan_ln_count(0x20);
     ppu.set_dot_count(0x40);
     ppu.set_oam_addr(0);
+    ppu.set_oam_ram(0);
 
     ppu.write_oam_ram(0,0x20);
     ppu.write_oam_ram(1,0x15);
@@ -6666,6 +6667,8 @@ int main(int argc, char*argv[]){
     for(int i = 4; i < ppu.get_sprite_oam().size(); i++){
         if(ppu.get_sprite_oam()[i] != 0xFF){
             pass_flag = false;
+            std::cout << "INDEX: " << i << " VALUE: "<< static_cast<int>(ppu.get_sprite_oam()[i]) << std::endl;
+            break;
         }
     }
     
@@ -6680,6 +6683,7 @@ int main(int argc, char*argv[]){
     ppu.set_scan_ln_count(0x20);
     ppu.set_dot_count(0x40);
     ppu.set_oam_addr(0);
+    ppu.set_oam_ram(0);
 
     ppu.write_oam_ram(0,0x22);
     ppu.write_oam_ram(1,0x15);
@@ -6694,6 +6698,8 @@ int main(int argc, char*argv[]){
     for(int i = 0; i < ppu.get_sprite_oam().size(); i++){
         if(ppu.get_sprite_oam()[i] != 0xFF){
             pass_flag = false;
+            std::cout << "INDEX: " << i << " VALUE: "<< static_cast<int>(ppu.get_sprite_oam()[i]) << std::endl;
+            break;
         }
     }
     
@@ -6708,6 +6714,7 @@ int main(int argc, char*argv[]){
     ppu.set_scan_ln_count(0x20);
     ppu.set_dot_count(0x40);
     ppu.set_oam_addr(0);
+    ppu.set_oam_ram(0);
 
     ppu.write_oam_ram(0,0x1A);
     ppu.write_oam_ram(1,0x15);
@@ -6746,6 +6753,7 @@ int main(int argc, char*argv[]){
     ppu.set_scan_ln_count(0x20);
     ppu.set_dot_count(0x40);
     ppu.set_oam_addr(0);
+    ppu.set_oam_ram(0);
 
     ppu.write_oam_ram(0,0x22);
     ppu.write_oam_ram(1,0x15);
@@ -6760,6 +6768,8 @@ int main(int argc, char*argv[]){
     for(int i = 0; i < ppu.get_sprite_oam().size(); i++){
         if(ppu.get_sprite_oam()[i] != 0xFF){
             pass_flag = false;
+            std::cout << "INDEX: " << i << " VALUE: "<< static_cast<int>(ppu.get_sprite_oam()[i]) << std::endl;
+            break;
         }
     }
     
@@ -6774,6 +6784,7 @@ int main(int argc, char*argv[]){
     ppu.set_scan_ln_count(0x20);
     ppu.set_dot_count(0x40);
     ppu.set_oam_addr(0);
+    ppu.set_oam_ram(0);
 
     ppu.write_oam_ram(0,0x10);
     ppu.write_oam_ram(1,0x11);
@@ -6823,6 +6834,8 @@ int main(int argc, char*argv[]){
     for(int i = 4; i < ppu.get_sprite_oam().size(); i++){
         if(ppu.get_sprite_oam()[i] != 0xFF){
             pass_flag = false;
+            std::cout << "INDEX: " << i << " VALUE: "<< static_cast<int>(ppu.get_sprite_oam()[i]) << std::endl;
+            break;
         }
     }
     
@@ -6837,6 +6850,7 @@ int main(int argc, char*argv[]){
     ppu.set_scan_ln_count(0x20);
     ppu.set_dot_count(0x40);
     ppu.set_oam_addr(0);
+    ppu.set_oam_ram(0);
 
     ppu.write_oam_ram(0,0x20);
     ppu.write_oam_ram(1,0x10);
@@ -6851,10 +6865,77 @@ int main(int argc, char*argv[]){
     ppu.tick();
     ppu.tick();
 
+    if(ppu.get_sprite_oam()[0] == 0x20){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[1] == 0x10){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[2] == 0x40){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[3] == 0x80){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[4] == 0x21){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[5] == 0x11){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[6] == 0x50){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[7] == 0x90){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    pass_flag = true;
+
+    for(int i = 8; i < ppu.get_sprite_oam().size(); i++){
+        if(ppu.get_sprite_oam()[i] != 0xFF){
+            pass_flag = false;
+            std::cout << "INDEX: " << i << " VALUE: "<< static_cast<int>(ppu.get_sprite_oam()[i]) << std::endl;
+            break;
+        }
+    }
+    
+    if(pass_flag){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
     std::cout << "TEST 7" << std::endl;
     ppu.set_scan_ln_count(0x20);
     ppu.set_dot_count(0x40);
     ppu.set_oam_addr(0);
+    ppu.set_oam_ram(0);
 
     ppu.write_oam_ram(0,0x20);
     ppu.write_oam_ram(1,0x20);
