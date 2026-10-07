@@ -397,27 +397,6 @@ void PPU::tick(){
         uint8_t tile_index = (this->dot_count - 257) / 8;
         // get the tile fetch sequence
         uint8_t tile_fetch_seq = (this->dot_count - 257) % 8;
-        
-        // get the sprite index 
-        uint8_t sprite_index = tile_index;
-        // get the evaluated scan line
-        int eval_scan_ln = this->scan_ln_count + 1;
-        // get the sprite's y position
-        uint8_t sprite_y = this->sprite_oam[sprite_index * 4];
-        // get the sprite's tile information
-        uint8_t sprite_tile = this->sprite_oam[sprite_index * 4 + 1];
-        // calculate the row
-        uint8_t row = eval_scan_ln - sprite_y;
-        // extract bit 3 from the ctrl register
-        uint8_t ctrl_bit_3 = (this->ctrl & 0b1000) >> 3;
-        // use ctrl bit 3 to determine the pattern table
-        uint16_t pattern_table = ctrl_bit_3 << 12;
-        // calculate the sprite pattern address
-        uint16_t sprite_pattern_addr = pattern_table + (sprite_tile * 0x10) + row;
-        // read low pattern byte from CHR ROM/RAM at the sprite pattern address
-        this->sprite_pattern_low[sprite_index] = this->bus->get_rom().get_mapper_info().read_CHR(sprite_pattern_addr);
-        // read high pattern byte from CHR ROM/RAM at the sprite pattern address + 8
-        this->sprite_pattern_high[sprite_index] = this->bus->get_rom().get_mapper_info().read_CHR(sprite_pattern_addr + 8);
 
         switch(tile_fetch_seq){
             // nametable processing
@@ -461,6 +440,7 @@ void PPU::tick(){
             }
             // Pattern low byte fetch
             case 4:{
+                // Background Fetch
                 // extract bit 4 from ctrl register
                 bool bit_4 = (this->ctrl & 0b00010000) >> 4;
                 // extract the tile number from the tile buffer at tile index
@@ -480,9 +460,31 @@ void PPU::tick(){
 
                 // extract the contents from CHR at index low addr and store in pattern low
                 this->pattern_low = this->bus->get_rom().get_mapper_info().read_CHR(low_addr);
+
+                // Sprite fetch
+                // get the sprite index 
+                uint8_t sprite_index = tile_index;
+                // get the evaluated scan line
+                int eval_scan_ln = this->scan_ln_count + 1;
+                // get the sprite's y position
+                uint8_t sprite_y = this->sprite_oam[sprite_index * 4];
+                // get the sprite's tile information
+                uint8_t sprite_tile = this->sprite_oam[sprite_index * 4 + 1];
+                // calculate the row
+                uint8_t row = eval_scan_ln - sprite_y;
+                // extract bit 3 from the ctrl register
+                uint8_t ctrl_bit_3 = (this->ctrl & 0b1000) >> 3;
+                // use ctrl bit 3 to determine the pattern table
+                uint16_t pattern_table = ctrl_bit_3 << 12;
+                // calculate the sprite pattern address
+                uint16_t sprite_pattern_addr = pattern_table + (sprite_tile * 0x10) + row;
+                // read low pattern byte from CHR ROM/RAM at the sprite pattern address
+                this->sprite_pattern_low[sprite_index] = this->bus->get_rom().get_mapper_info().read_CHR(sprite_pattern_addr);
                 break;
             }
+            // Pattern high byte fetch
             case 6:{
+                // Background Fetch
                 // extract bit 4 from ctrl register
                 bool bit_4 = (this->ctrl & 0b00010000) >> 4;
                 // extract the tile number from the tile buffer at tile index
@@ -502,6 +504,26 @@ void PPU::tick(){
 
                 // extract the contents from CHR at index low addr and store in pattern high
                 this->pattern_high = this->bus->get_rom().get_mapper_info().read_CHR(high_addr);
+
+                // Sprite Fetch
+                // get the sprite index 
+                uint8_t sprite_index = tile_index;
+                // get the evaluated scan line
+                int eval_scan_ln = this->scan_ln_count + 1;
+                // get the sprite's y position
+                uint8_t sprite_y = this->sprite_oam[sprite_index * 4];
+                // get the sprite's tile information
+                uint8_t sprite_tile = this->sprite_oam[sprite_index * 4 + 1];
+                // calculate the row
+                uint8_t row = eval_scan_ln - sprite_y;
+                // extract bit 3 from the ctrl register
+                uint8_t ctrl_bit_3 = (this->ctrl & 0b1000) >> 3;
+                // use ctrl bit 3 to determine the pattern table
+                uint16_t pattern_table = ctrl_bit_3 << 12;
+                // calculate the sprite pattern address
+                uint16_t sprite_pattern_addr = pattern_table + (sprite_tile * 0x10) + row;
+                // read high pattern byte from CHR ROM/RAM at the sprite pattern address + 8
+                this->sprite_pattern_high[sprite_index] = this->bus->get_rom().get_mapper_info().read_CHR(sprite_pattern_addr + 8);
                 break;
             }
             // tile boundary loading
