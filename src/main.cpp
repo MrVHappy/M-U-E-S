@@ -7029,5 +7029,118 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
 
+    std::cout << "TEST 8" << std::endl;
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(0x40);
+    ppu.set_oam_addr(0);
+    ppu.set_oam_ram(0);
+    ppu.clear_sprite_overflow();
+
+    ppu.write_oam_ram(0,0x20);
+    ppu.write_oam_ram(1,0x20);
+    ppu.write_oam_ram(2,0x30);
+    ppu.write_oam_ram(3,0x40);
+
+    ppu.write_oam_ram(4,0x20);
+    ppu.write_oam_ram(5,0x21);
+    ppu.write_oam_ram(6,0x31);
+    ppu.write_oam_ram(7,0x41);
+
+    ppu.write_oam_ram(8,0x20);
+    ppu.write_oam_ram(9,0x22);
+    ppu.write_oam_ram(10,0x32);
+    ppu.write_oam_ram(11,0x42);
+
+    ppu.write_oam_ram(12,0x20);
+    ppu.write_oam_ram(13,0x23);
+    ppu.write_oam_ram(14,0x33);
+    ppu.write_oam_ram(15,0x43);
+
+    ppu.write_oam_ram(16,0x20);
+    ppu.write_oam_ram(17,0x24);
+    ppu.write_oam_ram(18,0x34);
+    ppu.write_oam_ram(19,0x44);
+
+    ppu.write_oam_ram(20,0x20);
+    ppu.write_oam_ram(21,0x25);
+    ppu.write_oam_ram(22,0x35);
+    ppu.write_oam_ram(23,0x45);
+
+    ppu.write_oam_ram(24,0x20);
+    ppu.write_oam_ram(25,0x26);
+    ppu.write_oam_ram(26,0x36);
+    ppu.write_oam_ram(27,0x46);
+
+    ppu.write_oam_ram(28,0x20);
+    ppu.write_oam_ram(29,0x27);
+    ppu.write_oam_ram(30,0x37);
+    ppu.write_oam_ram(31,0x47);
+
+    ppu.write_oam_ram(32,0x20);
+    ppu.write_oam_ram(33,0x28);
+    ppu.write_oam_ram(34,0x38);
+    ppu.write_oam_ram(35,0x48);
+
+    ppu.tick();
+    ppu.tick();
+
+    if(ppu.get_sprite_oam()[1] == 0x20){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[5] == 0x21){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[9] == 0x22){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[0xD] == 0x23){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[0x11] == 0x24){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[0x15] == 0x25){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[0x19] == 0x26){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[0x1D] == 0x27){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "INDEX 1D: " << static_cast<int>(ppu.get_sprite_oam()[0x1D]) << std::endl;
+        std::cout << "EXPECTED: " << 0x27 << std::endl;
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_overflow()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "SPRITE OVER FLOW: " << ppu.get_sprite_overflow() << std::endl;
+        std::cout << "EXPECTED: " << true << std::endl;
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }

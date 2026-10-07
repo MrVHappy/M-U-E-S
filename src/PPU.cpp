@@ -350,6 +350,10 @@ void PPU::tick(){
                     // increment sprite oam index by 4
                     sprite_oam_index += 4;
                 }
+                if (sprite_oam_index == 0x20){
+                    this->sprite_overflow = true;
+                    break;
+                }
             }
         }
     }
