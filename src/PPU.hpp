@@ -156,5 +156,6 @@ class PPU{
         void write_tile_buffer(uint8_t addr, uint8_t val);
         void write_attribute_buffer(uint8_t addr, uint8_t val);
         void set_oam_ram(uint8_t value);
+        void clear_sprite_patterns();
 };
 #endif

@@ -1099,3 +1099,7 @@ void PPU::set_oam_ram(uint8_t value){
         this->oam_ram[i] = value;
     }
 }
+void PPU::clear_sprite_patterns(){
+    this->sprite_pattern_high.fill(0xFF);
+    this->sprite_pattern_low.fill(0xFF);
+}
