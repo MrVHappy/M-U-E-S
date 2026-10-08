@@ -477,7 +477,7 @@ void PPU::tick(){
                 // get the sprite attribute information
                 uint8_t sprite_attribute = this->sprite_oam[sprite_index * 4 + 2];
                 // get bit 7 from sprite attribute
-                bool sprite_bit_7 = static_cast<int>((sprite_attribute & 0b10000000) >> 7);
+                bool sprite_bit_7 = static_cast<bool>((sprite_attribute & 0b10000000) >> 7);
                 // calculate the row
                 uint8_t row = eval_scan_ln - sprite_y;
                 // check if bit 7 is 1
@@ -535,7 +535,7 @@ void PPU::tick(){
                 // get the sprite attribute information
                 uint8_t sprite_attribute = this->sprite_oam[sprite_index * 4 + 2];
                 // get bit 7 from sprite attribute
-                bool sprite_bit_7 = static_cast<int>((sprite_attribute & 0b10000000) >> 7);
+                bool sprite_bit_7 = static_cast<bool>((sprite_attribute & 0b10000000) >> 7);
                 // calculate the row
                 uint8_t row = eval_scan_ln - sprite_y;
                 // check if bit 7 is 1
