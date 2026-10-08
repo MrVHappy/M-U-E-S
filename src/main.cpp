@@ -7323,6 +7323,71 @@ int main(int argc, char*argv[]){
     }
 
     std::cout << "TEST 6" << std::endl;
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(260);
 
+    ppu.write_sprite_oam(0,0x20);
+    ppu.write_sprite_oam(1,0x00);
+    ppu.write_sprite_oam(2,0x01);
+    ppu.write_sprite_oam(3,0x10);
+
+    rom.get_mapper_info().write_CHR(0x34,0x12);
+    rom.get_mapper_info().write_CHR(0x3C,0x21);
+
+    ppu.write_sprite_oam(0,0x20);
+    ppu.write_sprite_oam(1,0x03);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x10);
+
+    rom.get_mapper_info().write_CHR(0x34,0x12);
+    rom.get_mapper_info().write_CHR(0x3C,0x21);
+
+    ppu.write_sprite_oam(0,0x20);
+    ppu.write_sprite_oam(1,0x03);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x10);
+
+    rom.get_mapper_info().write_CHR(0x34,0x12);
+    rom.get_mapper_info().write_CHR(0x3C,0x21);
+
+    ppu.write_sprite_oam(0,0x20);
+    ppu.write_sprite_oam(1,0x03);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x10);
+
+    rom.get_mapper_info().write_CHR(0x34,0x12);
+    rom.get_mapper_info().write_CHR(0x3C,0x21);
+
+    ppu.write_sprite_oam(0,0x20);
+    ppu.write_sprite_oam(1,0x03);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x10);
+
+    rom.get_mapper_info().write_CHR(0x34,0x12);
+    rom.get_mapper_info().write_CHR(0x3C,0x21);
+
+    ppu.write_sprite_oam(0,0x20);
+    ppu.write_sprite_oam(1,0x03);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x10);
+
+    rom.get_mapper_info().write_CHR(0x34,0x12);
+    rom.get_mapper_info().write_CHR(0x3C,0x21);
+
+    ppu.write_sprite_oam(0,0x20);
+    ppu.write_sprite_oam(1,0x03);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x10);
+
+    rom.get_mapper_info().write_CHR(0x34,0x12);
+    rom.get_mapper_info().write_CHR(0x3C,0x21);
+
+    ppu.write_sprite_oam(0,0x20);
+    ppu.write_sprite_oam(1,0x03);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x10);
+
+    rom.get_mapper_info().write_CHR(0x34,0x12);
+    rom.get_mapper_info().write_CHR(0x3C,0x21);
     return 0;
 }
