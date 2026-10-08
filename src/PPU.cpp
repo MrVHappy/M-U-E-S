@@ -468,6 +468,10 @@ void PPU::tick(){
                 int eval_scan_ln = this->scan_ln_count + 1;
                 // get the sprite's y position
                 uint8_t sprite_y = this->sprite_oam[sprite_index * 4];
+                if(sprite_y == 0xFF){
+                    // invalid fetch
+                    break;
+                }
                 // get the sprite's tile information
                 uint8_t sprite_tile = this->sprite_oam[sprite_index * 4 + 1];
                 // calculate the row
@@ -512,6 +516,11 @@ void PPU::tick(){
                 int eval_scan_ln = this->scan_ln_count + 1;
                 // get the sprite's y position
                 uint8_t sprite_y = this->sprite_oam[sprite_index * 4];
+                // check if sprite y equals 0xFF
+                if(sprite_y == 0xFF){
+                    // invalid fetch
+                    break;
+                }
                 // get the sprite's tile information
                 uint8_t sprite_tile = this->sprite_oam[sprite_index * 4 + 1];
                 // calculate the row
@@ -1102,4 +1111,8 @@ void PPU::set_oam_ram(uint8_t value){
 void PPU::clear_sprite_patterns(){
     this->sprite_pattern_high.fill(0xFF);
     this->sprite_pattern_low.fill(0xFF);
+}
+
+void PPU::clear_sprite_oam(){
+    this->sprite_oam.fill(0xFF);
 }

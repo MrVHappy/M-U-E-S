@@ -7496,5 +7496,10 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "TEST 7" << std::endl;
+    ppu.set_ctrl(0);
+    ppu.set_scan_ln_count(0x20);
+    ppu.clear_sprite_oam();
     return 0;
 }
