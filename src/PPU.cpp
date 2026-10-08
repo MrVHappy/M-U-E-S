@@ -474,8 +474,17 @@ void PPU::tick(){
                 }
                 // get the sprite's tile information
                 uint8_t sprite_tile = this->sprite_oam[sprite_index * 4 + 1];
+                // get the sprite attribute information
+                uint8_t sprite_attribute = this->sprite_oam[sprite_index * 4 + 2];
+                // get bit 7 from sprite attribute
+                bool sprite_bit_7 = static_cast<int>((sprite_attribute & 0b10000000) >> 7);
                 // calculate the row
                 uint8_t row = eval_scan_ln - sprite_y;
+                // check if bit 7 is 1
+                if(sprite_bit_7){
+                    // update row
+                    row = 7 - row;
+                }
                 // extract bit 3 from the ctrl register
                 uint8_t ctrl_bit_3 = (this->ctrl & 0b1000) >> 3;
                 // use ctrl bit 3 to determine the pattern table
@@ -523,8 +532,17 @@ void PPU::tick(){
                 }
                 // get the sprite's tile information
                 uint8_t sprite_tile = this->sprite_oam[sprite_index * 4 + 1];
+                // get the sprite attribute information
+                uint8_t sprite_attribute = this->sprite_oam[sprite_index * 4 + 2];
+                // get bit 7 from sprite attribute
+                bool sprite_bit_7 = static_cast<int>((sprite_attribute & 0b10000000) >> 7);
                 // calculate the row
                 uint8_t row = eval_scan_ln - sprite_y;
+                // check if bit 7 is 1
+                if(sprite_bit_7){
+                    // update row
+                    row = 7 - row;
+                }
                 // extract bit 3 from the ctrl register
                 uint8_t ctrl_bit_3 = (this->ctrl & 0b1000) >> 3;
                 // use ctrl bit 3 to determine the pattern table
