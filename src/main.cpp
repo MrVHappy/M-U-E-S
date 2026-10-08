@@ -7146,7 +7146,7 @@ int main(int argc, char*argv[]){
     std::cout << "SPRITE PATTERN FETCHING TESTS" << std::endl;
     std::cout << "TEST 1" << std::endl;
     ppu.set_scan_ln_count(0x20);
-    ppu.set_dot_count(0x101);
+    ppu.set_dot_count(0x100);
     ppu.set_oam_addr(0);
     ppu.set_oam_ram(0);
     ppu.clear_sprite_overflow();
@@ -7161,11 +7161,110 @@ int main(int argc, char*argv[]){
     rom.get_mapper_info().write_CHR(0x31,0xAA);
     rom.get_mapper_info().write_CHR(0x39,0x55);
 
-    ppu.tick();
-    ppu.tick();
-    ppu.tick();
-    ppu.tick();
-    ppu.tick();
+    for(int i = 0; i < 7; i++){
+        ppu.tick();
+    }
+
+    if(ppu.get_sprite_pattern_low()[0] == 0xAA){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_pattern_high()[0] == 0x55){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 2" << std::endl;
+    ppu.set_scan_ln_count(0x10);
+    ppu.set_dot_count(260);
+    ppu.set_ctrl(0);
+    rom.set_CHR(0);
+
+    ppu.write_sprite_oam(0,0x10);
+    ppu.write_sprite_oam(1,0x07);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x20);
+    
+    rom.get_mapper_info().write_CHR(0x71,0xA5);
+    rom.get_mapper_info().write_CHR(0x79,0x5A);
+
+    for(int i = 0; i < 4; i++){
+        ppu.tick();
+    }
+
+    if(ppu.get_sprite_pattern_low()[0] == 0xA5){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_pattern_high()[0] == 0x5A){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 3" << std::endl;
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(260);
+    ppu.set_ctrl(0);
+    rom.set_CHR(0);
+
+    ppu.write_sprite_oam(0,0x20);
+    ppu.write_sprite_oam(1,0x03);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x10);
+
+    ppu.write_sprite_oam(4,0x20);
+    ppu.write_sprite_oam(5,0x05);
+    ppu.write_sprite_oam(6,0x00);
+    ppu.write_sprite_oam(7,0x20);
+
+    rom.get_mapper_info().write_CHR(0x31,0xAA);
+    rom.get_mapper_info().write_CHR(0x39,0x55);
+
+    rom.get_mapper_info().write_CHR(0x51,0xCC);
+    rom.get_mapper_info().write_CHR(0x59,0x33);
+
+    for(int i = 0; i < 11; i++){
+        ppu.tick();
+    }
+
+    if(ppu.get_sprite_pattern_low()[0] == 0xAA){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_pattern_low()[0] == 0x55){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_pattern_low()[1] == 0xCC){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_sprite_pattern_high()[1] == 0x33){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 4" << std::endl;
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(260);
+    ppu.set_ctrl(8);
+    rom.set_CHR(0);
 
     
     return 0;
