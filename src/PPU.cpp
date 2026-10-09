@@ -340,9 +340,18 @@ void PPU::tick(){
             int sprite_attribute = this->oam_ram[start_pos + 2];
             // get the x position from sprite i
             int x = this->oam_ram[start_pos + 3];
-
+            // get bit 5 from the ctrl register
+            bool bit_5 = static_cast<bool>((this->ctrl & 0b100000) >> 5);
+            // check if the height should be 8 or 16 (8 by default)
+            int height = 8;
+            if(bit_5){
+                // 8x16 Sprite
+                height = 16;
+            }
             // check if the sprite is in range
-            if((y <= eval_scan_ln) && ((y + 8) > eval_scan_ln)){
+            // 8x16 sprites
+            if(((bit_5) && ((y <= eval_scan_ln) && ((y + 16) > eval_scan_ln))) || 
+            ((!bit_5) && (y <= eval_scan_ln) && ((y + 8) > eval_scan_ln))){
                 // check if there can be more sprites
                 if(sprite_oam_index < 0x20){
                     // copy sprite data to sprite oam
@@ -358,6 +367,24 @@ void PPU::tick(){
                     break;
                 }
             }
+            // // 8x8 sprites
+            // else if((!bit_5) && (y <= eval_scan_ln) && ((y + 8) > eval_scan_ln)){
+            //     // check if there can be more sprites
+            //     if(sprite_oam_index < 0x20){
+            //         // copy sprite data to sprite oam
+            //         this->sprite_oam[sprite_oam_index] = y;
+            //         this->sprite_oam[sprite_oam_index + 1] = sprite_data;
+            //         this->sprite_oam[sprite_oam_index + 2] = sprite_attribute;
+            //         this->sprite_oam[sprite_oam_index + 3] = x;
+            //         // increment sprite oam index by 4
+            //         sprite_oam_index += 4;
+            //     }
+            //     if (sprite_oam_index == 0x20){
+            //         this->sprite_overflow = true;
+            //         break;
+            //     }
+            // }
+            
         }
     }
     // check if dot count is between 257-320
