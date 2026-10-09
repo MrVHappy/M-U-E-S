@@ -3,6 +3,8 @@
 #include "Cartridge.hpp"
 #include "Mapper.hpp"
 #include <iostream>
+
+// references: https://www.geeksforgeeks.org/cpp/reverse-number-program-in-cpp/
 PPU::PPU(BUS *bus){
     this->bus = bus;
     // clear sprite pattern low and high
@@ -478,6 +480,8 @@ void PPU::tick(){
                 uint8_t sprite_attribute = this->sprite_oam[sprite_index * 4 + 2];
                 // get bit 7 from sprite attribute
                 bool sprite_bit_7 = static_cast<bool>((sprite_attribute & 0b10000000) >> 7);
+                // get bit 6 from sprite attribute
+                bool sprite_bit_6 = static_cast<bool>((sprite_attribute & 0b1000000) >> 6);
                 // calculate the row
                 uint8_t row = eval_scan_ln - sprite_y;
                 // check if bit 7 is 1
@@ -548,9 +552,9 @@ void PPU::tick(){
                 // use ctrl bit 3 to determine the pattern table
                 uint16_t pattern_table = ctrl_bit_3 << 12;
                 // calculate the sprite pattern address
-                uint16_t sprite_pattern_addr = pattern_table + (sprite_tile * 0x10) + row;
-                // read high pattern byte from CHR ROM/RAM at the sprite pattern address + 8
-                this->sprite_pattern_high[sprite_index] = this->bus->get_rom().get_mapper_info().read_CHR(sprite_pattern_addr + 8);
+                uint16_t sprite_pattern_addr = pattern_table + (sprite_tile * 0x10) + row + 8;
+                // read high pattern byte from CHR ROM/RAM at the sprite pattern address
+                this->sprite_pattern_high[sprite_index] = this->bus->get_rom().get_mapper_info().read_CHR(sprite_pattern_addr);
                 break;
             }
             // tile boundary loading
@@ -1093,6 +1097,16 @@ uint8_t PPU::read_pal_ram(uint16_t address){
 }
 uint8_t PPU::read_oam_ram(uint16_t address){
     return this->oam_ram[address];
+}
+
+void PPU::horizontal_flip(uint16_t &address){
+    // reference: https://www.geeksforgeeks.org/cpp/reverse-number-program-in-cpp/
+    uint16_t flipped_address = 0;
+    while(address > 0){
+        flipped_address = flipped_address * 10 + address % 10;
+        address /= 10;
+    }
+    address = flipped_address;
 }
 
 // DEBUG FUNCTIONS

@@ -149,6 +149,9 @@ class PPU{
         uint8_t read_pal_ram(uint16_t address);
         uint8_t read_oam_ram(uint16_t address);
 
+        // horizontal flip:
+        void horizontal_flip(uint16_t &address);
+
         // DEBUG FUNCTIONS
         void clear_tile_buffer();
         void clear_attribute_buffer();
