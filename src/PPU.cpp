@@ -480,8 +480,6 @@ void PPU::tick(){
                 uint8_t sprite_attribute = this->sprite_oam[sprite_index * 4 + 2];
                 // get bit 7 from sprite attribute
                 bool sprite_bit_7 = static_cast<bool>((sprite_attribute & 0b10000000) >> 7);
-                // get bit 6 from sprite attribute
-                bool sprite_bit_6 = static_cast<bool>((sprite_attribute & 0b1000000) >> 6);
                 // calculate the row
                 uint8_t row = eval_scan_ln - sprite_y;
                 // check if bit 7 is 1
@@ -495,6 +493,13 @@ void PPU::tick(){
                 uint16_t pattern_table = ctrl_bit_3 << 12;
                 // calculate the sprite pattern address
                 uint16_t sprite_pattern_addr = pattern_table + (sprite_tile * 0x10) + row;
+                // get bit 6 from sprite attribute
+                bool sprite_bit_6 = static_cast<bool>((sprite_attribute & 0b1000000) >> 6);
+                // check if sprite bit 6 is true
+                if(sprite_bit_6){
+                    // flip the address
+                    horizontal_flip(sprite_pattern_addr);
+                }
                 // read low pattern byte from CHR ROM/RAM at the sprite pattern address
                 this->sprite_pattern_low[sprite_index] = this->bus->get_rom().get_mapper_info().read_CHR(sprite_pattern_addr);
                 break;
@@ -553,6 +558,13 @@ void PPU::tick(){
                 uint16_t pattern_table = ctrl_bit_3 << 12;
                 // calculate the sprite pattern address
                 uint16_t sprite_pattern_addr = pattern_table + (sprite_tile * 0x10) + row + 8;
+                // get bit 6 from sprite attribute
+                bool sprite_bit_6 = static_cast<bool>((sprite_attribute & 0b1000000) >> 6);
+                // check if sprite bit 6 is true
+                if(sprite_bit_6){
+                    // flip the address
+                    horizontal_flip(sprite_pattern_addr);
+                }
                 // read high pattern byte from CHR ROM/RAM at the sprite pattern address
                 this->sprite_pattern_high[sprite_index] = this->bus->get_rom().get_mapper_info().read_CHR(sprite_pattern_addr);
                 break;
