@@ -3,8 +3,6 @@
 #include "Cartridge.hpp"
 #include "Mapper.hpp"
 #include <iostream>
-
-// references: https://www.geeksforgeeks.org/cpp/reverse-number-program-in-cpp/
 PPU::PPU(BUS *bus){
     this->bus = bus;
     // clear sprite pattern low and high
@@ -1121,7 +1119,9 @@ void PPU::horizontal_flip(uint8_t &value){
         // get the targeted bit
         uint8_t target_bit = (value >> i) & 1;
         // left shift the target bit i times
-        uint8_t shifted_value = target_bit << i;
+        uint8_t shifted_value = target_bit << (7 - i);
+        // update flipped value
+        flipped_value = flipped_value | shifted_value;
     }
     value = flipped_value;
 }
