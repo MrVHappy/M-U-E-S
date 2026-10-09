@@ -1116,11 +1116,12 @@ uint8_t PPU::read_oam_ram(uint16_t address){
 }
 
 void PPU::horizontal_flip(uint8_t &value){
-    // reference: https://www.geeksforgeeks.org/cpp/reverse-number-program-in-cpp/
     uint16_t flipped_value = 0;
-    while(value > 0){
-        flipped_value = flipped_value * 10 + value % 10;
-        value /= 10;
+    for(int i = 7; i >= 0; i--){
+        // get the targeted bit
+        uint8_t target_bit = (value >> i) & 1;
+        // left shift the target bit i times
+        uint8_t shifted_value = target_bit << i;
     }
     value = flipped_value;
 }
