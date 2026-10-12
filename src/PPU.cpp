@@ -349,9 +349,7 @@ void PPU::tick(){
                 height = 16;
             }
             // check if the sprite is in range
-            // 8x16 sprites
-            if(((bit_5) && ((y <= eval_scan_ln) && ((y + 16) > eval_scan_ln))) || 
-            ((!bit_5) && (y <= eval_scan_ln) && ((y + 8) > eval_scan_ln))){
+            if((y <= eval_scan_ln) && (eval_scan_ln < (y + height))){
                 // check if there can be more sprites
                 if(sprite_oam_index < 0x20){
                     // copy sprite data to sprite oam
@@ -366,25 +364,7 @@ void PPU::tick(){
                     this->sprite_overflow = true;
                     break;
                 }
-            }
-            // // 8x8 sprites
-            // else if((!bit_5) && (y <= eval_scan_ln) && ((y + 8) > eval_scan_ln)){
-            //     // check if there can be more sprites
-            //     if(sprite_oam_index < 0x20){
-            //         // copy sprite data to sprite oam
-            //         this->sprite_oam[sprite_oam_index] = y;
-            //         this->sprite_oam[sprite_oam_index + 1] = sprite_data;
-            //         this->sprite_oam[sprite_oam_index + 2] = sprite_attribute;
-            //         this->sprite_oam[sprite_oam_index + 3] = x;
-            //         // increment sprite oam index by 4
-            //         sprite_oam_index += 4;
-            //     }
-            //     if (sprite_oam_index == 0x20){
-            //         this->sprite_overflow = true;
-            //         break;
-            //     }
-            // }
-            
+            }            
         }
     }
     // check if dot count is between 257-320
