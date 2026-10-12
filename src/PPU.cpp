@@ -486,20 +486,30 @@ void PPU::tick(){
                 // get bit 7 from sprite attribute
                 bool sprite_bit_7 = static_cast<bool>((sprite_attribute & 0b10000000) >> 7);
                 // calculate the row
-                uint8_t row = eval_scan_ln - sprite_y;
-                // check if bit 7 is 1
-                if(sprite_bit_7){
-                    // update row
-                    row = 7 - row;
+                uint8_t row = eval_scan_ln - sprite_y - 1;
+                // get the bit 5 of the ctrl register
+                bool ctrl_bit_5 = static_cast<bool>((this->ctrl & 0b100000) >> 5);                
+                uint8_t low_pattern_byte;
+                // check if ctrl_bit_5 is set to 1
+                if(ctrl_bit_5){
+                    // 8x16 Sprites
                 }
-                // extract bit 3 from the ctrl register
-                uint8_t ctrl_bit_3 = (this->ctrl & 0b1000) >> 3;
-                // use ctrl bit 3 to determine the pattern table
-                uint16_t pattern_table = ctrl_bit_3 << 12;
-                // calculate the sprite pattern address
-                uint16_t sprite_pattern_addr = pattern_table + (sprite_tile * 0x10) + row;
-                // read low pattern byte from CHR ROM/RAM at the sprite pattern address
-                uint8_t low_pattern_byte = this->bus->get_rom().get_mapper_info().read_CHR(sprite_pattern_addr);
+                else{
+                    // 8x8 Sprites 
+                    // check if bit 7 is 1
+                    if(sprite_bit_7){
+                        // update row
+                        row = 7 - row;
+                    }
+                    // extract bit 3 from the ctrl register
+                    uint8_t ctrl_bit_3 = (this->ctrl & 0b1000) >> 3;
+                    // use ctrl bit 3 to determine the pattern table
+                    uint16_t pattern_table = ctrl_bit_3 << 12;
+                    // calculate the sprite pattern address
+                    uint16_t sprite_pattern_addr = pattern_table + (sprite_tile * 0x10) + row;
+                    // read low pattern byte from CHR ROM/RAM at the sprite pattern address
+                    low_pattern_byte = this->bus->get_rom().get_mapper_info().read_CHR(sprite_pattern_addr);
+                }
                 // get bit 6 from sprite attribute
                 bool sprite_bit_6 = static_cast<bool>((sprite_attribute & 0b1000000) >> 6);
                 // check if bit 6 is true
