@@ -313,6 +313,34 @@ void PPU::tick(){
         }      
     }
 
+    // get bit 4 from the mask register
+    bool bit_4 = static_cast<bool>((this->mask & 0b10000) >> 4);
+    // Sprite Pixel rendering
+    if((this->scan_ln_count < 240) && (this->dot_count >= 1) && (bit_4 == true)){
+        // get the x coordinate
+        uint8_t screen_x = this->dot_count - 1;
+        // get the y coordinate
+        uint8_t screen_y = this->scan_ln_count;
+
+        // get the 8 sprites in secondary OAM RAM
+        for(int i = 0; i < 8; i++){
+            // get the sprite's x value
+            uint8_t sprite_x = this->sprite_oam[i * 4 + 3];
+            // get the sprite's y value
+            uint8_t sprite_y = this->sprite_oam[i * 4];
+            // check if the sprite is valid
+            if(sprite_y == 0xFF){
+                // skip sprite
+                continue;
+            }
+            // check if the sprite is in range
+            if((sprite_x <= screen_x) && ((sprite_x + 7) > screen_x)){
+                
+            }
+            
+        }
+    }
+
     // check if dot count is 64
     if(this->dot_count == 64){
         // preparation before sprite evaluation
