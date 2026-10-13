@@ -13,6 +13,7 @@ PPU::PPU(BUS *bus){
 void PPU::tick(){
     // get bit 3 from mask 
     bool bit_3 = static_cast<int>((this->mask & 0b01000) >> 3);
+    uint8_t pattern_val = 0;
     // 1-239 rendering
     // also check to see if background rendering is enabled
     if((this->scan_ln_count < 240) && (this->dot_count >=1) && (this->dot_count < 257) && (bit_3 == true)){
@@ -182,7 +183,7 @@ void PPU::tick(){
         high_bit = high_bit & 0b00000001;
 
         // calculate pattern value using high and low bit
-        uint8_t pattern_val = low_bit + (high_bit * 2);
+        pattern_val = low_bit + (high_bit * 2);
         uint16_t palelet_val;
         // check if the pattern value is 0
         if(pattern_val == 0){
@@ -333,9 +334,49 @@ void PPU::tick(){
                 // skip sprite
                 continue;
             }
+            // create an upper boundary
+            uint8_t upper_boundary = sprite_x + 7;
             // check if the sprite is in range
-            if((sprite_x <= screen_x) && ((sprite_x + 7) > screen_x)){
-                
+            if((sprite_x <= screen_x) && (upper_boundary >= screen_x)){
+                // calculate the difference of screen x and sprite x
+                uint8_t pixel_offset = screen_x - sprite_x;
+                // calculate the number of shifts
+                uint8_t shift = 7 - pixel_offset;
+                // get the low bit
+                uint8_t low_bit = (this->sprite_pattern_low[i] >> shift) & 1;
+                // get the high bit
+                uint8_t high_bit = (this->sprite_pattern_high[i] >> shift) & 1;
+                // calculate the 2 sprite pixel valye
+                uint8_t sprite_pixel = low_bit + (2 * high_bit);
+                // check if sprite pixel is transparent
+                if(sprite_pixel == 0){
+                    // skip render
+                    continue;
+                } 
+                // non-transparent pixel
+                // get the sprite attribute
+                uint8_t sprite_attribute = this->sprite_oam[i * 4 + 2];
+                // get the pallet number
+                uint8_t pallet_num = sprite_attribute & 0b11;
+                // get the priority bit
+                bool priority_bit = static_cast<bool>((sprite_attribute >> 5) & 1);
+                // get the pallet address
+                uint16_t pal_addr = 0x3F10 + (pallet_num * 4) + sprite_pixel;
+                // get the colour from PAL RAM
+                uint8_t pal_colour = this->read_pal_ram(pal_addr);
+                // check if the background has priority
+                if(priority_bit){
+                    // background has priority
+                    // check if pattern val is 0
+                    if(pattern_val == 0){
+                        // background is transparent
+                        this->frame_buffer[screen_y][screen_x] = pal_colour;
+                    }
+                }
+                else{
+                    // sprite has priority
+                    this->frame_buffer[screen_y][screen_x] = pal_colour;
+                }
             }
             
         }
