@@ -1238,3 +1238,7 @@ void PPU::clear_sprite_patterns(){
 void PPU::clear_sprite_oam(){
     this->sprite_oam.fill(0xFF);
 }
+
+void PPU::write_sprite_pattern_low(uint8_t addr, uint8_t val){
+    this->sprite_pattern_low[addr] = val;
+}

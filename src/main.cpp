@@ -7361,6 +7361,11 @@ int main(int argc, char*argv[]){
     ppu.clear_sprite_oam();
     rom.set_CHR(0);
 
+    ppu.write_sprite_oam(0,0x20);
+    ppu.write_sprite_oam(1,0x03);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x40);
+
     rom.get_mapper_info().write_CHR(0x1030,0x96);
 
     ppu.tick();
@@ -7382,7 +7387,7 @@ int main(int argc, char*argv[]){
 
     ppu.write_sprite_oam(0,0x20);
     ppu.write_sprite_oam(1,0x03);
-    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(2,0x80);
     ppu.write_sprite_oam(3,0x40);
 
     rom.get_mapper_info().write_CHR(0x35,0xAB);
@@ -7457,7 +7462,7 @@ int main(int argc, char*argv[]){
     ppu.write_sprite_oam(2,0x00);
     ppu.write_sprite_oam(3,0x40);
 
-    rom.get_mapper_info().write_CHR(0x30,0x82);
+    rom.get_mapper_info().write_CHR(0x30,0xB2);
 
     ppu.tick();
 
@@ -7589,7 +7594,49 @@ int main(int argc, char*argv[]){
     }
 
     std::cout << "TEST 13" << std::endl;
-    
+    ppu.set_ctrl(0x28);
+    ppu.set_mask(0x08);
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(0x105);
+    rom.set_CHR(0);
+    ppu.clear_sprite_oam();
+
+    ppu.write_sprite_oam(0,0x20);
+    ppu.write_sprite_oam(1,0x02);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x40);
+
+    rom.get_mapper_info().write_CHR(0x20,0x77);
+    rom.get_mapper_info().write_CHR(0x1020,0x88);
+
+    ppu.tick();
+
+    if(ppu.get_sprite_pattern_low()[0] == 0x77){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 14" << std::endl;
+    ppu.set_ctrl(0x20);
+    ppu.set_mask(0x08);
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(0x105);
+    rom.set_CHR(0);
+    ppu.clear_sprite_oam();
+
+    rom.get_mapper_info().write_CHR(0,0xA5);
+    ppu.write_sprite_pattern_low(0,0xA5);
+
+    ppu.tick();
+
+    if(ppu.get_sprite_pattern_low()[0] == 0xA5){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
 
     return 0;
 }

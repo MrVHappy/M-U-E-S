@@ -161,5 +161,6 @@ class PPU{
         void set_oam_ram(uint8_t value);
         void clear_sprite_patterns();
         void clear_sprite_oam();
+        void write_sprite_pattern_low(uint8_t addr, uint8_t val);
 };
 #endif
