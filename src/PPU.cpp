@@ -377,6 +377,8 @@ void PPU::tick(){
                     // sprite has priority
                     this->frame_buffer[screen_y][screen_x] = pal_colour;
                 }
+                // exit loop
+                break;
             }
             
         }
