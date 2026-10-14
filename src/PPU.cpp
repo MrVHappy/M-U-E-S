@@ -335,7 +335,7 @@ void PPU::tick(){
                 continue;
             }
             // create an upper boundary
-            uint8_t upper_boundary = sprite_x + 7;
+            uint16_t upper_boundary = sprite_x + 7;
             // check if the sprite is in range
             if((sprite_x <= screen_x) && (upper_boundary >= screen_x)){
                 // calculate the difference of screen x and sprite x
@@ -348,6 +348,11 @@ void PPU::tick(){
                 uint8_t high_bit = (this->sprite_pattern_high[i] >> shift) & 1;
                 // calculate the 2 sprite pixel valye
                 uint8_t sprite_pixel = low_bit + (2 * high_bit);
+                // sprite 0 detection
+                if((sprite_pixel != 0) && (i == 0) && (pattern_val != 0) && (bit_3) && (screen_x < 255)){
+                    this->sprite_0_hit = true;
+                    this->status = this->status | 0b1000000;
+                }
                 // check if sprite pixel is transparent
                 if(sprite_pixel == 0){
                     // skip render
