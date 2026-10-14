@@ -162,5 +162,7 @@ class PPU{
         void clear_sprite_patterns();
         void clear_sprite_oam();
         void write_sprite_pattern_low(uint8_t addr, uint8_t val);
+        void write_sprite_pattern_high(uint8_t addr, uint8_t val);
+        void write_frame_buffer(uint16_t y, uint16_t x, uint8_t val);
 };
 #endif
