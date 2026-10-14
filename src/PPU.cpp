@@ -1326,3 +1326,8 @@ void PPU::write_sprite_pattern_high(uint8_t addr, uint8_t val){
 void PPU::write_frame_buffer(uint16_t y, uint16_t x, uint8_t val){
     this->frame_buffer[y][x] = val;
 }
+
+void PPU::set_sprite_patterns(uint8_t val){
+    this->sprite_pattern_low.fill(val);
+    this->sprite_pattern_high.fill(val);
+}

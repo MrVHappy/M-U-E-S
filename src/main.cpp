@@ -7643,7 +7643,7 @@ int main(int argc, char*argv[]){
     std::cout << "TEST 1" << std::endl;
     ppu.set_scan_ln_count(0x20);
     ppu.set_dot_count(0x41);
-    ppu.set_mask(0x1E);
+    ppu.set_mask(0x10);
     ppu.set_ctrl(0);
     ppu.clear_sprite_0_hit();
     ppu.set_status(0);
@@ -7678,7 +7678,7 @@ int main(int argc, char*argv[]){
     std::cout << "TEST 2" << std::endl;
     ppu.set_scan_ln_count(0x20);
     ppu.set_dot_count(0x41);
-    ppu.set_mask(0x1E);
+    ppu.set_mask(0x10);
     ppu.set_ctrl(0);
     ppu.clear_sprite_0_hit();
     ppu.set_status(0);
@@ -7738,6 +7738,8 @@ int main(int argc, char*argv[]){
 
     ppu.write_frame_buffer(0x20,0x40,0x11);
 
+    ppu.tick();
+
     if(ppu.get_sprite_0_hit()){
         std::cout << "Pass" << std::endl;
     }
@@ -7776,7 +7778,7 @@ int main(int argc, char*argv[]){
     ppu.write_sprite_oam(3,0x40);
 
     ppu.write_sprite_pattern_low(0,0x80);
-    ppu.write_sprite_pattern_high(1,0x00);
+    ppu.write_sprite_pattern_high(0,0x00);
 
     ppu.write_pal_ram(0x3F01,0x11);
     ppu.write_pal_ram(0x3F11,0x2A);
@@ -7840,7 +7842,7 @@ int main(int argc, char*argv[]){
     ppu.write_sprite_pattern_high(0,0x00);
 
     ppu.write_sprite_pattern_low(1,0x00);
-    ppu.write_sprite_pattern_high(2,0x80);
+    ppu.write_sprite_pattern_high(1,0x80);
 
     ppu.write_pal_ram(0x3F11,0x2A);
     ppu.write_pal_ram(0x3F15,0x35);
@@ -7881,5 +7883,76 @@ int main(int argc, char*argv[]){
     ppu.set_status(0);
 
     ppu.tick();
+
+    if(ppu.get_sprite_0_hit()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_status() == 0b1000000){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 6" << std::endl;
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(0x41);
+    ppu.set_mask(0x10);
+    ppu.set_ctrl(0);
+    ppu.clear_sprite_0_hit();
+    ppu.set_status(0);
+
+    ppu.clear_sprite_oam();
+
+    ppu.set_sprite_patterns(0);
+
+    ppu.write_frame_buffer(0x20,0x40,0x11);
+
+    ppu.tick();
+
+    if(ppu.get_frame_buffer()[0x20][0x40] == 0x11){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 7 A" << std::endl;
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(0x40);
+    ppu.set_mask(0x10);
+
+    ppu.clear_sprite_oam();
+
+    std::cout << "TEST 8" << std::endl;
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(0x41);
+    ppu.set_mask(0x08);
+    ppu.set_ctrl(0x00);
+
+    ppu.clear_sprite_oam();
+
+    ppu.write_sprite_oam(0,0x20);
+    ppu.write_sprite_oam(1,0x00);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x40);
+
+    ppu.write_sprite_pattern_low(0,0x80);
+    ppu.write_sprite_pattern_high(0,0x00);
+
+    ppu.write_frame_buffer(0x20,0x40,0x11);
+
+    ppu.tick();
+
+    if(ppu.get_frame_buffer()[0x20][0x40] == 0x11){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
     return 0;
 }
