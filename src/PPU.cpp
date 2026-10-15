@@ -1284,12 +1284,18 @@ void PPU::write_pal_ram(uint16_t address, uint8_t value){
             address = address & 0x0F;
         }
     }
+    else{
+        return;
+    }
     this->pal_ram[address] = value;
 }
-void PPU::write_oam_ram(uint16_t address, uint8_t value){
+void PPU::write_oam_ram(uint8_t address, uint8_t value){
     this->oam_ram[address] = value;
 }
 void PPU::write_sprite_oam(uint8_t address, uint8_t value){
+    if(address >= 0x20){
+        return;
+    }
     this->sprite_oam[address] = value;
 }
 
@@ -1337,7 +1343,7 @@ uint8_t PPU::read_pal_ram(uint16_t address){
     }
     return this->pal_ram[address];
 }
-uint8_t PPU::read_oam_ram(uint16_t address){
+uint8_t PPU::read_oam_ram(uint8_t address){
     return this->oam_ram[address];
 }
 
