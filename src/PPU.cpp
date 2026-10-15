@@ -1240,6 +1240,36 @@ void PPU::update_v_blank(){
     this->v_blank = true;
 }
 void PPU::write_vram(uint16_t address, uint8_t value){
+    // mask the address
+    address = address & 0x3FFF;
+
+    // check if the address is in the proper VRAM range
+    if((address < 0x2000) || (address >= 0x3F00)){
+        return;
+    }
+    if((address >= 0x3000) && (address < 0x3F00)){
+        // subtract address by 0x1000 so that it mirrors 0x2000-0x2EFF
+        address -= 0x1000;
+    }
+    if ((address >= 0x2000) && (address < 0x3000)){
+        // check which mirroring mode will be used
+        if(this->bus->get_rom().get_mapper_info().is_vertical()){
+            // using vertical mapping:
+            address = address % 0x0800;
+        }
+        else{
+            // use horizontal mapping:
+            if((address >= 0x2000) && (address < 0x2800)){
+                address = address % 0x0400;
+            }
+            else if((address >= 0x2800) && (address < 0x2C00)){
+                address = (address % 0x0400) + 0x400;
+            }
+            else{
+                address = address % 0x0800;
+            }
+        }
+    }
     this->vram[address] = value;
 }
 void PPU::write_pal_ram(uint16_t address, uint8_t value){
