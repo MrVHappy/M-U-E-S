@@ -1243,6 +1243,17 @@ void PPU::write_vram(uint16_t address, uint8_t value){
     this->vram[address] = value;
 }
 void PPU::write_pal_ram(uint16_t address, uint8_t value){
+    // mask the address
+    address = address & 0x3FFF;
+    // check the current address of v
+    if((address >= 0x3F00) && (address < 0x4000)){
+        address = address % 32;
+        // check for special mirroring
+        if((address == 0x10) || (address == 0x14) || (address == 0x18) || (address == 0x1C)){
+            // mirror to 0x00, 0x04, 0x08 and 0x0C
+            address = address & 0x0F;
+        }
+    }
     this->pal_ram[address] = value;
 }
 void PPU::write_oam_ram(uint16_t address, uint8_t value){
@@ -1330,4 +1341,7 @@ void PPU::write_frame_buffer(uint16_t y, uint16_t x, uint8_t val){
 void PPU::set_sprite_patterns(uint8_t val){
     this->sprite_pattern_low.fill(val);
     this->sprite_pattern_high.fill(val);
+}
+void PPU::clear_pal_ram(){
+    this->pal_ram.fill(0);
 }

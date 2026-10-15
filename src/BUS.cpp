@@ -282,16 +282,8 @@
                     uint16_t addr_v = this->ppu->get_v() & 0x3FFF;
                     // check the current address of v
                     if((addr_v >= 0x3F00) && (addr_v < 0x4000)){
-                        // mask the address to allow mirroring
-                        uint16_t address = addr_v;
-                        address = address % 32;
-                        // check for special mirroring
-                        if((address == 0x10) || (address == 0x14) || (address == 0x18) || (address == 0x1C)){
-                            // mirror to 0x00, 0x04, 0x08 and 0x0C
-                            address = address & 0x0F;
-                        }
                         // write to pallet RAM
-                        this->ppu->write_pal_ram(address, value);
+                        this->ppu->write_pal_ram(addr_v, value);
 
                     }
                     else if((addr_v >= 0x0000) && (addr_v < 0x2000)){
