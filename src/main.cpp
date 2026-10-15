@@ -81,52 +81,34 @@ int main(int argc, char*argv[]){
 
     std::cout << "SPRITE PIXEL RENDERING TESTS" << std::endl;
     std::cout << "TEST 1" << std::endl;
-    std::cout << "1" << std::endl;
     ppu.set_scan_ln_count(0x20);
-    std::cout << "2" << std::endl;
     ppu.set_dot_count(0x41);
-    std::cout << "3" << std::endl;
     ppu.set_mask(0x10);
-    std::cout << "4" << std::endl;
     ppu.set_ctrl(0x00);
-    std::cout << "5" << std::endl;
     ppu.clear_sprite_0_hit();
-    std::cout << "6" << std::endl;
     ppu.set_status(0);
-    std::cout << "7" << std::endl;
     ppu.clear_pal_ram();
-    std::cout << "8" << std::endl;
 
     ppu.clear_sprite_oam();
-    std::cout << "9" << std::endl;
 
     ppu.write_sprite_oam(0,0x20);
-    std::cout << "10" << std::endl;
     ppu.write_sprite_oam(1,0x00);
-    std::cout << "11" << std::endl;
     ppu.write_sprite_oam(2,0x00);
-    std::cout << "12" << std::endl;
     ppu.write_sprite_oam(3,0x40);
 
-    std::cout << "13" << std::endl;
     ppu.write_sprite_pattern_low(0,0x80);
-    std::cout << "14" << std::endl;
     ppu.write_sprite_pattern_high(0,0x00);
 
-    std::cout << "15" << std::endl;
     ppu.write_pal_ram(0x3F11,0x2A);
 
-    std::cout << "16" << std::endl;
     ppu.tick();
 
-    std::cout << "17" << std::endl;
     if(ppu.get_frame_buffer()[0x20][0x40] == 0x2A){
         std::cout << "Pass" << std::endl;
     }
     else{
         std::cout << "Fail" << std::endl;
     }
-    std::cout << "18" << std::endl;
     if(!ppu.get_sprite_0_hit()){
         std::cout << "Pass" << std::endl;
     }
@@ -228,6 +210,7 @@ int main(int argc, char*argv[]){
     ppu.set_fine_x(0);
     ppu.set_v(0);
     ppu.clear_pal_ram();
+    ppu.set_pal_state(0);
 
     ppu.set_low_shift(0x4000);
     ppu.set_high_shift(0x0000);
@@ -295,7 +278,7 @@ int main(int argc, char*argv[]){
     
     ppu.write_sprite_oam(0,0x20);
     ppu.write_sprite_oam(1,0x00);
-    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(2,0x20);
     ppu.write_sprite_oam(3,0x40);
 
     ppu.write_sprite_oam(4,0x20);
