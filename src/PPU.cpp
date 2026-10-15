@@ -1264,9 +1264,48 @@ void PPU::write_sprite_oam(uint8_t address, uint8_t value){
 }
 
 uint8_t PPU::read_vram(uint16_t address){
+    // mask the address
+    address = address & 0x3FFF;
+
+
+    if((addr_v >= 0x3000) && (addr_v < 0x3F00)){
+        // subtract addr_v by 0x1000 so that it mirrors 0x2000-0x2EFF
+        addr_v-= 0x1000;
+    }
+    if ((addr_v >= 0x2000) && (addr_v < 0x3000)){
+        // check which mirroring mode will be used
+        if(this->rom->get_mapper_info().is_vertical()){
+            // using vertical mapping:
+            addr_v = addr_v % 0x0800;
+        }
+        else{
+            // use horizontal mapping:
+            if((addr_v >= 0x2000) && (addr_v < 0x2800)){
+                addr_v = addr_v % 0x0400;
+            }
+            else if((addr_v >= 0x2800) && (addr_v < 0x2C00)){
+                addr_v = (addr_v % 0x0400) + 0x400;
+            }
+            else{
+                addr_v = addr_v % 0x0800;
+            }
+        }
+            // assign result to the value of vram data
+            result = this->ppu->get_vram_data();
+            // store data in VRAM at addr v in vram data before update
+            this->ppu->set_vram_data(this->ppu->read_vram(addr_v));
+        }
     return this->vram[address];
 }
 uint8_t PPU::read_pal_ram(uint16_t address){
+    // mask the address
+    address = address & 0x3FFF;
+    address = address % 32;
+    // check for special mirroring
+    if((address == 0x10) || (address == 0x14) || (address == 0x18) || (address == 0x1C)){
+        // mirror to 0x00, 0x04, 0x08 and 0x0C
+        address = address & 0x0F;
+    }
     return this->pal_ram[address];
 }
 uint8_t PPU::read_oam_ram(uint16_t address){
