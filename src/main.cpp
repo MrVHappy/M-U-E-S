@@ -527,19 +527,28 @@ int main(int argc, char*argv[]){
     ppu.set_v(0x2000);
     ppu.clear_vram();
     ppu.write_vram(0x2000,00);
+    ppu.set_vram_data(0);
 
-    bus.write(0x42,0x2007);
+    bus.write(0x2007,0x42);
+    ppu.set_v(0x2000);
 
-    if(ppu.read_vram(0x2007) == 0x42){
+    int result = bus.read(0x2007);
+    result = bus.read(0x2007);
+
+    if( result == 0x42){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "RESULT: " << result << std::endl;
+        std::cout << "EXPECTED: " << 0x42 << std::endl;
         std::cout << "Fail" << std::endl;
     }
-    if(ppu.get_v() == 0x2001){
+    if(ppu.get_v() == 0x2002){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "V: " << static_cast<int>(ppu.get_v()) << std::endl;
+        std::cout << "EXPECTED: " << 0x2001 << std::endl;
         std::cout << "Fail" << std::endl;
     }
 
@@ -547,9 +556,10 @@ int main(int argc, char*argv[]){
     ppu.clear_vram();
     ppu.set_ctrl(0);
     ppu.set_v(0x2000);
-    ppu.write_vram(0x00,0x42);
-    ppu.write_vram(0x01,0x56);
+    bus.write(0x2007,0x42);
+    bus.write(0x2007,0x56);
     ppu.set_vram_data(0);
+    ppu.set_v(0x2000);
 
     if(bus.read(0x2007) == 0){
         std::cout << "Pass" << std::endl;
@@ -567,6 +577,8 @@ int main(int argc, char*argv[]){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "VRAM DATA: " << static_cast<int>(ppu.get_vram_data()) << std::endl;
+        std::cout << "EXPECTED: " << 0x42 << std::endl;
         std::cout << "Fail" << std::endl;
     }
 
@@ -592,8 +604,10 @@ int main(int argc, char*argv[]){
     std::cout << "TEST 4" << std::endl;
     ppu.set_ctrl(0x04);
     ppu.clear_vram();
-    ppu.write_vram(0x00,0x42);
+    ppu.set_v(0x2000);
+    bus.write(0x2007,0x42);
     ppu.set_vram_data(0);
+    ppu.set_v(0x2000);
 
     if(bus.read(0x2007) == 0){
         std::cout << "Pass" << std::endl;
@@ -618,8 +632,9 @@ int main(int argc, char*argv[]){
     ppu.clear_pal_ram();
     ppu.set_ctrl(0);
     ppu.set_v(0x3F00);
-    ppu.write_pal_ram(0,0x2A);
+    bus.write(0x2007,0x2A);
     ppu.set_vram_data(0x55);
+    ppu.set_v(0x3F00);
 
     if(bus.read(0x2007) == 0x2A){
         std::cout << "Pass" << std::endl;
