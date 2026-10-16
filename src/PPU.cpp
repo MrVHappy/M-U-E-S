@@ -1348,7 +1348,7 @@ uint8_t PPU::read_oam_ram(uint8_t address){
 }
 
 void PPU::horizontal_flip(uint8_t &value){
-    uint16_t flipped_value = 0;
+    uint8_t flipped_value = 0;
     for(int i = 7; i >= 0; i--){
         // get the targeted bit
         uint8_t target_bit = (value >> i) & 1;
