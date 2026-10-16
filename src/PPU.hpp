@@ -166,5 +166,6 @@ class PPU{
         void write_frame_buffer(uint16_t y, uint16_t x, uint8_t val);
         void set_sprite_patterns(uint8_t val);
         void clear_pal_ram();
+        void clear_vram();
 };
 #endif

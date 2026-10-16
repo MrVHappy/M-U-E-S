@@ -1419,3 +1419,6 @@ void PPU::set_sprite_patterns(uint8_t val){
 void PPU::clear_pal_ram(){
     this->pal_ram.fill(0);
 }
+void PPU::clear_vram(){
+    this->vram.fill(0);
+}

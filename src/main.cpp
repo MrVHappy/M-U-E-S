@@ -520,5 +520,136 @@ int main(int argc, char*argv[]){
         std::cout << "Fail" << std::endl;
     }
 
+
+    std::cout << "UPDATED BUS PPU DATA READ AND WRITES" << std::endl;
+    std::cout << "TEST 1" << std::endl;
+    ppu.set_ctrl(0);
+    ppu.set_v(0x2000);
+    ppu.clear_vram();
+    ppu.write_vram(0x2000,00);
+
+    bus.write(0x42,0x2007);
+
+    if(ppu.read_vram(0x2007) == 0x42){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_v() == 0x2001){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 2" << std::endl;
+    ppu.clear_vram();
+    ppu.set_ctrl(0);
+    ppu.set_v(0x2000);
+    ppu.write_vram(0x00,0x42);
+    ppu.write_vram(0x01,0x56);
+    ppu.set_vram_data(0);
+
+    if(bus.read(0x2007) == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_v() == 0x2001){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_vram_data() == 0x42){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 3" << std::endl;
+    if(bus.read(0x2007) == 0x42){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_v() == 0x2002){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_vram_data() == 0x56){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    std::cout << "TEST 4" << std::endl;
+    ppu.set_ctrl(0x04);
+    ppu.clear_vram();
+    ppu.write_vram(0x00,0x42);
+    ppu.set_vram_data(0);
+
+    if(bus.read(0x2007) == 0){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_v() == 0x2020){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_vram_data() == 0x42){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 5" << std::endl;
+    ppu.clear_pal_ram();
+    ppu.set_ctrl(0);
+    ppu.set_v(0x3F00);
+    ppu.write_pal_ram(0,0x2A);
+    ppu.set_vram_data(0x55);
+
+    if(bus.read(0x2007) == 0x2A){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_v() == 0x3F01){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 6" << std::endl;
+    ppu.set_ctrl(0x0);
+    ppu.write_pal_ram(0x3F00,0x2A);
+    ppu.set_v(0x3F10);
+
+    if(bus.read(0x2007) == 0x2A){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_v() == 0x3F11){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
     return 0;
 }
