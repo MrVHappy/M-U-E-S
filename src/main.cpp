@@ -666,5 +666,15 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "TEST 7" << std::endl;
+    ppu.clear_vram();
+    ppu.clear_pal_ram();
+    ppu.set_ctrl(0);
+    ppu.write_pal_ram(0x3F00,0x2A);
+    ppu.write_vram(0x2F00,0x66);
+    ppu.set_vram_data(0);
+    ppu.set_v(0x3F00);
+    
     return 0;
 }
