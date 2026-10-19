@@ -1101,5 +1101,8 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "Fail" << std::endl;
     }
+
+    std::cout << "SPRITE RENDERING TESTS PART II" << std::endl;
+    ppu.set_mask(0x1E);
     return 0;
 }

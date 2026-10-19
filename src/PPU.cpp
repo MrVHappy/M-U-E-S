@@ -1422,3 +1422,32 @@ void PPU::clear_pal_ram(){
 void PPU::clear_vram(){
     this->vram.fill(0);
 }
+void PPU::reset_state(){
+    this->ctrl = 0;
+    this->mask = 0;
+    this->status = 0;
+    this->oam_addr = 0;
+    this->oam_ram.fill(0);
+    this->sprite_oam.fill(0xFF);
+    this->v = 0;
+    this->t = 0;
+    this->fine_x = 0;
+    this->write_toggle = false;
+    this->vram_data = 0;
+    this->vram.fill(0);
+    this->pal_ram.fill(0);
+    this->pattern_low = 0;
+    this->pattern_high = 0;
+    this->low_shift = 0;
+    this->high_shift = 0;
+    this->tile_buffer.fill(0);
+    this->attribute_buffer.fill(0);
+    this->scan_ln_count = 0;
+    this->dot_count = 0;
+    this->clear_frame_buffer();
+    this->sprite_overflow = 0;
+    this->sprite_0_hit = 0;
+    this->v_blank = false;
+    this->nmi = 0;
+    this->nmi_output = 0;
+}

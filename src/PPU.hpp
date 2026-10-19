@@ -167,5 +167,6 @@ class PPU{
         void set_sprite_patterns(uint8_t val);
         void clear_pal_ram();
         void clear_vram();
+        void reset_state();
 };
 #endif
