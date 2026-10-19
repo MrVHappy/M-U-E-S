@@ -1062,6 +1062,9 @@ int main(int argc, char*argv[]){
     ppu.clear_vram();
     ppu.clear_pal_ram();
 
+    ppu.write_pal_ram(0x3F00,0x2A);
+    ppu.write_vram(0x2F00,0x66);
+
     ppu.set_vram_data(0x99);
     ppu.set_ctrl(0);
     ppu.set_v(0x3F00);
@@ -1072,18 +1075,24 @@ int main(int argc, char*argv[]){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "RESULT: " << result << std::endl;
+        std::cout << "EXPECTED: " << 0x2A << std::endl;
         std::cout << "Fail" << std::endl;
     }
     if(ppu.get_vram_data() == 0x66){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "VRAM DATA: " << static_cast<int>(ppu.get_vram_data()) << std::endl;
+        std::cout << "EXPECTED: " << 0x66 << std::endl;
         std::cout << "Fail" << std::endl;
     }
     if(ppu.read_pal_ram(0x3F00) == 0x2A){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "INDEX 3F00: " << static_cast<int>(ppu.read_pal_ram(0x3F00)) << std::endl;
+        std::cout << "EXPECTED: " << 0x2A << std::endl;
         std::cout << "Fail" << std::endl;
     }
     if(ppu.get_v() == 0x3F01){
