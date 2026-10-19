@@ -1103,6 +1103,56 @@ int main(int argc, char*argv[]){
     }
 
     std::cout << "SPRITE RENDERING TESTS PART II" << std::endl;
-    ppu.set_mask(0x1E);
+    std::cout << "TEST 1" << std::endl;
+    ppu.reset_state();
+    ppu.set_mask(0x18);
+    rom.set_CHR(0);
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.write_vram(0x0000,0x01);
+    ppu.write_vram(0x03C0,0x00);
+
+    rom.get_mapper_info().write_CHR(0x10,0xFF);
+    rom.get_mapper_info().write_CHR(0x18,0x00);
+
+    ppu.write_pal_ram(0x00,0x0F);
+    ppu.write_pal_ram(0x01,0x21);
+
+    ppu.write_pal_ram(0x19,0x25);
+    ppu.write_pal_ram(0x1A,0x26);
+    ppu.write_pal_ram(0x1B,0x27);
+
+    ppu.write_sprite_oam(0,0x00);
+    ppu.write_sprite_oam(1,0x02);
+    ppu.write_sprite_oam(2,0x22);
+    ppu.write_sprite_oam(3,0x10);
+
+    rom.get_mapper_info().write_CHR(0x20,0xFF);
+    rom.get_mapper_info().write_CHR(0x28,0x00);
+
+    ppu.set_dot_count(1);
+
+    for(int i = 0; i < 16; i++){
+        ppu.tick();
+    }
+
+    if(ppu.get_dot_count() == 17){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+    if(ppu.get_frame_buffer()[0][16] == 0x21){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 2" << std::endl;
+    ppu.reset_state();
+    ppu.set_mask(0x18);
+    rom.set_CHR(0);
     return 0;
 }
