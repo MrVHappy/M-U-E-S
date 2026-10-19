@@ -1154,5 +1154,156 @@ int main(int argc, char*argv[]){
     ppu.reset_state();
     ppu.set_mask(0x18);
     rom.set_CHR(0);
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.write_vram(0x0000,0x01);
+    ppu.write_vram(0x03C0,0x00);
+
+    rom.get_mapper_info().write_CHR(0x10,0x00);
+    rom.get_mapper_info().write_CHR(0x18,0x00);
+
+    rom.get_mapper_info().write_CHR(0x20,0xFF);
+    rom.get_mapper_info().write_CHR(0x28,0x00);
+
+    ppu.write_pal_ram(0x00,0x0F);
+    ppu.write_pal_ram(0x01,0x21);
+    ppu.write_pal_ram(0x19,0x25);
+
+    ppu.write_sprite_oam(0,0x00);
+    ppu.write_sprite_oam(1,0x02);
+    ppu.write_sprite_oam(2,0x22);
+    ppu.write_sprite_oam(3,0x10);
+
+    for(int i = 0; i < 16; i++){
+        ppu.tick();
+    }
+
+    if(ppu.get_frame_buffer()[0][16] == 0x25){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 3" << std::endl;
+    ppu.reset_state();
+    ppu.set_mask(0x18);
+    rom.set_CHR(0);
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.write_vram(0x0000,0x01);
+    ppu.write_vram(0x03C0,0x00);
+
+    rom.get_mapper_info().write_CHR(0x10,0xFF);
+    rom.get_mapper_info().write_CHR(0x18,0x00);
+    rom.get_mapper_info().write_CHR(0x20,0xFF);
+    rom.get_mapper_info().write_CHR(0x28,0x00);
+
+    ppu.write_pal_ram(0x00,0x0F);
+    ppu.write_pal_ram(0x01,0x21);
+    ppu.write_pal_ram(0x19,0x25);
+
+    ppu.write_sprite_oam(0,0x00);
+    ppu.write_sprite_oam(1,0x02);
+    ppu.write_sprite_oam(2,0x02);
+    ppu.write_sprite_oam(3,0x10);
+
+    for(int i = 0; i < 16; i++){
+        ppu.tick();
+    }
+
+    if(ppu.get_frame_buffer()[0][16] == 0x25){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 4" << std::endl;
+    ppu.reset_state();
+    ppu.set_mask(0x18);
+    rom.set_CHR(0);
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.write_sprite_oam(0x0000,0x01);
+    ppu.write_sprite_oam(0x03C0,0x00);
+
+    rom.get_mapper_info().write_CHR(0x10,0xFF);
+    rom.get_mapper_info().write_CHR(0x18,0x00);
+    rom.get_mapper_info().write_CHR(0x20,0x00);
+    rom.get_mapper_info().write_CHR(0x28,0xFF);
+
+    ppu.write_pal_ram(0x00,0x0F);
+    ppu.write_pal_ram(0x01,0x21);
+    ppu.write_pal_ram(0x1A,0x26);
+
+    ppu.write_sprite_oam(0,0x00);
+    ppu.write_sprite_oam(1,0x02);
+    ppu.write_sprite_oam(2,0x02);
+    ppu.write_sprite_oam(3,0x10);
+
+    for(int i = 0; i < 16; i++){
+        ppu.tick();
+    }
+
+    if(ppu.get_frame_buffer()[0][16] == 0x26){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 5" << std::endl;
+    ppu.reset_state();
+    ppu.set_mask(0x18);
+    rom.set_CHR(0);
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.write_vram(0x0000,0x01);
+    ppu.write_vram(0x03C0,0x00);
+
+    rom.get_mapper_info().write_CHR(0x10,0xFF);
+    rom.get_mapper_info().write_CHR(0x18,0x00);
+    rom.get_mapper_info().write_CHR(0x20,0xFF);
+    rom.get_mapper_info().write_CHR(0x28,0xFF);
+
+    ppu.write_pal_ram(0x00,0x0F);
+    ppu.write_pal_ram(0x01,0x21);
+    ppu.write_pal_ram(0x1B,0x27);
+
+    ppu.write_sprite_oam(0,0x00);
+    ppu.write_sprite_oam(1,0x02);
+    ppu.write_sprite_oam(2,0x02);
+    ppu.write_sprite_oam(3,0x10);
+
+    for(int i = 0; i < 16; i++){
+        ppu.tick();
+    }
+
+    if(ppu.get_frame_buffer()[0][16] == 0x27){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 6" << std::endl;
+    ppu.reset_state();
+    ppu.set_mask(0x1A);
+    rom.set_CHR(0);
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.write_vram(0x0000,0x01);
+    ppu.write_vram(0x03C0,0x00);
+
+    rom.get_mapper_info().write_CHR(0x10,0x00);
+    rom.get_mapper_info().write_CHR(0x18,0x00);
+    rom.get_mapper_info().write_CHR(0x20,0xFF);
+    rom.get_mapper_info().write_CHR(0x28,0x00);
     return 0;
 }
