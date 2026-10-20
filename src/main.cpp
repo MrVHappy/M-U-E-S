@@ -1370,10 +1370,14 @@ int main(int argc, char*argv[]){
     rom.get_mapper_info().write_CHR(0x20,0x00);
     rom.get_mapper_info().write_CHR(0x28,0x00);
 
-    ppu.write_pal_ram(0,0x00);
-    ppu.write_pal_ram(1,0x02);
-    ppu.write_pal_ram(2,0x00);
-    ppu.write_pal_ram(3,0x10);
+    ppu.write_pal_ram(0x00,0x0F);
+    ppu.write_pal_ram(0x01,0x21);
+    ppu.write_pal_ram(0x11,0x25);
+
+    ppu.write_sprite_oam(0,0x00);
+    ppu.write_sprite_oam(1,0x02);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x10);
 
     ppu.clear_sprite_0_hit();
 
