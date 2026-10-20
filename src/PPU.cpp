@@ -316,8 +316,17 @@ void PPU::tick(){
 
     // get bit 4 from the mask register
     bool bit_4 = static_cast<bool>((this->mask & 0b10000) >> 4);
+    // get bit 2 from the mask register
+    bool bit_2 = static_cast<bool>((this->mask & 0b100) >> 2);
+    // this checks whether the leftmost sprites can be rendered
+    uint8_t start_dot = 9;
+    // check if bit 2 is 1
+    if(bit_2){
+        // allow first 8 pixels to be rendered
+        start_dot = 1;
+    }
     // Sprite Pixel rendering
-    if((this->scan_ln_count < 240) && (this->dot_count >= 1) && (bit_4 == true)){
+    if((this->scan_ln_count < 240) && (this->dot_count >= start_dot) && (bit_4 == true)){
         // get the x coordinate
         uint8_t screen_x = this->dot_count - 1;
         // get the y coordinate
