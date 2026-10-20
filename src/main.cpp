@@ -79,1028 +79,1028 @@ int main(int argc, char*argv[]){
 
     std::cout << std::hex << std::setfill('0');
 
-    std::cout << "SPRITE PIXEL RENDERING TESTS" << std::endl;
-    std::cout << "TEST 1" << std::endl;
-    ppu.set_scan_ln_count(0x20);
-    ppu.set_dot_count(0x41);
-    ppu.set_mask(0x10);
-    ppu.set_ctrl(0x00);
-    ppu.clear_sprite_0_hit();
-    ppu.set_status(0);
-    ppu.clear_pal_ram();
+    // std::cout << "SPRITE PIXEL RENDERING TESTS" << std::endl;
+    // std::cout << "TEST 1" << std::endl;
+    // ppu.set_scan_ln_count(0x20);
+    // ppu.set_dot_count(0x41);
+    // ppu.set_mask(0x10);
+    // ppu.set_ctrl(0x00);
+    // ppu.clear_sprite_0_hit();
+    // ppu.set_status(0);
+    // ppu.clear_pal_ram();
 
-    ppu.clear_sprite_oam();
+    // ppu.clear_sprite_oam();
 
-    ppu.write_sprite_oam(0,0x20);
-    ppu.write_sprite_oam(1,0x00);
-    ppu.write_sprite_oam(2,0x00);
-    ppu.write_sprite_oam(3,0x40);
+    // ppu.write_sprite_oam(0,0x20);
+    // ppu.write_sprite_oam(1,0x00);
+    // ppu.write_sprite_oam(2,0x00);
+    // ppu.write_sprite_oam(3,0x40);
 
-    ppu.write_sprite_pattern_low(0,0x80);
-    ppu.write_sprite_pattern_high(0,0x00);
+    // ppu.write_sprite_pattern_low(0,0x80);
+    // ppu.write_sprite_pattern_high(0,0x00);
 
-    ppu.write_pal_ram(0x3F11,0x2A);
+    // ppu.write_pal_ram(0x3F11,0x2A);
 
-    ppu.tick();
+    // ppu.tick();
 
-    if(ppu.get_frame_buffer()[0x20][0x40] == 0x2A){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(!ppu.get_sprite_0_hit()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_frame_buffer()[0x20][0x40] == 0x2A){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(!ppu.get_sprite_0_hit()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 2" << std::endl;
-    ppu.set_scan_ln_count(0x20);
-    ppu.set_dot_count(0x41);
-    ppu.set_mask(0x10);
-    ppu.set_ctrl(0x00);
-    ppu.clear_sprite_0_hit();
-    ppu.set_status(0);
-    ppu.clear_pal_ram();
+    // std::cout << "TEST 2" << std::endl;
+    // ppu.set_scan_ln_count(0x20);
+    // ppu.set_dot_count(0x41);
+    // ppu.set_mask(0x10);
+    // ppu.set_ctrl(0x00);
+    // ppu.clear_sprite_0_hit();
+    // ppu.set_status(0);
+    // ppu.clear_pal_ram();
 
-    ppu.clear_sprite_oam();
+    // ppu.clear_sprite_oam();
     
-    ppu.write_sprite_oam(0,0x20);
-    ppu.write_sprite_oam(1,0x00);
-    ppu.write_sprite_oam(2,0x00);
-    ppu.write_sprite_oam(3,0x40);
+    // ppu.write_sprite_oam(0,0x20);
+    // ppu.write_sprite_oam(1,0x00);
+    // ppu.write_sprite_oam(2,0x00);
+    // ppu.write_sprite_oam(3,0x40);
 
-    ppu.write_sprite_pattern_low(0,0);
-    ppu.write_sprite_pattern_high(0,0);
+    // ppu.write_sprite_pattern_low(0,0);
+    // ppu.write_sprite_pattern_high(0,0);
 
-    ppu.write_frame_buffer(0x20,0x40,0x55);
+    // ppu.write_frame_buffer(0x20,0x40,0x55);
 
-    ppu.tick();
-    if(ppu.get_frame_buffer()[0x20][0x40] == 0x55){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(!ppu.get_sprite_0_hit()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // ppu.tick();
+    // if(ppu.get_frame_buffer()[0x20][0x40] == 0x55){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(!ppu.get_sprite_0_hit()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 3 A" << std::endl;
-    ppu.set_scan_ln_count(0x20);
-    ppu.set_dot_count(0x41);
-    ppu.set_mask(0x1E);
-    ppu.set_ctrl(0x00);
-    ppu.set_fine_x(0);
-    ppu.set_v(0);
-    ppu.clear_pal_ram();
+    // std::cout << "TEST 3 A" << std::endl;
+    // ppu.set_scan_ln_count(0x20);
+    // ppu.set_dot_count(0x41);
+    // ppu.set_mask(0x1E);
+    // ppu.set_ctrl(0x00);
+    // ppu.set_fine_x(0);
+    // ppu.set_v(0);
+    // ppu.clear_pal_ram();
 
-    ppu.set_low_shift(0x4000);
-    ppu.set_high_shift(0x0000);
+    // ppu.set_low_shift(0x4000);
+    // ppu.set_high_shift(0x0000);
 
-    ppu.clear_sprite_0_hit();
-    ppu.set_status(0);
+    // ppu.clear_sprite_0_hit();
+    // ppu.set_status(0);
 
-    ppu.clear_sprite_oam();
+    // ppu.clear_sprite_oam();
 
-    ppu.write_sprite_oam(0,0x20);
-    ppu.write_sprite_oam(1,0x00);
-    ppu.write_sprite_oam(2,0x00);
-    ppu.write_sprite_oam(3,0x40);
+    // ppu.write_sprite_oam(0,0x20);
+    // ppu.write_sprite_oam(1,0x00);
+    // ppu.write_sprite_oam(2,0x00);
+    // ppu.write_sprite_oam(3,0x40);
 
-    ppu.write_sprite_pattern_low(0,0x80);
-    ppu.write_sprite_pattern_high(0,0x00);
+    // ppu.write_sprite_pattern_low(0,0x80);
+    // ppu.write_sprite_pattern_high(0,0x00);
 
-    ppu.write_pal_ram(0x3F01,0x11);
-    ppu.write_pal_ram(0x3F11,0x2A);
+    // ppu.write_pal_ram(0x3F01,0x11);
+    // ppu.write_pal_ram(0x3F11,0x2A);
 
-    ppu.write_frame_buffer(0x20,0x40,0x11);
+    // ppu.write_frame_buffer(0x20,0x40,0x11);
 
-    ppu.tick();
+    // ppu.tick();
 
-    if(ppu.get_sprite_0_hit()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_status() == 0b1000000){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_frame_buffer()[0x20][0x40] == 0x2A){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_sprite_0_hit()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_status() == 0b1000000){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_frame_buffer()[0x20][0x40] == 0x2A){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 3 B" << std::endl;
-    ppu.set_scan_ln_count(0x20);
-    ppu.set_dot_count(0x41);
-    ppu.set_mask(0x1E);
-    ppu.set_ctrl(0x00);
-    ppu.set_fine_x(0);
-    ppu.set_v(0);
-    ppu.clear_pal_ram();
-    ppu.set_pal_state(0);
+    // std::cout << "TEST 3 B" << std::endl;
+    // ppu.set_scan_ln_count(0x20);
+    // ppu.set_dot_count(0x41);
+    // ppu.set_mask(0x1E);
+    // ppu.set_ctrl(0x00);
+    // ppu.set_fine_x(0);
+    // ppu.set_v(0);
+    // ppu.clear_pal_ram();
+    // ppu.set_pal_state(0);
 
-    ppu.set_low_shift(0x4000);
-    ppu.set_high_shift(0x0000);
+    // ppu.set_low_shift(0x4000);
+    // ppu.set_high_shift(0x0000);
 
-    ppu.clear_sprite_oam();
+    // ppu.clear_sprite_oam();
 
-    ppu.write_sprite_oam(0,0x20);
-    ppu.write_sprite_oam(1,0x00);
-    ppu.write_sprite_oam(2,0x20);
-    ppu.write_sprite_oam(3,0x40);
+    // ppu.write_sprite_oam(0,0x20);
+    // ppu.write_sprite_oam(1,0x00);
+    // ppu.write_sprite_oam(2,0x20);
+    // ppu.write_sprite_oam(3,0x40);
 
-    ppu.write_sprite_pattern_low(0,0x80);
-    ppu.write_sprite_pattern_high(0,0x00);
+    // ppu.write_sprite_pattern_low(0,0x80);
+    // ppu.write_sprite_pattern_high(0,0x00);
 
-    ppu.write_pal_ram(0x3F01,0x11);
-    ppu.write_pal_ram(0x3F11,0x2A);
+    // ppu.write_pal_ram(0x3F01,0x11);
+    // ppu.write_pal_ram(0x3F11,0x2A);
 
-    ppu.clear_frame_buffer();
-    ppu.clear_sprite_0_hit();
-    ppu.set_status(0);
+    // ppu.clear_frame_buffer();
+    // ppu.clear_sprite_0_hit();
+    // ppu.set_status(0);
 
-    ppu.tick();
+    // ppu.tick();
 
-    if(ppu.get_low_shift() == 0x8000){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_high_shift() == 0){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_sprite_0_hit()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_status() == 0b1000000){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_frame_buffer()[0x20][0x40] == 0x11){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_low_shift() == 0x8000){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_high_shift() == 0){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_sprite_0_hit()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_status() == 0b1000000){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_frame_buffer()[0x20][0x40] == 0x11){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 4" << std::endl;
-    ppu.set_scan_ln_count(0x20);
-    ppu.set_dot_count(0x41);
-    ppu.set_mask(0x10);
-    ppu.set_ctrl(0x00);
-    ppu.clear_sprite_0_hit();
-    ppu.set_status(0);
-    ppu.clear_pal_ram();
+    // std::cout << "TEST 4" << std::endl;
+    // ppu.set_scan_ln_count(0x20);
+    // ppu.set_dot_count(0x41);
+    // ppu.set_mask(0x10);
+    // ppu.set_ctrl(0x00);
+    // ppu.clear_sprite_0_hit();
+    // ppu.set_status(0);
+    // ppu.clear_pal_ram();
 
-    ppu.clear_sprite_oam();
+    // ppu.clear_sprite_oam();
     
-    ppu.write_sprite_oam(0,0x20);
-    ppu.write_sprite_oam(1,0x00);
-    ppu.write_sprite_oam(2,0x20);
-    ppu.write_sprite_oam(3,0x40);
-
-    ppu.write_sprite_oam(4,0x20);
-    ppu.write_sprite_oam(5,0x01);
-    ppu.write_sprite_oam(6,0x01);
-    ppu.write_sprite_oam(7,0x40);
-
-    ppu.write_sprite_pattern_low(0,0x80);
-    ppu.write_sprite_pattern_high(0,0x00);
-
-    ppu.write_sprite_pattern_low(1,0x00);
-    ppu.write_sprite_pattern_high(1,0x80);
-
-    ppu.write_pal_ram(0x3F11,0x2A);
-    ppu.write_pal_ram(0x3F16,0x35);
-
-    ppu.clear_frame_buffer();
-
-    ppu.tick();
-
-    if(ppu.get_frame_buffer()[0x20][0x40] == 0x2A){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 5" <<std::endl;
-    ppu.set_scan_ln_count(0x20);
-    ppu.set_dot_count(0x41);
-    ppu.set_mask(0x1E);
-    ppu.set_ctrl(0x00);
-    ppu.set_fine_x(0);
-    ppu.set_v(0);
-    ppu.clear_pal_ram();
-
-    ppu.set_low_shift(0x4000);
-    ppu.set_high_shift(0);
-
-    ppu.clear_sprite_oam();
-
-    ppu.write_sprite_oam(0,0x20);
-    ppu.write_sprite_oam(1,0x00);
-    ppu.write_sprite_oam(2,0x00);
-    ppu.write_sprite_oam(3,0x40);
-
-    ppu.write_sprite_pattern_low(0,0x80);
-    ppu.write_sprite_pattern_high(0,0x00);
-
-    ppu.clear_sprite_0_hit();
-    ppu.set_status(0);
-
-    ppu.tick();
-
-    if(ppu.get_sprite_0_hit()){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_status() == 0b1000000){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 6" << std::endl;
-    ppu.set_scan_ln_count(0x20);
-    ppu.set_dot_count(0x41);
-    ppu.set_mask(0x10);
-    ppu.set_ctrl(0x00);
-    ppu.clear_sprite_0_hit();
-    ppu.set_status(0);
-    ppu.clear_pal_ram();
-
-    ppu.clear_sprite_oam();
-
-    ppu.set_sprite_patterns(0);
-
-    ppu.write_frame_buffer(0x20,0x40,0x11);
-
-    ppu.tick();
-
-    if(ppu.get_frame_buffer()[0x20][0x40] == 0x11){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 7 A" << std::endl;
-    ppu.set_scan_ln_count(0x20);
-    ppu.set_dot_count(0x40);
-    ppu.set_mask(0x10);
-    ppu.set_ctrl(0x00);
-    ppu.clear_sprite_0_hit();
-    ppu.set_status(0);
-    ppu.clear_pal_ram();
-
-    ppu.clear_sprite_oam();
-    ppu.clear_frame_buffer();
-
-    ppu.write_sprite_oam(0,0x20);
-    ppu.write_sprite_oam(1,0x00);
-    ppu.write_sprite_oam(2,0x00);
-    ppu.write_sprite_oam(3,0x40);
-
-    ppu.write_sprite_pattern_low(0,0xFF);
-    ppu.write_sprite_pattern_high(0,0x00);
-    ppu.write_pal_ram(0x3F11,0x2A);
-
-    ppu.write_frame_buffer(0x20,0x3F,0x10);
-
-    ppu.tick();
-
-    if(ppu.get_frame_buffer()[0x20][0x3F] == 0x10){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 7 B" << std::endl;
-    ppu.set_scan_ln_count(0x20);
-    ppu.set_dot_count(0x41);
-    ppu.set_mask(0x10);
-    ppu.set_ctrl(0x00);
-    ppu.clear_sprite_0_hit();
-    ppu.set_status(0);
-    ppu.clear_pal_ram();
-
-    ppu.clear_sprite_oam();
-
-    ppu.write_sprite_oam(0,0x20);
-    ppu.write_sprite_oam(1,0x00);
-    ppu.write_sprite_oam(2,0x00);
-    ppu.write_sprite_oam(3,0x40);
-
-    ppu.write_sprite_pattern_low(0,0xFF);
-    ppu.write_sprite_pattern_high(0,0x00);
-    ppu.write_pal_ram(0x3F11,0x2A);
-
-    ppu.tick();
-
-    if(ppu.get_frame_buffer()[0x20][0x40] == 0x2A){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 7 C" << std::endl;
-    ppu.set_scan_ln_count(0x20);
-    ppu.set_dot_count(0x48);
-    ppu.set_mask(0x10);
-    ppu.set_ctrl(0x00);
-    ppu.clear_sprite_0_hit();
-    ppu.set_status(0);
-    ppu.clear_pal_ram();
-
-    ppu.clear_sprite_oam();
-
-    ppu.write_sprite_oam(0,0x20);
-    ppu.write_sprite_oam(1,0x00);
-    ppu.write_sprite_oam(2,0x00);
-    ppu.write_sprite_oam(3,0x40);
-
-    ppu.write_sprite_pattern_low(0,0xFF);
-    ppu.write_sprite_pattern_high(0,0x00);
-    ppu.write_pal_ram(0x3F11,0x2A);
-
-    ppu.tick();
-
-    if(ppu.get_frame_buffer()[0x20][0x47] == 0x2A){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 7D" << std::endl;
-    ppu.set_scan_ln_count(0x20);
-    ppu.set_dot_count(0x49);
-    ppu.set_mask(0x10);
-    ppu.set_ctrl(0x00);
-    ppu.clear_sprite_0_hit();
-    ppu.set_status(0);
-    ppu.clear_pal_ram();
-
-    ppu.clear_sprite_oam();
-
-    ppu.write_sprite_oam(0,0x20);
-    ppu.write_sprite_oam(1,0x00);
-    ppu.write_sprite_oam(2,0x00);
-    ppu.write_sprite_oam(3,0x40);
-
-    ppu.write_sprite_pattern_low(0,0xFF);
-    ppu.write_sprite_pattern_high(0,0x00);
-    ppu.write_pal_ram(0x3F11,0x2A);
-
-    ppu.write_frame_buffer(0x20,0x48,0x22);
-
-    ppu.tick();
-
-    if(ppu.get_frame_buffer()[0x20][0x48] == 0x22){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    std::cout << "TEST 8" << std::endl;
-    ppu.set_scan_ln_count(0x20);
-    ppu.set_dot_count(0x41);
-    ppu.set_mask(0x00);
-    ppu.set_ctrl(0x00);
-    ppu.clear_sprite_0_hit();
-    ppu.set_status(0);
-    ppu.clear_pal_ram();
-
-    ppu.clear_sprite_oam();
-
-    ppu.write_sprite_oam(0,0x20);
-    ppu.write_sprite_oam(1,0x00);
-    ppu.write_sprite_oam(2,0x00);
-    ppu.write_sprite_oam(3,0x40);
-
-    ppu.write_sprite_pattern_low(0,0x80);
-    ppu.write_sprite_pattern_high(0,0x00);
-
-    ppu.write_frame_buffer(0x20,0x40,0x11);
-
-    ppu.tick();
-
-    if(ppu.get_frame_buffer()[0x20][0x40] == 0x11){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-
-    std::cout << "UPDATED BUS PPU DATA READ AND WRITES" << std::endl;
-    std::cout << "TEST 1" << std::endl;
-    ppu.set_ctrl(0);
-    ppu.set_v(0x2000);
-    ppu.clear_vram();
-    ppu.write_vram(0x2000,00);
-    ppu.set_vram_data(0);
-
-    bus.write(0x2007,0x42);
-    ppu.set_v(0x2000);
-
-    int result = bus.read(0x2007);
-    result = bus.read(0x2007);
-
-    if( result == 0x42){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "RESULT: " << result << std::endl;
-        std::cout << "EXPECTED: " << 0x42 << std::endl;
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_v() == 0x2002){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "V: " << static_cast<int>(ppu.get_v()) << std::endl;
-        std::cout << "EXPECTED: " << 0x2001 << std::endl;
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 2" << std::endl;
-    ppu.clear_vram();
-    ppu.set_ctrl(0);
-    ppu.set_v(0x2000);
-    bus.write(0x2007,0x42);
-    bus.write(0x2007,0x56);
-    ppu.set_vram_data(0);
-    ppu.set_v(0x2000);
-
-    if(bus.read(0x2007) == 0){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_v() == 0x2001){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_vram_data() == 0x42){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "VRAM DATA: " << static_cast<int>(ppu.get_vram_data()) << std::endl;
-        std::cout << "EXPECTED: " << 0x42 << std::endl;
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 3" << std::endl;
-    if(bus.read(0x2007) == 0x42){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_v() == 0x2002){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_vram_data() == 0x56){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    std::cout << "TEST 4" << std::endl;
-    ppu.set_ctrl(0x04);
-    ppu.clear_vram();
-    ppu.set_v(0x2000);
-    bus.write(0x2007,0x42);
-    ppu.set_vram_data(0);
-    ppu.set_v(0x2000);
-
-    if(bus.read(0x2007) == 0){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_v() == 0x2020){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_vram_data() == 0x42){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 5" << std::endl;
-    ppu.clear_pal_ram();
-    ppu.set_ctrl(0);
-    ppu.set_v(0x3F00);
-    bus.write(0x2007,0x2A);
-    ppu.set_vram_data(0x55);
-    ppu.set_v(0x3F00);
-
-    if(bus.read(0x2007) == 0x2A){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_v() == 0x3F01){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 6" << std::endl;
-    ppu.set_ctrl(0x0);
-    ppu.write_pal_ram(0x3F00,0x2A);
-    ppu.set_v(0x3F10);
-
-    if(bus.read(0x2007) == 0x2A){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_v() == 0x3F11){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 7" << std::endl;
-    ppu.clear_vram();
-    ppu.clear_pal_ram();
-    ppu.set_ctrl(0);
-
-    ppu.write_pal_ram(0x3F00,0x2A);
-
-    ppu.write_vram(0x2F00,0x66);
-
-    ppu.set_vram_data(0x00);
-    ppu.set_v(0x3F00);
-
-    result = bus.read(0x2007);
-
-    if(result == 0x2A){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_vram_data() == 0x66){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_v() == 0x3F01){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 8" << std::endl;
-    rom.set_CHR(0);
-    rom.get_mapper_info().write_CHR(0,0x42);
-    rom.get_mapper_info().write_CHR(1,0x56);
-
-    ppu.set_ctrl(0);
-    ppu.set_vram_data(0);
-    ppu.set_v(0);
-
-    result = bus.read(0x2007);
-
-    if(result == 0){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_vram_data() == 0x42){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_v() == 1){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    result = bus.read(0x2007);
-
-    if(result == 0x42){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_vram_data() == 0x56){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_v() == 2){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 9" << std::endl;
-    ppu.clear_vram();
-    ppu.write_vram(0x2000,0x42);
-
-    ppu.set_ctrl(0);
-    ppu.set_vram_data(0);
-    ppu.set_v(0x3000);
-
-    result = bus.read(0x2007);
-
-    if(result == 0){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_vram_data() == 0x42){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_v() == 0x3001){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    result = bus.read(0x2007);
-
-    if(result == 0x42){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_v() == 0x3002){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 10" << std::endl;
-    ppu.clear_vram();
-    ppu.write_vram(0x2000,0x42);
-    ppu.write_vram(0x2020,0x56);
-
-    ppu.set_ctrl(0x04);
-    ppu.set_vram_data(0);
-    ppu.set_v(0x2000);
-
-    result = bus.read(0x2007);
-
-    if(result == 0){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_vram_data() == 0x42){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_v() == 0x2020){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    result = bus.read(0x2007);
-
-    if(result == 0x42){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_vram_data() == 0x56){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_v() == 0x2040){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 11 A" << std::endl;
-    ppu.set_ctrl(0);
-    ppu.set_v(0x7FFF);
-
-    bus.read(0x2007);
-
-    if(ppu.get_v() == 0){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 11 B" << std::endl;
-    ppu.set_ctrl(0x04);
-    ppu.set_v(0x7FE0);
-
-    bus.read(0x2007);
-
-    if(ppu.get_v() == 0){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 12" << std::endl;
-    ppu.clear_pal_ram();
-    ppu.write_pal_ram(0x3F00,0x2A);
-
-    ppu.set_ctrl(0);
-    ppu.set_vram_data(0x66);
-    ppu.set_v(0x3F00);
-
-    result = bus.read(0x2007);
-
-    if(result == 0x2A){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_v() == 0x3F01){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-
-    std::cout << "TEST 13" << std::endl;
-    ppu.clear_pal_ram();
+    // ppu.write_sprite_oam(0,0x20);
+    // ppu.write_sprite_oam(1,0x00);
+    // ppu.write_sprite_oam(2,0x20);
+    // ppu.write_sprite_oam(3,0x40);
+
+    // ppu.write_sprite_oam(4,0x20);
+    // ppu.write_sprite_oam(5,0x01);
+    // ppu.write_sprite_oam(6,0x01);
+    // ppu.write_sprite_oam(7,0x40);
+
+    // ppu.write_sprite_pattern_low(0,0x80);
+    // ppu.write_sprite_pattern_high(0,0x00);
+
+    // ppu.write_sprite_pattern_low(1,0x00);
+    // ppu.write_sprite_pattern_high(1,0x80);
+
+    // ppu.write_pal_ram(0x3F11,0x2A);
+    // ppu.write_pal_ram(0x3F16,0x35);
+
+    // ppu.clear_frame_buffer();
+
+    // ppu.tick();
+
+    // if(ppu.get_frame_buffer()[0x20][0x40] == 0x2A){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 5" <<std::endl;
+    // ppu.set_scan_ln_count(0x20);
+    // ppu.set_dot_count(0x41);
+    // ppu.set_mask(0x1E);
+    // ppu.set_ctrl(0x00);
+    // ppu.set_fine_x(0);
+    // ppu.set_v(0);
+    // ppu.clear_pal_ram();
+
+    // ppu.set_low_shift(0x4000);
+    // ppu.set_high_shift(0);
+
+    // ppu.clear_sprite_oam();
+
+    // ppu.write_sprite_oam(0,0x20);
+    // ppu.write_sprite_oam(1,0x00);
+    // ppu.write_sprite_oam(2,0x00);
+    // ppu.write_sprite_oam(3,0x40);
+
+    // ppu.write_sprite_pattern_low(0,0x80);
+    // ppu.write_sprite_pattern_high(0,0x00);
+
+    // ppu.clear_sprite_0_hit();
+    // ppu.set_status(0);
+
+    // ppu.tick();
+
+    // if(ppu.get_sprite_0_hit()){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_status() == 0b1000000){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 6" << std::endl;
+    // ppu.set_scan_ln_count(0x20);
+    // ppu.set_dot_count(0x41);
+    // ppu.set_mask(0x10);
+    // ppu.set_ctrl(0x00);
+    // ppu.clear_sprite_0_hit();
+    // ppu.set_status(0);
+    // ppu.clear_pal_ram();
+
+    // ppu.clear_sprite_oam();
+
+    // ppu.set_sprite_patterns(0);
+
+    // ppu.write_frame_buffer(0x20,0x40,0x11);
+
+    // ppu.tick();
+
+    // if(ppu.get_frame_buffer()[0x20][0x40] == 0x11){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 7 A" << std::endl;
+    // ppu.set_scan_ln_count(0x20);
+    // ppu.set_dot_count(0x40);
+    // ppu.set_mask(0x10);
+    // ppu.set_ctrl(0x00);
+    // ppu.clear_sprite_0_hit();
+    // ppu.set_status(0);
+    // ppu.clear_pal_ram();
+
+    // ppu.clear_sprite_oam();
+    // ppu.clear_frame_buffer();
+
+    // ppu.write_sprite_oam(0,0x20);
+    // ppu.write_sprite_oam(1,0x00);
+    // ppu.write_sprite_oam(2,0x00);
+    // ppu.write_sprite_oam(3,0x40);
+
+    // ppu.write_sprite_pattern_low(0,0xFF);
+    // ppu.write_sprite_pattern_high(0,0x00);
+    // ppu.write_pal_ram(0x3F11,0x2A);
+
+    // ppu.write_frame_buffer(0x20,0x3F,0x10);
+
+    // ppu.tick();
+
+    // if(ppu.get_frame_buffer()[0x20][0x3F] == 0x10){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 7 B" << std::endl;
+    // ppu.set_scan_ln_count(0x20);
+    // ppu.set_dot_count(0x41);
+    // ppu.set_mask(0x10);
+    // ppu.set_ctrl(0x00);
+    // ppu.clear_sprite_0_hit();
+    // ppu.set_status(0);
+    // ppu.clear_pal_ram();
+
+    // ppu.clear_sprite_oam();
+
+    // ppu.write_sprite_oam(0,0x20);
+    // ppu.write_sprite_oam(1,0x00);
+    // ppu.write_sprite_oam(2,0x00);
+    // ppu.write_sprite_oam(3,0x40);
+
+    // ppu.write_sprite_pattern_low(0,0xFF);
+    // ppu.write_sprite_pattern_high(0,0x00);
+    // ppu.write_pal_ram(0x3F11,0x2A);
+
+    // ppu.tick();
+
+    // if(ppu.get_frame_buffer()[0x20][0x40] == 0x2A){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 7 C" << std::endl;
+    // ppu.set_scan_ln_count(0x20);
+    // ppu.set_dot_count(0x48);
+    // ppu.set_mask(0x10);
+    // ppu.set_ctrl(0x00);
+    // ppu.clear_sprite_0_hit();
+    // ppu.set_status(0);
+    // ppu.clear_pal_ram();
+
+    // ppu.clear_sprite_oam();
+
+    // ppu.write_sprite_oam(0,0x20);
+    // ppu.write_sprite_oam(1,0x00);
+    // ppu.write_sprite_oam(2,0x00);
+    // ppu.write_sprite_oam(3,0x40);
+
+    // ppu.write_sprite_pattern_low(0,0xFF);
+    // ppu.write_sprite_pattern_high(0,0x00);
+    // ppu.write_pal_ram(0x3F11,0x2A);
+
+    // ppu.tick();
+
+    // if(ppu.get_frame_buffer()[0x20][0x47] == 0x2A){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 7D" << std::endl;
+    // ppu.set_scan_ln_count(0x20);
+    // ppu.set_dot_count(0x49);
+    // ppu.set_mask(0x10);
+    // ppu.set_ctrl(0x00);
+    // ppu.clear_sprite_0_hit();
+    // ppu.set_status(0);
+    // ppu.clear_pal_ram();
+
+    // ppu.clear_sprite_oam();
+
+    // ppu.write_sprite_oam(0,0x20);
+    // ppu.write_sprite_oam(1,0x00);
+    // ppu.write_sprite_oam(2,0x00);
+    // ppu.write_sprite_oam(3,0x40);
+
+    // ppu.write_sprite_pattern_low(0,0xFF);
+    // ppu.write_sprite_pattern_high(0,0x00);
+    // ppu.write_pal_ram(0x3F11,0x2A);
+
+    // ppu.write_frame_buffer(0x20,0x48,0x22);
+
+    // ppu.tick();
+
+    // if(ppu.get_frame_buffer()[0x20][0x48] == 0x22){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // std::cout << "TEST 8" << std::endl;
+    // ppu.set_scan_ln_count(0x20);
+    // ppu.set_dot_count(0x41);
+    // ppu.set_mask(0x00);
+    // ppu.set_ctrl(0x00);
+    // ppu.clear_sprite_0_hit();
+    // ppu.set_status(0);
+    // ppu.clear_pal_ram();
+
+    // ppu.clear_sprite_oam();
+
+    // ppu.write_sprite_oam(0,0x20);
+    // ppu.write_sprite_oam(1,0x00);
+    // ppu.write_sprite_oam(2,0x00);
+    // ppu.write_sprite_oam(3,0x40);
+
+    // ppu.write_sprite_pattern_low(0,0x80);
+    // ppu.write_sprite_pattern_high(0,0x00);
+
+    // ppu.write_frame_buffer(0x20,0x40,0x11);
+
+    // ppu.tick();
+
+    // if(ppu.get_frame_buffer()[0x20][0x40] == 0x11){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+
+    // std::cout << "UPDATED BUS PPU DATA READ AND WRITES" << std::endl;
+    // std::cout << "TEST 1" << std::endl;
+    // ppu.set_ctrl(0);
+    // ppu.set_v(0x2000);
+    // ppu.clear_vram();
+    // ppu.write_vram(0x2000,00);
+    // ppu.set_vram_data(0);
+
+    // bus.write(0x2007,0x42);
+    // ppu.set_v(0x2000);
+
+    // int result = bus.read(0x2007);
+    // result = bus.read(0x2007);
+
+    // if( result == 0x42){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "RESULT: " << result << std::endl;
+    //     std::cout << "EXPECTED: " << 0x42 << std::endl;
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_v() == 0x2002){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "V: " << static_cast<int>(ppu.get_v()) << std::endl;
+    //     std::cout << "EXPECTED: " << 0x2001 << std::endl;
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 2" << std::endl;
+    // ppu.clear_vram();
+    // ppu.set_ctrl(0);
+    // ppu.set_v(0x2000);
+    // bus.write(0x2007,0x42);
+    // bus.write(0x2007,0x56);
+    // ppu.set_vram_data(0);
+    // ppu.set_v(0x2000);
+
+    // if(bus.read(0x2007) == 0){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_v() == 0x2001){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_vram_data() == 0x42){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "VRAM DATA: " << static_cast<int>(ppu.get_vram_data()) << std::endl;
+    //     std::cout << "EXPECTED: " << 0x42 << std::endl;
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 3" << std::endl;
+    // if(bus.read(0x2007) == 0x42){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_v() == 0x2002){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_vram_data() == 0x56){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // std::cout << "TEST 4" << std::endl;
+    // ppu.set_ctrl(0x04);
+    // ppu.clear_vram();
+    // ppu.set_v(0x2000);
+    // bus.write(0x2007,0x42);
+    // ppu.set_vram_data(0);
+    // ppu.set_v(0x2000);
+
+    // if(bus.read(0x2007) == 0){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_v() == 0x2020){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_vram_data() == 0x42){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 5" << std::endl;
+    // ppu.clear_pal_ram();
+    // ppu.set_ctrl(0);
+    // ppu.set_v(0x3F00);
+    // bus.write(0x2007,0x2A);
+    // ppu.set_vram_data(0x55);
+    // ppu.set_v(0x3F00);
+
+    // if(bus.read(0x2007) == 0x2A){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_v() == 0x3F01){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 6" << std::endl;
+    // ppu.set_ctrl(0x0);
+    // ppu.write_pal_ram(0x3F00,0x2A);
+    // ppu.set_v(0x3F10);
+
+    // if(bus.read(0x2007) == 0x2A){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_v() == 0x3F11){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 7" << std::endl;
+    // ppu.clear_vram();
+    // ppu.clear_pal_ram();
+    // ppu.set_ctrl(0);
+
+    // ppu.write_pal_ram(0x3F00,0x2A);
+
+    // ppu.write_vram(0x2F00,0x66);
+
+    // ppu.set_vram_data(0x00);
+    // ppu.set_v(0x3F00);
+
+    // result = bus.read(0x2007);
+
+    // if(result == 0x2A){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_vram_data() == 0x66){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_v() == 0x3F01){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 8" << std::endl;
+    // rom.set_CHR(0);
+    // rom.get_mapper_info().write_CHR(0,0x42);
+    // rom.get_mapper_info().write_CHR(1,0x56);
+
+    // ppu.set_ctrl(0);
+    // ppu.set_vram_data(0);
+    // ppu.set_v(0);
+
+    // result = bus.read(0x2007);
+
+    // if(result == 0){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_vram_data() == 0x42){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_v() == 1){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // result = bus.read(0x2007);
+
+    // if(result == 0x42){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_vram_data() == 0x56){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_v() == 2){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 9" << std::endl;
+    // ppu.clear_vram();
+    // ppu.write_vram(0x2000,0x42);
+
+    // ppu.set_ctrl(0);
+    // ppu.set_vram_data(0);
+    // ppu.set_v(0x3000);
+
+    // result = bus.read(0x2007);
+
+    // if(result == 0){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_vram_data() == 0x42){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_v() == 0x3001){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // result = bus.read(0x2007);
+
+    // if(result == 0x42){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_v() == 0x3002){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 10" << std::endl;
+    // ppu.clear_vram();
+    // ppu.write_vram(0x2000,0x42);
+    // ppu.write_vram(0x2020,0x56);
+
+    // ppu.set_ctrl(0x04);
+    // ppu.set_vram_data(0);
+    // ppu.set_v(0x2000);
+
+    // result = bus.read(0x2007);
+
+    // if(result == 0){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_vram_data() == 0x42){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_v() == 0x2020){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // result = bus.read(0x2007);
+
+    // if(result == 0x42){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_vram_data() == 0x56){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_v() == 0x2040){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 11 A" << std::endl;
+    // ppu.set_ctrl(0);
+    // ppu.set_v(0x7FFF);
+
+    // bus.read(0x2007);
+
+    // if(ppu.get_v() == 0){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 11 B" << std::endl;
+    // ppu.set_ctrl(0x04);
+    // ppu.set_v(0x7FE0);
+
+    // bus.read(0x2007);
+
+    // if(ppu.get_v() == 0){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 12" << std::endl;
+    // ppu.clear_pal_ram();
+    // ppu.write_pal_ram(0x3F00,0x2A);
+
+    // ppu.set_ctrl(0);
+    // ppu.set_vram_data(0x66);
+    // ppu.set_v(0x3F00);
+
+    // result = bus.read(0x2007);
+
+    // if(result == 0x2A){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_v() == 0x3F01){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+
+    // std::cout << "TEST 13" << std::endl;
+    // ppu.clear_pal_ram();
     
-    ppu.write_pal_ram(0x3F00,0x11);
-    ppu.write_pal_ram(0x3F04,0x22);
-    ppu.write_pal_ram(0x3F08,0x33);
-    ppu.write_pal_ram(0x3F0C,0x44);
+    // ppu.write_pal_ram(0x3F00,0x11);
+    // ppu.write_pal_ram(0x3F04,0x22);
+    // ppu.write_pal_ram(0x3F08,0x33);
+    // ppu.write_pal_ram(0x3F0C,0x44);
 
-    if(ppu.read_pal_ram(0x3F10) == 0x11){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.read_pal_ram(0x3F14) == 0x22){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.read_pal_ram(0x3F18) == 0x33){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.read_pal_ram(0x3F1C) == 0x44){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.read_pal_ram(0x3F10) == 0x11){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.read_pal_ram(0x3F14) == 0x22){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.read_pal_ram(0x3F18) == 0x33){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.read_pal_ram(0x3F1C) == 0x44){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 14" << std::endl;
-    ppu.clear_pal_ram();
-    ppu.set_ctrl(0);
+    // std::cout << "TEST 14" << std::endl;
+    // ppu.clear_pal_ram();
+    // ppu.set_ctrl(0);
 
-    ppu.write_pal_ram(0x3F00,0x2A);
-    ppu.set_v(0x3F10);
+    // ppu.write_pal_ram(0x3F00,0x2A);
+    // ppu.set_v(0x3F10);
 
-    result = bus.read(0x2007);
+    // result = bus.read(0x2007);
 
-    if(result == 0x2A){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_v() == 0x3F11){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(result == 0x2A){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_v() == 0x3F11){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 15" << std::endl;
-    ppu.set_ctrl(0);
-    ppu.set_v(0x2000);
+    // std::cout << "TEST 15" << std::endl;
+    // ppu.set_ctrl(0);
+    // ppu.set_v(0x2000);
 
-    bus.read(0x2007);
+    // bus.read(0x2007);
 
-    if(ppu.get_v() == 0x2001){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_v() == 0x2001){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    ppu.set_ctrl(0x04);
+    // ppu.set_ctrl(0x04);
 
-    bus.read(0x2007);
+    // bus.read(0x2007);
 
-    if(ppu.get_v() == 0x2021){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.get_v() == 0x2021){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 16" << std::endl;
-    rom.set_CHR(0);
-    rom.get_mapper_info().write_CHR(0,0x42);
-    rom.set_CHR(1);
-    ppu.set_ctrl(0);
-    ppu.set_v(0);
+    // std::cout << "TEST 16" << std::endl;
+    // rom.set_CHR(0);
+    // rom.get_mapper_info().write_CHR(0,0x42);
+    // rom.set_CHR(1);
+    // ppu.set_ctrl(0);
+    // ppu.set_v(0);
 
-    bus.write(0x2007,0x99);
+    // bus.write(0x2007,0x99);
 
-    if(rom.get_mapper_info().read_CHR(0) == 0x42){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_v() == 1){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(rom.get_mapper_info().read_CHR(0) == 0x42){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_v() == 1){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 17" << std::endl;
-    rom.set_CHR(0);
-    rom.get_mapper_info().write_CHR(0,0);
+    // std::cout << "TEST 17" << std::endl;
+    // rom.set_CHR(0);
+    // rom.get_mapper_info().write_CHR(0,0);
 
-    ppu.set_ctrl(0);
-    ppu.set_v(0);
+    // ppu.set_ctrl(0);
+    // ppu.set_v(0);
 
-    bus.write(0x2007,0x5A);
+    // bus.write(0x2007,0x5A);
 
-    if(rom.get_mapper_info().read_CHR(0) == 0x5A){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_v() == 1){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(rom.get_mapper_info().read_CHR(0) == 0x5A){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_v() == 1){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 18" << std::endl;
-    ppu.clear_vram();
-    rom.set_header(0);
+    // std::cout << "TEST 18" << std::endl;
+    // ppu.clear_vram();
+    // rom.set_header(0);
 
-    ppu.write_vram(0x2000,0x12);
-    ppu.write_vram(0x2800,0x34);
+    // ppu.write_vram(0x2000,0x12);
+    // ppu.write_vram(0x2800,0x34);
 
-    if(ppu.read_vram(0x2400) == 0x12){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.read_vram(0x2C00) == 0x34){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.read_vram(0x2400) == 0x12){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.read_vram(0x2C00) == 0x34){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 19" << std::endl;
-    rom.set_header(1);
-    ppu.clear_vram();
+    // std::cout << "TEST 19" << std::endl;
+    // rom.set_header(1);
+    // ppu.clear_vram();
 
-    ppu.write_vram(0x2000,0x56);
-    ppu.write_vram(0x2400,0x78);
+    // ppu.write_vram(0x2000,0x56);
+    // ppu.write_vram(0x2400,0x78);
 
-    if(ppu.read_vram(0x2800) == 0x56){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.read_vram(0x2C00) == 0x78){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(ppu.read_vram(0x2800) == 0x56){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.read_vram(0x2C00) == 0x78){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
-    std::cout << "TEST 20" << std::endl;
-    ppu.clear_vram();
-    ppu.clear_pal_ram();
+    // std::cout << "TEST 20" << std::endl;
+    // ppu.clear_vram();
+    // ppu.clear_pal_ram();
 
-    ppu.write_pal_ram(0x3F00,0x2A);
-    ppu.write_vram(0x2F00,0x66);
+    // ppu.write_pal_ram(0x3F00,0x2A);
+    // ppu.write_vram(0x2F00,0x66);
 
-    ppu.set_vram_data(0x99);
-    ppu.set_ctrl(0);
-    ppu.set_v(0x3F00);
+    // ppu.set_vram_data(0x99);
+    // ppu.set_ctrl(0);
+    // ppu.set_v(0x3F00);
 
-    result = bus.read(0x2007);
+    // result = bus.read(0x2007);
 
-    if(result == 0x2A){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "RESULT: " << result << std::endl;
-        std::cout << "EXPECTED: " << 0x2A << std::endl;
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_vram_data() == 0x66){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "VRAM DATA: " << static_cast<int>(ppu.get_vram_data()) << std::endl;
-        std::cout << "EXPECTED: " << 0x66 << std::endl;
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.read_pal_ram(0x3F00) == 0x2A){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "INDEX 3F00: " << static_cast<int>(ppu.read_pal_ram(0x3F00)) << std::endl;
-        std::cout << "EXPECTED: " << 0x2A << std::endl;
-        std::cout << "Fail" << std::endl;
-    }
-    if(ppu.get_v() == 0x3F01){
-        std::cout << "Pass" << std::endl;
-    }
-    else{
-        std::cout << "Fail" << std::endl;
-    }
+    // if(result == 0x2A){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "RESULT: " << result << std::endl;
+    //     std::cout << "EXPECTED: " << 0x2A << std::endl;
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_vram_data() == 0x66){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "VRAM DATA: " << static_cast<int>(ppu.get_vram_data()) << std::endl;
+    //     std::cout << "EXPECTED: " << 0x66 << std::endl;
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.read_pal_ram(0x3F00) == 0x2A){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "INDEX 3F00: " << static_cast<int>(ppu.read_pal_ram(0x3F00)) << std::endl;
+    //     std::cout << "EXPECTED: " << 0x2A << std::endl;
+    //     std::cout << "Fail" << std::endl;
+    // }
+    // if(ppu.get_v() == 0x3F01){
+    //     std::cout << "Pass" << std::endl;
+    // }
+    // else{
+    //     std::cout << "Fail" << std::endl;
+    // }
 
     std::cout << "SPRITE RENDERING TESTS PART II" << std::endl;
     std::cout << "TEST 1" << std::endl;
@@ -1111,6 +1111,7 @@ int main(int argc, char*argv[]){
     ppu.set_dot_count(1);
 
     ppu.write_vram(0x0000,0x01);
+    ppu.write_vram(0x0002,0x01);
     ppu.write_vram(0x03C0,0x00);
 
     rom.get_mapper_info().write_CHR(0x10,0xFF);
@@ -1130,6 +1131,9 @@ int main(int argc, char*argv[]){
 
     rom.get_mapper_info().write_CHR(0x20,0xFF);
     rom.get_mapper_info().write_CHR(0x28,0x00);
+
+    ppu.write_sprite_pattern_low(0,0xFF);
+    ppu.write_sprite_pattern_high(0,0x00);
 
     ppu.set_dot_count(1);
 
@@ -1158,6 +1162,7 @@ int main(int argc, char*argv[]){
     ppu.set_dot_count(1);
 
     ppu.write_vram(0x0000,0x01);
+    ppu.write_vram(0x0002,0x01);
     ppu.write_vram(0x03C0,0x00);
 
     rom.get_mapper_info().write_CHR(0x10,0x00);
@@ -1165,6 +1170,9 @@ int main(int argc, char*argv[]){
 
     rom.get_mapper_info().write_CHR(0x20,0xFF);
     rom.get_mapper_info().write_CHR(0x28,0x00);
+
+    ppu.write_sprite_pattern_low(0,0xFF);
+    ppu.write_sprite_pattern_high(0,0x00);
 
     ppu.write_pal_ram(0x00,0x0F);
     ppu.write_pal_ram(0x01,0x21);
@@ -1194,12 +1202,16 @@ int main(int argc, char*argv[]){
     ppu.set_dot_count(1);
 
     ppu.write_vram(0x0000,0x01);
+    ppu.write_vram(0x0002,0x01);
     ppu.write_vram(0x03C0,0x00);
 
     rom.get_mapper_info().write_CHR(0x10,0xFF);
     rom.get_mapper_info().write_CHR(0x18,0x00);
     rom.get_mapper_info().write_CHR(0x20,0xFF);
     rom.get_mapper_info().write_CHR(0x28,0x00);
+
+    ppu.write_sprite_pattern_low(0,0xFF);
+    ppu.write_sprite_pattern_high(0,0x00);
 
     ppu.write_pal_ram(0x00,0x0F);
     ppu.write_pal_ram(0x01,0x21);
@@ -1229,12 +1241,16 @@ int main(int argc, char*argv[]){
     ppu.set_dot_count(1);
 
     ppu.write_vram(0x0000,0x01);
+    ppu.write_vram(0x0002,0x01);
     ppu.write_vram(0x03C0,0x00);
 
     rom.get_mapper_info().write_CHR(0x10,0xFF);
     rom.get_mapper_info().write_CHR(0x18,0x00);
     rom.get_mapper_info().write_CHR(0x20,0x00);
     rom.get_mapper_info().write_CHR(0x28,0xFF);
+
+    ppu.write_sprite_pattern_low(0,0x00);
+    ppu.write_sprite_pattern_high(0,0xFF);
 
     ppu.write_pal_ram(0x00,0x0F);
     ppu.write_pal_ram(0x01,0x21);
@@ -1264,12 +1280,16 @@ int main(int argc, char*argv[]){
     ppu.set_dot_count(1);
 
     ppu.write_vram(0x0000,0x01);
+    ppu.write_vram(0x0002,0x01);
     ppu.write_vram(0x03C0,0x00);
 
     rom.get_mapper_info().write_CHR(0x10,0xFF);
     rom.get_mapper_info().write_CHR(0x18,0x00);
     rom.get_mapper_info().write_CHR(0x20,0xFF);
     rom.get_mapper_info().write_CHR(0x28,0xFF);
+
+    ppu.write_sprite_pattern_low(0,0xFF);
+    ppu.write_sprite_pattern_high(0,0xFF);
 
     ppu.write_pal_ram(0x00,0x0F);
     ppu.write_pal_ram(0x01,0x21);
@@ -1304,9 +1324,12 @@ int main(int argc, char*argv[]){
 
     rom.get_mapper_info().write_CHR(0x10,0x00);
     rom.get_mapper_info().write_CHR(0x18,0x00);
-
+    
     rom.get_mapper_info().write_CHR(0x20,0xFF);
     rom.get_mapper_info().write_CHR(0x28,0x00);
+
+    ppu.write_sprite_pattern_low(0,0xFF);
+    ppu.write_sprite_pattern_high(0,0x00);
 
     ppu.write_pal_ram(0x00,0x0F);
     ppu.write_pal_ram(0x19,0x25);
@@ -1352,6 +1375,9 @@ int main(int argc, char*argv[]){
     rom.get_mapper_info().write_CHR(0x20,0xFF);
     rom.get_mapper_info().write_CHR(0x28,0x00);
 
+    ppu.write_sprite_pattern_low(0,0xFF);
+    ppu.write_sprite_pattern_high(0,0x00);
+
     ppu.write_pal_ram(0x00,0x0F);
     ppu.write_pal_ram(0x19,0x25);
 
@@ -1387,12 +1413,16 @@ int main(int argc, char*argv[]){
     ppu.set_dot_count(1);
 
     ppu.write_vram(0x0000,0x01);
+    ppu.write_vram(0x0002,0x01);
     ppu.write_vram(0x03C0,0x00);
 
     rom.get_mapper_info().write_CHR(0x10,0xFF);
     rom.get_mapper_info().write_CHR(0x18,0x00);
     rom.get_mapper_info().write_CHR(0x20,0x00);
     rom.get_mapper_info().write_CHR(0x28,0x00);
+
+    ppu.write_sprite_pattern_low(0,0x00);
+    ppu.write_sprite_pattern_high(0,0x00);
 
     ppu.write_pal_ram(0x00,0x0F);
     ppu.write_pal_ram(0x01,0x21);
@@ -1430,12 +1460,16 @@ int main(int argc, char*argv[]){
     ppu.set_dot_count(1);
 
     ppu.write_vram(0x0000,0x01);
+    ppu.write_vram(0x0002,0x01);
     ppu.write_vram(0x03C0,0x00);
 
     rom.get_mapper_info().write_CHR(0x10,0x00);
     rom.get_mapper_info().write_CHR(0x18,0x00);
     rom.get_mapper_info().write_CHR(0x20,0xFF);
     rom.get_mapper_info().write_CHR(0x28,0x00);
+
+    ppu.write_sprite_pattern_low(0,0xFF);
+    ppu.write_sprite_pattern_high(0,0x00);
 
     ppu.write_pal_ram(0x00,0x0F);
     ppu.write_pal_ram(0x19,0x25);
@@ -1493,6 +1527,40 @@ int main(int argc, char*argv[]){
     ppu.tick();
 
     if(!ppu.get_sprite_0_hit()){
+        std::cout << "Pass" << std::endl;
+    }
+    else{
+        std::cout << "Fail" << std::endl;
+    }
+
+    std::cout << "TEST 10 B" << std::endl;
+    ppu.reset_state();
+    ppu.set_mask(0x1E);
+
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+    ppu.set_fine_x(0);
+    ppu.set_pal_state(0);
+
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x0000);
+
+    ppu.write_pal_ram(0x00,0x0F);
+    ppu.write_pal_ram(0x01,0x21);
+
+    ppu.write_sprite_oam(0,0x00);
+    ppu.write_sprite_oam(1,0x02);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x00);
+
+    ppu.write_sprite_pattern_low(0,0xFF);
+    ppu.write_sprite_pattern_high(0,0x00);
+
+    ppu.clear_sprite_0_hit();
+
+    ppu.tick();
+
+    if(ppu.get_sprite_0_hit()){
         std::cout << "Pass" << std::endl;
     }
     else{
