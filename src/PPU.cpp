@@ -43,25 +43,7 @@ void PPU::tick(){
                     + ((this->v >> 4) & 0x38) 
                     + ((this->v >> 2) & 0x07);
                 
-                // check which mirroring mode will be used
-                if(this->bus->get_rom().get_mapper_info().is_vertical()){
-                    // vertical mapping
-                    address = address % 0x0800;
-                }
-                else{
-                    // horizontal mapping
-                    if((address >= 0x2000) && (address < 0x2800)){
-                        address = address % 0x0400;
-                    }
-                    else if((address >= 0x2800) && (address < 0x2C00)){
-                        address = (address % 0x0400) + 0x400;
-                    }
-                    else{
-                        address = address % 0x0800;
-                    }
-                }
-
-                // extract the mirrored address from vram
+                // extract the updated address from vram
                 uint8_t attribute_byte = this->read_vram(address);
                 // store in the tile buffer
                 this->attribute_buffer[tile_index] = attribute_byte;
@@ -470,25 +452,7 @@ void PPU::tick(){
                     + ((this->v >> 4) & 0x38) 
                     + ((this->v >> 2) & 0x07);
                 
-                // check which mirroring mode will be used
-                if(this->bus->get_rom().get_mapper_info().is_vertical()){
-                    // vertical mapping
-                    address = address % 0x0800;
-                }
-                else{
-                    // horizontal mapping
-                    if((address >= 0x2000) && (address < 0x2800)){
-                        address = address % 0x0400;
-                    }
-                    else if((address >= 0x2800) && (address < 0x2C00)){
-                        address = (address % 0x0400) + 0x400;
-                    }
-                    else{
-                        address = address % 0x0800;
-                    }
-                }
-
-                // extract the mirrored address from vram
+                // extract the updated address from vram
                 uint8_t attribute_byte = this->read_vram(address);
                 // store in the tile buffer
                 this->attribute_buffer[tile_index] = attribute_byte;
@@ -797,26 +761,8 @@ void PPU::tick(){
                 address = 0x23C0 + (this->v & 0x0C00)
                     + ((this->v >> 4) & 0x38) 
                     + ((this->v >> 2) & 0x07);
-                
-                // check which mirroring mode will be used
-                if(this->bus->get_rom().get_mapper_info().is_vertical()){
-                    // vertical mapping
-                    address = address % 0x0800;
-                }
-                else{
-                    // horizontal mapping
-                    if((address >= 0x2000) && (address < 0x2800)){
-                        address = address % 0x0400;
-                    }
-                    else if((address >= 0x2800) && (address < 0x2C00)){
-                        address = (address % 0x0400) + 0x400;
-                    }
-                    else{
-                        address = address % 0x0800;
-                    }
-                }
-
-                // extract the mirrored address from vram
+            
+                // extract the updated address from vram
                 uint8_t attribute_byte = this->read_vram(address);
                 // store in the tile buffer
                 this->attribute_buffer[tile_index] = attribute_byte;

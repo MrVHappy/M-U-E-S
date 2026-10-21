@@ -1137,16 +1137,9 @@ int main(int argc, char*argv[]){
 
     ppu.set_dot_count(1);
 
-    std::cout << "TILE BEFORE TICK: " << static_cast<int>(ppu.get_tile_buffer()[0]) <<std::endl;
     for(int i = 0; i <= 16; i++){
         ppu.tick();
     }
-    std::cout << "LOW SHIFT: " << static_cast<int>(ppu.get_low_shift()) << std::endl;
-    std::cout << "HIGH SHIFT: " << static_cast<int>(ppu.get_high_shift()) << std::endl;
-    std::cout << "PATTERN LOW: " << static_cast<int>(ppu.get_pattern_low()) << std::endl;
-    std::cout << "PATTERN HIGH: " << static_cast<int>(ppu.get_pattern_high()) << std::endl;
-    std::cout << "TILE AFTER TICK: " << static_cast<int>(ppu.get_tile_buffer()[0]) <<std::endl;
-    std::cout << "FB INDEX 16: " << static_cast<int>(ppu.get_frame_buffer()[0][16]) << std::endl;
 
     if(ppu.get_dot_count() == 18){
         std::cout << "Pass" << std::endl;
@@ -1158,8 +1151,6 @@ int main(int argc, char*argv[]){
         std::cout << "Pass" << std::endl;
     }
     else{
-        std::cout << "INDEX 16: " << static_cast<int>(ppu.get_frame_buffer()[0][16]) << std::endl;
-        std::cout << "EXPECTED: " << 0x21 << std::endl; 
         std::cout << "Fail" << std::endl;
     }
 
@@ -1170,9 +1161,9 @@ int main(int argc, char*argv[]){
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(1);
 
-    ppu.write_vram(0x0000,0x01);
-    ppu.write_vram(0x0002,0x01);
-    ppu.write_vram(0x03C0,0x00);
+    ppu.db_write_vram(0x0000,0x01);
+    ppu.db_write_vram(0x0002,0x01);
+    ppu.db_write_vram(0x03C0,0x00);
 
     rom.get_mapper_info().write_CHR(0x10,0x00);
     rom.get_mapper_info().write_CHR(0x18,0x00);
@@ -1183,9 +1174,9 @@ int main(int argc, char*argv[]){
     ppu.write_sprite_pattern_low(0,0xFF);
     ppu.write_sprite_pattern_high(0,0x00);
 
-    ppu.write_pal_ram(0x00,0x0F);
-    ppu.write_pal_ram(0x01,0x21);
-    ppu.write_pal_ram(0x19,0x25);
+    ppu.db_write_pal_ram(0x00,0x0F);
+    ppu.db_write_pal_ram(0x01,0x21);
+    ppu.db_write_pal_ram(0x19,0x25);
 
     ppu.write_sprite_oam(0,0x00);
     ppu.write_sprite_oam(1,0x02);
@@ -1210,9 +1201,9 @@ int main(int argc, char*argv[]){
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(1);
 
-    ppu.write_vram(0x0000,0x01);
-    ppu.write_vram(0x0002,0x01);
-    ppu.write_vram(0x03C0,0x00);
+    ppu.db_write_vram(0x0000,0x01);
+    ppu.db_write_vram(0x0002,0x01);
+    ppu.db_write_vram(0x03C0,0x00);
 
     rom.get_mapper_info().write_CHR(0x10,0xFF);
     rom.get_mapper_info().write_CHR(0x18,0x00);
@@ -1222,9 +1213,9 @@ int main(int argc, char*argv[]){
     ppu.write_sprite_pattern_low(0,0xFF);
     ppu.write_sprite_pattern_high(0,0x00);
 
-    ppu.write_pal_ram(0x00,0x0F);
-    ppu.write_pal_ram(0x01,0x21);
-    ppu.write_pal_ram(0x19,0x25);
+    ppu.db_write_pal_ram(0x00,0x0F);
+    ppu.db_write_pal_ram(0x01,0x21);
+    ppu.db_write_pal_ram(0x19,0x25);
 
     ppu.write_sprite_oam(0,0x00);
     ppu.write_sprite_oam(1,0x02);
@@ -1249,9 +1240,9 @@ int main(int argc, char*argv[]){
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(1);
 
-    ppu.write_vram(0x0000,0x01);
-    ppu.write_vram(0x0002,0x01);
-    ppu.write_vram(0x03C0,0x00);
+    ppu.db_write_vram(0x0000,0x01);
+    ppu.db_write_vram(0x0002,0x01);
+    ppu.db_write_vram(0x03C0,0x00);
 
     rom.get_mapper_info().write_CHR(0x10,0xFF);
     rom.get_mapper_info().write_CHR(0x18,0x00);
@@ -1261,9 +1252,9 @@ int main(int argc, char*argv[]){
     ppu.write_sprite_pattern_low(0,0x00);
     ppu.write_sprite_pattern_high(0,0xFF);
 
-    ppu.write_pal_ram(0x00,0x0F);
-    ppu.write_pal_ram(0x01,0x21);
-    ppu.write_pal_ram(0x1A,0x26);
+    ppu.db_write_pal_ram(0x00,0x0F);
+    ppu.db_write_pal_ram(0x01,0x21);
+    ppu.db_write_pal_ram(0x1A,0x26);
 
     ppu.write_sprite_oam(0,0x00);
     ppu.write_sprite_oam(1,0x02);
@@ -1288,9 +1279,9 @@ int main(int argc, char*argv[]){
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(1);
 
-    ppu.write_vram(0x0000,0x01);
-    ppu.write_vram(0x0002,0x01);
-    ppu.write_vram(0x03C0,0x00);
+    ppu.db_write_vram(0x0000,0x01);
+    ppu.db_write_vram(0x0002,0x01);
+    ppu.db_write_vram(0x03C0,0x00);
 
     rom.get_mapper_info().write_CHR(0x10,0xFF);
     rom.get_mapper_info().write_CHR(0x18,0x00);
@@ -1300,9 +1291,9 @@ int main(int argc, char*argv[]){
     ppu.write_sprite_pattern_low(0,0xFF);
     ppu.write_sprite_pattern_high(0,0xFF);
 
-    ppu.write_pal_ram(0x00,0x0F);
-    ppu.write_pal_ram(0x01,0x21);
-    ppu.write_pal_ram(0x1B,0x27);
+    ppu.db_write_pal_ram(0x00,0x0F);
+    ppu.db_write_pal_ram(0x01,0x21);
+    ppu.db_write_pal_ram(0x1B,0x27);
 
     ppu.write_sprite_oam(0,0x00);
     ppu.write_sprite_oam(1,0x02);
@@ -1328,8 +1319,8 @@ int main(int argc, char*argv[]){
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(1);
 
-    ppu.write_vram(0x0000,0x01);
-    ppu.write_vram(0x03C0,0x00);
+    ppu.db_write_vram(0x0000,0x01);
+    ppu.db_write_vram(0x03C0,0x00);
 
     rom.get_mapper_info().write_CHR(0x10,0x00);
     rom.get_mapper_info().write_CHR(0x18,0x00);
@@ -1340,8 +1331,8 @@ int main(int argc, char*argv[]){
     ppu.write_sprite_pattern_low(0,0xFF);
     ppu.write_sprite_pattern_high(0,0x00);
 
-    ppu.write_pal_ram(0x00,0x0F);
-    ppu.write_pal_ram(0x19,0x25);
+    ppu.db_write_pal_ram(0x00,0x0F);
+    ppu.db_write_pal_ram(0x19,0x25);
 
     ppu.write_sprite_oam(0,0x00);
     ppu.write_sprite_oam(1,0x02);
@@ -1375,8 +1366,8 @@ int main(int argc, char*argv[]){
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(1);
 
-    ppu.write_vram(0x0000,0x01);
-    ppu.write_vram(0x03C0,0x00);
+    ppu.db_write_vram(0x0000,0x01);
+    ppu.db_write_vram(0x03C0,0x00);
 
     rom.get_mapper_info().write_CHR(0x10,0x00);
     rom.get_mapper_info().write_CHR(0x18,0x00);
@@ -1387,8 +1378,8 @@ int main(int argc, char*argv[]){
     ppu.write_sprite_pattern_low(0,0xFF);
     ppu.write_sprite_pattern_high(0,0x00);
 
-    ppu.write_pal_ram(0x00,0x0F);
-    ppu.write_pal_ram(0x19,0x25);
+    ppu.db_write_pal_ram(0x00,0x0F);
+    ppu.db_write_pal_ram(0x19,0x25);
 
     ppu.write_sprite_oam(0,0x00);
     ppu.write_sprite_oam(1,0x02);
@@ -1421,9 +1412,9 @@ int main(int argc, char*argv[]){
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(1);
 
-    ppu.write_vram(0x0000,0x01);
-    ppu.write_vram(0x0002,0x01);
-    ppu.write_vram(0x03C0,0x00);
+    ppu.db_write_vram(0x0000,0x01);
+    ppu.db_write_vram(0x0002,0x01);
+    ppu.db_write_vram(0x03C0,0x00);
 
     rom.get_mapper_info().write_CHR(0x10,0xFF);
     rom.get_mapper_info().write_CHR(0x18,0x00);
@@ -1433,9 +1424,9 @@ int main(int argc, char*argv[]){
     ppu.write_sprite_pattern_low(0,0x00);
     ppu.write_sprite_pattern_high(0,0x00);
 
-    ppu.write_pal_ram(0x00,0x0F);
-    ppu.write_pal_ram(0x01,0x21);
-    ppu.write_pal_ram(0x11,0x25);
+    ppu.db_write_pal_ram(0x00,0x0F);
+    ppu.db_write_pal_ram(0x01,0x21);
+    ppu.db_write_pal_ram(0x11,0x25);
 
     ppu.write_sprite_oam(0,0x00);
     ppu.write_sprite_oam(1,0x02);
@@ -1468,9 +1459,9 @@ int main(int argc, char*argv[]){
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(1);
 
-    ppu.write_vram(0x0000,0x01);
-    ppu.write_vram(0x0002,0x01);
-    ppu.write_vram(0x03C0,0x00);
+    ppu.db_write_vram(0x0000,0x01);
+    ppu.db_write_vram(0x0002,0x01);
+    ppu.db_write_vram(0x03C0,0x00);
 
     rom.get_mapper_info().write_CHR(0x10,0x00);
     rom.get_mapper_info().write_CHR(0x18,0x00);
@@ -1480,8 +1471,8 @@ int main(int argc, char*argv[]){
     ppu.write_sprite_pattern_low(0,0xFF);
     ppu.write_sprite_pattern_high(0,0x00);
 
-    ppu.write_pal_ram(0x00,0x0F);
-    ppu.write_pal_ram(0x19,0x25);
+    ppu.db_write_pal_ram(0x00,0x0F);
+    ppu.db_write_pal_ram(0x19,0x25);
 
     ppu.write_sprite_oam(0,0x00);
     ppu.write_sprite_oam(1,0x02);
@@ -1520,8 +1511,8 @@ int main(int argc, char*argv[]){
     ppu.set_low_shift(0x4000);
     ppu.set_high_shift(0x0000);
 
-    ppu.write_pal_ram(0x00,0x0F);
-    ppu.write_pal_ram(0x01,0x21);
+    ppu.db_write_pal_ram(0x00,0x0F);
+    ppu.db_write_pal_ram(0x01,0x21);
 
     ppu.write_sprite_oam(0,0x00);
     ppu.write_sprite_oam(1,0x02);
@@ -1554,8 +1545,8 @@ int main(int argc, char*argv[]){
     ppu.set_low_shift(0x4000);
     ppu.set_high_shift(0x0000);
 
-    ppu.write_pal_ram(0x00,0x0F);
-    ppu.write_pal_ram(0x01,0x21);
+    ppu.db_write_pal_ram(0x00,0x0F);
+    ppu.db_write_pal_ram(0x01,0x21);
 
     ppu.write_sprite_oam(0,0x00);
     ppu.write_sprite_oam(1,0x02);
