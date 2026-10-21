@@ -1476,7 +1476,7 @@ int main(int argc, char*argv[]){
 
     ppu.write_sprite_oam(0,0x00);
     ppu.write_sprite_oam(1,0x02);
-    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(2,0x02);
     ppu.write_sprite_oam(3,0x10);
 
     ppu.clear_sprite_0_hit();
@@ -1484,9 +1484,6 @@ int main(int argc, char*argv[]){
     for(int i = 0; i <= 16; i++){
         ppu.tick();
     }
-
-    std::cout << "SPRITE PATTERN LOW: " << static_cast<int>(ppu.get_sprite_pattern_low()[0]) << std::endl;
-    std::cout << "SPRITE PATTERN HIGH: " << static_cast<int>(ppu.get_sprite_pattern_high()[0]) << std::endl;
 
     if(ppu.get_frame_buffer()[0][16] == 0x25){
         std::cout << "Pass" << std::endl;
