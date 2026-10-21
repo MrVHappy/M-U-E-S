@@ -148,6 +148,12 @@ void PPU::tick(){
 
         // calculate pattern value using high and low bit
         pattern_val = low_bit + (high_bit * 2);
+        std::cout << "LOW SHIFT: " << this->low_shift << std::endl;
+        std::cout << "HIGH SHIFT: " << this->high_shift << std::endl;
+        std::cout << "PATTERN LOW: " << static_cast<int>(this->pattern_low) << std::endl;
+        std::cout << "PATTERN HIGH: " << static_cast<int>(this->pattern_high) << std::endl;
+        std::cout << "PATTERN VAL: " << static_cast<int>(pattern_val) << std::endl;
+        std::cout << "PAL STATE: " << static_cast<int>(this->pal_state) << std::endl;
         uint16_t palelet_val;
         // check if the pattern value is 0
         if(pattern_val == 0){
@@ -159,25 +165,18 @@ void PPU::tick(){
             palelet_val = 0x3F00 + this->pal_state * 4 + pattern_val;
         }
         uint8_t colour_byte;
-        // check the current address of v
-        if ((palelet_val >= 0x3F00) && (palelet_val < 0x4000)){
-            // mask the address to allow mirroring
-            uint16_t address = palelet_val;
-            address = address % 32;
-            // check for special mirroring
-            if((address == 0x10) || (address == 0x14) || (address == 0x18) || (address == 0x1C)){
-                // mirror to 0x00, 0x04, 0x08 and 0x0C
-                address = address & 0x0F;
-            }
-            // get the colour byte from PAL RAM using address 
-            colour_byte = this->read_pal_ram(address);
-            // get the x coordinate
-            uint8_t x = this->dot_count -1;
-            // get the y coordinate
-            uint8_t y = this->scan_ln_count;
-            // store colour byte in the frame buffer
-            this->frame_buffer[y][x] = colour_byte;
-        }
+        // get the colour byte from PAL RAM using address 
+        colour_byte = this->read_pal_ram(address);
+        std::cout << std::hex;
+        std::cout << "PALETTE ADDRESS: " << palelet_val << std::endl;
+        std::cout << "COLOUR BYTE: " << static_cast<int>(colour_byte) << std::endl;
+        // get the x coordinate
+        uint8_t x = this->dot_count -1;
+        // get the y coordinate
+        uint8_t y = this->scan_ln_count;
+        // store colour byte in the frame buffer
+        this->frame_buffer[y][x] = colour_byte;
+
         // check if the tile fetch sequence is at 7
         if(tile_fetch_seq == 7){
             // get coarse x from v
@@ -280,12 +279,12 @@ void PPU::tick(){
 
     // get bit 4 from the mask register
     bool bit_4 = static_cast<bool>((this->mask & 0b10000) >> 4);
-    // get bit 2 from the mask register
-    bool bit_2 = static_cast<bool>((this->mask & 0b100) >> 2);
+    // get bit 1 from the mask register
+    bool bit_1 = static_cast<bool>((this->mask & 0b10) >> 1);
     // this checks whether the leftmost sprites can be rendered
     uint8_t start_dot = 9;
-    // check if bit 2 is 1
-    if(bit_2){
+    // check if bit 1 is 1
+    if(bit_1){
         // allow first 8 pixels to be rendered
         start_dot = 1;
     }
@@ -1319,6 +1318,7 @@ void PPU::reset_state(){
     this->vram_data = 0;
     this->vram.fill(0);
     this->pal_ram.fill(0);
+    this->pal_state = 0;
     this->pattern_low = 0;
     this->pattern_high = 0;
     this->low_shift = 0;
@@ -1339,6 +1339,11 @@ void PPU::db_write_vram(uint16_t address, uint8_t value){
     this->vram[address] = value;
 }
 void PPU::db_write_pal_ram(uint16_t address, uint8_t value){
+    address = address & 0x3FFF;
+    address = address % 32;
+    if((address == 0x10) || (address == 0x14) || (address == 0x18 || address == 0x1C)){
+        address = address & 0x0F;
+    }
     this->pal_ram[address] = value;
 }
 uint8_t PPU::db_read_vram(uint16_t address){
