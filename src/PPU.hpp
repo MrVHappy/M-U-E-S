@@ -168,5 +168,11 @@ class PPU{
         void clear_pal_ram();
         void clear_vram();
         void reset_state();
+
+        // DEBUG READS AND WRITES:
+        void db_write_vram(uint16_t address, uint8_t value);
+        void db_write_pal_ram(uint16_t address, uint8_t value);
+        uint8_t db_read_vram(uint16_t address);
+        uint8_t db_read_pal_ram(uint16_t address);
 };
 #endif

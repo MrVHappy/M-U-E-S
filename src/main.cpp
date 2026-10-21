@@ -1111,6 +1111,7 @@ int main(int argc, char*argv[]){
     ppu.set_dot_count(1);
 
     ppu.write_vram(0x0000,0x01);
+    std::cout << "VRAM AFTER WRITE: " << static_cast<int>(ppu.read_vram(0)) << std::endl;
     ppu.write_vram(0x0002,0x01);
     ppu.write_vram(0x03C0,0x00);
 
@@ -1139,6 +1140,11 @@ int main(int argc, char*argv[]){
 
     for(int i = 0; i <= 16; i++){
         ppu.tick();
+        if(i == 0){
+            std::cout << "TILE BUFFER 0: " << static_cast<int>(ppu.get_tile_buffer()[0]) << std::endl;
+            std::cout << "VARM @ 0: " << static_cast<int>(ppu.read_vram(0)) << std::endl;
+            std::cout << "VRAM @ $2000: " << static_cast<int>(ppu.read_vram(0x2000)) << std::endl;
+        }
     }
 
     if(ppu.get_dot_count() == 18){
@@ -1151,6 +1157,8 @@ int main(int argc, char*argv[]){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "INDEX 16: " << static_cast<int>(ppu.get_frame_buffer()[0][16]) << std::endl;
+        std::cout << "EXPECTED: " << 0x21 << std::endl; 
         std::cout << "Fail" << std::endl;
     }
 

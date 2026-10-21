@@ -1460,3 +1460,16 @@ void PPU::reset_state(){
     this->nmi = 0;
     this->nmi_output = 0;
 }
+
+void PPU::db_write_vram(uint16_t address, uint8_t value){
+    this->vram[address] = value;
+}
+void PPU::db_write_pal_ram(uint16_t address, uint8_t value){
+    this->pal_ram[address] = value;
+}
+uint8_t PPU::db_read_vram(uint16_t address){
+    return this->vram[address];
+}
+uint8_t PPU::db_read_pal_ram(uint16_t address){
+    return this->pal_ram[address];
+}
