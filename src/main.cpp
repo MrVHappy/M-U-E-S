@@ -1110,20 +1110,19 @@ int main(int argc, char*argv[]){
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(1);
 
-    ppu.write_vram(0x0000,0x01);
-    std::cout << "VRAM AFTER WRITE: " << static_cast<int>(ppu.read_vram(0)) << std::endl;
-    ppu.write_vram(0x0002,0x01);
-    ppu.write_vram(0x03C0,0x00);
+    ppu.db_write_vram(0x0000,0x01);
+    ppu.db_write_vram(0x0002,0x01);
+    ppu.db_write_vram(0x03C0,0x00);
 
     rom.get_mapper_info().write_CHR(0x10,0xFF);
     rom.get_mapper_info().write_CHR(0x18,0x00);
 
-    ppu.write_pal_ram(0x00,0x0F);
-    ppu.write_pal_ram(0x01,0x21);
+    ppu.db_write_pal_ram(0x00,0x0F);
+    ppu.db_write_pal_ram(0x01,0x21);
 
-    ppu.write_pal_ram(0x19,0x25);
-    ppu.write_pal_ram(0x1A,0x26);
-    ppu.write_pal_ram(0x1B,0x27);
+    ppu.db_write_pal_ram(0x19,0x25);
+    ppu.db_write_pal_ram(0x1A,0x26);
+    ppu.db_write_pal_ram(0x1B,0x27);
 
     ppu.write_sprite_oam(0,0x00);
     ppu.write_sprite_oam(1,0x02);
@@ -1138,14 +1137,16 @@ int main(int argc, char*argv[]){
 
     ppu.set_dot_count(1);
 
+    std::cout << "TILE BEFORE TICK: " << static_cast<int>(ppu.get_tile_buffer()[0]) <<std::endl;
     for(int i = 0; i <= 16; i++){
         ppu.tick();
-        if(i == 0){
-            std::cout << "TILE BUFFER 0: " << static_cast<int>(ppu.get_tile_buffer()[0]) << std::endl;
-            std::cout << "VARM @ 0: " << static_cast<int>(ppu.read_vram(0)) << std::endl;
-            std::cout << "VRAM @ $2000: " << static_cast<int>(ppu.read_vram(0x2000)) << std::endl;
-        }
     }
+    std::cout << "LOW SHIFT: " << static_cast<int>(ppu.get_low_shift()) << std::endl;
+    std::cout << "HIGH SHIFT: " << static_cast<int>(ppu.get_high_shift()) << std::endl;
+    std::cout << "PATTERN LOW: " << static_cast<int>(ppu.get_pattern_low()) << std::endl;
+    std::cout << "PATTERN HIGH: " << static_cast<int>(ppu.get_pattern_high()) << std::endl;
+    std::cout << "TILE AFTER TICK: " << static_cast<int>(ppu.get_tile_buffer()[0]) <<std::endl;
+    std::cout << "FB INDEX 16: " << static_cast<int>(ppu.get_frame_buffer()[0][16]) << std::endl;
 
     if(ppu.get_dot_count() == 18){
         std::cout << "Pass" << std::endl;
