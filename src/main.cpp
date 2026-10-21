@@ -1485,10 +1485,15 @@ int main(int argc, char*argv[]){
         ppu.tick();
     }
 
+    std::cout << "SPRITE PATTERN LOW: " << static_cast<int>(ppu.get_sprite_pattern_low()[0]) << std::endl;
+    std::cout << "SPRITE PATTERN HIGH: " << static_cast<int>(ppu.get_sprite_pattern_high()[0]) << std::endl;
+
     if(ppu.get_frame_buffer()[0][16] == 0x25){
         std::cout << "Pass" << std::endl;
     }
     else{
+        std::cout << "INDEX 16: " << static_cast<int>(ppu.get_frame_buffer()[0][16]) << std::endl;
+        std::cout << "EXPECTED: " << 0x25 << std::endl;
         std::cout << "Fail" << std::endl;
     }
     if(!ppu.get_sprite_0_hit()){
