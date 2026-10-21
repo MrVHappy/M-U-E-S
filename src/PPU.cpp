@@ -19,24 +19,6 @@ void PPU::tick(){
     if((this->scan_ln_count < 240) && (this->dot_count >=1) && (this->dot_count < 257) && (bit_3 == true)){
         // get the nametable tile address
         uint16_t address = 0x2000 | (this->v & 0x0FFF);
-        // check which mirroring mode will be used
-        if(this->bus->get_rom().get_mapper_info().is_vertical()){
-            // vertical mapping
-            address = address % 0x0800;
-        }
-        else{
-            // horizontal mapping
-            if((address >= 0x2000) && (address < 0x2800)){
-                address = address % 0x0400;
-            }
-            else if((address >= 0x2800) && (address < 0x2C00)){
-                address = (address % 0x0400) + 0x400;
-            }
-            else{
-                address = address % 0x0800;
-            }
-
-        }
         // left shift low and high shift by 1
         this->low_shift = this->low_shift << 1;
         this->high_shift = this->high_shift << 1;
@@ -467,24 +449,6 @@ void PPU::tick(){
         }
         // get the nametable tile address
         uint16_t address = 0x2000 | (this->v & 0x0FFF);
-        // check which mirroring mode will be used
-        if(this->bus->get_rom().get_mapper_info().is_vertical()){
-            // vertical mapping
-            address = address % 0x0800;
-        }
-        else{
-            // horizontal mapping
-            if((address >= 0x2000) && (address < 0x2800)){
-                address = address % 0x0400;
-            }
-            else if((address >= 0x2800) && (address < 0x2C00)){
-                address = (address % 0x0400) + 0x400;
-            }
-            else{
-                address = address % 0x0800;
-            }
-
-        }
         // get the tile index
         uint8_t tile_index = (this->dot_count - 257) / 8;
         // get the tile fetch sequence
@@ -813,24 +777,6 @@ void PPU::tick(){
     if((this->dot_count >= 321) && (this->dot_count < 337) && (bit_3 == true)){
         // get the nametable tile address
         uint16_t address = 0x2000 | (this->v & 0x0FFF);
-        // check which mirroring mode will be used
-        if(this->bus->get_rom().get_mapper_info().is_vertical()){
-            // vertical mapping
-            address = address % 0x0800;
-        }
-        else{
-            // horizontal mapping
-            if((address >= 0x2000) && (address < 0x2800)){
-                address = address % 0x0400;
-            }
-            else if((address >= 0x2800) && (address < 0x2C00)){
-                address = (address % 0x0400) + 0x400;
-            }
-            else{
-                address = address % 0x0800;
-            }
-
-        }
         // get the tile index 
         uint8_t tile_index = (this->dot_count - 321) / 8;
         // get the tile fetch sequence
@@ -1003,24 +949,6 @@ void PPU::tick(){
     if(((this->dot_count == 337) || (this->dot_count == 338)) && (bit_3 == true)){
         // get the nametable tile address
         uint16_t address = 0x2000 | (this->v & 0x0FFF);
-        // check which mirroring mode will be used
-        if(this->bus->get_rom().get_mapper_info().is_vertical()){
-            // vertical mapping
-            address = address % 0x0800;
-        }
-        else{
-            // horizontal mapping
-            if((address >= 0x2000) && (address < 0x2800)){
-                address = address % 0x0400;
-            }
-            else if((address >= 0x2800) && (address < 0x2C00)){
-                address = (address % 0x0400) + 0x400;
-            }
-            else{
-                address = address % 0x0800;
-            }
-
-        }
         // read nametable but don't store it in the tile buffer
         this->read_vram(address);
     }
