@@ -2,6 +2,8 @@
 #include "Cartridge.hpp"
 #include "Mapper.hpp"
 #include "PPU.hpp"
+#include <iomanip>
+#include <iostream>
 
     // read to system RAM
     uint8_t BUS::read(uint16_t address){
@@ -121,6 +123,7 @@
             Mapper *mapper = &this->rom->get_mapper_info();
             // check if mapper is NULL
             if(mapper == NULL){
+                std::cout << "NULL MAPPER" << std::endl;
                 return 0;
             }
             return mapper->read_PRG(address);

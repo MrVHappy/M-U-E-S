@@ -103,3 +103,13 @@ void Cartridge::set_FA_FB(uint8_t FA, uint8_t FB){
     PRG_data[0x3FFA] = FA;
     PRG_data[0x3FFB] = FB;
 }
+
+void Cartridge::reset_cart(){
+    this->header.fill(0);
+    this->PRG_banks_num = 0;
+    this->CHR_banks_num = 0;
+    this->Mapper_ID = 0;
+    this->PRG_data.clear();
+    this->CHR_data.clear();
+    this->s_ram.clear();
+}

@@ -44,6 +44,7 @@ class Cartridge{
         void set_header(int index);
         void set_CHR(int index);
         void set_FA_FB(uint8_t FA, uint8_t FB);
+        void reset_cart();
 
 };
 #endif

@@ -13,6 +13,11 @@ Mapper::Mapper(Cartridge *cartridge){
 }
 
 uint8_t Mapper::read_PRG(uint16_t address){
+    // check if cart info is null
+    if(this->cart_info == NULL){
+        std::cout << "CART INFO NULL" << std::endl;
+        return 0;
+    }
     int prg_size = static_cast<int>(this->cart_info->get_PRG_data().size());
     // check if valid address
     if(address < 0x8000){
@@ -32,7 +37,6 @@ uint8_t Mapper::read_PRG(uint16_t address){
     else{
         return 0;
     }
-    
     // return the value stored in ROM
     return this->cart_info->get_PRG_data().data()[new_address];
 }
