@@ -148,12 +148,6 @@ void PPU::tick(){
 
         // calculate pattern value using high and low bit
         pattern_val = low_bit + (high_bit * 2);
-        std::cout << "LOW SHIFT: " << this->low_shift << std::endl;
-        std::cout << "HIGH SHIFT: " << this->high_shift << std::endl;
-        std::cout << "PATTERN LOW: " << static_cast<int>(this->pattern_low) << std::endl;
-        std::cout << "PATTERN HIGH: " << static_cast<int>(this->pattern_high) << std::endl;
-        std::cout << "PATTERN VAL: " << static_cast<int>(pattern_val) << std::endl;
-        std::cout << "PAL STATE: " << static_cast<int>(this->pal_state) << std::endl;
         uint16_t palelet_val;
         // check if the pattern value is 0
         if(pattern_val == 0){
@@ -165,11 +159,8 @@ void PPU::tick(){
             palelet_val = 0x3F00 + this->pal_state * 4 + pattern_val;
         }
         uint8_t colour_byte;
-        // get the colour byte from PAL RAM using address 
-        colour_byte = this->read_pal_ram(address);
-        std::cout << std::hex;
-        std::cout << "PALETTE ADDRESS: " << palelet_val << std::endl;
-        std::cout << "COLOUR BYTE: " << static_cast<int>(colour_byte) << std::endl;
+        // get the colour byte from PAL RAM using the pallet val 
+        colour_byte = this->read_pal_ram(palelet_val);
         // get the x coordinate
         uint8_t x = this->dot_count -1;
         // get the y coordinate

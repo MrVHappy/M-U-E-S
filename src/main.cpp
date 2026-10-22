@@ -117,8 +117,6 @@ int main(int argc, char*argv[]){
         std::cout << "PASS" << std::endl;
     }
     else{
-        std::cout << "INDEX 0: " << static_cast<int>(ppu.get_frame_buffer()[0][0]) << std::endl;
-        std::cout << "EXPECTED: " << 0x21 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
     
