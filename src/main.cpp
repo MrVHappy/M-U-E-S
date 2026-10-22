@@ -197,5 +197,12 @@ int main(int argc, char*argv[]){
         std::cout << "FAIL" << std::endl;
     }
     
+    std::cout << "TEST 4" << std::endl;
+    ppu.reset_state();
+    ppu.set_mask(0x1C);
+    rom.set_CHR(0);
+
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(2);
     return 0;
 }
