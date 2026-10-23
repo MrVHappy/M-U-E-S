@@ -269,5 +269,60 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "FAIL" << std::endl;
     }
+
+    std::cout << "TEST 7" << std::endl;
+    ppu.reset_state();
+    ppu.set_mask(0x12);
+
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.set_fine_x(0);
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x0000);
+    ppu.set_pal_state(0);
+
+    ppu.write_sprite_oam(0,0x00);
+    ppu.write_sprite_oam(1,0x00);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x00);
+
+    ppu.write_sprite_pattern_low(0,0x80);
+    ppu.write_sprite_pattern_high(0,0x00);
+
+    ppu.tick();
+
+    if(!ppu.get_sprite_0_hit()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 8" << std::endl;
+    ppu.reset_state();
+    ppu.set_mask(0x1E);
+
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.set_fine_x(0);
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x0000);
+    ppu.set_pal_state(0);
+
+    ppu.write_sprite_oam(0,0x00);
+    ppu.write_sprite_oam(1,0x00);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x00);
+
+    ppu.tick();
+
+    if(ppu.get_sprite_0_hit()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
     return 0;
 }
