@@ -112,6 +112,8 @@ void Cartridge::reset_cart(){
     this->CHR_banks_num = 0;
     this->Mapper_ID = 0;
     this->PRG_data.clear();
+    this->PRG_data.resize(2 * 16384);
     this->CHR_data.clear();
+    this->CHR_data.resize(8192);
     this->s_ram.clear();
 }
