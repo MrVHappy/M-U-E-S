@@ -133,10 +133,17 @@ int main(int argc, char*argv[]){
     ppu.write_sprite_oam(2,0x00);
     ppu.write_sprite_oam(3,0x10);
 
+    ppu.write_sprite_pattern_low(0,0x80);
+    ppu.write_sprite_pattern_high(0,0x00);
+
+    ppu.tick();
+
     if(ppu.get_frame_buffer()[0x20][0x10] == 0x25){
         std::cout << "PASS" << std::endl;
     }
     else{
+        std::cout << "INDEX $20,$10: " << static_cast<int>(ppu.get_frame_buffer()[0x20][0x10]) << std::endl;
+        std::cout << "EXPECTED: " << 0x25 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
 
@@ -198,6 +205,65 @@ int main(int argc, char*argv[]){
     ppu.tick();
 
     if(ppu.get_frame_buffer()[0x20][0x10] == 0x21){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 5" << std::endl;
+    ppu.reset_state();
+    ppu.set_mask(0x18);
+
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(0x11);
+
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x0000);
+    ppu.set_fine_x(0);
+
+    ppu.set_pal_state(0);
+    ppu.db_write_pal_ram(0x3F01,0x21);
+
+    ppu.write_sprite_oam(0,0x20);
+    ppu.write_sprite_oam(1,0x00);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x10);
+
+    ppu.write_sprite_pattern_low(0,0x80);
+    ppu.write_sprite_pattern_high(0,0x00);
+
+    ppu.tick();
+
+    if(ppu.get_sprite_0_hit()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 6" << std::endl;
+    ppu.reset_state();
+    ppu.set_mask(0x18);
+
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(0x11);
+
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x0000);
+    ppu.set_fine_x(0);
+
+    ppu.write_sprite_oam(0,0x20);
+    ppu.write_sprite_oam(1,0x00);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x10);
+
+    ppu.write_sprite_pattern_low(0,0x00);
+    ppu.write_sprite_pattern_high(0,0x00);
+
+    ppu.tick();
+
+    if(!ppu.get_sprite_0_hit()){
         std::cout << "PASS" << std::endl;
     }
     else{
