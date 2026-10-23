@@ -97,7 +97,7 @@ class PPU{
         uint8_t get_pattern_high();
         uint16_t get_low_shift();
         uint16_t get_high_shift();
-        std::array<std::array<uint8_t,256>,240> get_frame_buffer();
+        const std::array<std::array<uint8_t,256>,240>& get_frame_buffer();
         uint8_t get_pal_state();
         std::array<uint8_t,32> get_sprite_oam();
         std::array<uint8_t,8> get_sprite_pattern_low();

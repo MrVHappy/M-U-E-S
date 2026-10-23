@@ -1007,7 +1007,7 @@ uint16_t PPU::get_low_shift(){
 uint16_t PPU::get_high_shift(){
     return this->high_shift;
 }
-std::array<std::array<uint8_t,256>,240> PPU::get_frame_buffer(){
+const std::array<std::array<uint8_t,256>,240>& PPU::get_frame_buffer(){
     return this->frame_buffer;
 }
 uint8_t PPU::get_pal_state(){
