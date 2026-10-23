@@ -91,17 +91,17 @@ class PPU{
         bool get_nmi_output();
         int get_scan_ln_count();
         int get_dot_count();
-        std::array<uint8_t,32> get_tile_buffer();
-        std::array<uint8_t,32> get_attribute_buffer();
+        const std::array<uint8_t,32> & get_tile_buffer();
+        const std::array<uint8_t,32> & get_attribute_buffer();
         uint8_t get_pattern_low();
         uint8_t get_pattern_high();
         uint16_t get_low_shift();
         uint16_t get_high_shift();
         const std::array<std::array<uint8_t,256>,240>& get_frame_buffer();
         uint8_t get_pal_state();
-        std::array<uint8_t,32> get_sprite_oam();
-        std::array<uint8_t,8> get_sprite_pattern_low();
-        std::array<uint8_t,8> get_sprite_pattern_high();
+        const std::array<uint8_t,32> & get_sprite_oam();
+        const std::array<uint8_t,8> & get_sprite_pattern_low();
+        const std::array<uint8_t,8> & get_sprite_pattern_high();
 
         // setters
         void set_ctrl(uint8_t value);

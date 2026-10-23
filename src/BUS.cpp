@@ -341,7 +341,7 @@
         }
     } 
 
-    std::array<uint8_t, 2048> BUS::get_sys_ram(){
+    const std::array<uint8_t, 2048> & BUS::get_sys_ram(){
         return this->sys_ram;
     }
 

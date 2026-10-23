@@ -90,7 +90,7 @@ Mapper& Cartridge::get_mapper_info(){
     return *this->mapper_info;
 }
 
-std::array<uint8_t,16> Cartridge::get_header(){
+const std::array<uint8_t,16> & Cartridge::get_header(){
     return this->header;
 }
 void Cartridge::set_header(int index){

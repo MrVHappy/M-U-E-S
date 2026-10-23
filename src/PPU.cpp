@@ -989,10 +989,10 @@ int PPU::get_scan_ln_count(){
 int PPU::get_dot_count(){
     return this->dot_count;
 }
-std::array<uint8_t,32> PPU::get_tile_buffer(){
+const std::array<uint8_t,32> & PPU::get_tile_buffer(){
     return this->tile_buffer;
 }
-std::array<uint8_t,32> PPU::get_attribute_buffer(){
+const std::array<uint8_t,32> & PPU::get_attribute_buffer(){
     return this->attribute_buffer;
 }
 uint8_t PPU::get_pattern_low(){
@@ -1013,13 +1013,13 @@ const std::array<std::array<uint8_t,256>,240>& PPU::get_frame_buffer(){
 uint8_t PPU::get_pal_state(){
     return this->pal_state;
 }
-std::array<uint8_t,32> PPU::get_sprite_oam(){
+const std::array<uint8_t,32> & PPU::get_sprite_oam(){
     return this->sprite_oam;
 }
-std::array<uint8_t,8> PPU::get_sprite_pattern_low(){
+const std::array<uint8_t,8> & PPU::get_sprite_pattern_low(){
     return this->sprite_pattern_low;
 }
-std::array<uint8_t,8> PPU::get_sprite_pattern_high(){
+const std::array<uint8_t,8> & PPU::get_sprite_pattern_high(){
     return this->sprite_pattern_high;
 }
 

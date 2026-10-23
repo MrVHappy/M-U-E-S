@@ -38,7 +38,7 @@ class Cartridge{
         int get_PRG_bank();
         int get_CHR_bank();
         class Mapper& get_mapper_info();
-        std::array<uint8_t,16> get_header();
+        const std::array<uint8_t,16> & get_header();
 
         // setter for debugging
         void set_header(int index);
