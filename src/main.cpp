@@ -380,5 +380,48 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "FAIL" << std::endl;
     }
+
+    std::cout << "TEST 11" << std::endl;
+    ppu.set_mask(0x1E);
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(0x11);
+    ppu.set_fine_x(0);
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x0000);
+
+    ppu.write_sprite_oam(0,0x20);
+    ppu.write_sprite_oam(1,0x00);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x10);
+
+    ppu.write_sprite_pattern_low(0,0x80);
+    ppu.write_sprite_pattern_high(0,0x00);
+
+    ppu.db_write_pal_ram(0x01,0x21);
+    ppu.db_write_pal_ram(0x11,0x25);
+
+    ppu.tick();
+
+    if(ppu.get_sprite_0_hit()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    ppu.set_dot_count(0x30);
+    ppu.set_low_shift(0x0000);
+    ppu.set_high_shift(0x0000);
+    ppu.write_sprite_pattern_low(0,0x00);
+    ppu.write_sprite_pattern_high(0,0x00);
+
+    ppu.tick();
+
+    if(ppu.get_sprite_0_hit()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
     return 0;
 }
