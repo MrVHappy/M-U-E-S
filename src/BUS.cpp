@@ -55,9 +55,10 @@
                     uint8_t ppu_status = 0;
                     ppu_status = ppu_status | status_change;
                     this->ppu->set_status(ppu_status);
-                    // clear the v blank and write toggle
+                    // clear the v blank and write toggle and sprite 0 hit
                     this->ppu->clear_v_blank();
                     this->ppu->clear_write_toggle();
+                    this->ppu->clear_sprite_0_hit();
                     // PPU status register
                     return ppu_status;
                 }

@@ -423,5 +423,22 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "FAIL" << std::endl;
     }
+
+    std::cout << "TEST 12" << std::endl;
+    ppu.reset_state();
+    ppu.update_sprite_0_hit();
+    int result = bus.read(0x2002);
+    if(result == 0x40){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(!ppu.get_sprite_0_hit()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
     return 0;
 }
