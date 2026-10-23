@@ -426,7 +426,6 @@
         
         void NES::reset(){
             // set acc, x, y to 0
-            std::cout << "RESET START" << std::endl;
             this->acc = 0;
             this->x = 0;
             this->y = 0;
@@ -434,18 +433,13 @@
             this->stack_ptr = 0xFD;
             // set status flag to 0x24
             this->status_flag = 0x24;
-            std::cout << "REGISTERS INITIALISED" << std::endl;
-            std::cout << "BUS PTR = " << static_cast<const void*>(this->bus) << std::endl;
             // load the PC from the reset vector
             // get the low byte from 0xFFFC
             uint8_t low_byte = this->bus->read(0xFFFC);
-            std::cout << "LOW BYTE: " << std::hex << static_cast<int>(low_byte) << std::endl; 
             // get the high byte from 0xFFFD
             uint8_t high_byte = this->bus->read(0xFFFD);
-            std::cout << "HIGH BYTE: " << std::hex << static_cast<int>(high_byte) << std::endl; 
             // combine the two bytes together and store in pc
             this->pc = (static_cast<uint16_t>(high_byte) << 8) | low_byte;
-            std::cout << "PC: " << std::hex << static_cast<int>(this->pc) << std::endl;
 
         }
 

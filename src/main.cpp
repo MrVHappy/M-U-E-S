@@ -54,13 +54,9 @@
 #define DEBUG
 
 int main(int argc, char*argv[]){
-    // std::cout << "GO" << std::endl;
-    std::cout << "MAIN STARTED" << std::endl;
-    // std::cout << "PPU size: " << sizeof(PPU) << " bytes" << std::endl;
-    // std::cout << "BUS size: " << sizeof(BUS) << " bytes" << std::endl;
-    // // // initialisation of the emulator
+    // initialisation of the emulator
     BUS bus = BUS();
-    // // connect the bus with the cartridge
+    // connect the bus with the cartridge
     Cartridge rom = Cartridge(&bus);
     rom.get_mapper_info().set_cart_info(&rom);
     #ifdef DEBUG
@@ -73,80 +69,52 @@ int main(int argc, char*argv[]){
     // }
     // // connect the cartridge with the bus
     bus.set_cartridge(&rom);
-    std::cout << "ROM LOADED TO BUS" << std::endl;
-    // // connect bus with PPU
+    // connect bus with PPU
     PPU ppu = PPU(&bus);
-    std::cout << "PPU CONSTRUCTED" << std::endl;
-    // ppu.set_ctrl(0);
-    // // connect PPU with BUS
+    // connect PPU with BUS
     bus.set_ppu(&ppu);
-    std::cout << "PPU CONNECTED TO BUS" << std::endl;
-    // // connect the bus with the CPU
+    // connect the bus with the CPU
     NES nes = NES(&bus);
-    std::cout << "CPU CONSTRUCTED" << std::endl;
-    // // reset the CPU
-    std::cout << "BEFORE RESET NES" << std::endl;
+    // reset the CPU
     nes.reset();
-    std::cout << "AFTER RESET NES" << std::endl;
 
     ppu.set_mask(0x08);
-    std::cout << "AFTER TESTS" << std::endl;
     
-
     std::cout << std::hex << std::setfill('0');
 
     std::cout << "LEFTMOST 8 PIXEL EDGE CLIPPING TESTS" << std::endl;
     std::cout << "TEST 1" << std::endl; 
     ppu.reset_state();
-    std::cout << "RESET PPU" << std::endl;
     ppu.set_mask(0x1C);
-    std::cout << "MASK" << std::endl;
     rom.set_CHR(0);
-    std::cout << "SET CHR" << std::endl;
 
     ppu.set_scan_ln_count(0);
-    std::cout << "SCAN LN" << std::endl;
     ppu.set_dot_count(1);
-    std::cout << "DOT" << std::endl;
 
     ppu.set_low_shift(0x4000);
-    std::cout << "LOW SHIFT" << std::endl;
     ppu.set_high_shift(0x0000);
-    std::cout << "HIGH SHIFT" << std::endl;
 
     ppu.db_write_vram(0x0000,0x01);
     ppu.db_write_vram(0x0001,0x00);
     ppu.db_write_vram(0x03C0,0x00);
-    std::cout << "VRAM" << std::endl;
 
     rom.get_mapper_info().write_CHR(0x20,0xFF);
-    std::cout << "1" << std::endl;
     rom.get_mapper_info().write_CHR(0x28,0x00);
-    std::cout << "2" << std::endl;
     rom.get_mapper_info().write_CHR(0x10,0xFF);
-    std::cout << "3" << std::endl;
     rom.get_mapper_info().write_CHR(0x18,0x00);
-    std::cout << "4" << std::endl;
-
-    std::cout << "CHR" << std::endl;
 
     ppu.write_sprite_pattern_low(0,0xFF);
     ppu.write_sprite_pattern_high(0,0x00);
 
-    std::cout << "SPRITE PATTERNS" << std::endl;
-
     ppu.db_write_pal_ram(0x01,0x21);
     ppu.db_write_pal_ram(0x11,0x25);
-    std::cout << "PAL RAM" << std::endl;
 
     ppu.write_sprite_oam(0,0x00);
     ppu.write_sprite_oam(1,0x02);
     ppu.write_sprite_oam(2,0x00);
     ppu.write_sprite_oam(3,0x00);
-    std::cout << "SPRITE OAM" << std::endl;
 
     ppu.tick();
-    std::cout << "TICK" << std::endl;
 
     if(ppu.get_frame_buffer()[0][0] == 0x21){
         std::cout << "PASS" << std::endl;
@@ -597,9 +565,6 @@ int main(int argc, char*argv[]){
 
     ppu.tick();
 
-    std::cout << "GETTING FB" << std::endl;
-    int x6 = ppu.get_frame_buffer()[0][6];
-    std::cout << "FB INDEX 6: " << x6 << std::endl; 
     if(ppu.get_frame_buffer()[0][6] == 0x25){
         std::cout << "PASS" << std::endl;
     }

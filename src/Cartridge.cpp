@@ -71,7 +71,6 @@ bool Cartridge::load_ROM(std::string path){
 }
 
 std::vector<uint8_t>& Cartridge::get_CHR_data(){
-    std::cout << "CART INFO" << std::endl;
     return this->CHR_data;
 }
 

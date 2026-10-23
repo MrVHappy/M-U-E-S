@@ -13,16 +13,11 @@ Mapper::Mapper(Cartridge *cartridge){
 }
 
 uint8_t Mapper::read_PRG(uint16_t address){
-    std::cout << "START READ PRG" << std::endl;
     // check if cart info is null
     if(this->cart_info == NULL){
-        std::cout << "CART INFO NULL" << std::endl;
         return 0;
     }
-    std::cout << "CART INFO NOT NULL" << std::endl;
     int prg_size = static_cast<int>(this->cart_info->get_PRG_data().size());
-    std::cout << "PRG SIZE: " << std::dec << prg_size << std::endl;
-    std::cout << "PRG BANKS: " << std::dec << this->cart_info->get_PRG_bank() << std::endl; 
     // check if valid address
     if(address < 0x8000){
         return 0;
@@ -41,7 +36,6 @@ uint8_t Mapper::read_PRG(uint16_t address){
     else{
         return 0;
     }
-    std::cout << "NEW ADDR: " << std::hex << static_cast<int>(new_address) << std::endl;
     // return the value stored in ROM
     return this->cart_info->get_PRG_data().data()[new_address];
 }
@@ -51,15 +45,11 @@ uint8_t Mapper::read_CHR(uint16_t address){
 }
 
 void Mapper::write_CHR(uint16_t address, uint8_t value){
-    std::cout << "START CHR" << std::endl;
     // check if CHR is treated as RAM
     if(this->cart_info->get_CHR_bank() > 0){
-        std::cout << "WRONG BANK" << std::endl;
         // CHR used as ROM
         return;
     }
-    std::cout << "ADDR: " << std::hex << static_cast<int>(address) << std::endl;
-    std::cout << "VALUE: " << std::hex << static_cast<int>(value) << std::endl;
     this->cart_info->get_CHR_data().data()[address] = value;
 }
 

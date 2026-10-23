@@ -119,16 +119,12 @@
         }
         // check if the address is >= 0x8000
         else if (address >= 0x8000){
-            std::cout << "ADDR: " << std::hex << static_cast<int>(address) << std::endl;
-            std::cout << "ROM: " << static_cast<const void*>(this->rom) << std::endl;
             // ROM data
             Mapper *mapper = &this->rom->get_mapper_info();
             // check if mapper is NULL
             if(mapper == NULL){
-                std::cout << "NULL MAPPER" << std::endl;
                 return 0;
             }
-            std::cout << "MAPPER NOT NULL" << std::endl;
             return mapper->read_PRG(address);
         }
         return 0;
