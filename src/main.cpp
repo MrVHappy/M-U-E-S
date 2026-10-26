@@ -458,5 +458,16 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "FAIL" << std::endl;
     }
+
+    std::cout << "TEST 14" << std::endl;
+    ppu.reset_state();
+    ppu.update_write_toggle();
+    bus.read(0x2002);
+    if(!ppu.get_write_toggle()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
     return 0;
 }
