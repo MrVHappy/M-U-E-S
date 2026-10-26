@@ -486,5 +486,199 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "FAIL" << std::endl;
     }
+
+    std::cout << "TEST 16" << std::endl;
+    ppu.reset_state();
+    ppu.update_sprite_overflow();
+    ppu.update_sprite_0_hit();
+    ppu.update_v_blank();
+
+    result = bus.read(0x2002);
+    
+    if((result & 0xE0) == 0xE0){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(!ppu.get_v_blank()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(!ppu.get_sprite_0_hit()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 17" << std::endl;
+    ppu.reset_state();
+    ppu.clear_sprite_overflow();
+    ppu.clear_sprite_0_hit();
+    ppu.clear_v_blank();
+
+    result = bus.read(0x2002);
+
+    ppu.clear_sprite_overflow();
+    ppu.clear_sprite_0_hit();
+    ppu.clear_v_blank();
+
+    result = bus.read(0x2002);
+
+    if((result & 0xE0) == 0x00){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(!ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(!ppu.get_sprite_0_hit()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(!ppu.get_v_blank()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 18" << std::endl;
+    ppu.reset_state();
+
+    ppu.update_sprite_overflow();
+    ppu.update_sprite_0_hit();
+    ppu.update_v_blank();
+
+    result = bus.read(0x2002);
+
+    if((result & 0xE0) == 0xE0){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    result = bus.read(0x2002);
+
+    if((result & 0x80) == 0x00){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if((result & 0x40) == 0x00){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    if((result & 0x20) == 0x20){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 19" << std::endl;
+    ppu.reset_state();
+
+    ppu.update_sprite_overflow();
+    ppu.update_sprite_0_hit();
+    ppu.update_v_blank();
+    ppu.update_write_toggle();
+
+    result = bus.read(0x2002);
+
+    if((result & 0xE0) == 0xE0){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(!ppu.get_write_toggle()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(!ppu.get_v_blank()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(!ppu.get_sprite_0_hit()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 20" << std::endl;
+    ppu.reset_state();
+
+    ppu.update_sprite_overflow();
+    ppu.clear_sprite_0_hit();
+    ppu.clear_v_blank();
+
+    result = bus.read(0x2002);
+
+    if((result & 0xE0) == 0x20){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    result = bus.read(0x2002);
+
+    if((result & 0xE0) == 0x20){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
     return 0;
 }
