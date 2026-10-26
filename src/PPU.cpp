@@ -1327,6 +1327,7 @@ void PPU::reset_state(){
 }
 
 void PPU::db_write_vram(uint16_t address, uint8_t value){
+    address = address & 0x3FFF;
     this->vram[address] = value;
 }
 void PPU::db_write_pal_ram(uint16_t address, uint8_t value){
