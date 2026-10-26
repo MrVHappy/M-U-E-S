@@ -683,85 +683,92 @@ int main(int argc, char*argv[]){
 
     std::cout << "SPRITE 0 HIT PIPELINE TESTS" << std::endl;
     std::cout << "TEST 1" << std::endl;
-    std::cout << "1" << std::endl;
     ppu.reset_state();
-    std::cout << "2" << std::endl;
     rom.set_CHR(0);
+    rom.set_header(0);
 
-    std::cout << "3" << std::endl;
     ppu.set_mask(0x1E);
 
-    std::cout << "4" << std::endl;
     ppu.set_ctrl(0x00);
 
-    std::cout << "5" << std::endl;
-    ppu.write_sprite_oam(0,0x20);
-    std::cout << "6" << std::endl;
-    ppu.write_sprite_oam(1,0x00);
-    std::cout << "7" << std::endl;
-    ppu.write_sprite_oam(2,0x00);
-    std::cout << "8" << std::endl;
-    ppu.write_sprite_oam(3,0x10);
+    ppu.write_oam_ram(0,0x20);
+    ppu.write_oam_ram(1,0x00);
+    ppu.write_oam_ram(2,0x00);
+    ppu.write_oam_ram(3,0x10);
 
-    std::cout << "9" << std::endl;
     ppu.db_write_vram(0x2000,0x01);
-    std::cout << "10" << std::endl;
+    ppu.db_write_vram(0x2082,0x01);
     rom.get_mapper_info().write_CHR(0x11,0x80);
-    std::cout << "11" << std::endl;
     rom.get_mapper_info().write_CHR(0x19,0x00);
-    std::cout << "12" << std::endl;
     rom.get_mapper_info().write_CHR(0x00,0x80);
-    std::cout << "13" << std::endl;
     rom.get_mapper_info().write_CHR(0x08,0x00);
 
-    std::cout << "14" << std::endl;
     ppu.db_write_pal_ram(0x01,0x21);
-    std::cout << "15" << std::endl;
     ppu.db_write_pal_ram(0x11,0x25);
 
-    std::cout << "16" << std::endl;
-    ppu.set_scan_ln_count(32);
-    std::cout << "17" << std::endl;
-    ppu.set_dot_count(64);
-
-    std::cout << "18" << std::endl;
-    while((ppu.get_scan_ln_count() != 33) || (ppu.get_dot_count() != 17)){
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(0);
+    std::cout << "INITIAL BACKGROUND STATE" << std::endl;
+    std::cout << "V: " << std::hex << ppu.get_v() << std::endl;
+    std::cout << "LOW SHIFT: " << ppu.get_low_shift() << std::endl;
+    std::cout << "HIGH SHIFT: " << ppu.get_high_shift() << std::endl;
+    std::cout << "BEFORE LOOP: SCANLINE "
+          << std::dec << (int)ppu.get_scan_ln_count()
+          << " DOT " << (int)ppu.get_dot_count()
+          << std::endl;
+    while((ppu.get_scan_ln_count() != 33) || (ppu.get_dot_count() != 18)){
         ppu.tick();
     }
+    
+    std::cout << "INITIAL V DECIMAL: "
+          << std::dec << ppu.get_v() << std::endl;
 
-    std::cout << "19" << std::endl;
+    std::cout << "INITIAL V HEX: 0x"
+            << std::hex << ppu.get_v() << std::endl;
+
+    std::cout << "AFTER LOOP" << std::endl;
+    std::cout << "SCANLINE: " << std::dec
+            << (int)ppu.get_scan_ln_count() << std::endl;
+    std::cout << "DOT: " << std::dec
+            << (int)ppu.get_dot_count() << std::endl;
     if(ppu.get_sprite_oam()[0] == 0x20){
         std::cout << "PASS" << std::endl;
     }
     else{
+        std::cout << "SPRITE OAM INDEX 0: " << static_cast<int>(ppu.get_sprite_oam()[0]) << std::endl;
+        std::cout << "EXPECTED: " << 0x20 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
-    std::cout << "20" << std::endl;
     if(ppu.get_sprite_oam()[1] == 0x00){
         std::cout << "PASS" << std::endl;
     }
     else{
+        std::cout << "SPRITE OAM INDEX 1: " << static_cast<int>(ppu.get_sprite_oam()[1]) << std::endl;
+        std::cout << "EXPECTED: " << 0x00 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
-    std::cout << "21" << std::endl;
     if(ppu.get_sprite_pattern_low()[0] == 0x80){
         std::cout << "PASS" << std::endl;
     }
     else{
+        std::cout << "SPRITE PATTERN LOW INDEX 0: " << static_cast<int>(ppu.get_sprite_pattern_low()[0]) << std::endl;
+        std::cout << "EXPECTED: " << 0x80 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
-    std::cout << "22" << std::endl;
     if(ppu.get_sprite_pattern_high()[0] == 0x00){
         std::cout << "PASS" << std::endl;
     }
     else{
+        std::cout << "SPRITE PATTERN HIGH INDEX 0: " << static_cast<int>(ppu.get_sprite_pattern_high()[0]) << std::endl;
+        std::cout << "EXPECTED: " << 0x00 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
-    std::cout << "23" << std::endl;
     if(ppu.get_sprite_0_hit()){
         std::cout << "PASS" << std::endl;
     }
     else{
+        std::cout << "SPRITE 0 HIT: FALSE" << std::endl;
+        std::cout << "EXPECTED: TRUE" << std::endl;
         std::cout << "FAIL" << std::endl;
     }
     return 0;

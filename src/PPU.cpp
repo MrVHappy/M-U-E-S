@@ -148,6 +148,18 @@ void PPU::tick(){
 
         // calculate pattern value using high and low bit
         pattern_val = low_bit + (high_bit * 2);
+        if ((this->scan_ln_count == 33) && (this->dot_count == 17)) {
+            std::cout << "BACKGROUND PIXEL DEBUG" << std::endl;
+            std::cout << "LOW SHIFT: " << std::hex
+                    << this->low_shift << std::endl;
+            std::cout << "HIGH SHIFT: " << this->high_shift << std::endl;
+            std::cout << "FINE X: " << std::dec
+                    << (int)this->fine_x << std::endl;
+            std::cout << "LOW BIT: " << (int)low_bit << std::endl;
+            std::cout << "HIGH BIT: " << (int)high_bit << std::endl;
+            std::cout << "BACKGROUND PATTERN: "
+                    << (int)pattern_val << std::endl;
+        }
         uint16_t palelet_val;
         // check if the pattern value is 0
         if(pattern_val == 0){
@@ -279,6 +291,14 @@ void PPU::tick(){
         // allow first 8 pixels to be rendered
         start_dot = 1;
     }
+    if ((this->scan_ln_count == 33) && (this->dot_count == 17)) {
+        std::cout << "SPRITE RENDER GATE" << std::endl;
+        std::cout << "SCANLINE: " << std::dec
+                << (int)this->scan_ln_count << std::endl;
+        std::cout << "DOT: " << (int)this->dot_count << std::endl;
+        std::cout << "START DOT: " << (int)start_dot << std::endl;
+        std::cout << "BIT 4: " << bit_4 << std::endl;
+    }
     // Sprite Pixel rendering
     if((this->scan_ln_count < 240) && (this->dot_count >= start_dot) && (bit_4 == true)){
         // get the x coordinate
@@ -311,6 +331,24 @@ void PPU::tick(){
                 uint8_t high_bit = (this->sprite_pattern_high[i] >> shift) & 1;
                 // calculate the 2 sprite pixel valye
                 uint8_t sprite_pixel = low_bit + (2 * high_bit);
+                if ((screen_y == 33) && (screen_x == 16)) {
+                    std::cout << "TARGET PIXEL REACHED" << std::endl;
+                    std::cout << "DOT: " << std::dec
+                            << (int)this->dot_count << std::endl;
+                    std::cout << "SCANLINE: " << std::dec
+                            << (int)this->scan_ln_count << std::endl;
+                    std::cout << "MASK: " << (int)this->mask << std::endl;
+                    std::cout << "BIT 4: " << bit_4 << std::endl;
+                }
+                if((screen_y == 33) && (screen_x == 16) && (i == 0)){
+                    std::cout << "SPRITE 0 HIT DEBUG" << std::endl;
+                    std::cout << "SCREEN X: " << std::dec << (int)screen_x << std::endl;
+                    std::cout << "SCREEN Y: " << std::dec << (int)screen_y << std::endl;
+                    std::cout << "SPRITE PIXEL: " << (int)sprite_pixel << std::endl;
+                    std::cout << "BACKGROUND PATTERN: " << (int)pattern_val << std::endl;
+                    std::cout << "BIT 3: " << bit_3 << std::endl;
+                    std::cout << "SPRITE 0 HIT BEFORE CHECK: " << this->sprite_0_hit << std::endl;
+                }
                 // sprite 0 detection
                 if((sprite_pixel != 0) && (i == 0) && (pattern_val != 0) && (bit_3) && (screen_x < 255)){
                     this->sprite_0_hit = true;
@@ -470,7 +508,17 @@ void PPU::tick(){
 
                 // extract the contents from CHR at index low addr and store in pattern low
                 this->pattern_low = this->bus->get_rom().get_mapper_info().read_CHR(low_addr);
-
+                if ((this->scan_ln_count == 33) && (tile_index == 2)) {
+                    std::cout << "BACKGROUND FETCH DEBUG" << std::endl;
+                    std::cout << "DOT: " << std::dec
+                            << (int)this->dot_count << std::endl;
+                    std::cout << "TILE INDEX: " << (int)tile_index << std::endl;
+                    std::cout << "TILE NUMBER: " << (int)tile_num << std::endl;
+                    std::cout << "FINE Y: " << (int)fine_y << std::endl;
+                    std::cout << "LOW ADDRESS: " << std::hex << low_addr << std::endl;
+                    std::cout << "PATTERN LOW: " << std::hex
+                            << (int)this->pattern_low << std::endl;
+                }
                 // Sprite fetch
                 // get the sprite index 
                 uint8_t sprite_index = tile_index;
@@ -545,6 +593,14 @@ void PPU::tick(){
                 }
                 // extract the contents of low pattern byte to sprite pattern low
                 this->sprite_pattern_low[sprite_index] = low_pattern_byte;
+                std::cout << "BG LOW FETCH"
+                    << " SCANLINE: " << std::dec << (int)this->scan_ln_count
+                    << " DOT: " << (int)this->dot_count
+                    << " TILE INDEX: " << (int)tile_index
+                    << " TILE: " << (int)tile_num
+                    << " ADDRESS: " << std::hex << low_addr
+                    << " VALUE: " << (int)this->pattern_low
+                    << std::endl;
                 break;
             }
             // Pattern high byte fetch
@@ -653,6 +709,14 @@ void PPU::tick(){
                 this->low_shift = this->low_shift & 0b1111111100000000;
                 // then add pattern low to bits 0-7
                 this->low_shift = this->low_shift | this->pattern_low;
+                std::cout << "BG SHIFT LOAD"
+                    << " SCANLINE: " << std::dec << (int)this->scan_ln_count
+                    << " DOT: " << (int)this->dot_count
+                    << " TILE INDEX: " << (int)tile_index
+                    << " PATTERN LOW: " << std::hex << (int)this->pattern_low
+                    << " LOW SHIFT: " << this->low_shift
+                    << std::endl;
+                
                 // remove the bits 0-7 from high shift
                 this->high_shift = this->high_shift & 0b1111111100000000;
                 // then add pattern high to bits 0-7
@@ -1327,7 +1391,27 @@ void PPU::reset_state(){
 }
 
 void PPU::db_write_vram(uint16_t address, uint8_t value){
+    // mask the address
     address = address & 0x3FFF;
+    if ((address >= 0x2000) && (address < 0x3000)){
+        // check which mirroring mode will be used
+        if(this->bus->get_rom().get_mapper_info().is_vertical()){
+            // using vertical mapping:
+            address = address % 0x0800;
+        }
+        else{
+            // use horizontal mapping:
+            if((address >= 0x2000) && (address < 0x2800)){
+                address = address % 0x0400;
+            }
+            else if((address >= 0x2800) && (address < 0x2C00)){
+                address = (address % 0x0400) + 0x400;
+            }
+            else{
+                address = address % 0x0800;
+            }
+        }
+    }
     this->vram[address] = value;
 }
 void PPU::db_write_pal_ram(uint16_t address, uint8_t value){
