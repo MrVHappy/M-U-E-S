@@ -67,9 +67,20 @@ void PPU::tick(){
                     // pattern table is 0
                     low_addr = (tile_num * 16) + fine_y;
                 }
+                if (scan_ln_count == 21)
+                {
+                    std::cout << "BACKGROUND LOW FETCH" << std::endl;
+                    std::cout << "DOT: " << std::dec << dot_count << std::endl;
+                    std::cout << "TILE NUMBER: " << static_cast<int>(tile_num) << std::endl;
+                    std::cout << "FINE Y: " << static_cast<int>(fine_y) << std::endl;
+                    std::cout << "LOW ADDRESS: 0x" << std::hex << low_addr << std::endl;
+                    std::cout << "CHR BYTE AT ADDRESS: 0x"
+                            << static_cast<int>(this->bus->get_rom().get_mapper_info().read_CHR(low_addr)) << std::endl;
+                    std::cout << std::dec;
+                }
                 // extract the contents from CHR at index low addr and store in pattern low
                 this->pattern_low = this->bus->get_rom().get_mapper_info().read_CHR(low_addr);                
-                if (scan_ln_count == 33 && dot_count == 17)
+                if (scan_ln_count == 33)
                 {
                     std::cout << "BACKGROUND PATTERN FETCH" << std::endl;
                     std::cout << "TILE NUMBER: " << static_cast<int>(tile_num) << std::endl;
@@ -103,13 +114,10 @@ void PPU::tick(){
             }
             // tile boundary loading
             case 7:{
-                std::cout << "LOW SHIFT BEFORE: " << (int) this->low_shift << std::endl;
                 // remove the bits 0-7 from low shift
                 this->low_shift = this->low_shift & 0b1111111100000000;
                 // then add pattern low to bits 0-7
                 this->low_shift = this->low_shift | this->pattern_low;
-                std::cout << "PATTERN LOW: " << (int) this->pattern_low << std::endl;
-                std::cout << "LOW SHIFT AFTER: " << (int) this->low_shift << std::endl;
                 // remove the bits 0-7 from high shift
                 this->high_shift = this->high_shift & 0b1111111100000000;
                 // then add pattern high to bits 0-7
@@ -333,7 +341,16 @@ void PPU::tick(){
                 uint8_t high_bit = (this->sprite_pattern_high[i] >> shift) & 1;
                 // calculate the 2 sprite pixel valye
                 uint8_t sprite_pixel = low_bit + (2 * high_bit);
-                
+                if (scan_ln_count == 33 && dot_count == 17 && i == 0)
+                {
+                    std::cout << "SPRITE 0 HIT CHECK" << std::endl;
+                    std::cout << "SCREEN X: " << static_cast<int>(screen_x) << std::endl;
+                    std::cout << "SPRITE X: " << static_cast<int>(sprite_x) << std::endl;
+                    std::cout << "SPRITE PIXEL: " << static_cast<int>(sprite_pixel) << std::endl;
+                    std::cout << "BACKGROUND PATTERN: " << static_cast<int>(pattern_val) << std::endl;
+                    std::cout << "BACKGROUND ENABLED: " << bit_3 << std::endl;
+                    std::cout << "SPRITE 0 HIT BEFORE: " << this->sprite_0_hit << std::endl;
+                }
                 // sprite 0 detection
                 if((sprite_pixel != 0) && (i == 0) && (pattern_val != 0) && (bit_3) && (screen_x < 255)){
                     this->sprite_0_hit = true;
