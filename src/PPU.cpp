@@ -34,6 +34,28 @@ void PPU::tick(){
                 uint8_t vram_data = this->read_vram(address);
                 // store in the tile buffer
                 this->tile_buffer[tile_index] = vram_data;
+                std::cout << "SCAN LINE: " << this->scan_ln_count << std::endl;
+                std::cout << "DOT: " << this->dot_count << std::endl;
+                std::cout << "ADDRESS" << (int) address << std::endl;
+                std::cout << "TILE VALUE: " << (int) this->tile_buffer[tile_index] << std::endl;
+                if (this->scan_ln_count == 32) {
+                    std::cout << "BG TILE FETCH TRACE"
+                            << " DOT: " << std::dec << (int)this->dot_count
+                            << " V: 0x" << std::hex << this->v
+                            << " ADDRESS: 0x" << address
+                            << " TILE INDEX: " << std::dec << (int)tile_index
+                            << " TILE VALUE: 0x" << std::hex
+                            << (int)this->tile_buffer[tile_index]
+                            << std::endl;
+                }
+                if ((this->scan_ln_count == 33) &&
+                    (this->dot_count == 17)) {
+                    std::cout << "TARGET BACKGROUND FETCH" << std::endl;
+                    std::cout << "V: 0x" << std::hex << this->v << std::endl;
+                    std::cout << "ADDRESS: 0x" << address << std::endl;
+                    std::cout << "TILE: 0x"
+                            << (int)this->tile_buffer[tile_index] << std::endl;
+                }
                 break;
             }
             // attribute processing
@@ -47,6 +69,17 @@ void PPU::tick(){
                 uint8_t attribute_byte = this->read_vram(address);
                 // store in the tile buffer
                 this->attribute_buffer[tile_index] = attribute_byte;
+                
+                if (this->scan_ln_count == 32) {
+                    std::cout << "BG TILE FETCH TRACE"
+                            << " DOT: " << std::dec << (int)this->dot_count
+                            << " V: 0x" << std::hex << this->v
+                            << " ADDRESS: 0x" << address
+                            << " TILE INDEX: " << std::dec << (int)tile_index
+                            << " TILE VALUE: 0x" << std::hex
+                            << (int)this->tile_buffer[tile_index]
+                            << std::endl;
+                }
                 break;
             }
             // Pattern low byte fetch
@@ -69,6 +102,9 @@ void PPU::tick(){
                 }
                 // extract the contents from CHR at index low addr and store in pattern low
                 this->pattern_low = this->bus->get_rom().get_mapper_info().read_CHR(low_addr);
+                std::cout << "TILE NUM: " << (int) tile_num << std::endl;
+                std::cout << "LOW ADDR: " << (int) low_addr << std::endl;
+                std::cout << "PATTERN LOW: " << (int) this->pattern_low << std::endl; 
                 break;
             }
             case 6:{
@@ -94,10 +130,13 @@ void PPU::tick(){
             }
             // tile boundary loading
             case 7:{
+                std::cout << "LOW SHIFT BEFORE: " << (int) this->low_shift << std::endl;
                 // remove the bits 0-7 from low shift
                 this->low_shift = this->low_shift & 0b1111111100000000;
                 // then add pattern low to bits 0-7
                 this->low_shift = this->low_shift | this->pattern_low;
+                std::cout << "PATTERN LOW: " << (int) this->pattern_low << std::endl;
+                std::cout << "LOW SHIFT AFTER: " << (int) this->low_shift << std::endl;
                 // remove the bits 0-7 from high shift
                 this->high_shift = this->high_shift & 0b1111111100000000;
                 // then add pattern high to bits 0-7
@@ -149,6 +188,12 @@ void PPU::tick(){
         // calculate pattern value using high and low bit
         pattern_val = low_bit + (high_bit * 2);
         if ((this->scan_ln_count == 33) && (this->dot_count == 17)) {
+            std::cout << "PATTERN LOW: "
+                    << std::hex << (int)this->pattern_low << std::endl;
+
+            std::cout << "LOW SHIFT BEFORE PIXEL: "
+                    << std::hex << this->low_shift << std::endl;
+            
             std::cout << "BACKGROUND PIXEL DEBUG" << std::endl;
             std::cout << "LOW SHIFT: " << std::hex
                     << this->low_shift << std::endl;
@@ -170,6 +215,28 @@ void PPU::tick(){
             // calculate palelet_val using pal state and pattern value
             palelet_val = 0x3F00 + this->pal_state * 4 + pattern_val;
         }
+
+        if (this->scan_ln_count == 33 && this->dot_count == 17) {
+            std::cout << "BACKGROUND PIXEL TRACE" << std::endl;
+
+            std::cout << "V: " << std::hex << this->v << std::endl;
+            std::cout << "T: " << std::hex << this->t << std::endl;
+            std::cout << "FINE X: " << std::hex
+                    << static_cast<int>(this->fine_x) << std::endl;
+
+            std::cout << "PATTERN LOW: " << std::hex
+                    << static_cast<int>(this->pattern_low) << std::endl;
+
+            std::cout << "PATTERN HIGH: " << std::hex
+                    << static_cast<int>(this->pattern_high) << std::endl;
+
+            std::cout << "LOW SHIFT: " << std::hex
+                    << this->low_shift << std::endl;
+
+            std::cout << "HIGH SHIFT: " << std::hex
+                    << this->high_shift << std::endl;
+        }
+
         uint8_t colour_byte;
         // get the colour byte from PAL RAM using the pallet val 
         colour_byte = this->read_pal_ram(palelet_val);
