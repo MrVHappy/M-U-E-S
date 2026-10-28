@@ -83,6 +83,23 @@ void PPU::tick(){
                 uint8_t vram_data = this->read_vram(address);
                 // store in the tile buffer
                 this->tile_buffer[tile_index] = vram_data;
+                
+                if (this->scan_ln_count == 21 &&
+                    (this->dot_count == 1 || this->dot_count == 9 ||
+                    this->dot_count == 17))
+                {
+                    std::cout << "NAMETABLE FETCH"
+                            << " DOT: " << std::dec
+                            << static_cast<int>(this->dot_count)
+                            << " V: 0x" << std::hex << this->v
+                            << " ADDRESS: 0x" << address
+                            << " VALUE: 0x" << static_cast<int>(vram_data)
+                            << " BUFFER INDEX: " << std::dec
+                            << static_cast<int>(tile_index)
+                            << " BUFFER VALUE: 0x" << std::hex
+                            << static_cast<int>(this->tile_buffer[tile_index])
+                            << std::endl;
+                }
                 break;
             }
             // attribute processing
@@ -265,6 +282,16 @@ void PPU::tick(){
             std::cout << "LOW SHIFT: " << std::hex << low_shift << std::endl;
             std::cout << "HIGH SHIFT: " << std::hex << high_shift << std::endl;
             std::cout << "PATTERN VALUE: " << static_cast<int>(pattern_val) << std::endl;
+            std::cout << "PATTERN LOW: 0x" << std::hex
+                    << static_cast<int>(pattern_low) << std::endl;
+            std::cout << "TILE BUFFER 0: 0x"
+                    << static_cast<int>(tile_buffer[0]) << std::endl;
+            std::cout << "TILE BUFFER 1: 0x"
+                    << static_cast<int>(tile_buffer[1]) << std::endl;
+            std::cout << "TILE BUFFER 2: 0x"
+                    << static_cast<int>(tile_buffer[2]) << std::endl;
+            std::cout << "PALETTE STATE: " << std::dec
+                    << static_cast<int>(pal_state) << std::endl;
         }
         uint8_t colour_byte;
         // get the colour byte from PAL RAM using the pallet val 

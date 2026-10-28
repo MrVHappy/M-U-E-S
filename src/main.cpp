@@ -698,6 +698,22 @@ int main(int argc, char*argv[]){
 
     ppu.db_write_vram(0x2000,0x01);
     ppu.db_write_vram(0x2082,0x01);
+    ppu.db_write_vram(0x204A, 0x01);
+
+    std::cout << "VRAM SETUP CHECK" << std::endl;
+
+    std::cout << "2000: "
+          << static_cast<int>(ppu.read_vram(0x2000))
+          << std::endl;
+
+    std::cout << "2082: "
+          << static_cast<int>(ppu.read_vram(0x2082))
+          << std::endl;
+
+    std::cout << "208C: "
+          << static_cast<int>(ppu.read_vram(0x208C))
+          << std::endl;
+
     rom.get_mapper_info().write_CHR(0x11,0x80);
     rom.get_mapper_info().write_CHR(0x19,0x00);
     rom.get_mapper_info().write_CHR(0x00,0x80);
