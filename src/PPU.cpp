@@ -11,22 +11,71 @@ PPU::PPU(BUS *bus){
 }
 
 void PPU::tick(){
+    if (this->scan_ln_count == 0 && this->dot_count <= 2)
+    {
+        std::cout << "TICK ENTRY"
+                << " SCANLINE: " << std::dec
+                << static_cast<int>(this->scan_ln_count)
+                << " DOT: " << static_cast<int>(this->dot_count)
+                << " V: 0x" << std::hex << this->v
+                << std::endl;
+    }
     // get bit 3 from mask 
     bool bit_3 = static_cast<int>((this->mask & 0b01000) >> 3);
     uint8_t pattern_val = 0;
+    if (this->scan_ln_count == 0 && this->dot_count <= 2)
+    {
+        std::cout << "V BEFORE BACKGROUND BLOCK"
+                << " SCANLINE: " << std::dec
+                << static_cast<int>(this->scan_ln_count)
+                << " DOT: " << static_cast<int>(this->dot_count)
+                << " V: 0x" << std::hex << this->v
+                << " T: 0x" << this->t
+                << std::endl;
+        std::cout << std::dec;
+    }
     // 1-239 rendering
     // also check to see if background rendering is enabled
     if((this->scan_ln_count < 240) && (this->dot_count >=1) && (this->dot_count < 257) && (bit_3 == true)){
         // get the nametable tile address
         uint16_t address = 0x2000 | (this->v & 0x0FFF);
+        if (scan_ln_count == 21 && dot_count >= 8 && dot_count <= 12)
+        {
+            std::cout << "SHIFT BEFORE"
+                    << " DOT: " << std::dec << static_cast<int>(dot_count)
+                    << " LOW: 0x" << std::hex << low_shift
+                    << std::endl;
+        }
         // left shift low and high shift by 1
         this->low_shift = this->low_shift << 1;
         this->high_shift = this->high_shift << 1;
-        
+        if (scan_ln_count == 21 && dot_count >= 8 && dot_count <= 12)
+        {
+            std::cout << "SHIFT AFTER"
+                    << " DOT: " << std::dec << static_cast<int>(dot_count)
+                    << " LOW: 0x" << std::hex << low_shift
+                    << std::endl;
+            std::cout << std::dec;
+        }
         // get the tile index 
         uint8_t tile_index = (this->dot_count - 1) / 8;
         // get the tile fetch sequence
         uint8_t tile_fetch_seq = (this->dot_count - 1) % 8; 
+        if (this->scan_ln_count == 21 &&
+            this->dot_count >= 1 && this->dot_count <= 18)
+            {
+                std::cout << "BACKGROUND FETCH STATE"
+                        << " DOT: " << std::dec
+                        << static_cast<int>(this->dot_count)
+                        << " V: 0x" << std::hex << this->v
+                        << " TILE INDEX: " << std::dec
+                        << static_cast<int>(tile_index)
+                        << " FETCH SEQ: "
+                        << static_cast<int>(tile_fetch_seq)
+                        << " TILE BUFFER: 0x" << std::hex
+                        << static_cast<int>(this->tile_buffer[tile_index])
+                        << std::endl;
+            }
         switch(tile_fetch_seq){
             // nametable processing
             case 0:{
@@ -152,11 +201,26 @@ void PPU::tick(){
 
                 // set the updated attribute byte into pal state
                 this->pal_state = attribute_byte;
+                if (scan_ln_count == 21)
+                {
+                    std::cout << "BACKGROUND SHIFT LOAD" << std::endl;
+                    std::cout << "DOT: " << std::dec
+                            << static_cast<int>(dot_count) << std::endl;
+                    std::cout << "PATTERN LOW: 0x" << std::hex
+                            << static_cast<int>(pattern_low) << std::endl;
+                    std::cout << "LOW SHIFT AFTER LOAD: 0x"
+                            << low_shift << std::endl;
+                    std::cout << "FINE X: " << std::dec
+                            << static_cast<int>(fine_x) << std::endl;
+                    std::cout << std::dec;
+                }
                 break;
             }
         }
+        
         // calculate the number of shifts
         int shift_num = 15 - this->fine_x;
+        
         // shift low bit by shift num
         uint8_t low_bit = this->low_shift >> shift_num;
         // mask low_bit to get ride of left over data
@@ -165,7 +229,21 @@ void PPU::tick(){
         uint8_t high_bit = this->high_shift >> shift_num;
         // mask high_bit to get ride of left over data
         high_bit = high_bit & 0b00000001;
-
+        if (this->scan_ln_count == 21 && this->dot_count >= 8 &&
+            this->dot_count <= 12)
+            {
+                std::cout << "PIXEL CALCULATION"
+                        << " DOT: " << std::dec
+                        << static_cast<int>(this->dot_count)
+                        << " LOW SHIFT: 0x" << std::hex
+                        << this->low_shift
+                        << " HIGH SHIFT: 0x" << this->high_shift
+                        << " FINE X: " << std::dec
+                        << static_cast<int>(this->fine_x)
+                        << " SHIFT NUM: " << shift_num
+                        << " LOW BIT: " << static_cast<int>(low_bit)
+                        << std::endl;
+            }
         // calculate pattern value using high and low bit
         pattern_val = low_bit + (high_bit * 2);
         uint16_t palelet_val;
@@ -297,7 +375,17 @@ void PPU::tick(){
             
         }      
     }
-
+    if (this->scan_ln_count == 0 && this->dot_count <= 2)
+    {
+        std::cout << "V AFTER BACKGROUND BLOCK"
+                << " SCANLINE: " << std::dec
+                << static_cast<int>(this->scan_ln_count)
+                << " DOT: " << static_cast<int>(this->dot_count)
+                << " V: 0x" << std::hex << this->v
+                << " T: 0x" << this->t
+                << std::endl;
+        std::cout << std::dec;
+    }
     // get bit 4 from the mask register
     bool bit_4 = static_cast<bool>((this->mask & 0b10000) >> 4);
     // get bit 1 from the mask register
@@ -969,6 +1057,20 @@ void PPU::tick(){
         }
     }
 
+    if (this->scan_ln_count == 0 &&
+    this->dot_count <= 2)
+    {
+        std::cout << "TICK EXIT"
+                << " SCANLINE: " << std::dec
+                << static_cast<int>(this->scan_ln_count)
+                << " DOT: " << static_cast<int>(this->dot_count)
+                << " V: 0x" << std::hex
+                << this->v
+                << " T: 0x" << this->t
+                << std::endl;
+
+        std::cout << std::dec;
+    }
     // increment dot count
     this->dot_count++;
 

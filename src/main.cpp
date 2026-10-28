@@ -702,6 +702,7 @@ int main(int argc, char*argv[]){
     rom.get_mapper_info().write_CHR(0x19,0x00);
     rom.get_mapper_info().write_CHR(0x00,0x80);
     rom.get_mapper_info().write_CHR(0x08,0x00);
+    rom.get_mapper_info().write_CHR(0x01, 0x80);
 
     ppu.db_write_pal_ram(0x01,0x21);
     ppu.db_write_pal_ram(0x11,0x25);
@@ -718,6 +719,9 @@ int main(int argc, char*argv[]){
           << std::endl;
     while((ppu.get_scan_ln_count() != 33) || (ppu.get_dot_count() != 18)){
         ppu.tick();
+        // std::cout << "FINAL V: 0x"
+        //   << std::hex << ppu.get_v()
+        //   << std::endl;
     }
     
     std::cout << "INITIAL V DECIMAL: "
