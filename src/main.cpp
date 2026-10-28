@@ -700,20 +700,6 @@ int main(int argc, char*argv[]){
     ppu.db_write_vram(0x2082,0x01);
     ppu.db_write_vram(0x204A, 0x01);
 
-    std::cout << "VRAM SETUP CHECK" << std::endl;
-
-    std::cout << "2000: "
-          << static_cast<int>(ppu.read_vram(0x2000))
-          << std::endl;
-
-    std::cout << "2082: "
-          << static_cast<int>(ppu.read_vram(0x2082))
-          << std::endl;
-
-    std::cout << "208C: "
-          << static_cast<int>(ppu.read_vram(0x208C))
-          << std::endl;
-
     rom.get_mapper_info().write_CHR(0x11,0x80);
     rom.get_mapper_info().write_CHR(0x19,0x00);
     rom.get_mapper_info().write_CHR(0x00,0x80);
@@ -733,12 +719,53 @@ int main(int argc, char*argv[]){
           << std::dec << (int)ppu.get_scan_ln_count()
           << " DOT " << (int)ppu.get_dot_count()
           << std::endl;
+
+    std::cout << "VRAM 2000: "
+          << static_cast<int>(ppu.read_vram(0x2000))
+          << std::endl;
+
+    std::cout << "VRAM 204A: "
+            << static_cast<int>(ppu.read_vram(0x204A))
+            << std::endl;
+
+    std::cout << "VRAM 2082: "
+            << static_cast<int>(ppu.read_vram(0x2082))
+            << std::endl;
+
+    std::cout << "SCROLL STATE BEFORE LOOP" << std::endl;
+
+    std::cout << "V: 0x" << std::hex
+            << ppu.get_v() << std::endl;
+
+    std::cout << "T: 0x" << std::hex
+            << ppu.get_t() << std::endl;
+
+    std::cout << "FINE X: " << std::dec
+            << static_cast<int>(ppu.get_fine_x()) << std::endl;
     while((ppu.get_scan_ln_count() != 33) || (ppu.get_dot_count() != 18)){
         ppu.tick();
         // std::cout << "FINAL V: 0x"
         //   << std::hex << ppu.get_v()
         //   << std::endl;
     }
+
+    std::cout << "BACKGROUND TILE CHECK" << std::endl;
+
+    std::cout << "VRAM 204A: 0x" << std::hex
+            << static_cast<int>(ppu.read_vram(0x204A))
+            << std::endl;
+
+    std::cout << "VRAM 204B: 0x" << std::hex
+            << static_cast<int>(ppu.read_vram(0x204B))
+            << std::endl;
+
+    std::cout << "VRAM 204C: 0x" << std::hex
+            << static_cast<int>(ppu.read_vram(0x204C))
+            << std::endl;
+
+    std::cout << "V: 0x" << std::hex
+            << ppu.get_v()
+            << std::endl;
     
     std::cout << "INITIAL V DECIMAL: "
           << std::dec << ppu.get_v() << std::endl;
