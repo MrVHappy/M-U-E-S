@@ -687,6 +687,7 @@ int main(int argc, char*argv[]){
     ppu.set_mask(0x1A);
     rom.set_CHR(0);
 
+    ppu.clear_sprite_0_hit();
     ppu.set_scan_ln_count(0);
     ppu.set_dot_count(1);
 
@@ -716,7 +717,13 @@ int main(int argc, char*argv[]){
 
     ppu.tick();
 
-    if(ppu.get_frame_buffer()[0][0] == 0x21){
+    if(ppu.get_frame_buffer()[0][0] == 0x25){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(!ppu.get_sprite_0_hit()){
         std::cout << "PASS" << std::endl;
     }
     else{

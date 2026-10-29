@@ -12,7 +12,9 @@ PPU::PPU(BUS *bus){
 
 void PPU::tick(){
     // get bit 3 from mask 
-    bool bit_3 = static_cast<int>((this->mask & 0b01000) >> 3);
+    bool bit_3 = static_cast<bool>((this->mask & 0b01000) >> 3);
+    // get bit 2 from mask
+    bool bit_2 = static_cast<bool>((this->mask & 0b0100) >> 2);
     uint8_t pattern_val = 0;
     // 1-239 rendering
     // also check to see if background rendering is enabled
@@ -312,7 +314,7 @@ void PPU::tick(){
                 // calculate the 2 sprite pixel valye
                 uint8_t sprite_pixel = low_bit + (2 * high_bit);
                 // sprite 0 detection
-                if((sprite_pixel != 0) && (i == 0) && (pattern_val != 0) && (bit_3) && (screen_x < 255)){
+                if((sprite_pixel != 0) && (i == 0) && (pattern_val != 0) && (bit_3) && (screen_x < 255) && ((screen_x >= 8) || (bit_2 != 0))){
                     this->sprite_0_hit = true;
                     this->status = this->status | 0b1000000;
                 }
