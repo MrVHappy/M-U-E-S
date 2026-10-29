@@ -939,5 +939,126 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "FAIL" << std::endl;
     }
+
+    std::cout << "TEST 7" << std::endl;
+    ppu.reset_state();
+    ppu.set_mask(0x1C);
+    rom.set_CHR(0);
+
+    ppu.clear_sprite_0_hit();
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x0000);
+    ppu.set_pal_state(0);
+
+    ppu.db_write_vram(0x0000,0x01);
+    ppu.db_write_vram(0x0001,0x00);
+    ppu.db_write_vram(0x03C0,0x00);
+
+    rom.get_mapper_info().write_CHR(0x20,0xFF);
+    rom.get_mapper_info().write_CHR(0x28,0x00);
+    rom.get_mapper_info().write_CHR(0x10,0xFF);
+    rom.get_mapper_info().write_CHR(0x18,0x00);
+
+    ppu.write_sprite_pattern_low(0,0xFF);
+    ppu.write_sprite_pattern_high(0,0x00);
+
+    ppu.db_write_pal_ram(0x01,0x21);
+    ppu.db_write_pal_ram(0x11,0x25);
+
+    ppu.write_sprite_oam(0,0x00);
+    ppu.write_sprite_oam(1,0x02);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x00);
+
+    ppu.tick();
+
+    if(!ppu.get_sprite_0_hit()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 8" << std::endl;
+    ppu.reset_state();
+    ppu.set_mask(0x1A);
+    rom.set_CHR(0);
+
+    ppu.clear_sprite_0_hit();
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
+
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x0000);
+    ppu.set_pal_state(0);
+
+    ppu.db_write_vram(0x0000,0x01);
+    ppu.db_write_vram(0x0001,0x00);
+    ppu.db_write_vram(0x03C0,0x00);
+
+    rom.get_mapper_info().write_CHR(0x20,0xFF);
+    rom.get_mapper_info().write_CHR(0x28,0x00);
+    rom.get_mapper_info().write_CHR(0x10,0xFF);
+    rom.get_mapper_info().write_CHR(0x18,0x00);
+
+    ppu.write_sprite_pattern_low(0,0xFF);
+    ppu.write_sprite_pattern_high(0,0x00);
+
+    ppu.db_write_pal_ram(0x01,0x21);
+    ppu.db_write_pal_ram(0x11,0x25);
+
+    ppu.tick();
+
+    if(!ppu.get_sprite_0_hit()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 9" << std::endl;
+    ppu.reset_state();
+    ppu.set_mask(0x1E);
+    rom.set_CHR(0);
+
+    ppu.clear_sprite_0_hit();
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(256);
+
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x0000);
+    ppu.set_pal_state(0);
+
+    ppu.db_write_vram(0x0000,0x01);
+    ppu.db_write_vram(0x0001,0x00);
+    ppu.db_write_vram(0x03C0,0x00);
+
+    rom.get_mapper_info().write_CHR(0x20,0xFF);
+    rom.get_mapper_info().write_CHR(0x28,0x00);
+    rom.get_mapper_info().write_CHR(0x10,0xFF);
+    rom.get_mapper_info().write_CHR(0x18,0x00);
+
+    ppu.write_sprite_pattern_low(0,0xFF);
+    ppu.write_sprite_pattern_high(0,0x00);
+
+    ppu.db_write_pal_ram(0x01,0x21);
+    ppu.db_write_pal_ram(0x11,0x25);
+
+    ppu.write_sprite_oam(0,0x00);
+    ppu.write_sprite_oam(1,0x02);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0xFF);
+
+    ppu.tick();
+
+    if(!ppu.get_sprite_0_hit()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
     return 0;
 }
