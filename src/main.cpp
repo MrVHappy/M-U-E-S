@@ -771,5 +771,27 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "FAIL" << std::endl;
     }
+
+    std::cout << "TEST 3" << std::endl;
+    ppu.reset_state();
+    ppu.set_mask(0x1E);
+    rom.set_CHR(0);
+
+    ppu.clear_sprite_0_hit();
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(9);
+
+    ppu.set_low_shift(0x0000);
+    ppu.set_high_shift(0x0000);
+    ppu.set_pal_state(0);
+
+    ppu.db_write_vram(0x0000,0x00);
+    ppu.db_write_vram(0x0001,0x00);
+    ppu.db_write_vram(0x03C0,0x00);
+
+    rom.get_mapper_info().write_CHR(0x20,0xFF);
+    rom.get_mapper_info().write_CHR(0x28,0x00);
+    rom.get_mapper_info().write_CHR(0x10,0xFF);
+    rom.get_mapper_info().write_CHR(0x18,0x00);
     return 0;
 }
