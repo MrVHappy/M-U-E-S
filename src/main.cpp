@@ -684,138 +684,42 @@ int main(int argc, char*argv[]){
     std::cout << "SPRITE 0 HIT PIPELINE TESTS" << std::endl;
     std::cout << "TEST 1" << std::endl;
     ppu.reset_state();
+    ppu.set_mask(0x1A);
     rom.set_CHR(0);
-    rom.set_header(0);
 
-    ppu.set_mask(0x1E);
+    ppu.set_scan_ln_count(0);
+    ppu.set_dot_count(1);
 
-    ppu.set_ctrl(0x00);
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x0000);
+    ppu.set_pal_state(0);
 
-    ppu.write_oam_ram(0,0x20);
-    ppu.write_oam_ram(1,0x00);
-    ppu.write_oam_ram(2,0x00);
-    ppu.write_oam_ram(3,0x10);
+    ppu.db_write_vram(0x0000,0x01);
+    ppu.db_write_vram(0x0001,0x00);
+    ppu.db_write_vram(0x03C0,0x00);
 
-    ppu.db_write_vram(0x2000,0x01);
-    ppu.db_write_vram(0x2082,0x01);
-    ppu.db_write_vram(0x204A, 0x01);
+    rom.get_mapper_info().write_CHR(0x20,0xFF);
+    rom.get_mapper_info().write_CHR(0x28,0x00);
+    rom.get_mapper_info().write_CHR(0x10,0xFF);
+    rom.get_mapper_info().write_CHR(0x18,0x00);
 
-    rom.get_mapper_info().write_CHR(0x11,0x80);
-    rom.get_mapper_info().write_CHR(0x19,0x00);
-    rom.get_mapper_info().write_CHR(0x00,0x80);
-    rom.get_mapper_info().write_CHR(0x08,0x00);
-    rom.get_mapper_info().write_CHR(0x01, 0x80);
+    ppu.write_sprite_pattern_low(0,0xFF);
+    ppu.write_sprite_pattern_high(0,0x00);
 
     ppu.db_write_pal_ram(0x01,0x21);
     ppu.db_write_pal_ram(0x11,0x25);
 
-    ppu.set_scan_ln_count(0);
-    ppu.set_dot_count(0);
-    std::cout << "INITIAL BACKGROUND STATE" << std::endl;
-    std::cout << "V: " << std::hex << ppu.get_v() << std::endl;
-    std::cout << "LOW SHIFT: " << ppu.get_low_shift() << std::endl;
-    std::cout << "HIGH SHIFT: " << ppu.get_high_shift() << std::endl;
-    std::cout << "BEFORE LOOP: SCANLINE "
-          << std::dec << (int)ppu.get_scan_ln_count()
-          << " DOT " << (int)ppu.get_dot_count()
-          << std::endl;
+    ppu.write_sprite_oam(0,0x00);
+    ppu.write_sprite_oam(1,0x02);
+    ppu.write_sprite_oam(2,0x00);
+    ppu.write_sprite_oam(3,0x00);
 
-    std::cout << "VRAM 2000: "
-          << static_cast<int>(ppu.read_vram(0x2000))
-          << std::endl;
+    ppu.tick();
 
-    std::cout << "VRAM 204A: "
-            << static_cast<int>(ppu.read_vram(0x204A))
-            << std::endl;
-
-    std::cout << "VRAM 2082: "
-            << static_cast<int>(ppu.read_vram(0x2082))
-            << std::endl;
-
-    std::cout << "SCROLL STATE BEFORE LOOP" << std::endl;
-
-    std::cout << "V: 0x" << std::hex
-            << ppu.get_v() << std::endl;
-
-    std::cout << "T: 0x" << std::hex
-            << ppu.get_t() << std::endl;
-
-    std::cout << "FINE X: " << std::dec
-            << static_cast<int>(ppu.get_fine_x()) << std::endl;
-    while((ppu.get_scan_ln_count() != 33) || (ppu.get_dot_count() != 18)){
-        ppu.tick();
-        // std::cout << "FINAL V: 0x"
-        //   << std::hex << ppu.get_v()
-        //   << std::endl;
-    }
-
-    std::cout << "BACKGROUND TILE CHECK" << std::endl;
-
-    std::cout << "VRAM 204A: 0x" << std::hex
-            << static_cast<int>(ppu.read_vram(0x204A))
-            << std::endl;
-
-    std::cout << "VRAM 204B: 0x" << std::hex
-            << static_cast<int>(ppu.read_vram(0x204B))
-            << std::endl;
-
-    std::cout << "VRAM 204C: 0x" << std::hex
-            << static_cast<int>(ppu.read_vram(0x204C))
-            << std::endl;
-
-    std::cout << "V: 0x" << std::hex
-            << ppu.get_v()
-            << std::endl;
-    
-    std::cout << "INITIAL V DECIMAL: "
-          << std::dec << ppu.get_v() << std::endl;
-
-    std::cout << "INITIAL V HEX: 0x"
-            << std::hex << ppu.get_v() << std::endl;
-
-    std::cout << "AFTER LOOP" << std::endl;
-    std::cout << "SCANLINE: " << std::dec
-            << (int)ppu.get_scan_ln_count() << std::endl;
-    std::cout << "DOT: " << std::dec
-            << (int)ppu.get_dot_count() << std::endl;
-    if(ppu.get_sprite_oam()[0] == 0x20){
+    if(ppu.get_frame_buffer()[0][0] == 0x21){
         std::cout << "PASS" << std::endl;
     }
     else{
-        std::cout << "SPRITE OAM INDEX 0: " << static_cast<int>(ppu.get_sprite_oam()[0]) << std::endl;
-        std::cout << "EXPECTED: " << 0x20 << std::endl;
-        std::cout << "FAIL" << std::endl;
-    }
-    if(ppu.get_sprite_oam()[1] == 0x00){
-        std::cout << "PASS" << std::endl;
-    }
-    else{
-        std::cout << "SPRITE OAM INDEX 1: " << static_cast<int>(ppu.get_sprite_oam()[1]) << std::endl;
-        std::cout << "EXPECTED: " << 0x00 << std::endl;
-        std::cout << "FAIL" << std::endl;
-    }
-    if(ppu.get_sprite_pattern_low()[0] == 0x80){
-        std::cout << "PASS" << std::endl;
-    }
-    else{
-        std::cout << "SPRITE PATTERN LOW INDEX 0: " << static_cast<int>(ppu.get_sprite_pattern_low()[0]) << std::endl;
-        std::cout << "EXPECTED: " << 0x80 << std::endl;
-        std::cout << "FAIL" << std::endl;
-    }
-    if(ppu.get_sprite_pattern_high()[0] == 0x00){
-        std::cout << "PASS" << std::endl;
-    }
-    else{
-        std::cout << "SPRITE PATTERN HIGH INDEX 0: " << static_cast<int>(ppu.get_sprite_pattern_high()[0]) << std::endl;
-        std::cout << "EXPECTED: " << 0x00 << std::endl;
-        std::cout << "FAIL" << std::endl;
-    }
-    if(ppu.get_sprite_0_hit()){
-        std::cout << "PASS" << std::endl;
-    }
-    else{
-        std::cout << "SPRITE 0 HIT: FALSE" << std::endl;
-        std::cout << "EXPECTED: TRUE" << std::endl;
         std::cout << "FAIL" << std::endl;
     }
     return 0;

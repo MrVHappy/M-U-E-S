@@ -11,125 +11,21 @@ PPU::PPU(BUS *bus){
 }
 
 void PPU::tick(){
-    if (this->scan_ln_count == 0 && this->dot_count <= 2)
-    {
-        std::cout << "TICK ENTRY"
-                << " SCANLINE: " << std::dec
-                << static_cast<int>(this->scan_ln_count)
-                << " DOT: " << static_cast<int>(this->dot_count)
-                << " V: 0x" << std::hex << this->v
-                << std::endl;
-    }
     // get bit 3 from mask 
     bool bit_3 = static_cast<int>((this->mask & 0b01000) >> 3);
     uint8_t pattern_val = 0;
-    if (this->scan_ln_count == 0 && this->dot_count <= 2)
-    {
-        std::cout << "V BEFORE BACKGROUND BLOCK"
-                << " SCANLINE: " << std::dec
-                << static_cast<int>(this->scan_ln_count)
-                << " DOT: " << static_cast<int>(this->dot_count)
-                << " V: 0x" << std::hex << this->v
-                << " T: 0x" << this->t
-                << std::endl;
-        std::cout << std::dec;
-    }
     // 1-239 rendering
     // also check to see if background rendering is enabled
     if((this->scan_ln_count < 240) && (this->dot_count >=1) && (this->dot_count < 257) && (bit_3 == true)){
         // get the nametable tile address
         uint16_t address = 0x2000 | (this->v & 0x0FFF);
-        if (scan_ln_count == 33 &&
-            (dot_count >= 14 && dot_count <= 18))
-        {
-            std::cout << "PRE-SHIFT"
-                    << " DOT: " << std::dec << static_cast<int>(dot_count)
-                    << " LOW: 0x" << std::hex << (int)low_shift
-                    << " PATTERN LOW: 0x" << static_cast<int>(pattern_low)
-                    << " FETCH SEQ: " << std::dec
-                    << static_cast<int>((dot_count - 1) % 8)
-                    << std::endl;
-        }
-        if (scan_ln_count == 33 &&
-            dot_count >= 14 &&
-            dot_count <= 18)
-        {
-            std::cout << "PRE-SHIFT"
-                    << " DOT: " << std::dec
-                    << static_cast<int>(dot_count)
-                    << " LOW: 0x" << std::hex
-                    << static_cast<int>(low_shift)
-                    << " HIGH: 0x"
-                    << static_cast<int>(high_shift)
-                    << " PATTERN LOW: 0x"
-                    << static_cast<int>(pattern_low)
-                    << " PATTERN HIGH: 0x"
-                    << static_cast<int>(pattern_high)
-                    << " FETCH SEQ: " << std::dec
-                    << static_cast<int>((dot_count - 1) % 8)
-                    << std::endl;
-        }
         // left shift low and high shift by 1
         this->low_shift = this->low_shift << 1;
         this->high_shift = this->high_shift << 1;
-        if (scan_ln_count == 33 &&
-            dot_count >= 14 &&
-            dot_count <= 18)
-        {
-            std::cout << "POST-SHIFT"
-                    << " DOT: " << std::dec
-                    << static_cast<int>(dot_count)
-                    << " LOW: 0x" << std::hex
-                    << static_cast<int>(low_shift)
-                    << " HIGH: 0x"
-                    << static_cast<int>(high_shift)
-                    << std::endl;
-        }
-        
-        if (scan_ln_count == 21 && dot_count >= 8 && dot_count <= 12)
-        {
-            std::cout << "SHIFT AFTER"
-                    << " DOT: " << std::dec << static_cast<int>(dot_count)
-                    << " LOW: 0x" << std::hex << low_shift
-                    << std::endl;
-            std::cout << std::dec;
-        }
         // get the tile index 
         uint8_t tile_index = (this->dot_count - 1) / 8;
         // get the tile fetch sequence
         uint8_t tile_fetch_seq = (this->dot_count - 1) % 8; 
-        if (this->scan_ln_count == 21 &&
-            this->dot_count >= 1 && this->dot_count <= 18)
-            {
-                std::cout << "BACKGROUND FETCH STATE"
-                        << " DOT: " << std::dec
-                        << static_cast<int>(this->dot_count)
-                        << " V: 0x" << std::hex << this->v
-                        << " TILE INDEX: " << std::dec
-                        << static_cast<int>(tile_index)
-                        << " FETCH SEQ: "
-                        << static_cast<int>(tile_fetch_seq)
-                        << " TILE BUFFER: 0x" << std::hex
-                        << static_cast<int>(this->tile_buffer[tile_index])
-                        << std::endl;
-            }
-
-        if (scan_ln_count == 33 && dot_count <= 10)
-        {
-            std::cout
-                << "SCANLINE 33 FETCH INPUT"
-                << " DOT: " << std::dec
-                << static_cast<int>(dot_count)
-                << " V: 0x" << std::hex << v
-                << " T: 0x" << t
-                << " NAMETABLE ADDRESS: 0x"
-                << (0x2000 | (v & 0x0FFF))
-                << " VRAM VALUE: 0x"
-                << static_cast<int>(
-                    read_vram(0x2000 | (v & 0x0FFF))
-                )
-                << std::endl;
-        }
         switch(tile_fetch_seq){
             // nametable processing
             case 0:{
@@ -137,37 +33,6 @@ void PPU::tick(){
                 uint8_t vram_data = this->read_vram(address);
                 // store in the tile buffer
                 this->tile_buffer[tile_index] = vram_data;
-
-                if (scan_ln_count == 33)
-                {
-                    std::cout
-                        << "TILE BUFFER WRITE"
-                        << " SCANLINE: " << std::dec
-                        << static_cast<int>(scan_ln_count)
-                        << " DOT: " << static_cast<int>(dot_count)
-                        << " INDEX: " << static_cast<int>(tile_index)
-                        << " VALUE: 0x" << std::hex
-                        << static_cast<int>(tile_buffer[tile_index])
-                        << " V: 0x" << v
-                        << std::endl;
-                }
-                
-                if (this->scan_ln_count == 21 &&
-                    (this->dot_count == 1 || this->dot_count == 9 ||
-                    this->dot_count == 17))
-                {
-                    std::cout << "NAMETABLE FETCH"
-                            << " DOT: " << std::dec
-                            << static_cast<int>(this->dot_count)
-                            << " V: 0x" << std::hex << this->v
-                            << " ADDRESS: 0x" << address
-                            << " VALUE: 0x" << static_cast<int>(vram_data)
-                            << " BUFFER INDEX: " << std::dec
-                            << static_cast<int>(tile_index)
-                            << " BUFFER VALUE: 0x" << std::hex
-                            << static_cast<int>(this->tile_buffer[tile_index])
-                            << std::endl;
-                }
                 break;
             }
             // attribute processing
@@ -201,71 +66,9 @@ void PPU::tick(){
                     // pattern table is 0
                     low_addr = (tile_num * 16) + fine_y;
                 }
-                if (scan_ln_count == 33 &&
-                (dot_count == 5 || dot_count == 13 || dot_count == 21))
-                {
-                    std::cout << "PATTERN ADDRESS TRACE"
-                            << " DOT: " << std::dec
-                            << static_cast<int>(dot_count)
-                            << " V: 0x" << std::hex << v
-                            << " TILE INDEX: " << std::dec
-                            << static_cast<int>(tile_index)
-                            << " TILE NUMBER: 0x" << std::hex
-                            << static_cast<int>(tile_buffer[tile_index])
-                            << " FINE Y: "
-                            << static_cast<int>((v >> 12) & 0x07)
-                            << " LOW ADDRESS: 0x"
-                            << static_cast<int>(low_addr)
-                            << std::endl;
-                }
-                if (scan_ln_count == 21)
-                {
-                    std::cout << "BACKGROUND LOW FETCH" << std::endl;
-                    std::cout << "DOT: " << std::dec << dot_count << std::endl;
-                    std::cout << "TILE NUMBER: " << static_cast<int>(tile_num) << std::endl;
-                    std::cout << "FINE Y: " << static_cast<int>(fine_y) << std::endl;
-                    std::cout << "LOW ADDRESS: 0x" << std::hex << low_addr << std::endl;
-                    std::cout << "CHR BYTE AT ADDRESS: 0x"
-                            << static_cast<int>(this->bus->get_rom().get_mapper_info().read_CHR(low_addr)) << std::endl;
-                    std::cout << std::dec;
-
-                    std::cout << "ACTUAL LOW FETCH INPUT"
-                        << " DOT: " << std::dec
-                        << static_cast<int>(dot_count)
-                        << " TILE INDEX: "
-                        << static_cast<int>(tile_index)
-                        << " TILE BUFFER VALUE: 0x" << std::hex
-                        << static_cast<int>(tile_buffer[tile_index])
-                        << " V: 0x" << v
-                        << " CTRL: 0x" << static_cast<int>(ctrl)
-                        << std::endl;
-                }
-                if (scan_ln_count == 33 &&
-                    (dot_count == 5 || dot_count == 13))
-                {
-                    std::cout
-                        << "SCANLINE 33 TILE BUFFER TRACE"
-                        << " DOT: " << std::dec
-                        << static_cast<int>(dot_count)
-                        << " TILE INDEX: "
-                        << static_cast<int>(tile_index)
-                        << " BUFFER VALUE: 0x" << std::hex
-                        << static_cast<int>(tile_buffer[tile_index])
-                        << " V: 0x" << v
-                        << " T: 0x" << t
-                        << std::endl;
-                }
+                
                 // extract the contents from CHR at index low addr and store in pattern low
                 this->pattern_low = this->bus->get_rom().get_mapper_info().read_CHR(low_addr);                
-                if (scan_ln_count == 33)
-                {
-                    std::cout << "BACKGROUND PATTERN FETCH" << std::endl;
-                    std::cout << "TILE NUMBER: " << static_cast<int>(tile_num) << std::endl;
-                    std::cout << "FINE Y: " << static_cast<int>(fine_y) << std::endl;
-                    std::cout << "LOW ADDRESS: " << std::hex << low_addr << std::endl;
-                    std::cout << "LOW PATTERN BYTE: " << std::hex
-                            << static_cast<int>(pattern_low) << std::endl;
-                }
                 break;
             }
             case 6:{
@@ -299,20 +102,6 @@ void PPU::tick(){
                 this->high_shift = this->high_shift & 0b1111111100000000;
                 // then add pattern high to bits 0-7
                 this->high_shift = this->high_shift | this->pattern_high;
-                if (scan_ln_count == 33 &&
-                    (dot_count == 16 || dot_count == 24))
-                {
-                    std::cout << "BACKGROUND TILE LOAD CHECK"
-                            << " DOT: " << std::dec
-                            << static_cast<int>(dot_count)
-                            << " TILE INDEX: " << (int) tile_index
-                            << " TILE VALUE: " << std::hex
-                            << static_cast<int>(tile_buffer[tile_index])
-                            << " PATTERN LOW: 0x"
-                            << static_cast<int>(pattern_low)
-                            << " LOW SHIFT: 0x" << (int)low_shift
-                            << std::endl;
-                }
                 
                 // extract coarse x from register v
                 uint8_t coarse_x = this->v & 0b11111;
@@ -344,19 +133,6 @@ void PPU::tick(){
 
                 // set the updated attribute byte into pal state
                 this->pal_state = attribute_byte;
-                if (scan_ln_count == 21)
-                {
-                    std::cout << "BACKGROUND SHIFT LOAD" << std::endl;
-                    std::cout << "DOT: " << std::dec
-                            << static_cast<int>(dot_count) << std::endl;
-                    std::cout << "PATTERN LOW: 0x" << std::hex
-                            << static_cast<int>(pattern_low) << std::endl;
-                    std::cout << "LOW SHIFT AFTER LOAD: 0x"
-                            << low_shift << std::endl;
-                    std::cout << "FINE X: " << std::dec
-                            << static_cast<int>(fine_x) << std::endl;
-                    std::cout << std::dec;
-                }
                 break;
             }
         }
@@ -372,74 +148,8 @@ void PPU::tick(){
         uint8_t high_bit = this->high_shift >> shift_num;
         // mask high_bit to get ride of left over data
         high_bit = high_bit & 0b00000001;
-        if (this->scan_ln_count == 21 && this->dot_count >= 8 &&
-            this->dot_count <= 12)
-            {
-                std::cout << "PIXEL CALCULATION"
-                        << " DOT: " << std::dec
-                        << static_cast<int>(this->dot_count)
-                        << " LOW SHIFT: 0x" << std::hex
-                        << this->low_shift
-                        << " HIGH SHIFT: 0x" << this->high_shift
-                        << " FINE X: " << std::dec
-                        << static_cast<int>(this->fine_x)
-                        << " SHIFT NUM: " << shift_num
-                        << " LOW BIT: " << static_cast<int>(low_bit)
-                        << std::endl;
-            }
         // calculate pattern value using high and low bit
         pattern_val = low_bit + (high_bit * 2);
-        if (this->scan_ln_count == 33 &&
-            (this->dot_count >= 9 && this->dot_count <= 18))
-        {
-            std::cout
-                << "BACKGROUND SAMPLE"
-                << " DOT: " << std::dec
-                << static_cast<int>(this->dot_count)
-                << " SCREEN X: "
-                << static_cast<int>(this->dot_count - 1)
-                << " V: 0x" << std::hex << this->v
-                << " FINE X: " << std::dec
-                << static_cast<int>(this->fine_x)
-                << " LOW SHIFT: 0x" << std::hex
-                << this->low_shift
-                << " PATTERN LOW: 0x"
-                << static_cast<int>(this->pattern_low)
-                << " TILE BUFFER[0]: 0x"
-                << static_cast<int>(this->tile_buffer[0])
-                << " TILE BUFFER[1]: 0x"
-                << static_cast<int>(this->tile_buffer[1])
-                << " TILE BUFFER[2]: 0x"
-                << static_cast<int>(this->tile_buffer[2])
-                << " LOW BIT: " << std::dec
-                << static_cast<int>(low_bit)
-                << std::endl;
-        }
-        if (scan_ln_count == 33 && (dot_count == 16 || dot_count == 17 || dot_count == 18))
-        {
-            std::cout << "BACKGROUND PIXEL ALIGNMENT"
-                    << " SCANLINE: " << std::dec << static_cast<int>(scan_ln_count)
-                    << " DOT: " << static_cast<int>(dot_count)
-                    << " SCREEN X: " << static_cast<int>(dot_count - 1)
-                    << " LOW SHIFT: 0x" << std::hex << low_shift
-                    << " HIGH SHIFT: 0x" << high_shift
-                    << " SHIFT NUM: " << std::dec << shift_num
-                    << " LOW BIT: " << static_cast<int>(low_bit)
-                    << " HIGH BIT: " << static_cast<int>(high_bit)
-                    << " PATTERN VALUE: " << static_cast<int>(pattern_val)
-                    << std::endl;
-
-            std::cout << "V: 0x" << std::hex << v << std::endl;
-            std::cout << "TILE INDEX: "
-                    << static_cast<int>(tile_index) << std::endl;
-            std::cout << "TILE BUFFER[1]: "
-                    << static_cast<int>(tile_buffer[1]) << std::endl;
-            std::cout << "PATTERN LOW: 0x"
-                    << static_cast<int>(pattern_low) << std::endl;
-            std::cout << "LOW SHIFT: 0x"
-                    << low_shift << std::endl;
-        }
-
         uint16_t palelet_val;
         // check if the pattern value is 0
         if(pattern_val == 0){
@@ -449,53 +159,6 @@ void PPU::tick(){
         else{
             // calculate palelet_val using pal state and pattern value
             palelet_val = 0x3F00 + this->pal_state * 4 + pattern_val;
-        }
-        if (scan_ln_count == 33 && dot_count == 17)
-        {
-            std::cout << "BACKGROUND PIXEL TRACE" << std::endl;
-            std::cout << "SCANLINE: " << scan_ln_count << std::endl;
-            std::cout << "DOT: " << dot_count << std::endl;
-            std::cout << "FINE X: " << static_cast<int>(fine_x) << std::endl;
-            std::cout << "LOW SHIFT: " << std::hex << low_shift << std::endl;
-            std::cout << "HIGH SHIFT: " << std::hex << high_shift << std::endl;
-            std::cout << "PATTERN VALUE: " << static_cast<int>(pattern_val) << std::endl;
-            std::cout << "PATTERN LOW: 0x" << std::hex
-                    << static_cast<int>(pattern_low) << std::endl;
-            std::cout << "TILE BUFFER 0: 0x"
-                    << static_cast<int>(tile_buffer[0]) << std::endl;
-            std::cout << "TILE BUFFER 1: 0x"
-                    << static_cast<int>(tile_buffer[1]) << std::endl;
-            std::cout << "TILE BUFFER 2: 0x"
-                    << static_cast<int>(tile_buffer[2]) << std::endl;
-            std::cout << "PALETTE STATE: " << std::dec
-                    << static_cast<int>(pal_state) << std::endl;
-            std::cout << "PATTERN LOW: 0x" << std::hex
-                    << static_cast<int>(pattern_low) << std::endl;
-            std::cout << "TILE BUFFER 2: 0x"
-                    << static_cast<int>(tile_buffer[2]) << std::endl;
-
-            
-        }
-        if (scan_ln_count == 33 &&
-            dot_count >= 14 &&
-            dot_count <= 18)
-        {
-            std::cout << "POST-FETCH"
-                    << " DOT: " << std::dec
-                    << static_cast<int>(dot_count)
-                    << " TILE INDEX: "
-                    << static_cast<int>(tile_index)
-                    << " TILE VALUE: 0x" << std::hex
-                    << static_cast<int>(tile_buffer[tile_index])
-                    << " PATTERN LOW: 0x"
-                    << static_cast<int>(pattern_low)
-                    << " PATTERN HIGH: 0x"
-                    << static_cast<int>(pattern_high)
-                    << " LOW SHIFT: 0x"
-                    << static_cast<int>(low_shift)
-                    << " HIGH SHIFT: 0x"
-                    << static_cast<int>(high_shift)
-                    << std::endl;
         }
         uint8_t colour_byte;
         // get the colour byte from PAL RAM using the pallet val 
@@ -514,14 +177,6 @@ void PPU::tick(){
             // get the horizontal bit from v at bit 10
             bool horizontal_bit = (this->v & 0b10000000000) >> 10;
             // check if coarse x is between 0-30
-            std::cout << "V UPDATE BEFORE"
-                << " SCANLINE: " << std::dec
-                << static_cast<int>(scan_ln_count)
-                << " DOT: " << static_cast<int>(dot_count)
-                << " V: 0x" << std::hex << v
-                << " T: 0x" << t
-                << std::endl;
-
             if(coarse_x < 31){
                 // increment coarse x
                 coarse_x++;
@@ -547,13 +202,6 @@ void PPU::tick(){
                     this->v = this->v &0b1111101111100000;
                 }
             }
-            std::cout << "V UPDATE AFTER"
-                << " SCANLINE: " << std::dec
-                << static_cast<int>(scan_ln_count)
-                << " DOT: " << static_cast<int>(dot_count)
-                << " V: 0x" << std::hex << v
-                << " T: 0x" << t
-                << std::endl;
         }
         // check if dot count is at 256
         if(this->dot_count == 256){
@@ -564,13 +212,6 @@ void PPU::tick(){
             // get the contents of vertical bit
             bool vertical_bit = (this->v & 0b100000000000) >> 11;
             // check if fine Y if between 0-6
-            std::cout << "V UPDATE BEFORE"
-                << " SCANLINE: " << std::dec
-                << static_cast<int>(scan_ln_count)
-                << " DOT: " << static_cast<int>(dot_count)
-                << " V: 0x" << std::hex << v
-                << " T: 0x" << t
-                << std::endl;
             if(fine_y < 7){
                 // increment fine y
                 fine_y++;
@@ -625,26 +266,7 @@ void PPU::tick(){
                     this->v = this->v & 0b1111110000011111;
                 }
             }
-            std::cout << "V UPDATE AFTER"
-                << " SCANLINE: " << std::dec
-                << static_cast<int>(scan_ln_count)
-                << " DOT: " << static_cast<int>(dot_count)
-                << " V: 0x" << std::hex << v
-                << " T: 0x" << t
-                << std::endl;
         }      
-    }
-    
-    if (this->scan_ln_count == 0 && this->dot_count <= 2)
-    {
-        std::cout << "V AFTER BACKGROUND BLOCK"
-                << " SCANLINE: " << std::dec
-                << static_cast<int>(this->scan_ln_count)
-                << " DOT: " << static_cast<int>(this->dot_count)
-                << " V: 0x" << std::hex << this->v
-                << " T: 0x" << this->t
-                << std::endl;
-        std::cout << std::dec;
     }
     // get bit 4 from the mask register
     bool bit_4 = static_cast<bool>((this->mask & 0b10000) >> 4);
@@ -689,43 +311,6 @@ void PPU::tick(){
                 uint8_t high_bit = (this->sprite_pattern_high[i] >> shift) & 1;
                 // calculate the 2 sprite pixel valye
                 uint8_t sprite_pixel = low_bit + (2 * high_bit);
-                if (scan_ln_count == 33 && dot_count == 17 && i == 0)
-                {
-                    std::cout << "SPRITE 0 HIT CHECK" << std::endl;
-                    std::cout << "SCREEN X: " << static_cast<int>(screen_x) << std::endl;
-                    std::cout << "SPRITE X: " << static_cast<int>(sprite_x) << std::endl;
-                    std::cout << "SPRITE PIXEL: " << static_cast<int>(sprite_pixel) << std::endl;
-                    std::cout << "BACKGROUND PATTERN: " << static_cast<int>(pattern_val) << std::endl;
-                    std::cout << "BACKGROUND ENABLED: " << bit_3 << std::endl;
-                    std::cout << "SPRITE 0 HIT BEFORE: " << this->sprite_0_hit << std::endl;
-                    std::cout << "HIT CHECK LOW SHIFT: 0x"
-                            << std::hex << low_shift << std::endl;
-
-                    std::cout << "HIT CHECK HIGH SHIFT: 0x"
-                            << std::hex << high_shift << std::endl;
-
-                    std::cout << "HIT CHECK SHIFT NUM: "
-                            << std::dec << (15 - fine_x) << std::endl;
-
-                    std::cout << "HIT CHECK LOW BIT: "
-                            << static_cast<int>(
-                                    (low_shift >> (15 - fine_x)) & 1
-                                ) << std::endl;
-
-                    std::cout << "HIT CHECK HIGH BIT: "
-                            << static_cast<int>(
-                                    (high_shift >> (15 - fine_x)) & 1
-                                ) << std::endl;
-
-                    std::cout << "HIT CHECK SCANLINE: "
-                            << std::dec << scan_ln_count << std::endl;
-                    std::cout << "HIT CHECK DOT: "
-                            << dot_count << std::endl;
-                    std::cout << "HIT CHECK SCREEN X: "
-                            << (int)screen_x << std::endl;
-                    std::cout << "HIT CHECK SPRITE X: "
-                            << static_cast<int>(sprite_x) << std::endl;
-                }
                 // sprite 0 detection
                 if((sprite_pixel != 0) && (i == 0) && (pattern_val != 0) && (bit_3) && (screen_x < 255)){
                     this->sprite_0_hit = true;
@@ -885,17 +470,6 @@ void PPU::tick(){
 
                 // extract the contents from CHR at index low addr and store in pattern low
                 this->pattern_low = this->bus->get_rom().get_mapper_info().read_CHR(low_addr);
-                if ((this->scan_ln_count == 33) && (tile_index == 2)) {
-                    std::cout << "BACKGROUND FETCH DEBUG" << std::endl;
-                    std::cout << "DOT: " << std::dec
-                            << (int)this->dot_count << std::endl;
-                    std::cout << "TILE INDEX: " << (int)tile_index << std::endl;
-                    std::cout << "TILE NUMBER: " << (int)tile_num << std::endl;
-                    std::cout << "FINE Y: " << (int)fine_y << std::endl;
-                    std::cout << "LOW ADDRESS: " << std::hex << low_addr << std::endl;
-                    std::cout << "PATTERN LOW: " << std::hex
-                            << (int)this->pattern_low << std::endl;
-                }
                 // Sprite fetch
                 // get the sprite index 
                 uint8_t sprite_index = tile_index;
@@ -1344,20 +918,6 @@ void PPU::tick(){
         }
     }
 
-    if (this->scan_ln_count == 0 &&
-    this->dot_count <= 2)
-    {
-        std::cout << "TICK EXIT"
-                << " SCANLINE: " << std::dec
-                << static_cast<int>(this->scan_ln_count)
-                << " DOT: " << static_cast<int>(this->dot_count)
-                << " V: 0x" << std::hex
-                << this->v
-                << " T: 0x" << this->t
-                << std::endl;
-
-        std::cout << std::dec;
-    }
     // increment dot count
     this->dot_count++;
 
