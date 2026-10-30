@@ -1188,5 +1188,41 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "FAIL" << std::endl;
     }
+
+    std::cout << "SPRITE OVERFLOW TESTS" << std::endl;
+    std::cout << "TEST 1" << std::endl;
+    ppu.reset_state();
+    ppu.set_ctrl(0);
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(65);
+
+    ppu.set_oam_ram(0xFF);
+
+    ppu.tick();
+    int sprites = 0;
+    for(int i = 0; i <= 32; i++){
+        if(ppu.get_sprite_oam()[i] != 0xFF){
+            sprites++;
+        }
+    }
+
+    if(!ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if((ppu.get_status() & 0x20) == 0){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(sprites == 0){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
     return 0;
 }
