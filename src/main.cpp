@@ -1200,7 +1200,7 @@ int main(int argc, char*argv[]){
 
     ppu.tick();
     int sprites = 0;
-    for(int i = 0; i <= 32; i++){
+    for(int i = 0; i < 32; i+= 4){
         if(ppu.get_sprite_oam()[i] != 0xFF){
             sprites++;
         }
@@ -1219,6 +1219,180 @@ int main(int argc, char*argv[]){
         std::cout << "FAIL" << std::endl;
     }
     if(sprites == 0){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 2" << std::endl;
+    ppu.reset_state();
+    ppu.set_ctrl(0);
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(65);
+
+    ppu.set_oam_addr(0xFF);
+
+    ppu.write_oam_ram(0,0x20);
+    ppu.write_oam_ram(1,0x00);
+    ppu.write_oam_ram(2,0x00);
+    ppu.write_oam_ram(3,0x10);
+
+    ppu.tick();
+
+    sprites = 0;
+    for(int i = 0; i < 32; i += 4){
+        if(ppu.get_sprite_oam()[i] != 0xFF){
+            sprites++;
+        }
+    }
+
+    if(!ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if((ppu.get_status() & 0x20) == 0){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(sprites == 1){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 3" << std::endl;
+    ppu.reset_state();
+    ppu.set_ctrl(0);
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(65);
+
+    ppu.set_oam_ram(0xFF);
+
+    for(int i = 0; i < 7; i++){
+        uint16_t addr = i * 4;
+        ppu.write_oam_ram(addr,0x20);
+        ppu.write_oam_ram(addr + 1,0x00);
+        ppu.write_oam_ram(addr + 2,0x00);
+        ppu.write_oam_ram(addr + 3, i * 8);
+    }
+
+    ppu.tick();
+
+    sprites = 0;
+
+    for(int i = 0; i < 32; i += 4){
+        if(ppu.get_sprite_oam()[i] != 0xFF){
+            sprites++;
+        }
+    }
+
+    if(!ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if((ppu.get_status() & 0x20) == 0){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(sprites == 7){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 4" << std::endl;
+    ppu.reset_state();
+    ppu.set_ctrl(0);
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(65);
+
+    ppu.set_oam_ram(0xFF);
+
+    for(int i = 0; i < 8; i++){
+        uint16_t addr = i * 4;
+        ppu.write_oam_ram(addr,0x20);
+        ppu.write_oam_ram(addr + 1,0x00);
+        ppu.write_oam_ram(addr + 2,0x00);
+        ppu.write_oam_ram(addr + 3,i * 8);
+    }
+
+    ppu.tick();
+
+    sprites = 0;
+    for(int i = 0; i < 32; i += 4){
+        if(ppu.get_sprite_oam()[i] != 0xFF){
+            sprites++;
+        }
+    }
+
+    if(!ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if((ppu.get_status() & 0x20) == 0){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(sprites == 8){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 9" << std::endl;
+    ppu.reset_state();
+    ppu.set_ctrl(0);
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(65);
+
+    ppu.set_oam_ram(0xFF);
+
+    for(int i = 0; i < 9; i++){
+        uint16_t addr = i * 4;
+        ppu.write_oam_ram(addr,0x20);
+        ppu.write_oam_ram(addr + 1,0x00);
+        ppu.write_oam_ram(addr + 2,0x00);
+        ppu.write_oam_ram(addr + 3, i * 8);
+    }
+
+    ppu.tick();
+
+    sprites = 0;
+    for(int i = 0; i < 32; i += 4){
+        if(ppu.get_sprite_oam()[i] != 0xFF){
+            sprites++;
+        }
+    }
+
+    if(ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if((ppu.get_status() & 0x20) != 0){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(sprites == 8){
         std::cout << "PASS" << std::endl;
     }
     else{
