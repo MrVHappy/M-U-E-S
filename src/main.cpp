@@ -1107,5 +1107,86 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "FAIL" << std::endl;
     }
+
+    std::cout << "TEST 11" << std::endl;
+    ppu.reset_state();
+    ppu.set_mask(0x1E);
+    ppu.set_ctrl(0);
+
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_oam_ram(0xFF);
+
+    ppu.write_oam_ram(0,0x10);
+    ppu.write_oam_ram(1,0x01);
+    ppu.write_oam_ram(2,0x00);
+    ppu.write_oam_ram(3,0x10);
+
+    ppu.write_oam_ram(4,0x20);
+    ppu.write_oam_ram(5,0x02);
+    ppu.write_oam_ram(6,0x00);
+    ppu.write_oam_ram(7,0x10);
+
+    for(int dot = 64; dot <= 320; dot++){
+        ppu.set_dot_count(dot);
+        ppu.tick();
+    }
+
+    if(ppu.get_sprite_oam()[0] == 0x20){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(ppu.get_sprite_oam()[3] == 0x10){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    ppu.write_sprite_pattern_low(0,0xFF);
+    ppu.write_sprite_pattern_high(0,0x00);
+
+    ppu.set_low_shift(0x7FFF);
+    ppu.set_high_shift(0x0000);
+
+    ppu.set_pal_state(0x00);
+    ppu.db_write_pal_ram(0x3F01,0x21);
+    ppu.db_write_pal_ram(0x3F11,0x25);
+
+    ppu.set_scan_ln_count(0x21);
+    ppu.set_dot_count(17);
+
+    ppu.tick();
+
+    if(!ppu.get_sprite_0_hit()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "0 HIT: TRUE" << std::endl;
+        std::cout << "EXPECTED: FALSE" << std::endl;
+        std::cout << "FAIL" << std::endl;       
+    }
+    if(ppu.get_frame_buffer()[0x21][16] == 0x25){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FRAME BUFFER: " << static_cast<int>(ppu.get_frame_buffer()[0x21][16]) << std::endl;
+        std::cout << "EXPECTED: " << 0x25 << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+
+    if(ppu.get_original_oam_index()[0] == 1){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(ppu.get_original_oam_index()[1] == 255){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
     return 0;
 }

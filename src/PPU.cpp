@@ -314,7 +314,7 @@ void PPU::tick(){
                 // calculate the 2 sprite pixel valye
                 uint8_t sprite_pixel = low_bit + (2 * high_bit);
                 // sprite 0 detection
-                if((sprite_pixel != 0) && (i == 0) && (pattern_val != 0) && (bit_3) && (screen_x < 255) && ((screen_x >= 8) || (bit_2 != 0))){
+                if((sprite_pixel != 0) && (this->original_oam_index[i] == 0) && (pattern_val != 0) && (bit_3) && (screen_x < 255) && ((screen_x >= 8) || (bit_2 != 0))){
                     this->sprite_0_hit = true;
                     this->status = this->status | 0b1000000;
                 }
@@ -361,6 +361,8 @@ void PPU::tick(){
             // clear sprite oam
             this->sprite_oam[i] = 0xFF;
         }
+        // clear original sprite oam index
+        this->original_oam_index.fill(0xFF);
     }
 
     // check if dot count is between 65-256
@@ -398,14 +400,18 @@ void PPU::tick(){
                     this->sprite_oam[sprite_oam_index + 1] = sprite_data;
                     this->sprite_oam[sprite_oam_index + 2] = sprite_attribute;
                     this->sprite_oam[sprite_oam_index + 3] = x;
+                    // store the original sprite oam index
+                    this->original_oam_index[sprite_oam_index / 4] = i;
                     // increment sprite oam index by 4
                     sprite_oam_index += 4;
                 }
                 if (sprite_oam_index == 0x20){
+                    // update sprite overflow and status
                     this->sprite_overflow = true;
+                    this->status = this->status | 0b100000;
                     break;
                 }
-            }            
+            }
         }
     }
     // check if dot count is between 257-320
@@ -1023,6 +1029,10 @@ const std::array<uint8_t,8> & PPU::get_sprite_pattern_high(){
     return this->sprite_pattern_high;
 }
 
+const std::array<uint8_t,8> & PPU::get_original_oam_index(){
+    return this->original_oam_index;
+}
+
 void PPU::set_ctrl(uint8_t value){
     this->ctrl = value;
 }
@@ -1302,6 +1312,7 @@ void PPU::reset_state(){
     this->oam_addr = 0;
     this->oam_ram.fill(0);
     this->sprite_oam.fill(0xFF);
+    this->original_oam_index.fill(0xFF);
     this->v = 0;
     this->t = 0;
     this->fine_x = 0;

@@ -50,6 +50,8 @@ class PPU{
         std::array<uint8_t,256> oam_ram;
         // secondary oam for sprite data
         std::array<uint8_t,32> sprite_oam;
+        // store the original sprite oam index
+        std::array<uint8_t,8> original_oam_index;
         // 32B tile buffer
         std::array<uint8_t,32> tile_buffer;
         // 32B attribute buffer
@@ -102,6 +104,7 @@ class PPU{
         const std::array<uint8_t,32> & get_sprite_oam();
         const std::array<uint8_t,8> & get_sprite_pattern_low();
         const std::array<uint8_t,8> & get_sprite_pattern_high();
+        const std::array<uint8_t,8> & get_original_oam_index();
 
         // setters
         void set_ctrl(uint8_t value);
