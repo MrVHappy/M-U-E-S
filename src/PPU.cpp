@@ -393,8 +393,15 @@ void PPU::tick(){
             }
             // check if the sprite is in range
             if((y <= eval_scan_ln) && (eval_scan_ln < (y + height))){
-                // check if there can be more sprites
-                if(sprite_oam_index < 0x20){
+                // check if the sprite limit has reached
+                if (sprite_oam_index >= 0x20){
+                    // update sprite overflow and status
+                    this->sprite_overflow = true;
+                    this->status = this->status | 0b100000;
+                    break;
+                }
+                // if no sprite overflow copy sprite data to sprite oam
+                else{
                     // copy sprite data to sprite oam
                     this->sprite_oam[sprite_oam_index] = y;
                     this->sprite_oam[sprite_oam_index + 1] = sprite_data;
@@ -404,12 +411,6 @@ void PPU::tick(){
                     this->original_oam_index[sprite_oam_index / 4] = i;
                     // increment sprite oam index by 4
                     sprite_oam_index += 4;
-                }
-                if (sprite_oam_index == 0x20){
-                    // update sprite overflow and status
-                    this->sprite_overflow = true;
-                    this->status = this->status | 0b100000;
-                    break;
                 }
             }
         }
