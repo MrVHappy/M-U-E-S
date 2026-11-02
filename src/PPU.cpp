@@ -1091,6 +1091,7 @@ void PPU::set_pal_state(uint8_t value){
 
 void PPU::clear_v_blank(){
     this->v_blank = false;
+    this->status = 0b01111111 & this->status;
 }
 void PPU::clear_write_toggle(){
     this->write_toggle = false;
@@ -1100,9 +1101,11 @@ void PPU::clear_nmi(){
 }
 void PPU::clear_sprite_overflow(){
     this->sprite_overflow = false;
+    this->status = 0b11011111 & this->status;
 }
 void PPU::clear_sprite_0_hit(){
     this->sprite_0_hit = false;
+    this->status = 0b10111111 & this->status;
 }
 
 void PPU::update_oam_addr(){
