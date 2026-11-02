@@ -1481,5 +1481,96 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "FAIL" << std::endl;
     }
+
+    std::cout << "TEST 2" << std::endl;
+    ppu.reset_state();
+    ppu.set_ctrl(0);
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(65);
+
+    ppu.set_oam_ram(0xFF);
+    
+    for(int i = 0; i < 8; i++){
+        uint8_t addr = i * 4;
+        ppu.write_oam_ram(addr,0x20);
+        ppu.write_oam_ram(addr + 1,0x00);
+        ppu.write_oam_ram(addr + 2,0x00);
+        ppu.write_oam_ram(addr + 3,i * 8);
+    }
+
+    ppu.tick();
+    if(ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    result = bus.read(0x2002);
+    
+    if(result == 0b100000){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 3" << std::endl;
+    ppu.reset_state();
+    ppu.set_ctrl(0);
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(65);
+
+    ppu.set_oam_ram(0xFF);
+
+    for(int i = 0; i < 8; i++){
+        uint8_t addr = i * 4;
+        ppu.write_oam_ram(addr,0x20);
+        ppu.write_oam_ram(addr + 1,0x00);
+        ppu.write_oam_ram(addr + 2,0x00);
+        ppu.write_oam_ram(addr + 3,i * 8);
+    }
+    ppu.tick();
+    if(ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    ppu.update_v_blank();
+
+    if(ppu.get_v_blank()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    result = bus.read(0x2002);
+    if(result == 0b10100000){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(!ppu.get_v_blank()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
     return 0;
 }
