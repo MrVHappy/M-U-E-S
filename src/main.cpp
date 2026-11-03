@@ -1778,7 +1778,7 @@ int main(int argc, char*argv[]){
     }
 
     ppu.tick();
-    
+
     if(ppu.get_sprite_overflow()){
         std::cout << "PASS" << std::endl;
     }
@@ -2020,6 +2020,166 @@ int main(int argc, char*argv[]){
         std::cout << "FAIL" << std::endl;
     }
     if(!ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "SPRITE OVERFLOW SCANLINE AND RESET TESTS" << std::endl;
+    std::cout << "TEST 1" << std::endl;
+    ppu.reset_state();
+    ppu.set_ctrl(0);
+    ppu.set_mask(0);
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(65);
+
+    ppu.set_oam_ram(0xFF);
+
+    for(int i = 0; i < 9; i++){
+        uint8_t addr = i * 4;
+        ppu.write_oam_ram(addr,0x1F);
+        ppu.write_oam_ram(addr + 1,0x00);
+        ppu.write_oam_ram(addr + 2,0x00);
+        ppu.write_oam_ram(addr + 3,0x10);
+    }
+
+    ppu.tick();
+
+    if(ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(ppu.get_status() == 0b100000){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 2" << std::endl;
+    ppu.reset_state();
+    ppu.set_ctrl(0);
+    ppu.set_mask(0);
+    ppu.set_scan_ln_count(0x1F);
+    ppu.set_dot_count(65);
+
+    ppu.set_oam_ram(0xFF);
+
+    for(int i = 0; i < 8; i++){
+        uint8_t addr = i * 4;
+        ppu.write_oam_ram(addr,0x1F);
+        ppu.write_oam_ram(addr + 1,0x00);
+        ppu.write_oam_ram(addr + 2,0x00);
+        ppu.write_oam_ram(addr + 3,0x10);
+    }
+
+    ppu.tick();
+
+    if(!ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(ppu.get_status() == 0b100000){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 3" << std::endl;
+    ppu.set_ctrl(0);
+    ppu.set_mask(0);
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(65);
+
+    ppu.set_oam_ram(0xFF);
+
+    for(int i = 0; i < 9; i++){
+        uint8_t addr = i * 4;
+        ppu.write_oam_ram(addr,0x20);
+        ppu.write_oam_ram(addr + 1,0x00);
+        ppu.write_oam_ram(addr + 2,0x00);
+        ppu.write_oam_ram(addr + 3,0x10);
+    }
+
+    ppu.tick();
+
+    if(ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    ppu.set_dot_count(341);
+    ppu.tick();
+
+    if(ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(ppu.get_status() == 0b100000){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 4" << std::endl;
+    ppu.reset_state();
+    ppu.set_ctrl(0);
+    ppu.set_mask(0);
+    ppu.set_scan_ln_count(0x20);
+    ppu.set_dot_count(65);
+
+    ppu.set_oam_ram(0xFF);
+
+    for(int i = 0; i < 9; i++){
+        uint8_t addr = i * 4;
+        ppu.write_oam_ram(addr,0x20);
+        ppu.write_oam_ram(addr + 1,0x00);
+        ppu.write_oam_ram(addr + 2,0x00);
+        ppu.write_oam_ram(addr,0x10);
+    }
+
+    ppu.tick();
+
+    if(ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    ppu.set_scan_ln_count(0x21);
+    ppu.set_dot_count(65);
+
+    ppu.set_oam_ram(0xFF);
+
+    for(int i = 0; i < 8; i++){
+        uint8_t addr = i * 4;
+        ppu.write_oam_ram(addr,0x21);
+        ppu.write_oam_ram(addr + 1,0x00);
+        ppu.write_oam_ram(addr + 2,0x00);
+        ppu.write_oam_ram(addr + 3,0x10);
+
+        ppu.tick();
+    }
+
+    if(ppu.get_sprite_overflow()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(ppu.get_status() == 0b100000){
         std::cout << "PASS" << std::endl;
     }
     else{
