@@ -63,5 +63,6 @@ class BUS{
         void set_NOP_sys_ram();
         void clear_sys_ram();
         void set_sys_ram(uint8_t value);
+        void reset_state();
 };
 #endif

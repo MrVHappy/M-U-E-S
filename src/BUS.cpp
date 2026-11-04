@@ -412,3 +412,11 @@
         }
     }
 
+    void BUS::reset_state(){
+        this->sys_ram.fill(0);
+        this->oam_dma = 0;
+        this->dma_timer = 0;
+        this->dma_active = false;
+        this->cpu_cycles = 0;
+    }
+
