@@ -321,10 +321,20 @@ int main(int argc, char*argv[]){
     ppu.set_high_shift(0x0000);
     ppu.set_pal_state(0);
 
-    ppu.write_sprite_oam(0,0x00);
-    ppu.write_sprite_oam(1,0x00);
-    ppu.write_sprite_oam(2,0x00);
-    ppu.write_sprite_oam(3,0x00);
+    ppu.write_oam_ram(0,0x00);
+    ppu.write_oam_ram(1,0x00);
+    ppu.write_oam_ram(2,0x00);
+    ppu.write_oam_ram(3,0x00);
+
+    ppu.set_mask(0x00);
+    ppu.set_dot_count(64);
+    ppu.tick();
+    ppu.tick();
+
+    ppu.set_mask(0x1E);
+    ppu.set_dot_count(1);
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x0000);
 
     ppu.tick();
 
@@ -399,10 +409,21 @@ int main(int argc, char*argv[]){
     ppu.set_low_shift(0x4000);
     ppu.set_high_shift(0x0000);
 
-    ppu.write_sprite_oam(0,0x20);
-    ppu.write_sprite_oam(1,0x00);
-    ppu.write_sprite_oam(2,0x00);
-    ppu.write_sprite_oam(3,0x10);
+    ppu.write_oam_ram(0,0x20);
+    ppu.write_oam_ram(1,0x00);
+    ppu.write_oam_ram(2,0x00);
+    ppu.write_oam_ram(3,0x10);
+
+    ppu.set_mask(0x00);
+    ppu.set_dot_count(64);
+    ppu.tick();
+    ppu.tick();
+
+    ppu.set_mask(0x1E);
+    ppu.set_dot_count(0x11);
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x0000);
+    ppu.set_fine_x(0);
 
     ppu.write_sprite_pattern_low(0,0x80);
     ppu.write_sprite_pattern_high(0,0x00);
