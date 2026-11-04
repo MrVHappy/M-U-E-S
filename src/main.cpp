@@ -224,11 +224,21 @@ int main(int argc, char*argv[]){
 
     ppu.set_pal_state(0);
     ppu.db_write_pal_ram(0x3F01,0x21);
+    ppu.db_write_pal_ram(0x0001,0x21);
 
-    ppu.write_sprite_oam(0,0x20);
-    ppu.write_sprite_oam(1,0x00);
-    ppu.write_sprite_oam(2,0x00);
-    ppu.write_sprite_oam(3,0x10);
+    ppu.write_oam_ram(0,0x20);
+    ppu.write_oam_ram(1,0x00);
+    ppu.write_oam_ram(2,0x00);
+    ppu.write_oam_ram(3,0x10);
+
+    ppu.set_dot_count(64);
+    ppu.tick();
+    ppu.tick();
+
+    ppu.set_dot_count(0x11);
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x0000);
+    ppu.set_fine_x(0);
 
     ppu.write_sprite_pattern_low(0,0x80);
     ppu.write_sprite_pattern_high(0,0x00);
@@ -737,10 +747,10 @@ int main(int argc, char*argv[]){
 
     ppu.clear_sprite_0_hit();
     ppu.set_scan_ln_count(0);
-    ppu.set_dot_count(9);
+    ppu.set_dot_count(64);
 
-    ppu.set_low_shift(0x4000);
-    ppu.set_high_shift(0x0000);
+    // ppu.set_low_shift(0x4000);
+    // ppu.set_high_shift(0x0000);
     ppu.set_pal_state(0);
 
     ppu.db_write_vram(0x0000,0x01);
@@ -758,10 +768,17 @@ int main(int argc, char*argv[]){
     ppu.db_write_pal_ram(0x01,0x21);
     ppu.db_write_pal_ram(0x11,0x25);
 
-    ppu.write_sprite_oam(0,0x00);
-    ppu.write_sprite_oam(1,0x02);
-    ppu.write_sprite_oam(2,0x00);
-    ppu.write_sprite_oam(3,0x08);
+    ppu.write_oam_ram(0,0x00);
+    ppu.write_oam_ram(1,0x02);
+    ppu.write_oam_ram(2,0x00);
+    ppu.write_oam_ram(3,0x08);
+
+    ppu.tick();
+    ppu.tick();
+
+    ppu.set_low_shift(0x4000);
+    ppu.set_high_shift(0x0000);
+    ppu.set_dot_count(9);
 
     ppu.tick();
 
@@ -2084,7 +2101,7 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "FAIL" << std::endl;
     }
-    if(ppu.get_status() == 0b100000){
+    if(ppu.get_status() == 0){
         std::cout << "PASS" << std::endl;
     }
     else{
@@ -2092,6 +2109,7 @@ int main(int argc, char*argv[]){
     }
 
     std::cout << "TEST 3" << std::endl;
+    ppu.reset_state();
     ppu.set_ctrl(0);
     ppu.set_mask(0);
     ppu.set_scan_ln_count(0x20);
@@ -2146,7 +2164,7 @@ int main(int argc, char*argv[]){
         ppu.write_oam_ram(addr,0x20);
         ppu.write_oam_ram(addr + 1,0x00);
         ppu.write_oam_ram(addr + 2,0x00);
-        ppu.write_oam_ram(addr,0x10);
+        ppu.write_oam_ram(addr + 3,0x10);
     }
 
     ppu.tick();
@@ -2197,6 +2215,9 @@ int main(int argc, char*argv[]){
     }
     if(ppu.get_status() == 0b100000){
         std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
     }
     ppu.clear_sprite_overflow();
 
