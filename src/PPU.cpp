@@ -1119,12 +1119,15 @@ void PPU::update_nmi(){
 }
 void PPU::update_sprite_overflow(){
     this->sprite_overflow = true;
+    this->status = this->status | 0b100000;
 }
 void PPU::update_sprite_0_hit(){
     this->sprite_0_hit = true;
+    this->status = this->status |0b1000000;
 }
 void PPU::update_v_blank(){
     this->v_blank = true;
+    this->status = this->status | 0b10000000;
 }
 void PPU::write_vram(uint16_t address, uint8_t value){
     // mask the address
