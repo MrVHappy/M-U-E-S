@@ -480,5 +480,46 @@ int main(int argc, char*argv[]){
     }
 
     std::cout << "TEST 2" << std::endl;
+    ppu.reset_state();
+    ppu.set_scan_ln_count(240);
+    ppu.set_dot_count(340);
+    ppu.clear_nmi_output();
+    ppu.clear_v_blank();
+    ppu.clear_nmi();
+
+    ppu.tick();
+
+    if(ppu.get_scan_ln_count() == 241){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(ppu.get_dot_count() == 0){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(ppu.get_v_blank()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(ppu.get_status() == 0b10000000){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "STATUS: " << static_cast<int>(ppu.get_status()) << std::endl;
+        std::cout << "EXPECTED: " << 0b10000000 << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(!ppu.get_nmi()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
     return 0;
 }

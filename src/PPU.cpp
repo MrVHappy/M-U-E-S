@@ -940,7 +940,7 @@ void PPU::tick(){
     // 241-260 VBlank start
     if(this->scan_ln_count == 241){
         // set the Vblank flag in status
-        this->v_blank = true;
+        this->update_v_blank();
     }    
 }
 
