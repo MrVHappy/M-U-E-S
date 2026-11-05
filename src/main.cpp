@@ -439,83 +439,56 @@ int main(int argc, char*argv[]){
 
     std::cout << "NMI INTEGRATION TESTS" << std::endl;
     std::cout << "TEST 1" << std::endl;
+    nes.reset_state();
     ppu.reset_state();
+
+    nes.set_pc(0xC000);
+    nes.set_stack_ptr(0xFD);
+    nes.set_prev_nmi_line(false);
+
     ppu.set_scan_ln_count(240);
     ppu.set_dot_count(340);
-    ppu.set_nmi_output(true);
-    ppu.update_v_blank();
-    ppu.update_nmi();
-
-    ppu.tick();
-
-    if(ppu.get_scan_ln_count() == 241){
-        std::cout << "PASS" << std::endl;
-    }
-    else{
-        std::cout << "FAIL" << std::endl;
-    }
-    if(ppu.get_dot_count() == 0){
-        std::cout << "PASS" << std::endl;
-    }
-    else{
-        std::cout << "FAIL" << std::endl;
-    }
-    if(ppu.get_v_blank()){
-        std::cout << "PASS" << std::endl;
-    }
-    else{
-        std::cout << "FAIL" << std::endl;
-    }
-    if(ppu.get_status() == 0b10000000){
-        std::cout << "PASS" << std::endl;
-    }
-    else{
-        std::cout << "FAIL" << std::endl;
-    }
-    if(ppu.get_nmi()){
-        std::cout << "PASS" << std::endl;
-    }
-    else{
-        std::cout << "FAIL" << std::endl;
-    }
-
-    std::cout << "TEST 2" << std::endl;
-    ppu.reset_state();
-    ppu.set_scan_ln_count(240);
-    ppu.set_dot_count(340);
-    ppu.clear_nmi_output();
+    ppu.update_nmi_output();
     ppu.clear_v_blank();
     ppu.clear_nmi();
 
-    ppu.tick();
+    bus.set_NOP_sys_ram();
 
-    if(ppu.get_scan_ln_count() == 241){
-        std::cout << "PASS" << std::endl;
-    }
-    else{
-        std::cout << "FAIL" << std::endl;
-    }
-    if(ppu.get_dot_count() == 0){
-        std::cout << "PASS" << std::endl;
-    }
-    else{
-        std::cout << "FAIL" << std::endl;
-    }
+    rom.set_FA_FB(0x00,0x80);
+
+    nes.execute();
+
     if(ppu.get_v_blank()){
         std::cout << "PASS" << std::endl;
     }
     else{
         std::cout << "FAIL" << std::endl;
     }
-    if(ppu.get_status() == 0b10000000){
+    if(ppu.get_nmi_output()){
         std::cout << "PASS" << std::endl;
     }
     else{
-        std::cout << "STATUS: " << static_cast<int>(ppu.get_status()) << std::endl;
-        std::cout << "EXPECTED: " << 0b10000000 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
-    if(!ppu.get_nmi()){
+    if(nes.get_pc() == 0x8000){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFA){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x1FD) == 0xC0){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x1FC) == 0x01){
         std::cout << "PASS" << std::endl;
     }
     else{
