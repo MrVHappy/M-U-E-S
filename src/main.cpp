@@ -436,5 +436,38 @@ int main(int argc, char*argv[]){
         std::cout << "EXPECTED: " << 0x80 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
+
+    std::cout << "NMI INTEGRATION TESTS" << std::endl;
+    std::cout << "TEST 1" << std::endl;
+    bus.reset_state();
+    ppu.reset_state();
+    nes.set_pc(0xC000);
+    nes.set_stack_ptr(0xFD);
+    nes.set_status_flag(0x24);
+
+    bus.write_sys_ram(0xC000,0xEA);
+    bus.write_sys_ram(0xFFFA,0x00);
+    bus.write_sys_ram(0xFFFB,0x80);
+
+    ppu.clear_v_blank();
+    ppu.update_nmi_output();
+
+    nes.set_prev_nmi_line(false);
+
+    nes.execute();
+
+    if(nes.get_pc() == 0x8000){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFA){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    
     return 0;
 }

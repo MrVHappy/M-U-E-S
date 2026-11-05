@@ -1099,6 +1099,9 @@ void PPU::clear_write_toggle(){
 void PPU::clear_nmi(){
     this->nmi = false;
 }
+void PPU::clear_nmi_output(){
+    this->nmi_output = false;
+}
 void PPU::clear_sprite_overflow(){
     this->sprite_overflow = false;
     this->status = 0b11011111 & this->status;
@@ -1116,6 +1119,9 @@ void PPU::update_write_toggle(){
 }
 void PPU::update_nmi(){
     this->nmi = this->v_blank & nmi_output;
+}
+void PPU::update_nmi_output(){
+    this->nmi_output = true;
 }
 void PPU::update_sprite_overflow(){
     this->sprite_overflow = true;

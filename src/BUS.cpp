@@ -421,3 +421,10 @@
         this->cpu_cycles = 0;
     }
 
+    void BUS::write_sys_ram(uint16_t addr,uint8_t val){
+        this->sys_ram[addr & 0x07FF] = val;
+    }
+    uint8_t BUS::read_sys_ram(uint16_t addr){
+        return this->sys_ram[addr & 0x07FF];
+    }
+

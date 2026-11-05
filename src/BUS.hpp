@@ -64,5 +64,7 @@ class BUS{
         void clear_sys_ram();
         void set_sys_ram(uint8_t value);
         void reset_state();
+        void write_sys_ram(uint16_t addr,uint8_t val);
+        uint8_t read_sys_ram(uint16_t addr);
 };
 #endif

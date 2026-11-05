@@ -130,6 +130,7 @@ class PPU{
         void clear_v_blank();
         void clear_write_toggle();
         void clear_nmi();
+        void clear_nmi_output();
         void clear_sprite_overflow();
         void clear_sprite_0_hit();
 
@@ -137,6 +138,7 @@ class PPU{
         void update_oam_addr();
         void update_write_toggle();
         void update_nmi();
+        void update_nmi_output();
         void update_sprite_overflow();
         void update_sprite_0_hit();
         void update_v_blank();
