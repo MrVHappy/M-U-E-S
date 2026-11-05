@@ -1435,6 +1435,19 @@
             this->previous_nmi_line = flag;
         }
 
+        void NES::reset_state(){
+            this->acc = 0;
+            this->acc_used = false;
+            this->status_flag = 0x24;
+            this->pc = 0xC000;
+            this->stack_ptr = 0xFD;
+            this->page_crossed = false;
+            this->previous_nmi_line = false;
+            this->x = 0;
+            this->y = 0;
+            this->resolved_address = 0;
+        }
+
         bool NES::get_prev_nmi_line(){
             return this->previous_nmi_line;
         }

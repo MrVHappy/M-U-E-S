@@ -170,6 +170,7 @@ class NES{
         void set_stack_ptr(uint8_t addr);
         void set_status_flag(uint8_t flag);
         void set_prev_nmi_line(bool flag);
+        void reset_state();
 
         // DEBUG GETTERS:
         bool get_prev_nmi_line();
