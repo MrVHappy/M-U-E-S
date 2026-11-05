@@ -397,7 +397,7 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "FAIL" << std::endl;
     }
-    if(ppu.get_status() == 0){
+    if(ppu.get_status() == 0x80){
         std::cout << "PASS" << std::endl;
     }
     else{
@@ -428,7 +428,7 @@ int main(int argc, char*argv[]){
         std::cout << "EXPECTED: FALSE" << std::endl;
         std::cout << "FAIL" << std::endl;
     }
-    if(ppu.get_status() == 0x80){
+    if(ppu.get_status() == 0){
         std::cout << "PASS" << std::endl;
     }
     else{

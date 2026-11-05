@@ -59,6 +59,7 @@
                     this->ppu->clear_v_blank();
                     this->ppu->clear_write_toggle();
                     this->ppu->clear_sprite_0_hit();
+                    this->ppu->update_nmi();
                     // PPU status register
                     return ppu_status;
                 }

@@ -1115,7 +1115,7 @@ void PPU::update_write_toggle(){
     this->write_toggle = true;
 }
 void PPU::update_nmi(){
-    this->nmi = true;
+    this->nmi = this->v_blank & nmi_output;
 }
 void PPU::update_sprite_overflow(){
     this->sprite_overflow = true;
