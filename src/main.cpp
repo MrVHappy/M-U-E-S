@@ -95,6 +95,7 @@ int main(int argc, char*argv[]){
     ppu.set_high_shift(0x00);
     ppu.set_fine_x(0);
     ppu.set_pal_state(0);
+    ppu.set_oam_ram(0xFF);
 
     ppu.write_oam_ram(0,0x00);
     ppu.write_oam_ram(1,0x02);
@@ -138,6 +139,8 @@ int main(int argc, char*argv[]){
         std::cout << "PASS" << std::endl;
     }
     else{
+        std::cout << "STATUS: " << static_cast<int>(ppu.get_status()) << std::endl;
+        std::cout << "EXPECTED: " << 0x40 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
 
@@ -147,6 +150,8 @@ int main(int argc, char*argv[]){
         std::cout << "PASS" << std::endl;
     }
     else{
+        std::cout << "STATUS: " << status << std::endl;
+        std::cout << "EXPECTED: " << 0x40 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
     if(!ppu.get_sprite_0_hit()){
@@ -159,6 +164,8 @@ int main(int argc, char*argv[]){
         std::cout << "PASS" << std::endl;
     }
     else{
+        std::cout << "STATUS: " << static_cast<int>(ppu.get_status()) << std::endl;
+        std::cout << "EXPECTED: " << 0 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
 
@@ -168,6 +175,8 @@ int main(int argc, char*argv[]){
         std::cout << "PASS" << std::endl;
     }
     else{
+        std::cout << "STATUS: " << status << std::endl;
+        std::cout << "EXPECTED: " << 0 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
     
@@ -230,7 +239,7 @@ int main(int argc, char*argv[]){
         std::cout << "PASS" << std::endl;
     }
     else{
-        std::cout << "PASS" << std::endl;
+        std::cout << "FAIL" << std::endl;
     }
     if(ppu.get_status() == 0x20){
         std::cout << "PASS" << std::endl;
@@ -333,6 +342,99 @@ int main(int argc, char*argv[]){
     }
     else{
         std::cout << "FAIL:" << std::endl;
+    }
+
+    std::cout << "TEST 5" << std::endl;
+    ppu.reset_state();
+    bus.reset_state();
+
+    ppu.set_v(0x2000);
+    ppu.set_t(0x0000);
+
+    bus.write(0x2005,0x12);
+
+    if(ppu.get_write_toggle()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    status = bus.read(0x2002);
+
+    if(!ppu.get_write_toggle()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 6" << std::endl;
+    ppu.reset_state();
+    bus.reset_state();
+
+    bus.write(0x2000,0x80);
+    
+    if(ppu.get_nmi_output()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    ppu.update_v_blank();
+    ppu.update_nmi();
+
+    if(ppu.get_v_blank()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(ppu.get_nmi()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(ppu.get_status() == 0){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "STATUS: " << static_cast<int>(ppu.get_status()) << std::endl;
+        std::cout << "EXPECTED: " << 0 << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+
+    status = bus.read(0x2002);
+
+    if(status == 0x80){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(!ppu.get_v_blank()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(!ppu.get_nmi()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "NMI: TRUE" << std::endl;
+        std::cout << "EXPECTED: FALSE" << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(ppu.get_status() == 0x80){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "STATUS: " << static_cast<int>(ppu.get_status()) << std::endl;
+        std::cout << "EXPECTED: " << 0x80 << std::endl;
+        std::cout << "FAIL" << std::endl;
     }
     return 0;
 }
