@@ -108,7 +108,7 @@ void Cartridge::set_FA_FB(uint8_t FA, uint8_t FB){
         address_FB -= 0x8000;
     }
     if(this->PRG_banks_num == 1){
-        int prg_size = this->PRG_data.size();
+        int prg_size = static_cast<int>(this->PRG_data.size());
         address_FA %= prg_size;
         address_FB %= prg_size;
     }

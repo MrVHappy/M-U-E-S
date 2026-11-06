@@ -677,6 +677,7 @@
                 // clear NMI
                 this->bus->get_ppu().clear_nmi();
             }
+            
             this->previous_nmi_line = current_nmi_line;
         }
 

@@ -457,18 +457,6 @@ int main(int argc, char*argv[]){
     rom.set_FA_FB(0x00,0x80);
 
     nes.execute();
-
-    std::cout << "PC: " << std::hex << static_cast<int>(nes.get_pc()) << std::endl;
-    std::cout << "SP: " << std::hex << static_cast<int>(nes.get_stack_ptr()) << std::endl;
-
-    std::cout << "STACK 01FD: " << std::hex << static_cast<int>(bus.read(0x01FD)) << std::endl;
-    std::cout << "STACK 01FC: " << std::hex << static_cast<int>(bus.read(0x01FC)) << std::endl;
-
-    std::cout << "VECTOR FFFA: " << std::hex << static_cast<int>(bus.read(0xFFFA)) << std::endl;
-    std::cout << "VECTOR FFFB: " << std::hex << static_cast<int>(bus.read(0xFFFB)) << std::endl;
-
-    std::cout << "VBLANK: " << ppu.get_v_blank() << std::endl;
-    std::cout << "NMI OUTPUT: " << ppu.get_nmi_output() << std::endl;
     
     if(ppu.get_v_blank()){
         std::cout << "PASS" << std::endl;
@@ -708,10 +696,11 @@ int main(int argc, char*argv[]){
     ppu.update_v_blank();
     ppu.set_nmi_output(true);
 
-    rom.set_FA_FB(0x00,0x80);
     rom.set_PRG_NOP();
+    rom.set_FA_FB(0x00,0x80);
 
     nes.execute();
+
     if(nes.get_pc() == 0x8000){
         std::cout << "PASS" << std::endl;
     }
