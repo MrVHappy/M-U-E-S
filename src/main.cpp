@@ -453,7 +453,7 @@ int main(int argc, char*argv[]){
     ppu.clear_nmi();
 
     bus.set_NOP_sys_ram();
-
+    rom.set_PRG_NOP();
     rom.set_FA_FB(0x00,0x80);
 
     nes.execute();
@@ -489,6 +489,114 @@ int main(int argc, char*argv[]){
         std::cout << "FAIL" << std::endl;
     }
     if(bus.read(0x1FC) == 0x01){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 2" << std::endl;
+    ppu.reset_state();
+    nes.reset_state();
+
+    nes.set_pc(0xC000);
+    nes.set_stack_ptr(0xFD);
+    nes.set_prev_nmi_line(false);
+
+    ppu.set_scan_ln_count(240);
+    ppu.set_dot_count(340);
+    ppu.update_nmi_output();
+    ppu.clear_v_blank();
+    ppu.clear_nmi();
+
+    rom.set_PRG_NOP();
+    bus.set_NOP_sys_ram();
+
+    nes.execute();
+
+    if(ppu.get_v_blank()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(!ppu.get_nmi_output()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(ppu.get_status() == 0x80){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_pc() == 0xC001){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFD){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(!nes.get_prev_nmi_line()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 3" << std::endl;
+    ppu.reset_state();
+    nes.reset_state();
+
+    nes.set_pc(0xC000);
+    nes.set_stack_ptr(0xFD);
+    nes.set_prev_nmi_line(false);
+
+    ppu.set_scan_ln_count(241);
+    ppu.set_dot_count(10);
+    ppu.update_v_blank();
+    ppu.update_nmi_output();
+    ppu.clear_nmi();
+
+    bus.write(0x2000,0x80);
+
+    rom.set_PRG_NOP();
+    rom.set_FA_FB(0x00,0x80);
+
+    nes.execute();
+
+    if(nes.get_pc() == 0x8000){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFA){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_prev_nmi_line()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01FD) == 0xC0){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "PASS" << std::endl;
+    }
+    if(bus.read(0x01FC) == 0x01){
         std::cout << "PASS" << std::endl;
     }
     else{

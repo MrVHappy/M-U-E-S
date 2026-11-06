@@ -116,3 +116,8 @@ void Cartridge::reset_cart(){
     this->CHR_data.resize(8192);
     this->s_ram.clear();
 }
+void Cartridge::set_PRG_NOP(){
+    for(int i = 0; i < this->PRG_data.size(); i ++){
+        this->PRG_data[i] = 0xEA;
+    }
+}

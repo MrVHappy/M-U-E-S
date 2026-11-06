@@ -45,6 +45,7 @@ class Cartridge{
         void set_CHR(int index);
         void set_FA_FB(uint8_t FA, uint8_t FB);
         void reset_cart();
+        void set_PRG_NOP();
 
 };
 #endif
