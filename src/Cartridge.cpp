@@ -101,13 +101,24 @@ void Cartridge::set_CHR(int index){
 }
 
 void Cartridge::set_FA_FB(uint8_t FA, uint8_t FB){
-    PRG_data[0x3FFA] = FA;
-    PRG_data[0x3FFB] = FB;
+    uint16_t address_FA = 0xFFFA;
+    uint16_t address_FB = 0xFFFB;
+    if(this->PRG_banks_num == 2){
+        address_FA -= 0x8000;
+        address_FB -= 0x8000;
+    }
+    if(this->PRG_banks_num == 1){
+        int prg_size = this->PRG_data.size();
+        address_FA %= prg_size;
+        address_FB %= prg_size;
+    }
+    this->PRG_data[address_FA] = FA;
+    this->PRG_data[address_FB] = FB;
 }
 
 void Cartridge::reset_cart(){
     this->header.fill(0);
-    this->PRG_banks_num = 0;
+    this->PRG_banks_num = 1;
     this->CHR_banks_num = 0;
     this->Mapper_ID = 0;
     this->PRG_data.clear();
