@@ -1071,5 +1071,184 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "PASS" << std::endl;
     }
+
+    std::cout << "TEST 6" << std::endl;
+    ppu.reset_state();
+    nes.reset_state();
+    rom.reset_cart();
+    rom.set_PRG_NOP();
+    bus.clear_sys_ram();
+
+    nes.set_pc(0xC000);
+    nes.set_stack_ptr(0x00);
+    nes.set_status_flag(0x24);
+    nes.set_prev_nmi_line(false);
+
+    rom.db_write_PRG(0x4000,0x00);
+    rom.db_write_PRG(0x7FFE,0x00);
+    rom.db_write_PRG(0x7FFF,0x90);
+
+    nes.execute();
+
+    if(nes.get_pc() == 0x9000){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFD){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x0100) == 0xC0){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01FF) == 0x02){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01FE) == 0x34){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 7" << std::endl;
+    ppu.reset_state();
+    nes.reset_state();
+    rom.reset_cart();
+    rom.set_PRG_NOP();
+    bus.clear_sys_ram();
+
+    nes.set_pc(0xC000);
+    nes.set_stack_ptr(0xFC);
+    nes.set_prev_nmi_line(false);
+
+    rom.db_write_PRG(0x4000,0x40);
+    
+    bus.write_sys_ram(0x01FD,0xFF);
+    bus.write_sys_ram(0x01FE,0x34);
+    bus.write_sys_ram(0x01FF,0x92);
+
+    nes.execute();
+
+    if(nes.get_pc() == 0x9234){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFF){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_status_flag() == 0xEF){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 8 A" << std::endl;
+    ppu.reset_state();
+    nes.reset_state();
+    rom.reset_cart();
+    rom.set_PRG_NOP();
+    bus.clear_sys_ram();
+
+    nes.set_pc(0xC0FE);
+    nes.set_stack_ptr(0xFD);
+    nes.set_status_flag(0x24);
+    nes.set_prev_nmi_line(false);
+
+    rom.db_write_PRG(0x40FE,0x00);
+    rom.db_write_PRG(0x7FFE,0x00);
+    rom.db_write_PRG(0x7FFF,0x90);
+
+    nes.execute();
+
+    if(nes.get_pc() == 0x9000){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFA){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01FD) == 0xC0){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01FD) == 0xC0){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01FC) == 0x00){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 8 B" << std::endl;
+    ppu.reset_state();
+    nes.reset_state();
+    rom.reset_cart();
+    rom.set_PRG_NOP();
+    bus.clear_sys_ram();
+
+    nes.set_pc(0xC0FF);
+    nes.set_stack_ptr(0xFD);
+    nes.set_status_flag(0x24);
+    nes.set_prev_nmi_line(false);
+
+    rom.db_write_PRG(0x40FF,0x00);
+    rom.db_write_PRG(0x7FFE,0x00);
+    rom.db_write_PRG(0x7FFF,0x90);
+
+    nes.execute();
+
+    if(nes.get_pc() == 0x9000){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFA){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01FD) == 0xC1){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01FC) == 0x01){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
     return 0;
 }
