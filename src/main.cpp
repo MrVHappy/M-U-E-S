@@ -3,6 +3,7 @@
 #include "BUS.hpp"
 #include "Cartridge.hpp"
 #include "PPU.hpp"
+#include "register_bit.hpp"
 #include <iomanip>
 #include <Windows.h>
 #define TEST_ROM "C:\\Users\\Sebastian\\OneDrive\\Documents\\GitHub\\M-U-E-S\\TEST\\nestest.nes"
@@ -878,5 +879,142 @@ int main(int argc, char*argv[]){
     rom.db_write_PRG(0x7FFF,0x90);
 
     nes.execute();
+
+    if(bus.read(0x01FB) == 0x34){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_status_flag()[bit_index(register_bit::I)]){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFA){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_pc() == 0x9000){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 3" << std::endl;
+    ppu.reset_state();
+    nes.reset_state();
+    rom.reset_cart();
+    rom.set_PRG_NOP();
+    bus.clear_sys_ram();
+
+    nes.set_pc(0xC000);
+    nes.set_stack_ptr(0xFA);
+    nes.set_prev_nmi_line(false);
+
+    rom.db_write_PRG(0x4000,0x40);
+
+    bus.write_sys_ram(0x01FB,0xFF);
+    bus.write_sys_ram(0x01FC,0x34);
+    bus.write_sys_ram(0x01FD,0x92);
+
+    if(nes.get_pc() == 0x9234){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFD){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_status_flag() == 0xEF){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 4" << std::endl;
+    ppu.reset_state();
+    nes.reset_state();
+    rom.reset_cart();
+    rom.set_PRG_NOP();
+    bus.clear_sys_ram();
+
+    nes.set_pc(0xC000);
+    nes.set_stack_ptr(0xFD);
+    nes.set_status_flag(0xA1);
+    nes.set_prev_nmi_line(false);
+
+    rom.db_write_PRG(0x4000,0x00);
+    rom.db_write_PRG(0x1000,0x40);
+    rom.db_write_PRG(0x7FFE,0x00);
+    rom.db_write_PRG(0x7FFF,0x90);
+
+    nes.execute();
+
+    if(nes.get_pc() == 0x9000){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFA){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01FD) == 0xC0){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01FC) == 0x02){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01FB) == 0xF1){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_status_flag()[bit_index(register_bit::I)]){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    nes.execute();
+    if(nes.get_pc() == 0xC002){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFD){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_status_flag() == 0xE1){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
     return 0;
 }
