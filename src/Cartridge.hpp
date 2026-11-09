@@ -46,6 +46,7 @@ class Cartridge{
         void set_FA_FB(uint8_t FA, uint8_t FB);
         void reset_cart();
         void set_PRG_NOP();
+        void db_write_PRG(uint16_t addr, uint8_t val);
 
 };
 #endif

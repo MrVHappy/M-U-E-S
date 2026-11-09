@@ -132,3 +132,15 @@ void Cartridge::set_PRG_NOP(){
         this->PRG_data[i] = 0xEA;
     }
 }
+
+void Cartridge::db_write_PRG(uint16_t addr, uint8_t val){
+    if(this->PRG_banks_num == 2){
+        addr -= 0x8000;
+    }
+    if(this->PRG_banks_num == 1){
+        int prg_size = static_cast<int>(this->PRG_data.size());
+        addr %= prg_size;
+    }
+
+    this->PRG_data[addr] = val;
+}

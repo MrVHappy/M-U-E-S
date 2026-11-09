@@ -162,17 +162,7 @@
                     bool nmi_output = this->ppu->get_ctrl() >> 7;
                     // update nmi output
                     this->ppu->set_nmi_output(nmi_output);
-                    // check if bit 7 has changed from 0 to 1
-                    // if((old_nmi_output ==  0) && (this->ppu->get_nmi_output() == 1)){
-                    //     // calculate nmi_line by ANDing vblank and bit 7
-                    //     bool nmi_line = this->ppu->get_v_blank() && static_cast<bool>(nmi_output);
-                    //     // if NMI line is true then trigger nmi request
-                    //     if(nmi_line){
-                    //         // update nmi
-                    //         this->ppu->update_nmi();
-                    //     }
-                    //     this->ppu->update_nmi();
-                    // }
+                    // update nmi
                     this->ppu->update_nmi();
                     
                     return;
