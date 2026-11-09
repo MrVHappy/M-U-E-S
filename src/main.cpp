@@ -814,6 +814,7 @@ int main(int argc, char*argv[]){
     }
 
     std::cout << "BRK AND RTI TESTS" << std::endl;
+    std::cout << "TEST 1" << std::endl; 
     ppu.reset_state();
     nes.reset_state();
     rom.reset_cart();
@@ -922,6 +923,8 @@ int main(int argc, char*argv[]){
     bus.write_sys_ram(0x01FC,0x34);
     bus.write_sys_ram(0x01FD,0x92);
 
+    nes.execute();
+
     if(nes.get_pc() == 0x9234){
         std::cout << "PASS" << std::endl;
     }
@@ -984,7 +987,7 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "FAIL" << std::endl;
     }
-    if(bus.read(0x01FB) == 0xF1){
+    if(bus.read(0x01FB) == 0xB1){
         std::cout << "PASS" << std::endl;
     }
     else{
@@ -1010,11 +1013,63 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "FAIL" << std::endl;
     }
-    if(nes.get_status_flag() == 0xE1){
+    if(nes.get_status_flag() == 0xA1){
         std::cout << "PASS" << std::endl;
     }
     else{
         std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 5 A" << std::endl;
+    ppu.reset_state();
+    nes.reset_state();
+    rom.reset_cart();
+    rom.set_PRG_NOP();
+
+    nes.set_pc(0xC000);
+    nes.set_status_flag(0x24);
+
+    rom.db_write_PRG(0x4000,0x58);
+
+    nes.execute();
+
+    if(nes.get_pc() == 0xC001){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(!nes.get_status_flag()[bit_index(register_bit::I)]){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 5 B" << std::endl;
+    ppu.reset_state();
+    nes.reset_state();
+    rom.reset_cart();
+    rom.set_PRG_NOP();
+
+    nes.set_pc(0xC000);
+    nes.set_status_flag(0x20);
+
+    rom.db_write_PRG(0x4000,0x78);
+
+    nes.execute();
+
+    if(nes.get_pc() == 0xC001){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_status_flag()[bit_index(register_bit::I)]){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "PASS" << std::endl;
     }
     return 0;
 }
