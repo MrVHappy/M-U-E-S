@@ -1250,5 +1250,111 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "FAIL" << std::endl;
     }
+
+    std::cout << "TEST 9 A" << std::endl;
+    ppu.reset_state();
+    nes.reset_state();
+    rom.reset_cart();
+    rom.set_PRG_NOP();
+    bus.clear_sys_ram();
+
+    nes.set_pc(0xC000);
+    nes.set_stack_ptr(0xFD);
+    nes.set_status_flag(0x00);
+    nes.set_prev_nmi_line(false);
+
+    rom.db_write_PRG(0x4000,0x00);
+    rom.db_write_PRG(0x1000,0x40);
+    rom.db_write_PRG(0x7FFE,0x00);
+    rom.db_write_PRG(0x7FFF,0x90);
+
+    nes.execute();
+
+    if(nes.get_pc() == 0x9000){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFA){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    nes.execute();
+
+    if(nes.get_pc() == 0xC002){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFD){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_status_flag() == 0x20){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 9 B" << std::endl;
+    ppu.reset_state();
+    nes.reset_state();
+    rom.reset_cart();
+    rom.set_PRG_NOP();
+    bus.clear_sys_ram();
+
+    nes.set_pc(0xC000);
+    nes.set_stack_ptr(0xFD);
+    nes.set_stack_ptr(0xFF);
+    nes.set_prev_nmi_line(false);
+
+    rom.db_write_PRG(0x4000,0x00);
+    rom.db_write_PRG(0x1000,0x40);
+    rom.db_write_PRG(0x7FFE,0x00);
+    rom.db_write_PRG(0x7FFF,0x90);
+
+    nes.execute();
+    
+    if(nes.get_pc() == 0x9000){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFA){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    nes.execute();
+
+    if(nes.get_pc() == 0xC002){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFD){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_status_flag() == 0xEF){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
     return 0;
 }
