@@ -629,7 +629,8 @@
             (this->*new_instruction.operation)();
             // update cpu cycle count
             this->bus->increment_cycles(new_instruction.cycles);
-            // handel cycle (temp)
+            
+            // NMI SERVICING
             // get the current nmi line
             bool current_nmi_line = this->bus->get_ppu().get_v_blank() && this->bus->get_ppu().get_nmi_output();
             // check if previous nmi line == 0 and current nmi line == 1
@@ -654,7 +655,7 @@
                 this->stack_ptr--;
 
                 // set the Break flag to false
-                status_flag[bit_index(register_bit::B)] = false;
+                this->status_flag[bit_index(register_bit::B)] = false;
                 // convert status flag to a uint8_t
                 uint8_t status_int = static_cast<uint8_t>(status_flag.to_ulong());
                 // get the address from the stack
@@ -665,7 +666,7 @@
                 this->stack_ptr--;
 
                 // set the Interrupt disable flag to true
-                status_flag[bit_index(register_bit::I)] = true;
+                this->status_flag[bit_index(register_bit::I)] = true;
 
                 // get the low byte in address 0xFFFA
                 low_byte = this->bus->read(0xFFFA);
@@ -678,7 +679,36 @@
                 // clear NMI
                 this->bus->get_ppu().clear_nmi();
             }
-            
+
+            // IRQ SERVICING
+            // check if IRQ has been requested and the I flag is disabled
+            if(this->irq_requested && this->status_flag[bit_index(register_bit::I)]){
+                // extract the high byte form PC
+                uint8_t high_byte = static_cast<uint8_t>(this->pc >> 8);
+                // extract the low bute from PC
+                uint8_t low_byte = static_cast<uint8_t>(this->pc & 0x00FF);
+                
+                // get the address from the stack
+                uint16_t address = this->OFFSET + this->stack_ptr;
+                // push the high byte onto the stack
+                this->bus->write(address,high_byte);
+                // update the stack pointer
+                this->stack_ptr--;
+
+                // get the address from the stack
+                address = this->OFFSET + this->stack_ptr;
+                // push the low byte onto the stack
+                this->bus->write(address,low_byte);
+                // update the stack pointer
+                this->stack_ptr--;
+
+                // clear the break flag
+                this->status_flag[bit_index(register_bit::B)] = false;
+                // clear the DASH flag
+                this->status_flag[bit_index(register_bit::DASH)] = false;
+                // convert status flag to uint8_t
+                uint8_t status_int = static_cast<uint8_t>(this->status_flag.to_ullong());
+            }
             this->previous_nmi_line = current_nmi_line;
         }
 
