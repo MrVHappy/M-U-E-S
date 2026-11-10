@@ -1457,3 +1457,6 @@
         bool NES::get_prev_nmi_line(){
             return this->previous_nmi_line;
         }
+        bool NES::get_irq_requested(){
+            return this->irq_requested;
+        }

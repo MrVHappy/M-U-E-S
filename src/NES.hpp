@@ -176,6 +176,7 @@ class NES{
 
         // DEBUG GETTERS:
         bool get_prev_nmi_line();
+        bool get_irq_requested();
 
 };
 #endif
