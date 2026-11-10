@@ -35,6 +35,7 @@
             this->page_crossed = false;
             this->acc_used = false;
             this->previous_nmi_line = false;
+            this->irq_requested = false;
             this->resolved_address = 0;
             this->bus = bus;
             // instruction locations:
@@ -1435,6 +1436,9 @@
         void NES::set_prev_nmi_line(bool flag){
             this->previous_nmi_line = flag;
         }
+        void NES::set_irq_request(bool request){
+            this->irq_requested = request;
+        }
 
         void NES::reset_state(){
             this->acc = 0;
@@ -1444,6 +1448,7 @@
             this->stack_ptr = 0xFD;
             this->page_crossed = false;
             this->previous_nmi_line = false;
+            this->irq_requested = false;
             this->x = 0;
             this->y = 0;
             this->resolved_address = 0;

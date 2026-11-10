@@ -50,6 +50,7 @@ class NES{
         // flags
         bool page_crossed;
         bool previous_nmi_line;
+        bool irq_requested;
 
         // an array of instructions
         std::array<Instruction, 256> instruction_set;
@@ -170,6 +171,7 @@ class NES{
         void set_stack_ptr(uint8_t addr);
         void set_status_flag(uint8_t flag);
         void set_prev_nmi_line(bool flag);
+        void set_irq_request(bool request);
         void reset_state();
 
         // DEBUG GETTERS:
