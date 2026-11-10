@@ -1189,13 +1189,7 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "FAIL" << std::endl;
     }
-    if(bus.read(0x01FD) == 0xC0){
-        std::cout << "PASS" << std::endl;
-    }
-    else{
-        std::cout << "FAIL" << std::endl;
-    }
-    if(bus.read(0x01FD) == 0xC0){
+    if(bus.read(0x01FD) == 0xC1){
         std::cout << "PASS" << std::endl;
     }
     else{
@@ -1313,7 +1307,7 @@ int main(int argc, char*argv[]){
 
     nes.set_pc(0xC000);
     nes.set_stack_ptr(0xFD);
-    nes.set_stack_ptr(0xFF);
+    nes.set_status_flag(0xFF);
     nes.set_prev_nmi_line(false);
 
     rom.db_write_PRG(0x4000,0x00);
@@ -1373,6 +1367,21 @@ int main(int argc, char*argv[]){
     rom.db_write_PRG(0x1000,0x40);
     rom.db_write_PRG(0x7FFE,0x00);
     rom.db_write_PRG(0x7FFF,0x90);
+
+    nes.execute();
+
+    if(nes.get_pc() == 0x9000){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFA){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
 
     nes.execute();
 
