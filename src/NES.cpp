@@ -708,6 +708,31 @@
                 this->status_flag[bit_index(register_bit::DASH)] = false;
                 // convert status flag to uint8_t
                 uint8_t status_int = static_cast<uint8_t>(this->status_flag.to_ullong());
+                // get the address from the stack
+                address = this->OFFSET + this->stack_ptr;
+                // push the status info onto the stack
+                this->bus->write(address,status_int);
+                // update the stack pointer
+                this->stack_ptr--;
+
+                // update the Interrupt Disable flag
+                this->status_flag[bit_index(register_bit::I)] = true;
+
+                // store the IRQ vector 0xFFFE to low byte
+                low_byte = this->bus->read(0xFFFE);
+                // store the IRQ vector 0xFFFF to high byte
+                high_byte = this->bus->read(0xFFFF);
+                // combine the bytes together
+                uint16_t target_address = (high_byte << 8) | low_byte;
+                // store target address to PC
+                this->pc = target_address;
+                // increment cpu cycles by 7
+                this->bus->increment_cycles(7);
+                
+                // perform 21 PPU ticks
+                for(int i = 0; i < 21; i++){
+                    this->bus->get_ppu().tick();
+                }
             }
             this->previous_nmi_line = current_nmi_line;
         }
