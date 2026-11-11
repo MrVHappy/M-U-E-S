@@ -1581,6 +1581,7 @@ int main(int argc, char*argv[]){
     }
 
     std::cout << "IRQ SERVICING TESTS" << std::endl;
+    std::cout << "TEST 1" << std::endl;
     nes.reset_state();
     rom.reset_cart();
     bus.reset_state();
@@ -1642,6 +1643,8 @@ int main(int argc, char*argv[]){
     nes.set_stack_ptr(0xFD);
     nes.set_status_flag(0x24);
     nes.set_irq_request(true);
+    rom.set_PRG_NOP();
+    bus.clear_sys_ram();
 
     rom.db_write_PRG(0x8000,0xEA);
 
@@ -1660,6 +1663,97 @@ int main(int argc, char*argv[]){
         std::cout << "FAIL" << std::endl;
     }
     if(nes.get_irq_requested()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_status_flag()[bit_index(register_bit::I)]){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 3" << std::endl;
+    nes.reset_state();
+    bus.reset_state();
+    rom.reset_cart();
+    nes.set_pc(0x8000);
+    nes.set_stack_ptr(0xFD);
+    nes.set_status_flag(0xE9);
+    nes.set_irq_request(true);
+    rom.set_PRG_NOP();
+    bus.clear_sys_ram();
+
+    rom.db_write_PRG(0x8000,0xEA);
+
+    nes.execute();
+
+    if(bus.read(0x01FB) == 0xE9){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(!nes.get_status_flag()[bit_index(register_bit::B)]){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_status_flag()[bit_index(register_bit::DASH)]){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_status_flag()[bit_index(register_bit::I)]){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 4" << std::endl;
+    nes.reset_state();
+    bus.reset_state();
+    rom.reset_cart();
+    nes.set_pc(0x8000);
+    nes.set_status_flag(0x20);
+    nes.set_irq_request(true);
+    bus.clear_sys_ram();
+    rom.set_PRG_NOP();
+
+    rom.db_write_PRG(0x8000,0xEA);
+    rom.db_write_PRG(0xFFFE,0x34);
+    rom.db_write_PRG(0xFFFF,0x12);
+
+    nes.execute();
+
+    if(nes.get_pc() == 0x1234){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 5" << std::endl;
+    nes.reset_state();
+    bus.reset_state();
+    rom.reset_cart();
+    nes.set_pc(0x8000);
+    nes.set_status_flag(0x20);
+    nes.set_irq_request(true);
+    bus.clear_sys_ram();
+    rom.set_PRG_NOP();
+
+    rom.db_write_PRG(0x8000,0xEA);
+
+    int start_cycle = bus.get_cpu_cycles();
+    nes.execute();
+
+    if(bus.get_cpu_cycles() == (start_cycle + 9)){
         std::cout << "PASS" << std::endl;
     }
     else{

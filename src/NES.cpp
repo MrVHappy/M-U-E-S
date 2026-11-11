@@ -656,6 +656,8 @@
 
                 // set the Break flag to false
                 this->status_flag[bit_index(register_bit::B)] = false;
+                // clear the DASH flag
+                this->status_flag[bit_index(register_bit::DASH)] = true;
                 // convert status flag to a uint8_t
                 uint8_t status_int = static_cast<uint8_t>(status_flag.to_ulong());
                 // get the address from the stack
@@ -682,7 +684,7 @@
 
             // IRQ SERVICING
             // check if IRQ has been requested and the I flag is disabled
-            if(this->irq_requested && this->status_flag[bit_index(register_bit::I)]){
+            if(!this->irq_requested && this->status_flag[bit_index(register_bit::I)]){
                 // extract the high byte form PC
                 uint8_t high_byte = static_cast<uint8_t>(this->pc >> 8);
                 // extract the low bute from PC
@@ -705,7 +707,7 @@
                 // clear the break flag
                 this->status_flag[bit_index(register_bit::B)] = false;
                 // clear the DASH flag
-                this->status_flag[bit_index(register_bit::DASH)] = false;
+                this->status_flag[bit_index(register_bit::DASH)] = true;
                 // convert status flag to uint8_t
                 uint8_t status_int = static_cast<uint8_t>(this->status_flag.to_ullong());
                 // get the address from the stack
