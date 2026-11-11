@@ -1650,7 +1650,7 @@ int main(int argc, char*argv[]){
 
     nes.execute();
 
-    if(nes.get_pc() == 0x8000){
+    if(nes.get_pc() == 0x8001){
         std::cout << "PASS" << std::endl;
     }
     else{

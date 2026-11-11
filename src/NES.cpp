@@ -680,11 +680,18 @@
                 this->pc = target_address;
                 // clear NMI
                 this->bus->get_ppu().clear_nmi();
+                
+                // increment cpu cycles by 7
+                this->bus->increment_cycles(7);
+                
+                // perform 21 PPU ticks
+                for(int i = 0; i < 21; i++){
+                    this->bus->get_ppu().tick();
+                }
             }
-
             // IRQ SERVICING
             // check if IRQ has been requested and the I flag is disabled
-            if(!this->irq_requested && this->status_flag[bit_index(register_bit::I)]){
+            else if(this->irq_requested && (!this->status_flag[bit_index(register_bit::I)])){
                 // extract the high byte form PC
                 uint8_t high_byte = static_cast<uint8_t>(this->pc >> 8);
                 // extract the low bute from PC
@@ -736,6 +743,7 @@
                     this->bus->get_ppu().tick();
                 }
             }
+            // update previous nmi line
             this->previous_nmi_line = current_nmi_line;
         }
 
