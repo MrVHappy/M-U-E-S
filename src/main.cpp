@@ -1994,7 +1994,7 @@ int main(int argc, char*argv[]){
 
     nes.execute();
 
-    if(nes.get_pc() == 0x9000){
+    if(nes.get_pc() == 0x8001){
         std::cout << "PASS" << std::endl;
     }
     else{
@@ -2013,6 +2013,74 @@ int main(int argc, char*argv[]){
         std::cout << "FAIL" << std::endl;
     }
     if(!nes.get_status_flag()[bit_index(register_bit::I)]){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 10" << std::endl;
+    nes.reset_state();
+    bus.reset_state();
+    rom.reset_cart();
+
+    nes.set_pc(0x8000);
+    nes.set_stack_ptr(0xFD);
+    nes.set_status_flag(0x20);
+    nes.set_irq_request(true);
+    nes.set_prev_nmi_line(false);
+
+    ppu.update_v_blank();
+    ppu.update_nmi_output();
+
+    bus.clear_sys_ram();
+    rom.set_PRG_NOP();
+
+    rom.db_write_PRG(0x8000,0xEA);
+    rom.db_write_PRG(0xFFFA,0x34);
+    rom.db_write_PRG(0xFFFB,0x12);
+    rom.db_write_PRG(0xFFFE,0x00);
+    rom.db_write_PRG(0xFFFF,0x90);
+
+    nes.execute();
+
+    if(nes.get_pc() == 0x1234){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFA){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_irq_requested()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_status_flag()[bit_index(register_bit::I)]){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01FD) == 0x80){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01FC) == 0x01){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01FB) == 0x20){
         std::cout << "PASS" << std::endl;
     }
     else{
