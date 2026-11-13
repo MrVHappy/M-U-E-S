@@ -2141,12 +2141,12 @@ int main(int argc, char*argv[]){
         std::cout << "EXPECTED: TRUE" << std::endl;
         std::cout << "FAIL" << std::endl;
     }
-    if(bus.read(0x01FD) == 0x80){
+    if(bus.read(0x01FD) == 0x00){
         std::cout << "PASS" << std::endl;
     }
     else{
         std::cout << "RAM 0x01FD: " << static_cast<int>(bus.read(0x01FD)) << std::endl;
-        std::cout << "EXPECTED: " << 0x80 << std::endl;
+        std::cout << "EXPECTED: " << 0x00 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
     if(bus.read(0x01FC) == 0x00){
@@ -2812,12 +2812,12 @@ int main(int argc, char*argv[]){
         std::cout << "EXPECTED: TRUE" << std::endl;
         std::cout << "FAIL" << std::endl;
     }
-    if(bus.read(0x01FD) == 0x00){
+    if(bus.read(0x01FD) == 0x81){
         std::cout << "PASS" << std::endl;
     }
     else{
         std::cout << "RAM 0x01FD: " << static_cast<int>(bus.read(0x01FD)) << std::endl;
-        std::cout << "EXPECTED: " << 0x00 << std::endl;
+        std::cout << "EXPECTED: " << 0x81 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
     if(bus.read(0x01FC) == 0x00){
@@ -2828,12 +2828,12 @@ int main(int argc, char*argv[]){
         std::cout << "EXPECTED: " << 0x00 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
-    if(bus.read(0x01FB) == 0x00){
+    if(bus.read(0x01FB) == 0x24){
         std::cout << "PASS" << std::endl;
     }
     else{
         std::cout << "RAM 0x01FB: " << static_cast<int>(bus.read(0x01FB)) << std::endl;
-        std::cout << "EXPECTED: " << 0x00 << std::endl;
+        std::cout << "EXPECTED: " << 0x24 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
     return 0;

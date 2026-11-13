@@ -630,7 +630,7 @@
             // call the instruction
             (this->*new_instruction.operation)();
             // check if opcode is not CLI(0x58), SEI(0x78), and PLP(0x28)
-            if((opcode != 0x58) && (opcode != 0x78) && (opcode && 0x28)){
+            if((opcode != 0x58) && (opcode != 0x78) && (opcode != 0x28)){
                 // update irq_disable bool
                 irq_disabled = this->status_flag[bit_index(register_bit::I)];
             }
@@ -697,7 +697,7 @@
                 }
             }
             // IRQ SERVICING
-            // check if IRQ has been requested and the IRQ disabled flag is flase
+            // check if IRQ has been requested and the IRQ disabled flag is false
             else if(this->irq_requested && (!irq_disabled)){
                 // extract the high byte form PC
                 uint8_t high_byte = static_cast<uint8_t>(this->pc >> 8);
