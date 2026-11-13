@@ -2092,6 +2092,7 @@ int main(int argc, char*argv[]){
     nes.reset_state();
     bus.reset_state();
     rom.reset_cart();
+    ppu.reset_state();
 
     nes.set_pc(0x8000);
     nes.set_stack_ptr(0xFD);
@@ -2153,7 +2154,7 @@ int main(int argc, char*argv[]){
     }
     else{
         std::cout << "RAM 0x01FC: " << static_cast<int>(bus.read(0x01FC)) << std::endl;
-        std::cout << "EXPECTED: " << 0x01 << std::endl;
+        std::cout << "EXPECTED: " << 0x00 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
     if(bus.read(0x01FB) == 0x00){
@@ -2228,6 +2229,7 @@ int main(int argc, char*argv[]){
     nes.reset_state();
     bus.reset_state();
     rom.reset_cart();
+    ppu.reset_state();
 
     nes.set_pc(0x8000);
     nes.set_stack_ptr(0xFD);
@@ -2304,11 +2306,15 @@ int main(int argc, char*argv[]){
     nes.reset_state();
     bus.reset_state();
     rom.reset_cart();
+    ppu.reset_state();
 
     nes.set_pc(0x8000);
     nes.set_stack_ptr(0xFD);
     nes.set_status_flag(0x20);
     nes.set_irq_request(true);
+
+    bus.clear_sys_ram();
+    rom.set_PRG_NOP();
 
     rom.db_write_PRG(0x8000,0x78);
     rom.db_write_PRG(0xFFFE,0x00);
@@ -2376,6 +2382,7 @@ int main(int argc, char*argv[]){
     nes.reset_state();
     bus.reset_state();
     rom.reset_cart();
+    ppu.reset_state();
 
     bus.clear_sys_ram();
     rom.set_PRG_NOP();
@@ -2451,6 +2458,7 @@ int main(int argc, char*argv[]){
     nes.reset_state();
     bus.reset_state();
     rom.reset_cart();
+    ppu.reset_state();
 
     nes.set_pc(0x8000);
     nes.set_stack_ptr(0xFC);
@@ -2462,7 +2470,9 @@ int main(int argc, char*argv[]){
 
     rom.db_write_PRG(0x8000,0x28);
     rom.db_write_PRG(0x8001,0xEA);
-    rom.db_write_PRG(0x01FD,0x20);
+
+    bus.write(0x01FD,0x20);
+
     rom.db_write_PRG(0xFFFE,0x00);
     rom.db_write_PRG(0xFFFF,0x90);
 
@@ -2506,7 +2516,7 @@ int main(int argc, char*argv[]){
     }
     else{
         std::cout << "RAM 0x1FD: " << static_cast<int>(bus.read(0x01FD)) << std::endl;
-        std::cout << "EXPECTED: " << 0x80 << std::endl;
+        std::cout << "EXPECTED: " << 0x20 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
     if(bus.read(0x01FC) == 0){
@@ -2514,7 +2524,7 @@ int main(int argc, char*argv[]){
     }
     else{
         std::cout << "RAM 0x1FC: " << static_cast<int>(bus.read(0x01FC)) << std::endl;
-        std::cout << "EXPECTED: " << 0x01 << std::endl;
+        std::cout << "EXPECTED: " << 0x00 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
     if(bus.read(0x01FB) == 0){
@@ -2522,7 +2532,7 @@ int main(int argc, char*argv[]){
     }
     else{
         std::cout << "RAM 0x1FB: " << static_cast<int>(bus.read(0x01FB)) << std::endl;
-        std::cout << "EXPECTED: " << 0x20 << std::endl;
+        std::cout << "EXPECTED: " << 0x00 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
 
@@ -2589,6 +2599,7 @@ int main(int argc, char*argv[]){
     nes.reset_state();
     bus.reset_state();
     rom.reset_cart();
+    ppu.reset_state();
 
     nes.set_pc(0x8000);
     nes.set_stack_ptr(0xFC);
@@ -2599,7 +2610,9 @@ int main(int argc, char*argv[]){
     rom.set_PRG_NOP();
 
     rom.db_write_PRG(0x8000,0x28);
-    rom.db_write_PRG(0x01FD,0x24);
+
+    bus.write(0x01FD,0x24);
+
     rom.db_write_PRG(0xFFFE,0x00);
     rom.db_write_PRG(0xFFFF,0x90);
 
@@ -2666,6 +2679,7 @@ int main(int argc, char*argv[]){
     nes.reset_state();
     bus.reset_state();
     rom.reset_cart();
+    ppu.reset_state();
 
     nes.set_pc(0x8000);
     nes.set_stack_ptr(0xFA);
@@ -2676,9 +2690,11 @@ int main(int argc, char*argv[]){
     bus.clear_sys_ram();
 
     rom.db_write_PRG(0x8000,0x40);
-    rom.db_write_PRG(0x01FB,0x20);
-    rom.db_write_PRG(0x01FC,0x00);
-    rom.db_write_PRG(0x01FD,0x81);
+
+    bus.write(0x01FB,0x20);
+    bus.write(0x01FC,0x00);
+    bus.write(0x01FD,0x81);
+
     rom.db_write_PRG(0xFFFE,0x00);
     rom.db_write_PRG(0xFFFF,0x90);
 
@@ -2743,6 +2759,7 @@ int main(int argc, char*argv[]){
     nes.reset_state();
     bus.reset_state();
     rom.reset_cart();
+    ppu.reset_state();
 
     nes.set_pc(0x8000);
     nes.set_stack_ptr(0xFA);
@@ -2753,9 +2770,11 @@ int main(int argc, char*argv[]){
     rom.set_PRG_NOP();
 
     rom.db_write_PRG(0x8000,0x40);
-    rom.db_write_PRG(0x01FB,0x24);
-    rom.db_write_PRG(0x01FC,0x00);
-    rom.db_write_PRG(0x01FD,0x81);
+
+    bus.write(0x01FB,0x24);
+    bus.write(0x01FC,0x00);
+    bus.write(0x01FD,0x81);
+
     rom.db_write_PRG(0xFFFE,0x00);
     rom.db_write_PRG(0xFFFF,0x90);
 
@@ -2766,7 +2785,7 @@ int main(int argc, char*argv[]){
     }
     else{
         std::cout << "PC: " << static_cast<int>(nes.get_pc()) << std::endl;
-        std::cout << "EXPECTED: " << 0xFD << std::endl;
+        std::cout << "EXPECTED: " << 0x8100 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
     if(nes.get_stack_ptr() == 0xFD){
@@ -2798,7 +2817,7 @@ int main(int argc, char*argv[]){
     }
     else{
         std::cout << "RAM 0x01FD: " << static_cast<int>(bus.read(0x01FD)) << std::endl;
-        std::cout << "EXPECTED: " << 0x80 << std::endl;
+        std::cout << "EXPECTED: " << 0x00 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
     if(bus.read(0x01FC) == 0x00){

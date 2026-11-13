@@ -614,6 +614,8 @@
             this->acc_used = false;
             // get the opcode from memory
             uint8_t opcode = fetch_byte();
+            // retrieve the IRQ disable flag
+            bool irq_disabled = this->status_flag[bit_index(register_bit::I)];
             // obtain the instruction set
             Instruction new_instruction = this->instruction_set[opcode];
             // call the addressing mode function and collect the address
@@ -627,6 +629,11 @@
             }
             // call the instruction
             (this->*new_instruction.operation)();
+            // check if opcode is not CLI(0x58), SEI(0x78), and PLP(0x28)
+            if((opcode != 0x58) && (opcode != 0x78) && (opcode && 0x28)){
+                // update irq_disable bool
+                irq_disabled = this->status_flag[bit_index(register_bit::I)];
+            }
             // update cpu cycle count
             this->bus->increment_cycles(new_instruction.cycles);
             
@@ -690,8 +697,8 @@
                 }
             }
             // IRQ SERVICING
-            // check if IRQ has been requested and the I flag is disabled
-            else if(this->irq_requested && (!this->status_flag[bit_index(register_bit::I)])){
+            // check if IRQ has been requested and the IRQ disabled flag is flase
+            else if(this->irq_requested && (!irq_disabled)){
                 // extract the high byte form PC
                 uint8_t high_byte = static_cast<uint8_t>(this->pc >> 8);
                 // extract the low bute from PC
