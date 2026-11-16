@@ -3065,7 +3065,163 @@ int main(int argc, char*argv[]){
         std::cout << "PASS" << std::endl;
     }
     else{
-        
+        std::cout << "RAM 0x01FA: " << static_cast<int>(bus.read(0x01FA)) << std::endl;
+        std::cout << "EXPECTED: " << 0x90 << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01F9) == 0x02){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "RAM 0x01F9: " << static_cast<int>(bus.read(0x01F9)) << std::endl;
+        std::cout << "EXPECTED: " << 0x02 << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01F8) == 0x20){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "RAM 0x01F8: " << static_cast<int>(bus.read(0x01F8)) << std::endl;
+        std::cout << "EXPECTED: " << 0x20 << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    
+    std::cout << "TEST 3" << std::endl;
+    nes.reset_state();
+    bus.reset_state();
+    rom.reset_cart();
+    ppu.reset_state();
+
+    nes.set_pc(0x8000);
+    nes.set_stack_ptr(0xFD);
+    nes.set_status_flag(0x24);
+    nes.set_irq_request(false);
+    nes.set_prev_nmi_line(false);
+
+    ppu.update_v_blank();
+    ppu.set_nmi_output(true);
+
+    bus.clear_sys_ram();
+    rom.set_PRG_NOP();
+
+    rom.db_write_PRG(0x8000,0xEA);
+    rom.db_write_PRG(0xFFFA,0x00);
+    rom.db_write_PRG(0xFFFB,0x90);
+
+    nes.execute();
+
+    if(nes.get_pc() == 0x9000){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "PC: " << static_cast<int>(nes.get_pc()) << std::endl;
+        std::cout << "EXPECTED: " << 0x9000 << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFA){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "SP: " << static_cast<int>(nes.get_stack_ptr()) << std::endl;
+        std::cout << "EXPECTED: " << 0xFA << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_status_flag()[bit_index(register_bit::I)]){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "I FLAG: FALSE" << std::endl;
+        std::cout << "EXPECTED: TRUE" << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01FA) == 0x80){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "RAM 0x01FA: " << static_cast<int>(bus.read(0x01FA)) << std::endl;
+        std::cout << "EXPECTED: " << 0x80 << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01F9) == 0x01){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "RAM 0x01F9: " << static_cast<int>(bus.read(0x01F9)) << std::endl;
+        std::cout << "EXPECTED: " << 0x01 << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01F8) == 0x24){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "RAM 0x01F8: " << static_cast<int>(bus.read(0x01F8)) << std::endl;
+        std::cout << "EXPECTED: " << 0x24 << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 4" << std::endl;
+    nes.set_pc(0x8000);
+    nes.set_stack_ptr(0xFD);
+    nes.set_status_flag(0x20);
+    nes.set_irq_request(true);
+    nes.set_prev_nmi_line(false);
+
+    bus.clear_sys_ram();
+    rom.set_PRG_NOP();
+
+    rom.db_write_PRG(0x8000,0xEA);
+    rom.db_write_PRG(0xFFFE,0x00);
+    rom.db_write_PRG(0xFFFF,0xA0);
+
+    nes.execute();
+
+    if(nes.get_pc() == 0xA000){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "PC: " << static_cast<int>(nes.get_pc()) << std::endl;
+        std::cout << "EXPECTED: " << 0xA000 << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFA){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "SP: " << static_cast<int>(nes.get_stack_ptr()) << std::endl;
+        std::cout << "EXPECTED: " << 0xFA << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_status_flag()[bit_index(register_bit::I)]){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "I FLAG: FALSE" << std::endl;
+        std::cout << "EXPECTED: TRUE" << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01FA) == 0x80){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "RAM 0x01FA: " << static_cast<int>(bus.read(0x01FA)) << std::endl;
+        std::cout << "EXPECTED: " << 0x80 << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01F9) == 0x01){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "RAM 0x01F9: " << static_cast<int>(bus.read(0x01F9)) << std::endl;
+        std::cout << "EXPECTED: " << 0x01 << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01F8) == 0x20){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "RAM 0x01F8: " << static_cast<int>(bus.read(0x01F8)) << std::endl;
+        std::cout << "EXPECTED: " << 0x20 << std::endl;
+        std::cout << "FAIL" << std::endl;
     }
     return 0;
 }
