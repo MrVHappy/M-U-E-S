@@ -3342,7 +3342,7 @@ int main(int argc, char*argv[]){
     
     bus.write(0x01FE,0xFF);
     bus.write(0x01FF,0x34);
-    bus.write(0x0100,0x92);
+    bus.write(0x01FD,0x92);
 
     nes.execute();
 
@@ -3384,6 +3384,106 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "DASH FLAG: FALSE" << std::endl;
         std::cout << "EXPECTED: TRUE" << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 2" << std::endl;
+    nes.reset_state();
+    bus.reset_state();
+    rom.reset_cart();
+    ppu.reset_state();
+
+    nes.set_pc(0x8000);
+    nes.set_stack_ptr(0xFA);
+    nes.set_status_flag(0x24);
+
+    rom.db_write_PRG(0x8000,0x40);
+    
+    bus.write(0x01FB,0x20);
+    bus.write(0x01FC,0xCD);
+    bus.write(0x01FD,0xAB);
+
+    nes.execute();
+
+    if(nes.get_pc() == 0xABCD){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "PC: " << static_cast<int>(nes.get_pc()) << std::endl;
+        std::cout << "EXPECTED: " << 0xABCD << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFD){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "SP: " << static_cast<int>(nes.get_stack_ptr()) << std::endl;
+        std::cout << "EXPECTED: " << 0xFD << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_status_flag() == 0x20){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "STATUS: " << nes.get_status_flag() << std::endl;
+        std::cout << "EXPECTED: " << 0xFD << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_status_flag()[bit_index(register_bit::DASH)]){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "DASH FLAG: FALSE" << std::endl;
+        std::cout << "EXPECTED: FAIL" << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(!nes.get_status_flag()[bit_index(register_bit::B)]){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "B FLAG: TRUE" << std::endl;
+        std::cout << "EXPECTED: FALSE" << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+
+    std::cout << "TEST 3" << std::endl;
+    nes.reset_state();
+    bus.reset_state();
+    rom.reset_cart();
+    ppu.reset_state();
+
+    nes.set_pc(0x8000);
+    nes.set_stack_ptr(0xFA);
+    nes.set_status_flag(0x20);
+
+    rom.db_write_PRG(0x8000,0x40);
+    rom.db_write_PRG(0x9000,0xEA);
+
+    bus.write(0x01FB,0x24);
+    bus.write(0x01FC,0x00);
+    bus.write(0x01FD,0x90);
+
+    nes.set_irq_request(true);
+
+    rom.db_write_PRG(0xFFFE,0x00);
+    rom.db_write_PRG(0xFFFF,0xA0);
+
+    nes.execute();
+
+    if(nes.get_pc() == 0x9000){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "PC: " << static_cast<int>(nes.get_pc()) << std::endl;
+        std::cout << "EXPECTED: " << 0x9000 << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFD){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "SP: " << static_cast<int>(nes.get_stack_ptr()) << std::endl;
+        std::cout << "EXPECTED: " << 0xFD << std::endl;
         std::cout << "FAIL" << std::endl;
     }
     return 0;
