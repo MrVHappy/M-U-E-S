@@ -3712,8 +3712,37 @@ int main(int argc, char*argv[]){
     rom.db_write_PRG(0x8000,0x58);
     rom.db_write_PRG(0x8001,0xEA);
 
+    rom.db_write_PRG(0xFFFE, 0x00);
+    rom.db_write_PRG(0xFFFF, 0xA0);
+
     nes.set_irq_request(true);
 
+    nes.execute();
+
+    if(nes.get_pc() == 0x8001){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "PC: " << static_cast<int>(nes.get_pc()) << std::endl;
+        std::cout << "EXPECTED: " << 0x8001 << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_stack_ptr() == 0xFD){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "SP: " << static_cast<int>(nes.get_stack_ptr()) << std::endl;
+        std::cout << "EXPECTED: " << 0xFD << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_irq_requested()){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "IRQ: FALSE" << std::endl;
+        std::cout << "EXPECTED: TRUE" << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
     nes.execute();
 
     if(nes.get_pc() == 0xA000){
@@ -3776,6 +3805,8 @@ int main(int argc, char*argv[]){
     nes.set_status_flag(0x20);
 
     rom.db_write_PRG(0x8000,0x78);
+    rom.db_write_PRG(0xFFFE, 0x00);
+    rom.db_write_PRG(0xFFFF, 0xA0);
 
     nes.set_irq_request(true);
 
@@ -3934,7 +3965,7 @@ int main(int argc, char*argv[]){
     else{
         std::cout << "IRQ: FALSE" << std::endl;
         std::cout << "EXPECTED: TRUE" << std::endl;
-        std::cout << "FALSE" << std::endl; 
+        std::cout << "FAIL" << std::endl; 
     }
 
     std::cout << "TEST 5" << std::endl;
@@ -3949,6 +3980,9 @@ int main(int argc, char*argv[]){
 
     rom.db_write_PRG(0x8000,0x28);
     rom.db_write_PRG(0x8001,0xEA);
+
+    rom.db_write_PRG(0xFFFE, 0x00);
+    rom.db_write_PRG(0xFFFF, 0xA0);
 
     bus.write(0x01FB,0x20);
 
@@ -4045,6 +4079,9 @@ int main(int argc, char*argv[]){
     rom.db_write_PRG(0x8000,0x28);
     bus.write(0x01FB,0x24);
 
+    rom.db_write_PRG(0xFFFE, 0x00);
+    rom.db_write_PRG(0xFFFF, 0xA0);
+
     nes.set_irq_request(true);
 
     nes.execute();
@@ -4118,6 +4155,9 @@ int main(int argc, char*argv[]){
 
     rom.db_write_PRG(0x8000,0x28);
     rom.db_write_PRG(0x8001,0xEA);
+
+    rom.db_write_PRG(0xFFFE, 0x00);
+    rom.db_write_PRG(0xFFFF, 0xA0);
 
     bus.write(0x01FB,0x20);
 
