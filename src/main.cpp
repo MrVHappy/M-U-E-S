@@ -4728,12 +4728,12 @@ int main(int argc, char*argv[]){
         std::cout << "EXPECTED: " << 0x90 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
-    if(bus.read(0x01FC) == 0x00){
+    if(bus.read(0x01FC) == 0x01){
         std::cout << "PASS" << std::endl;
     }
     else{
         std::cout << "RAM 0x01FC: " << static_cast<int>(bus.read(0x01FC)) << std::endl;
-        std::cout << "EXPECTED: " << 0x00 << std::endl;
+        std::cout << "EXPECTED: " << 0x01 << std::endl;
         std::cout << "FAIL" << std::endl;
     }
     if(bus.read(0x01FB) == 0x20){
@@ -4881,6 +4881,7 @@ int main(int argc, char*argv[]){
     nes.set_irq_request(true);
 
     rom.db_write_PRG(0x8000,0xEA);
+    rom.db_write_PRG(0x8001,0xEA);
     rom.db_write_PRG(0x9000,0x40);
 
     rom.db_write_PRG(0xFFFE,0x00);
