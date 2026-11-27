@@ -5693,6 +5693,8 @@ int main(int argc, char*argv[]){
     }
     else{
         std::cout << "PC: " << static_cast<int>(nes.get_pc()) << std::endl;
+        std::cout << "EXPECTED: " << 0xA001 << std::endl;
+        std::cout << "FAIL" << std::endl;
     }
     if(nes.get_stack_ptr() == 0xFA){
         std::cout << "PASS" << std::endl;
@@ -5839,8 +5841,8 @@ int main(int argc, char*argv[]){
         std::cout << "PASS" << std::endl;
     }
     else{
-        std::cout << "DMA: DEACTIVATED" << std::endl;
-        std::cout << "EXPECTED: ACTIVATED" << std::endl;
+        std::cout << "DMA: ACTIVATED" << std::endl;
+        std::cout << "EXPECTED: DEACTIVATED" << std::endl;
         std::cout << "FAIL" << std::endl;
     }
 
@@ -5863,7 +5865,53 @@ int main(int argc, char*argv[]){
         std::cout << "FAIL" << std::endl;
     }
     if(bus.read(0x01FD) == 0x80){
-        std::cout << "PASS" <<
+        std::cout << "PASS" << std::endl;
     }
+    else{
+        std::cout << "RAM 0x01FD: " << static_cast<int>(bus.read(0x01FD)) << std::endl;
+        std::cout << "EXPECTED: " << 0x80 << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01FC) == 0x02){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "RAM 0x01FC: " << static_cast<int>(bus.read(0x01FC)) << std::endl;
+        std::cout << "EXPECTED: " << 0x02 << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(bus.read(0x01FB) == 0x34){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "RAM 0x01FB: " << static_cast<int>(bus.read(0x01FB)) << std::endl;
+        std::cout << "EXPECTED: " << 0x34 << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_status_flag()[bit_index(register_bit::I)]){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "I FLAG: FALSE" << std::endl;
+        std::cout << "EXPECTED: TRUE" << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(!nes.get_status_flag()[bit_index(register_bit::B)]){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "B FLAG: TRUE" << std::endl;
+        std::cout << "EXPECTED: FALSE" << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+    if(nes.get_status_flag()[bit_index(register_bit::DASH)]){
+        std::cout << "PASS" << std::endl;
+    }
+    else{
+        std::cout << "DASH FLAG: FALSE" << std::endl;
+        std::cout << "EXPECTED: TRUE" << std::endl;
+        std::cout << "FAIL" << std::endl;
+    }
+
     return 0;
 }
